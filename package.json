@@ -1,0 +1,98 @@
+{
+  "name": "jbr",
+  "version": "1.0.0",
+  "description": "Just a Benchmark Runner",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest ${1}",
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "lint": "eslint . --ext .ts --cache",
+    "prepare": "npm run build",
+    "version": "manual-git-changelog onversion"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build && npm run lint && npm run test"
+    }
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.json"
+      }
+    },
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "(/test/.*|(\\.|/)(test|spec))\\.test.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "collectCoverage": true,
+    "coveragePathIgnorePatterns": [
+      "test"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    }
+  },
+  "keywords": [
+    "jbr",
+    "just a benchmark runner",
+    "benchmarking",
+    "command line"
+  ],
+  "author": "Ruben Taelman <rubensworks@gmail.com>",
+  "repository": "git@github.com:rubensworks/jbr.js.git",
+  "bugs": {
+    "url": "https://github.com/rubensworks/jbr.js/issues"
+  },
+  "homepage": "https://github.com/rubensworks/jbr.js#readme",
+  "license": "MIT",
+  "bin": {
+    "jbr": "bin/jbr.js"
+  },
+  "files": [
+    "bin/**/*.d.ts",
+    "bin/**/*.js",
+    "lib/**/*.d.ts",
+    "lib/**/*.js",
+    "lib/**/*.json",
+    "index.d.ts",
+    "index.ts"
+  ],
+  "dependencies": {
+    "@types/minimist": "^1.2.0",
+    "minimist": "^1.2.5"
+  },
+  "devDependencies": {
+    "@rubensworks/eslint-config": "^1.0.1",
+    "@types/jest": "^26.0.0",
+    "@types/node": "^14.14.7",
+    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/parser": "^4.1.1",
+    "coveralls": "^3.0.0",
+    "eslint": "^7.9.0",
+    "eslint-config-es": "^3.23.0",
+    "eslint-import-resolver-typescript": "^2.3.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^24.0.2",
+    "eslint-plugin-tsdoc": "^0.2.7",
+    "eslint-plugin-unused-imports": "^0.1.3",
+    "fs-extra": "^9.0.0",
+    "husky": "^4.2.5",
+    "jest": "^26.6.3",
+    "jest-extended": "^0.11.2",
+    "manual-git-changelog": "^1.0.1",
+    "rimraf": "latest",
+    "ts-jest": "^26.4.3",
+    "typescript": "^4.0.5"
+  }
+}
