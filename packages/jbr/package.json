@@ -1,0 +1,74 @@
+{
+  "name": "jbr",
+  "version": "0.0.1",
+  "description": "Just a Benchmark Runner",
+  "main": "index.js",
+  "typings": "index",
+  "lsd:module": true,
+  "author": "Ruben Taelman <rubensworks@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rubensworks/jbr.js.git",
+    "directory": "packages/jbr"
+  },
+  "bugs": {
+    "url": "https://github.com/rubensworks/jbr.js/issues"
+  },
+  "homepage": "https://github.com/rubensworks/jbr.js#readme",
+  "license": "MIT",
+  "bin": {
+    "jbr": "bin/jbr"
+  },
+  "keywords": [
+    "jbr",
+    "just a benchmark runner",
+    "benchmarking",
+    "command line"
+  ],
+  "files": [
+    "bin/**/*.d.ts",
+    "bin/**/*.js",
+    "bin/jbr",
+    "lib/**/*.d.ts",
+    "lib/**/*.js",
+    "lib/**/*.json",
+    "index.d.ts",
+    "index.ts",
+    "components"
+  ],
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "../../tsconfig.json"
+      }
+    },
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "/test/.*.test.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "collectCoverage": true
+  },
+  "scripts": {
+    "test": "node \"../../node_modules/jest/bin/jest.js\" ${1}",
+    "test-watch": "node \"../../node_modules/jest/bin/jest.js\" ${1} --watch",
+    "build": "node \"../../node_modules/typescript/bin/tsc\"",
+    "build:components-core": "componentsjs-generator -s lib --typeScopedContexts -i ../../.componentsignore",
+    "validate": "npm ls"
+  },
+  "dependencies": {
+    "@types/cli-progress": "^3.9.1",
+    "@types/cross-spawn": "^6.0.2",
+    "@types/fs-extra": "^9.0.11",
+    "@types/yargs": "^16.0.1",
+    "cli-progress": "^3.9.0",
+    "componentsjs": "^4.2.0",
+    "cross-spawn": "^7.0.3",
+    "fs-extra": "^10.0.0",
+    "ora": "^5.4.0",
+    "yargs": "^16.2.0"
+  }
+}

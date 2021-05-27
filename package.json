@@ -1,39 +1,29 @@
 {
-  "name": "jbr",
-  "version": "1.0.0",
-  "description": "Just a Benchmark Runner",
-  "main": "index.js",
-  "scripts": {
-    "build": "tsc",
-    "test": "jest ${1}",
-    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "lint": "eslint . --ext .ts --cache",
-    "prepare": "npm run build",
-    "version": "manual-git-changelog onversion"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run build && npm run lint && npm run test"
-    }
+  "private": true,
+  "repository": "https://github.com/rubensworks/jbr/",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=8.0"
   },
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "tsconfig": "tsconfig.json"
-      }
-    },
     "transform": {
       "^.+\\.ts$": "ts-jest"
     },
-    "testRegex": "/test/.*-test.ts$",
+    "testRegex": "/test/.*.test.ts$",
     "moduleFileExtensions": [
       "ts",
       "js"
     ],
     "collectCoverage": true,
     "coveragePathIgnorePatterns": [
-      "test"
+      "/node_modules/",
+      "/mocks/",
+      "index.js",
+      "packages/jbr/lib/cli"
     ],
+    "testEnvironment": "node",
     "coverageThreshold": {
       "global": {
         "branches": 100,
@@ -43,34 +33,30 @@
       }
     }
   },
-  "keywords": [
-    "jbr",
-    "just a benchmark runner",
-    "benchmarking",
-    "command line"
-  ],
-  "author": "Ruben Taelman <rubensworks@gmail.com>",
-  "repository": "git@github.com:rubensworks/jbr.js.git",
-  "bugs": {
-    "url": "https://github.com/rubensworks/jbr.js/issues"
+  "scripts": {
+    "test-changed": "lerna run test --since HEAD",
+    "build-changed": "lerna run build --since HEAD",
+    "build": "npm run build:ts && npm run build:components",
+    "build:components": "lerna run build:components-core && lerna run build:components",
+    "build:ts": "tsc",
+    "build-watch": "tsc --watch",
+    "publish": "yarn run build",
+    "publish-release": "lerna publish",
+    "publish-bare": "lerna exec -- npm publish --silent",
+    "publish-canary": "yarn run build && lerna version prerelease --preid alpha.$(git rev-parse --short HEAD) --ignore-scripts --force-publish --no-push --no-git-tag-version --yes && git update-index --assume-unchanged $(git ls-files | tr '\\n' ' ') && lerna publish from-package --no-git-reset --pre-dist-tag next --force-publish --no-push --no-git-tag-version --yes && git update-index --no-assume-unchanged $(git ls-files | tr '\\n' ' ') && git checkout .",
+    "test": "jest ${1}",
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "test-ci": "jest --ci --maxWorkers=4 --coverage",
+    "coveralls-ci": "cat ./coverage/lcov.info | coveralls",
+    "lint": "eslint . --ext .ts --cache",
+    "clean": "rm -rf ./node_modules && rm -rf ./packages/*/node_modules",
+    "postinstall": "yarn run build && lerna run prepare",
+    "version": "manual-git-changelog onversion"
   },
-  "homepage": "https://github.com/rubensworks/jbr.js#readme",
-  "license": "MIT",
-  "bin": {
-    "jbr": "bin/jbs"
-  },
-  "files": [
-    "bin/**/*.d.ts",
-    "bin/**/*.js",
-    "lib/**/*.d.ts",
-    "lib/**/*.js",
-    "lib/**/*.json",
-    "index.d.ts",
-    "index.ts"
-  ],
-  "dependencies": {
-    "@types/yargs": "^16.0.1",
-    "yargs": "^16.2.0"
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build && npm run lint && npm run test"
+    }
   },
   "devDependencies": {
     "@rubensworks/eslint-config": "^1.0.1",
@@ -78,6 +64,7 @@
     "@types/node": "^14.14.7",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.1.1",
+    "componentsjs-generator": "^2.2.0",
     "coveralls": "^3.0.0",
     "eslint": "^7.9.0",
     "eslint-config-es": "^3.23.0",
@@ -86,13 +73,18 @@
     "eslint-plugin-jest": "^24.0.2",
     "eslint-plugin-tsdoc": "^0.2.7",
     "eslint-plugin-unused-imports": "^0.1.3",
-    "fs-extra": "^9.0.0",
+    "fs-extra": "^10.0.0",
     "husky": "^4.2.5",
     "jest": "^26.6.3",
     "jest-extended": "^0.11.2",
+    "lerna": "^4.0.0",
     "manual-git-changelog": "^1.0.1",
-    "rimraf": "latest",
     "ts-jest": "^26.4.3",
     "typescript": "^4.0.5"
-  }
+  },
+  "pre-commit": [
+    "build",
+    "lint",
+    "test"
+  ]
 }

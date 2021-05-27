@@ -20,3 +20,4 @@ output/
 **/index.js
 **/index.js.map
 **/index.d.ts
+packages/*/components/

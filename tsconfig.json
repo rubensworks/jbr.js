@@ -14,12 +14,14 @@
     "inlineSources": true,
     "declaration": true,
     "importHelpers": false,
-    "strict": true
+    "strict": true,
+    "esModuleInterop": true
   },
   "include": [
-    "index.ts",
-    "bin/**/*",
-    "lib/**/*"
+    "packages/*/index.ts",
+    "packages/*/index-browser.ts",
+    "packages/*/bin/**/*",
+    "packages/*/lib/**/*"
   ],
   "exclude": [
     "**/node_modules",
