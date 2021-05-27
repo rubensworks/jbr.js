@@ -42,6 +42,25 @@ This tool offers commands for executing the whole experimentation chain:
 3. [**Running Experiments**](#3-running-experiments): Starting the required machines and running the benchmark.
 4. [**Results Analysis**](#4-results-analysis): Generating plots and outputting data for result analysis. (TODO: WIP)
 
+**Full usage**:
+```text
+jbr <command>
+
+Commands:
+  jbr init <type> <name>         Initializes a new experiment
+  jbr prepare                    Prepare data for the current experiment
+  jbr run                        Run the current experiment
+  jbr set-hook <hook> <handler>  Provide a handler for a hook in an experiment
+  jbr validate                   Validate the current experiment
+
+Options:
+      --version         Show version number                            [boolean]
+      --cwd             The current working directory      [string] [default: .]
+  -m, --mainModulePath  Path from which modules should be loaded        [string]
+  -v, --verbose         If more logging output should be generated     [boolean]
+      --help            Show help
+```
+
 ### 1. Initialization
 
 ```bash

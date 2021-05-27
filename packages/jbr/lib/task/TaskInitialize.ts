@@ -56,6 +56,7 @@ export class TaskInitialize {
       dependencies: {},
       scripts: {
         jbr: 'jbr',
+        validate: 'jbr validate',
       },
     };
     const packageJsonPath = Path.join(this.targetDirectory, ExperimentLoader.PACKAGEJSON_NAME);

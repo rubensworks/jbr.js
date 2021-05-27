@@ -115,7 +115,8 @@ describe('TaskInitialize', () => {
   "name": "NAME",
   "dependencies": {},
   "scripts": {
-    "jbr": "jbr"
+    "jbr": "jbr",
+    "validate": "jbr validate"
   }
 }`,
       });

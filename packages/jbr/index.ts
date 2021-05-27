@@ -13,3 +13,4 @@ export * from './lib/task/TaskInitialize';
 export * from './lib/task/TaskPrepare';
 export * from './lib/task/TaskRun';
 export * from './lib/task/TaskSetHook';
+export * from './lib/task/TaskValidate';
