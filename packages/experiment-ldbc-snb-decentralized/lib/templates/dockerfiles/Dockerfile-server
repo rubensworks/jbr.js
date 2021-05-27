@@ -1,0 +1,9 @@
+FROM css:latest
+
+ARG CONFIG_SERVER
+ARG LOG_LEVEL
+
+ADD $CONFIG_SERVER /tmp/config.json
+
+ENTRYPOINT []
+CMD [ "/bin/sh", "-c", "node bin/server.js -c /tmp/config.json -l $LOG_LEVEL -f /data" ]
