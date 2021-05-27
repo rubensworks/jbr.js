@@ -42,7 +42,7 @@ describe('TaskInitialize', () => {
   let handler: ExperimentHandler<any>;
   beforeEach(() => {
     task = new TaskInitialize(
-      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true },
+      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
       'TYPE',
       'NAME',
       'TARGETDIR',
@@ -128,7 +128,7 @@ describe('TaskInitialize', () => {
 
     it('should not throw if the destination already exists and forceReInit is true', async() => {
       task = new TaskInitialize(
-        { cwd: 'CWD', mainModulePath: 'MMP', verbose: true },
+        { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
         'TYPE',
         'NAME',
         'TARGETDIR',
@@ -146,7 +146,7 @@ describe('TaskInitialize', () => {
 
     it('should throw when initializing an unknown experiment type', async() => {
       task = new TaskInitialize(
-        { cwd: 'CWD', mainModulePath: 'MMP', verbose: true },
+        { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
         'TYPEUNKNOWN',
         'NAME',
         'TARGETDIR',
@@ -160,7 +160,7 @@ describe('TaskInitialize', () => {
 
   it('initializes a valid experiment with npm install', async() => {
     task = new TaskInitialize(
-      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true },
+      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
       'TYPE',
       'NAME',
       'TARGETDIR',
@@ -178,7 +178,7 @@ describe('TaskInitialize', () => {
 
   it('throws if npm install fails', async() => {
     task = new TaskInitialize(
-      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true },
+      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
       'TYPE',
       'NAME',
       'TARGETDIR',

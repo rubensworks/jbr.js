@@ -16,7 +16,7 @@ describe('TaskPrepare', () => {
   let experiment: Experiment;
   beforeEach(() => {
     task = new TaskPrepare(
-      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true },
+      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
     );
 
     experiment = <any> {
@@ -30,7 +30,8 @@ describe('TaskPrepare', () => {
   describe('prepare', () => {
     it('prepares an experiment', async() => {
       await task.prepare();
-      expect(experiment.prepare).toHaveBeenCalledWith({ cwd: 'CWD', mainModulePath: 'MMP', verbose: true });
+      expect(experiment.prepare)
+        .toHaveBeenCalledWith({ cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: expect.anything() });
     });
   });
 });

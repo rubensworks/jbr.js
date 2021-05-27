@@ -16,7 +16,7 @@ describe('TaskRun', () => {
   let experiment: Experiment;
   beforeEach(() => {
     task = new TaskRun(
-      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true },
+      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
     );
 
     experiment = <any> {
@@ -30,7 +30,8 @@ describe('TaskRun', () => {
   describe('run', () => {
     it('runs an experiment', async() => {
       await task.run();
-      expect(experiment.run).toHaveBeenCalledWith({ cwd: 'CWD', mainModulePath: 'MMP', verbose: true });
+      expect(experiment.run)
+        .toHaveBeenCalledWith({ cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: expect.anything() });
     });
   });
 });
