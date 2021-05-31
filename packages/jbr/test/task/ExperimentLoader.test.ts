@@ -1,3 +1,4 @@
+import * as Path from 'path';
 import { ComponentsManagerBuilder } from 'componentsjs';
 import type { RdfObjectLoader } from 'rdf-object';
 import { ExperimentLoader } from '../../lib/task/ExperimentLoader';
@@ -13,16 +14,11 @@ jest.mock('componentsjs', () => ({
   },
 }));
 
-let files: Record<string, string> = {};
-jest.mock('fs', () => ({
-  ...jest.requireActual('fs'),
-  promises: {
-    async stat(filePath: string) {
-      if (filePath in files) {
-        return files[filePath];
-      }
-      throw new Error(`Unknown file in ExperimentLoader tests: ${filePath}`);
-    },
+let files: Record<string, string | boolean> = {};
+jest.mock('fs-extra', () => ({
+  ...jest.requireActual('fs-extra'),
+  async pathExists(filePath: string) {
+    return filePath in files;
   },
 }));
 
@@ -97,6 +93,11 @@ describe('ExperimentLoader', () => {
         .toEqual({ CONFIG: 'urn:jrb:experiment' });
       expect(componentsManager.configRegistry.register).toHaveBeenCalledWith('path/to/experiment/jbr-experiment.json');
       expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment');
+    });
+
+    it('throws when config file does not exist', async() => {
+      await expect(loader.instantiateFromPath('path/to/experiment'))
+        .rejects.toThrowError(`Experiment config file could not be found at 'path/to/experiment/jbr-experiment.json'`);
     });
   });
 
@@ -316,6 +317,36 @@ describe('ExperimentLoader', () => {
             },
           },
         });
+    });
+  });
+
+  describe('getPreparedMarkerPath', () => {
+    it('returns a path', () => {
+      expect(ExperimentLoader.getPreparedMarkerPath('path'))
+        .toEqual(Path.join('path', 'generated', '.prepared'));
+    });
+  });
+
+  describe('isExperimentPrepared', () => {
+    it('returns false if the marker does not exist', async() => {
+      expect(await ExperimentLoader.isExperimentPrepared('path')).toBeFalsy();
+    });
+
+    it('returns true if the marker exists', async() => {
+      files[Path.join('path', 'generated', '.prepared')] = true;
+      expect(await ExperimentLoader.isExperimentPrepared('path')).toBeTruthy();
+    });
+  });
+
+  describe('requireExperimentPrepared', () => {
+    it('throws if the marker does not exist', async() => {
+      await expect(ExperimentLoader.requireExperimentPrepared('path')).rejects
+        .toThrowError(`The experiment at 'path' has not been prepared successfully yet, invoke 'jbr prepare' first.`);
+    });
+
+    it('resolves if the marker exists', async() => {
+      files[Path.join('path', 'generated', '.prepared')] = true;
+      await ExperimentLoader.requireExperimentPrepared('path');
     });
   });
 });

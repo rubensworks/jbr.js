@@ -4,8 +4,9 @@ import type { HookHandler } from '../../lib/hook/HookHandler';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
 import { TaskSetHook } from '../../lib/task/TaskSetHook';
 
-let files: Record<string, string> = {};
+let files: Record<string, string | boolean> = {};
 let filesOut: Record<string, string> = {};
+let filesUnlinked: Record<string, boolean> = {};
 jest.mock('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
   async readFile(filePath: string) {
@@ -17,6 +18,12 @@ jest.mock('fs-extra', () => ({
   async writeFile(filePath: string, contents: string) {
     filesOut[filePath] = contents;
   },
+  async pathExists(filePath: string) {
+    return filePath in files;
+  },
+  async unlink(filePath: string) {
+    filesUnlinked[filePath] = true;
+  },
 }));
 
 let experimentLoader: ExperimentLoader;
@@ -25,6 +32,7 @@ jest.mock('../../lib/task/ExperimentLoader', () => ({
     ...jest.requireActual('../../lib/task/ExperimentLoader').ExperimentLoader,
     build: jest.fn(() => experimentLoader),
     getDefaultExperimentIri: () => 'IRI',
+    getPreparedMarkerPath: jest.requireActual('../../lib/task/ExperimentLoader').ExperimentLoader.getPreparedMarkerPath,
   },
 }));
 
@@ -74,6 +82,7 @@ describe('TaskSetHook', () => {
 }`,
     };
     filesOut = {};
+    filesUnlinked = {};
   });
 
   describe('set', () => {
@@ -97,6 +106,32 @@ describe('TaskSetHook', () => {
   }
 }`,
       });
+      expect(filesUnlinked).toEqual({});
+    });
+
+    it('sets a valid hook with an existing marker file', async() => {
+      files[Path.join('CWD', 'generated', '.prepared')] = true;
+
+      await task.set();
+
+      expect(filesOut).toEqual({
+        [Path.join('CWD', 'jbr-experiment.json')]: `{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld",
+    "context1",
+    "context2",
+    "context3"
+  ],
+  "@id": "IRI",
+  "@type": "TYPE",
+  "hook1": {
+    "@id": "IRI:hook1",
+    "@type": "TYPE",
+    "param1": "value1"
+  }
+}`,
+      });
+      expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeTruthy();
     });
 
     it('should throw when initializing an unknown handler type', async() => {

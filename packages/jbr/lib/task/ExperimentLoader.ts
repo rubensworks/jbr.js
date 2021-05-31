@@ -1,6 +1,6 @@
-import fs from 'fs';
 import * as Path from 'path';
 import { ComponentsManager } from 'componentsjs';
+import * as fs from 'fs-extra';
 import { ErrorHandled } from '../cli/ErrorHandled';
 import type { Experiment } from '../experiment/Experiment';
 import type { ExperimentHandler } from '../experiment/ExperimentHandler';
@@ -12,6 +12,7 @@ import type { HookHandler } from '../hook/HookHandler';
 export class ExperimentLoader {
   public static readonly CONFIG_NAME = 'jbr-experiment.json';
   public static readonly PACKAGEJSON_NAME = 'package.json';
+  public static readonly PREPAREDMARKER_PATH = [ 'generated', '.prepared' ];
   public static readonly IRI_EXPERIMENT_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/lib/experiment/ExperimentHandler#ExperimentHandler`;
   public static readonly IRI_HOOK_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/lib/hook/HookHandler#HookHandler`;
 
@@ -53,7 +54,9 @@ export class ExperimentLoader {
     const configPath = Path.join(experimentPath, ExperimentLoader.CONFIG_NAME);
 
     // Check if config exists
-    await fs.promises.stat(configPath);
+    if (!await fs.pathExists(configPath)) {
+      throw new Error(`Experiment config file could not be found at '${configPath}'`);
+    }
 
     // Determine experiment name and IRI
     const experimentName = Path.basename(experimentPath);
@@ -115,5 +118,31 @@ export class ExperimentLoader {
 
   public discoverHookHandlers(): Promise<Record<string, { handler: HookHandler<any>; contexts: string[] }>> {
     return this.discoverComponents(ExperimentLoader.IRI_HOOK_HANDLER);
+  }
+
+  /**
+   * Get the path of the prepared marker file.
+   * @param experimentPath Path of an experiment.
+   */
+  public static getPreparedMarkerPath(experimentPath: string): string {
+    return Path.join(experimentPath, ...ExperimentLoader.PREPAREDMARKER_PATH);
+  }
+
+  /**
+   * Check if the given experiment contains the prepared marker file.
+   * @param experimentPath Path of an experiment.
+   */
+  public static async isExperimentPrepared(experimentPath: string): Promise<boolean> {
+    return await fs.pathExists(ExperimentLoader.getPreparedMarkerPath(experimentPath));
+  }
+
+  /**
+   * Throw an error if the given experiment does not contain the prepared marker file.
+   * @param experimentPath Path of an experiment.
+   */
+  public static async requireExperimentPrepared(experimentPath: string): Promise<void> {
+    if (!await ExperimentLoader.isExperimentPrepared(experimentPath)) {
+      throw new ErrorHandled(`The experiment at '${experimentPath}' has not been prepared successfully yet, invoke 'jbr prepare' first.`);
+    }
   }
 }

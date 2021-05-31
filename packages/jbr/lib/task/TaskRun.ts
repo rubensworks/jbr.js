@@ -14,6 +14,7 @@ export class TaskRun {
   }
 
   public async run(): Promise<void> {
+    await ExperimentLoader.requireExperimentPrepared(this.context.cwd);
     const experiment = await (await ExperimentLoader.build(this.context.mainModulePath))
       .instantiateFromPath(this.context.cwd);
     await experiment.run(this.context);

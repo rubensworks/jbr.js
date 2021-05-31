@@ -81,5 +81,12 @@ export class TaskSetHook {
 
     // Invoke the handler type's init logic
     await handlerType.init(this.context.cwd, (<any> experiment)[this.hookName]);
+
+    // Remove hidden prepared marker file if it exists
+    const markerPath = ExperimentLoader.getPreparedMarkerPath(this.context.cwd);
+    if (await fs.pathExists(markerPath)) {
+      await fs.unlink(markerPath);
+      process.stderr.write(`Removed 'prepared' flag from this experiment. Invoke 'jbr prepare' before running this experiment.\n`);
+    }
   }
 }
