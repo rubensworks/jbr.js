@@ -22,7 +22,8 @@ export async function wrapCommandHandler(
     if ('handled' in (<Error> error)) {
       process.stderr.write(`${(<Error> error).message}\n`);
     } else {
-      throw error;
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
   } finally {
     const endTime = process.hrtime(startTime);
@@ -31,6 +32,8 @@ export async function wrapCommandHandler(
       process.stderr.write(`✨ Done in ${seconds}s\n`);
     } else {
       process.stderr.write(`🚨 Errored in ${seconds}s\n`);
+      // eslint-disable-next-line unicorn/no-process-exit
+      process.exit(1);
     }
   }
 }
