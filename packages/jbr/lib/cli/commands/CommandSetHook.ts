@@ -12,5 +12,5 @@ export const handler = (argv: Record<string, any>): Promise<void> => wrapCommand
   async(context: ITaskContext) => {
     await wrapVisualProgress('Setting hook in experiment',
       async() => new TaskSetHook(context, argv.hook, argv.handler, !await fs.pathExists(`${__dirname}/../../../test`)).set());
-    process.stderr.write(`Handler '${argv.handler}' has been set for hook '${argv.hook}' in experiment '${Path.basename(context.cwd)}'\n`);
+    context.logger.info(`Handler '${argv.handler}' has been set for hook '${argv.hook}' in experiment '${Path.basename(context.cwd)}'`);
   });

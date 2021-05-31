@@ -1,7 +1,9 @@
 import * as Path from 'path';
 import type { Experiment } from '../../lib/experiment/Experiment';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
+import type { ITaskContext } from '../../lib/task/ITaskContext';
 import { TaskPrepare } from '../../lib/task/TaskPrepare';
+import { TestLogger } from '../TestLogger';
 
 let experimentLoader: ExperimentLoader;
 jest.mock('../../lib/task/ExperimentLoader', () => ({
@@ -30,11 +32,19 @@ jest.mock('fs-extra', () => ({
 }));
 
 describe('TaskPrepare', () => {
+  let context: ITaskContext;
   let task: TaskPrepare;
   let experiment: Experiment;
   beforeEach(() => {
+    context = {
+      cwd: 'CWD',
+      mainModulePath: 'MMP',
+      verbose: true,
+      exitProcess: jest.fn(),
+      logger: <any> new TestLogger(),
+    };
     task = new TaskPrepare(
-      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
+      context,
     );
 
     experiment = <any> {
@@ -51,7 +61,7 @@ describe('TaskPrepare', () => {
     it('prepares an experiment', async() => {
       await task.prepare();
       expect(experiment.prepare)
-        .toHaveBeenCalledWith({ cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: expect.anything() });
+        .toHaveBeenCalledWith(context);
 
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeFalsy();
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
@@ -62,7 +72,7 @@ describe('TaskPrepare', () => {
 
       await task.prepare();
       expect(experiment.prepare)
-        .toHaveBeenCalledWith({ cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: expect.anything() });
+        .toHaveBeenCalledWith(context);
 
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeTruthy();
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');

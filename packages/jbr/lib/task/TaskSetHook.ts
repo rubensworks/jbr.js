@@ -44,7 +44,7 @@ export class TaskSetHook {
     const handlerTypes = await experimentLoader.discoverHookHandlers();
     const handlerTypeWrapped = handlerTypes[this.handlerTypeId];
     if (!handlerTypeWrapped) {
-      throw new Error(`Invalid hook type '${this.handlerTypeId}'. Must be one of '${Object.keys(handlerTypes).join(', ')}'`);
+      throw new ErrorHandled(`Invalid hook type '${this.handlerTypeId}'. Must be one of '${Object.keys(handlerTypes).join(', ')}'`);
     }
     const { handler: handlerType, contexts } = handlerTypeWrapped;
 
@@ -86,7 +86,7 @@ export class TaskSetHook {
     const markerPath = ExperimentLoader.getPreparedMarkerPath(this.context.cwd);
     if (await fs.pathExists(markerPath)) {
       await fs.unlink(markerPath);
-      process.stderr.write(`Removed 'prepared' flag from this experiment. Invoke 'jbr prepare' before running this experiment.\n`);
+      this.context.logger.warn(`Removed 'prepared' flag from this experiment. Invoke 'jbr prepare' before running this experiment.`);
     }
   }
 }

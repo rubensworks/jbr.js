@@ -1,3 +1,5 @@
+import type { Logger } from 'winston';
+
 /**
  * Common data when running a task.
  */
@@ -6,4 +8,5 @@ export interface ITaskContext {
   mainModulePath: string;
   verbose: boolean;
   exitProcess: () => void;
+  logger: Logger;
 }

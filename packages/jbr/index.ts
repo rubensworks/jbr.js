@@ -1,6 +1,5 @@
 export * from './lib/cli/CliHelpers';
 export * from './lib/cli/CliRunner';
-export * from './lib/cli/ColorUtils';
 export * from './lib/cli/ErrorHandled';
 export * from './lib/experiment/ExperimentHandler';
 export * from './lib/experiment/Experiment';

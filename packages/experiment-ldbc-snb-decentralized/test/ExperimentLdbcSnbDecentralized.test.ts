@@ -1,4 +1,5 @@
 import type { Hook, ITaskContext } from 'jbr';
+import { TestLogger } from '../../jbr/test/TestLogger';
 import { ExperimentLdbcSnbDecentralized } from '../lib/ExperimentLdbcSnbDecentralized';
 
 let generatorGenerate: any;
@@ -52,7 +53,13 @@ describe('ExperimentLdbcSnbDecentralized', () => {
   let experiment: ExperimentLdbcSnbDecentralized;
   let container: any;
   beforeEach(() => {
-    context = { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() };
+    context = {
+      cwd: 'CWD',
+      mainModulePath: 'MMP',
+      verbose: true,
+      exitProcess: jest.fn(),
+      logger: <any> new TestLogger(),
+    };
     closeEndpoint = jest.fn();
     hookSparqlEndpoint = <any> {
       prepare: jest.fn(),

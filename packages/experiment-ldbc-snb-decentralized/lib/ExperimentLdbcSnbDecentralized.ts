@@ -138,7 +138,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
       replication: this.queryRunnerReplication,
       warmup: this.queryRunnerWarmupRounds,
       timestampsRecording: this.queryRunnerRecordTimestamps,
-      logger: (message: string) => process.stdout.write(message),
+      logger: (message: string) => context.logger.info(message),
     }).run();
 
     // Write results
@@ -146,7 +146,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     if (!await fs.pathExists(resultsOutput)) {
       await fs.mkdir(resultsOutput);
     }
-    process.stdout.write(`Writing results to ${resultsOutput}\n`);
+    context.logger.info(`Writing results to ${resultsOutput}\n`);
     await writeBenchmarkResults(results, Path.join(resultsOutput, 'query-times.csv'), this.queryRunnerRecordTimestamps);
 
     // Close endpoint and server

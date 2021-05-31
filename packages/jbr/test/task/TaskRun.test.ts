@@ -1,7 +1,9 @@
 import * as Path from 'path';
 import type { Experiment } from '../../lib/experiment/Experiment';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
+import type { ITaskContext } from '../../lib/task/ITaskContext';
 import { TaskRun } from '../../lib/task/TaskRun';
+import { TestLogger } from '../TestLogger';
 
 let experimentLoader: ExperimentLoader;
 jest.mock('../../lib/task/ExperimentLoader', () => ({
@@ -23,12 +25,18 @@ jest.mock('fs-extra', () => ({
 }));
 
 describe('TaskRun', () => {
+  let context: ITaskContext;
   let task: TaskRun;
   let experiment: Experiment;
   beforeEach(() => {
-    task = new TaskRun(
-      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
-    );
+    context = {
+      cwd: 'CWD',
+      mainModulePath: 'MMP',
+      verbose: true,
+      exitProcess: jest.fn(),
+      logger: <any> new TestLogger(),
+    };
+    task = new TaskRun(context);
 
     experiment = <any> {
       run: jest.fn(),
@@ -43,8 +51,7 @@ describe('TaskRun', () => {
     it('runs an experiment with an existing marker file', async() => {
       files[Path.join('CWD', 'generated', '.prepared')] = true;
       await task.run();
-      expect(experiment.run)
-        .toHaveBeenCalledWith({ cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: expect.anything() });
+      expect(experiment.run).toHaveBeenCalledWith(context);
     });
 
     it('throws without an existing marker file', async() => {

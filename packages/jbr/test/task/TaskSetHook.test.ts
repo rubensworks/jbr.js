@@ -2,7 +2,9 @@ import * as Path from 'path';
 import * as spawn from 'cross-spawn';
 import type { HookHandler } from '../../lib/hook/HookHandler';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
+import type { ITaskContext } from '../../lib/task/ITaskContext';
 import { TaskSetHook } from '../../lib/task/TaskSetHook';
+import { TestLogger } from '../TestLogger';
 
 let files: Record<string, string | boolean> = {};
 let filesOut: Record<string, string> = {};
@@ -41,11 +43,19 @@ jest.mock('cross-spawn', () => ({
 }));
 
 describe('TaskSetHook', () => {
+  let context: ITaskContext;
   let task: TaskSetHook;
   let handler: HookHandler<any>;
   beforeEach(() => {
+    context = {
+      cwd: 'CWD',
+      mainModulePath: 'MMP',
+      verbose: true,
+      exitProcess: jest.fn(),
+      logger: <any> new TestLogger(),
+    };
     task = new TaskSetHook(
-      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
+      context,
       'hook1',
       'TYPE',
       false,
@@ -136,7 +146,7 @@ describe('TaskSetHook', () => {
 
     it('should throw when initializing an unknown handler type', async() => {
       task = new TaskSetHook(
-        { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
+        context,
         'hook1',
         'TYPEUNKNOWN',
         false,
@@ -147,7 +157,7 @@ describe('TaskSetHook', () => {
 
     it('should throw when initializing an unknown hook', async() => {
       task = new TaskSetHook(
-        { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
+        context,
         'hookunknown',
         'TYPE',
         false,
@@ -158,7 +168,7 @@ describe('TaskSetHook', () => {
 
     it('sets a valid hook with npm install', async() => {
       task = new TaskSetHook(
-        { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
+        context,
         'hook1',
         'TYPE',
         true,
@@ -174,7 +184,7 @@ describe('TaskSetHook', () => {
 
     it('throws if npm install fails', async() => {
       task = new TaskSetHook(
-        { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
+        context,
         'hook1',
         'TYPE',
         true,

@@ -2,6 +2,7 @@ import * as Path from 'path';
 import type { Experiment } from '../../lib/experiment/Experiment';
 import { ExperimentLoader } from '../../lib/task/ExperimentLoader';
 import { TaskValidate } from '../../lib/task/TaskValidate';
+import { TestLogger } from '../TestLogger';
 
 let experimentLoader: ExperimentLoader;
 jest.mock('../../lib/task/ExperimentLoader', () => ({
@@ -25,7 +26,7 @@ describe('TaskValidate', () => {
   let experiment: Experiment;
   beforeEach(() => {
     task = new TaskValidate(
-      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
+      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn(), logger: <any> new TestLogger() },
     );
 
     experiment = <any> {

@@ -2,7 +2,9 @@ import * as Path from 'path';
 import * as spawn from 'cross-spawn';
 import type { ExperimentHandler } from '../../lib/experiment/ExperimentHandler';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
+import type { ITaskContext } from '../../lib/task/ITaskContext';
 import { TaskInitialize } from '../../lib/task/TaskInitialize';
+import { TestLogger } from '../TestLogger';
 
 let files: Record<string, string> = {};
 let filesOut: Record<string, string> = {};
@@ -38,11 +40,19 @@ jest.mock('cross-spawn', () => ({
 }));
 
 describe('TaskInitialize', () => {
+  let context: ITaskContext;
   let task: TaskInitialize;
   let handler: ExperimentHandler<any>;
   beforeEach(() => {
+    context = {
+      cwd: 'CWD',
+      mainModulePath: 'MMP',
+      verbose: true,
+      exitProcess: jest.fn(),
+      logger: <any> new TestLogger(),
+    };
     task = new TaskInitialize(
-      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
+      context,
       'TYPE',
       'NAME',
       'TARGETDIR',
@@ -129,7 +139,7 @@ describe('TaskInitialize', () => {
 
     it('should not throw if the destination already exists and forceReInit is true', async() => {
       task = new TaskInitialize(
-        { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
+        context,
         'TYPE',
         'NAME',
         'TARGETDIR',
@@ -147,7 +157,7 @@ describe('TaskInitialize', () => {
 
     it('should throw when initializing an unknown experiment type', async() => {
       task = new TaskInitialize(
-        { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
+        context,
         'TYPEUNKNOWN',
         'NAME',
         'TARGETDIR',
@@ -161,7 +171,7 @@ describe('TaskInitialize', () => {
 
   it('initializes a valid experiment with npm install', async() => {
     task = new TaskInitialize(
-      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
+      context,
       'TYPE',
       'NAME',
       'TARGETDIR',
@@ -179,7 +189,7 @@ describe('TaskInitialize', () => {
 
   it('throws if npm install fails', async() => {
     task = new TaskInitialize(
-      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() },
+      context,
       'TYPE',
       'NAME',
       'TARGETDIR',
