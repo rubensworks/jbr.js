@@ -41,7 +41,7 @@ export class HookSparqlEndpointComunica extends Hook {
 
   public async prepare(context: ITaskContext): Promise<void> {
     // Build client Dockerfile
-    const dockerode = new Dockerode();
+    const dockerode = new Dockerode(context.dockerOptions);
     const buildStream = await dockerode.buildImage({
       context: context.cwd,
       src: [ this.dockerfileClient, this.configClient ],
@@ -62,7 +62,7 @@ export class HookSparqlEndpointComunica extends Hook {
 
   public async start(context: ITaskContext): Promise<() => Promise<void>> {
     // Initialize Docker container
-    const dockerode = new Dockerode();
+    const dockerode = new Dockerode(context.dockerOptions);
     const container = await dockerode.createContainer({
       Image: this.getDockerImageName(context),
       Tty: true,

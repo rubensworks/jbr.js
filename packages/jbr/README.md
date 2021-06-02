@@ -58,6 +58,7 @@ Options:
       --cwd             The current working directory      [string] [default: .]
   -m, --mainModulePath  Path from which modules should be loaded        [string]
   -v, --verbose         If more logging output should be generated     [boolean]
+  -d, --dockerOptions   Path to a file with custom Docker options       [string]
       --help            Show help
 ```
 
@@ -158,6 +159,34 @@ For example, the following experiment is configured to use at most 90% of the CP
 All possible parameters (all are optional):
 * `cpu_percentage`: Percentage (0-100) of the total CPU power that can be used. E.g. when fully consuming 4 cores, this value must be set to 100.
 * `memory_limit`: Memory usage limit, e.g. '10m', '1g'.
+
+### Running against a different Docker instance
+
+By default, Docker-based experiment will look for and use the Docker installation on your local machine.
+In some cases, you may want to run experiments within remote Docker instances.
+In such cases, you can use the `-d` or `--dockerOptions` option to pass a custom Docker options file.
+
+For example, Docker options can be set when running an experiment as follows:
+```bash
+$ jbr run -d docker-options.json
+```
+
+`docker-options.json` for the default socket:
+```json
+{
+    "socketPath": "/var/run/docker.sock"
+}
+```
+
+`docker-options.json` for running against a different host:
+```json
+{
+    "host": "http://192.168.1.10",
+    "port": 3000
+}
+```
+
+More configuration options can be found at https://github.com/apocas/dockerode#getting-started
 
 ## License
 

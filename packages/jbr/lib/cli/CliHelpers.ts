@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import * as util from 'util';
 import ora from 'ora';
 import type { Logger } from 'winston';
@@ -17,6 +18,8 @@ export async function wrapCommandHandler(
     // eslint-disable-next-line unicorn/no-process-exit
     exitProcess: () => process.exit(),
     logger: createCliLogger(argv.verbose ? 'verbose' : 'info'),
+    // eslint-disable-next-line no-sync
+    dockerOptions: argv.dockerOptions ? JSON.parse(fs.readFileSync(argv.dockerOptions, 'utf8')) : undefined,
   };
   let completed = false;
   try {

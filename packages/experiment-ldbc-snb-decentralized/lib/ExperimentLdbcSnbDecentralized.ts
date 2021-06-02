@@ -92,7 +92,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     }).generate();
 
     // Build server Dockerfile
-    const dockerode = new Dockerode();
+    const dockerode = new Dockerode(context.dockerOptions);
     const buildStream = await dockerode.buildImage({
       context: context.cwd,
       src: [ this.dockerfileServer, this.configServer ],
@@ -158,7 +158,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
 
   public async startServer(context: ITaskContext): Promise<() => Promise<void>> {
     // Initialize Docker container
-    const dockerode = new Dockerode();
+    const dockerode = new Dockerode(context.dockerOptions);
     const container = await dockerode.createContainer({
       Image: this.getServerDockerImageName(context),
       Tty: true,

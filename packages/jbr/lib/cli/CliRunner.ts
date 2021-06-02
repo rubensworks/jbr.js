@@ -15,6 +15,11 @@ export function runCli(cwd: string, argv: string[]): void {
         alias: 'v',
         describe: 'If more logging output should be generated',
       },
+      dockerOptions: {
+        type: 'string',
+        alias: 'd',
+        describe: 'Path to a file with custom Docker options',
+      },
     })
     .commandDir('commands')
     .demandCommand()
