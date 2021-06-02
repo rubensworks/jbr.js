@@ -31,6 +31,10 @@ When installing this hook, your configuration file (`jbr-experiment.json`) will 
     "@id": "urn:jrb:bb:hookSparqlEndpoint",
     "@type": "HookSparqlEndpointComunica",
     "dockerfileClient": "input/dockerfiles/Dockerfile-client",
+    "resourceConstraints": {
+      "@type": "DockerResourceConstraints",
+      "cpu_percentage": 90
+    },
     "configClient": "input/config-client.json",
     "clientPort": 3001,
     "clientLogLevel": "info",
@@ -47,6 +51,7 @@ More background information on these config options can be found on https://comu
 ### Configuration fields
 
 * `dockerfileClient`: Path to the Dockerfile of Comunica.
+* `resourceConstraints`: Resource constraints for the Docker container.
 * `configClient`: Path to the configuration file of a Comunica engine.
 * `clientPort`: HTTP port on which the SPARQL endpoint will be exposed.
 * `clientLogLevel`: Logging level for Comunica engine.

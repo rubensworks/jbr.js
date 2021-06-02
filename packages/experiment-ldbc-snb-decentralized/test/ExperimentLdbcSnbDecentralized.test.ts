@@ -1,4 +1,5 @@
 import type { Hook, ITaskContext } from 'jbr';
+import { StaticDockerResourceConstraints } from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { ExperimentLdbcSnbDecentralized } from '../lib/ExperimentLdbcSnbDecentralized';
 
@@ -92,6 +93,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       hookSparqlEndpoint,
       3_000,
       'info',
+      new StaticDockerResourceConstraints({}, {}),
       'http://localhost:3001/sparql',
       3,
       1,

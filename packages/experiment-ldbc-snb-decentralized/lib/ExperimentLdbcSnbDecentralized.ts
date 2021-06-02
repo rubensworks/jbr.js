@@ -2,7 +2,7 @@ import * as Path from 'path';
 import Dockerode from 'dockerode';
 import * as fs from 'fs-extra';
 import { Experiment } from 'jbr';
-import type { Hook, ITaskContext } from 'jbr';
+import type { Hook, ITaskContext, DockerResourceConstraints } from 'jbr';
 import { Generator } from 'ldbc-snb-decentralized/lib/Generator';
 import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
 
@@ -23,6 +23,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
   public readonly hookSparqlEndpoint: Hook;
   public readonly serverPort: number;
   public readonly serverLogLevel: string;
+  public readonly serverResourceConstraints: DockerResourceConstraints;
   public readonly endpointUrl: string;
   public readonly queryRunnerReplication: number;
   public readonly queryRunnerWarmupRounds: number;
@@ -42,6 +43,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     hookSparqlEndpoint: Hook,
     serverPort: number,
     serverLogLevel: string,
+    serverResourceConstraints: DockerResourceConstraints,
     endpointUrl: string,
     queryRunnerReplication: number,
     queryRunnerWarmupRounds: number,
@@ -59,9 +61,10 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     this.hadoopMemory = hadoopMemory;
     this.dockerfileServer = dockerfileServer;
     this.hookSparqlEndpoint = hookSparqlEndpoint;
+    this.endpointUrl = endpointUrl;
     this.serverPort = serverPort;
     this.serverLogLevel = serverLogLevel;
-    this.endpointUrl = endpointUrl;
+    this.serverResourceConstraints = serverResourceConstraints;
     this.queryRunnerReplication = queryRunnerReplication;
     this.queryRunnerWarmupRounds = queryRunnerWarmupRounds;
     this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps;
@@ -138,7 +141,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
       replication: this.queryRunnerReplication,
       warmup: this.queryRunnerWarmupRounds,
       timestampsRecording: this.queryRunnerRecordTimestamps,
-      logger: (message: string) => context.logger.info(message),
+      logger: (message: string) => process.stderr.write(message),
     }).run();
 
     // Write results
@@ -170,6 +173,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
             { HostPort: `${this.serverPort}` },
           ],
         },
+        ...this.serverResourceConstraints.toHostConfig(),
       },
     });
 

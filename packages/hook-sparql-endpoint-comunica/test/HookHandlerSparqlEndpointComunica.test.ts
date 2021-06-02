@@ -40,7 +40,7 @@ describe('HookHandlerSparqlEndpointComunica', () => {
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
       expect(handler.getDefaultParams('dir')).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams('dir')).length).toEqual(6);
+      expect(Object.entries(handler.getDefaultParams('dir')).length).toEqual(7);
     });
   });
 

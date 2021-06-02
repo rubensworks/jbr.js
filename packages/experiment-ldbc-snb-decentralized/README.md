@@ -112,6 +112,10 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
   "dockerfileServer": "input/dockerfiles/Dockerfile-server",
   "serverPort": 3000,
   "serverLogLevel": "info",
+  "serverResourceConstraints": {
+    "@type": "DockerResourceConstraints",
+    "cpu_percentage": 10
+  },
   "endpointUrl": "http://localhost:3001/sparql",
   "queryRunnerReplication": 3,
   "queryRunnerWarmupRounds": 1,
@@ -141,6 +145,7 @@ More background information on these config options can be found in the README o
 * `dockerfileServer`: Path to a Dockerfile for [Solid Community Server](https://github.com/solid/community-server/).
 * `serverPort`: HTTP Port for [Solid Community Server](https://github.com/solid/community-server/).
 * `serverLogLevel`: Logging level for [Solid Community Server](https://github.com/solid/community-server/).
+* `serverResourceConstraints`: Resource constraints for the [Solid Community Server](https://github.com/solid/community-server/) Docker container.
 * `endpointUrl`: URL through which the SPARQL endpoint of the `hookSparqlEndpoint` hook will be exposed.
 * `queryRunnerReplication`: Number of replication runs for [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
 * `queryRunnerWarmupRounds`: Number of warmup runs for [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).

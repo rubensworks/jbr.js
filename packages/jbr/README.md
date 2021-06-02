@@ -136,6 +136,29 @@ my-experiment/
   node_modules/
 ```
 
+## Advanced
+
+### Docker Resource Constraint
+
+Some experiments or hooks may be executed in Docker containers.
+For these cases, jbr exposes a reusable helper component for defining Docker resource constraints.
+
+For example, the following experiment is configured to use at most 90% of the CPU, and 10MB of memory.
+```json
+{
+  "@type": "SomeExperiment",
+  "resourceConstraints": {
+    "@type": "StaticDockerResourceConstraints",
+    "cpu_percentage": 90,
+    "memory_limit": "10m"
+  }
+}
+```
+
+All possible parameters (all are optional):
+* `cpu_percentage`: Percentage (0-100) of the total CPU power that can be used. E.g. when fully consuming 4 cores, this value must be set to 100.
+* `memory_limit`: Memory usage limit, e.g. '10m', '1g'.
+
 ## License
 
 jbr.js is written by [Ruben Taelman](http://www.rubensworks.net/).

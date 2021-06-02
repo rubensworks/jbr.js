@@ -14,6 +14,10 @@ export class HookHandlerSparqlEndpointComunica extends HookHandler<HookSparqlEnd
   public getDefaultParams(experimentDirectory: string): Record<string, any> {
     return {
       dockerfileClient: 'input/dockerfiles/Dockerfile-client',
+      resourceConstraints: {
+        '@type': 'StaticDockerResourceConstraints',
+        cpu_percentage: 100,
+      },
       configClient: 'input/config-client.json',
       clientPort: 3_001,
       clientLogLevel: 'info',

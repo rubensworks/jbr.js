@@ -1,7 +1,7 @@
 import Path from 'path';
 import Dockerode from 'dockerode';
 import * as fs from 'fs-extra';
-import type { ITaskContext } from 'jbr';
+import type { ITaskContext, DockerResourceConstraints } from 'jbr';
 import { Hook } from 'jbr';
 
 /**
@@ -9,6 +9,7 @@ import { Hook } from 'jbr';
  */
 export class HookSparqlEndpointComunica extends Hook {
   public readonly dockerfileClient: string;
+  public readonly resourceConstraints: DockerResourceConstraints;
   public readonly configClient: string;
   public readonly clientPort: number;
   public readonly clientLogLevel: string;
@@ -17,6 +18,7 @@ export class HookSparqlEndpointComunica extends Hook {
 
   public constructor(
     dockerfileClient: string,
+    resourceConstraints: DockerResourceConstraints,
     configClient: string,
     clientPort: number,
     clientLogLevel: string,
@@ -25,6 +27,7 @@ export class HookSparqlEndpointComunica extends Hook {
   ) {
     super();
     this.dockerfileClient = dockerfileClient;
+    this.resourceConstraints = resourceConstraints;
     this.configClient = configClient;
     this.clientPort = clientPort;
     this.clientLogLevel = clientLogLevel;
@@ -74,6 +77,7 @@ export class HookSparqlEndpointComunica extends Hook {
             { HostPort: `${this.clientPort}` },
           ],
         },
+        ...this.resourceConstraints.toHostConfig(),
       },
     });
 

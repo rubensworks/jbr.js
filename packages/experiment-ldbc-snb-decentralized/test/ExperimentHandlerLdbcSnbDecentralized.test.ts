@@ -39,7 +39,7 @@ describe('ExperimentHandlerLdbcSnbDecentralized', () => {
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
       expect(handler.getDefaultParams('dir')).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams('dir')).length).toEqual(16);
+      expect(Object.entries(handler.getDefaultParams('dir')).length).toEqual(17);
     });
   });
 

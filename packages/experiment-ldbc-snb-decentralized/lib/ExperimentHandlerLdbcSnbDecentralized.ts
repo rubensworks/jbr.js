@@ -25,9 +25,13 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
       hadoopMemory: '4G',
       dockerfileServer: 'input/dockerfiles/Dockerfile-server',
 
+      endpointUrl: 'http://localhost:3001/sparql',
       serverPort: 3_000,
       serverLogLevel: 'info',
-      endpointUrl: 'http://localhost:3001/sparql',
+      serverResourceConstraints: {
+        '@type': 'StaticDockerResourceConstraints',
+        cpu_percentage: 100,
+      },
       queryRunnerReplication: 3,
       queryRunnerWarmupRounds: 1,
       queryRunnerRecordTimestamps: true,

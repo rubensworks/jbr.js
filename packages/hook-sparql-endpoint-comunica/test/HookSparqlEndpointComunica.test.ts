@@ -1,4 +1,6 @@
 import type { ITaskContext } from 'jbr';
+import { StaticDockerResourceConstraints } from 'jbr';
+import { TestLogger } from '../../jbr/test/TestLogger';
 import { HookSparqlEndpointComunica } from '../lib/HookSparqlEndpointComunica';
 
 let buildImage: any;
@@ -31,9 +33,16 @@ describe('HookSparqlEndpointComunica', () => {
   let hook: HookSparqlEndpointComunica;
   let container: any;
   beforeEach(() => {
-    context = { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn() };
+    context = {
+      cwd: 'CWD',
+      mainModulePath: 'MMP',
+      verbose: true,
+      exitProcess: jest.fn(),
+      logger: <any> new TestLogger(),
+    };
     hook = new HookSparqlEndpointComunica(
       'input/dockerfiles/Dockerfile-client',
+      new StaticDockerResourceConstraints({}, {}),
       'input/config-client.json',
       3_001,
       'info',
