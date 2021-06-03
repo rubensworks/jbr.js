@@ -5,7 +5,6 @@ export * from './lib/docker/DockerContainerCreator';
 export * from './lib/docker/DockerContainerHandler';
 export * from './lib/docker/DockerImageBuilder';
 export * from './lib/docker/DockerResourceConstraints';
-export * from './lib/docker/DockerStatsCollector';
 export * from './lib/docker/StaticDockerResourceConstraints';
 export * from './lib/experiment/ExperimentHandler';
 export * from './lib/experiment/Experiment';

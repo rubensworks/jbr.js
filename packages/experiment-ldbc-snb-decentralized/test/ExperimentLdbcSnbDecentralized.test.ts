@@ -42,15 +42,19 @@ jest.mock('fs-extra', () => ({
 }));
 
 describe('ExperimentLdbcSnbDecentralized', () => {
+  let serverHandlerStopCollectingStats: any;
   let serverHandler: DockerContainerHandler;
   let context: ITaskContext;
   let hookSparqlEndpoint: Hook;
+  let endpointHandlerStopCollectingStats: any;
   let endpointHandler: ProcessHandler;
   let resourceConstraints: DockerResourceConstraints;
   let experiment: ExperimentLdbcSnbDecentralized;
   beforeEach(() => {
+    serverHandlerStopCollectingStats = jest.fn();
     serverHandler = <any> {
       close: jest.fn(),
+      startCollectingStats: jest.fn(() => serverHandlerStopCollectingStats),
     };
     context = {
       cwd: 'CWD',
@@ -70,15 +74,20 @@ describe('ExperimentLdbcSnbDecentralized', () => {
         },
       },
     };
+    endpointHandlerStopCollectingStats = jest.fn();
     endpointHandler = {
       close: jest.fn(),
+      startCollectingStats: jest.fn(() => endpointHandlerStopCollectingStats),
     };
     hookSparqlEndpoint = <any> {
       prepare: jest.fn(),
       start: jest.fn(() => endpointHandler),
     };
     generatorGenerate = jest.fn();
-    sparqlBenchmarkRun = jest.fn();
+    sparqlBenchmarkRun = jest.fn(async({ onStart, onStop }) => {
+      await onStart();
+      await onStop();
+    });
     resourceConstraints = new StaticDockerResourceConstraints({}, {});
     experiment = new ExperimentLdbcSnbDecentralized(
       '0.1',
@@ -133,6 +142,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
         imageName: 'jrb-experiment-CWD-server',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'server.txt'),
+        statsFilePath: Path.join(context.cwd, 'output', 'stats-server.csv'),
         hostConfig: {
           Binds: [
             `${context.cwd}/generated/out-fragments/:/data`,
@@ -145,11 +155,13 @@ describe('ExperimentLdbcSnbDecentralized', () => {
         },
       });
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
-      expect(context.docker.statsCollector.collect)
-        .toHaveBeenCalledWith(serverHandler, Path.join(context.cwd, 'output', 'stats-server.csv'));
+      expect(serverHandler.startCollectingStats).toHaveBeenCalled();
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
       expect(sparqlBenchmarkRun).toHaveBeenCalled();
       expect(serverHandler.close).toHaveBeenCalled();
       expect(endpointHandler.close).toHaveBeenCalled();
+      expect(serverHandlerStopCollectingStats).toHaveBeenCalled();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
       expect(context.exitProcess).not.toHaveBeenCalled();
 
       expect(dirsOut).toEqual({

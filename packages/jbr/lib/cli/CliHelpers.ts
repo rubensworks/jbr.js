@@ -4,7 +4,7 @@ import Dockerode from 'dockerode';
 import ora from 'ora';
 import type { Logger } from 'winston';
 import { createLogger, format, transports } from 'winston';
-import { DockerStatsCollector } from '../..';
+
 import { DockerContainerCreator } from '../docker/DockerContainerCreator';
 import { DockerImageBuilder } from '../docker/DockerImageBuilder';
 import type { ITaskContext } from '../task/ITaskContext';
@@ -29,7 +29,6 @@ export async function wrapCommandHandler(
     docker: {
       containerCreator: new DockerContainerCreator(dockerode),
       imageBuilder: new DockerImageBuilder(dockerode),
-      statsCollector: new DockerStatsCollector(),
     },
   };
   let completed = false;

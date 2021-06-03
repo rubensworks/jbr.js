@@ -37,9 +37,11 @@ describe('DockerContainerCreator', () => {
           ],
         },
         logFilePath: 'LOGPATH',
+        statsFilePath: 'STATSPATH',
       });
       expect(handler).toBeInstanceOf(DockerContainerHandler);
       expect(handler.container).toBe(container);
+      expect(handler.statsFilePath).toEqual('STATSPATH');
 
       expect(dockerode.createContainer).toHaveBeenCalledWith({
         Image: 'IMAGE',

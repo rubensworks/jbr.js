@@ -42,7 +42,7 @@ export class DockerContainerCreator {
     // Start container
     await container.start();
 
-    return new DockerContainerHandler(container);
+    return new DockerContainerHandler(container, options.statsFilePath);
   }
 }
 
@@ -51,4 +51,5 @@ export interface IDockerContainerCreatorArgs {
   resourceConstraints: DockerResourceConstraints;
   hostConfig: Dockerode.HostConfig;
   logFilePath: string;
+  statsFilePath: string;
 }

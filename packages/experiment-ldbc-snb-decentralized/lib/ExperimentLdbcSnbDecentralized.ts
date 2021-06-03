@@ -129,6 +129,8 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     process.on('SIGINT', () => closeServices(true));
 
     // Initiate SPARQL benchmark runner
+    let stopServerStats: () => void;
+    let stopEndpointStats: () => void;
     const results = await new SparqlBenchmarkRunner({
       endpoint: this.endpointUrl,
       querySets: await readQueries(Path.join(context.cwd, 'generated', 'out-queries')),
@@ -136,7 +138,17 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
       warmup: this.queryRunnerWarmupRounds,
       timestampsRecording: this.queryRunnerRecordTimestamps,
       logger: (message: string) => process.stderr.write(message),
-    }).run();
+    }).run({
+      async onStart() {
+        // Collect stats
+        stopServerStats = await serverHandler.startCollectingStats();
+        stopEndpointStats = await endpointProcessHandler.startCollectingStats();
+      },
+      async onStop() {
+        stopServerStats();
+        stopEndpointStats();
+      },
+    });
 
     // Write results
     const resultsOutput = Path.join(context.cwd, 'output');
@@ -151,8 +163,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
   }
 
   public async startServer(context: ITaskContext): Promise<DockerContainerHandler> {
-    // Initialize Docker container
-    const containerHandler = await context.docker.containerCreator.start({
+    return await context.docker.containerCreator.start({
       imageName: this.getServerDockerImageName(context),
       resourceConstraints: this.serverResourceConstraints,
       hostConfig: {
@@ -166,11 +177,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
         },
       },
       logFilePath: Path.join(context.cwd, 'output', 'logs', 'server.txt'),
+      statsFilePath: Path.join(context.cwd, 'output', 'stats-server.csv'),
     });
-
-    // Collect stats
-    await context.docker.statsCollector.collect(containerHandler, Path.join(context.cwd, 'output', 'stats-server.csv'));
-
-    return containerHandler;
   }
 }

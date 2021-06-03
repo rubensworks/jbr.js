@@ -54,8 +54,7 @@ export class HookSparqlEndpointComunica extends Hook {
   }
 
   public async start(context: ITaskContext): Promise<ProcessHandler> {
-    // Initialize Docker container
-    const containerHandler = await context.docker.containerCreator.start({
+    return await context.docker.containerCreator.start({
       imageName: this.getDockerImageName(context),
       resourceConstraints: this.resourceConstraints,
       hostConfig: {
@@ -69,12 +68,7 @@ export class HookSparqlEndpointComunica extends Hook {
         },
       },
       logFilePath: Path.join(context.cwd, 'output', 'logs', 'sparql-endpoint-comunica.txt'),
+      statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'),
     });
-
-    // Collect stats
-    await context.docker.statsCollector
-      .collect(containerHandler, Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'));
-
-    return containerHandler;
   }
 }

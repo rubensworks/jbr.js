@@ -64,6 +64,6 @@
     "@types/yargs": "^16.0.1",
     "fs-extra": "^10.0.0",
     "ldbc-snb-decentralized": "^1.0.1",
-    "sparql-benchmark-runner": "^2.0.0"
+    "sparql-benchmark-runner": "^2.1.0"
   }
 }

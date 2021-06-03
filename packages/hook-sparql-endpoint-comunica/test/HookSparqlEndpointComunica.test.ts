@@ -12,6 +12,7 @@ describe('HookSparqlEndpointComunica', () => {
   beforeEach(() => {
     endpointHandler = <any> {
       close: jest.fn(),
+      startCollectingStats: jest.fn(),
     };
     context = {
       cwd: 'CWD',
@@ -71,6 +72,7 @@ describe('HookSparqlEndpointComunica', () => {
         imageName: 'jrb-experiment-CWD-sparql-endpoint-comunica',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-comunica.txt'),
+        statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'),
         hostConfig: {
           Binds: [
             `${context.cwd}/input/context-client.json:/tmp/context.json`,
@@ -82,8 +84,7 @@ describe('HookSparqlEndpointComunica', () => {
           },
         },
       });
-      expect(context.docker.statsCollector.collect)
-        .toHaveBeenCalledWith(endpointHandler, Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'));
+      expect(endpointHandler.startCollectingStats).not.toHaveBeenCalled();
       expect(endpointHandler.close).not.toHaveBeenCalled();
     });
   });

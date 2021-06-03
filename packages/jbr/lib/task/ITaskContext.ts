@@ -1,5 +1,4 @@
 import type { Logger } from 'winston';
-import type { DockerStatsCollector } from '../..';
 import type { DockerContainerCreator } from '../docker/DockerContainerCreator';
 import type { DockerImageBuilder } from '../docker/DockerImageBuilder';
 
@@ -15,6 +14,5 @@ export interface ITaskContext {
   docker: {
     containerCreator: DockerContainerCreator;
     imageBuilder: DockerImageBuilder;
-    statsCollector: DockerStatsCollector;
   };
 }
