@@ -7,12 +7,19 @@ import type { DockerResourceConstraints } from './DockerResourceConstraints';
  * Conveniently create a Docker container.
  */
 export class DockerContainerCreator {
+  private readonly dockerode: Dockerode;
+
+  public constructor(dockerode: Dockerode) {
+    this.dockerode = dockerode;
+  }
+
   /**
-   * Start the configured container.
+   * Start a container.
+   * @param options Container options
    */
-  public async start(options: IDockerContainerHandlerArgs): Promise<DockerContainerHandler> {
+  public async start(options: IDockerContainerCreatorArgs): Promise<DockerContainerHandler> {
     // Initialize Docker container
-    const container = await options.dockerode.createContainer({
+    const container = await this.dockerode.createContainer({
       Image: options.imageName,
       Tty: true,
       AttachStdout: true,
@@ -39,8 +46,7 @@ export class DockerContainerCreator {
   }
 }
 
-export interface IDockerContainerHandlerArgs {
-  dockerode: Dockerode;
+export interface IDockerContainerCreatorArgs {
   imageName: string;
   resourceConstraints: DockerResourceConstraints;
   hostConfig: Dockerode.HostConfig;

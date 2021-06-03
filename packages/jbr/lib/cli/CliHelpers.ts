@@ -1,8 +1,12 @@
 import * as fs from 'fs';
 import * as util from 'util';
+import Dockerode from 'dockerode';
 import ora from 'ora';
 import type { Logger } from 'winston';
 import { createLogger, format, transports } from 'winston';
+import { DockerStatsCollector } from '../..';
+import { DockerContainerCreator } from '../experiment/docker/DockerContainerCreator';
+import { DockerImageBuilder } from '../experiment/docker/DockerImageBuilder';
 import type { ITaskContext } from '../task/ITaskContext';
 
 export async function wrapCommandHandler(
@@ -11,6 +15,10 @@ export async function wrapCommandHandler(
 ): Promise<void> {
   const startTime = process.hrtime();
 
+  const dockerode = new Dockerode(argv.dockerOptions ?
+    // eslint-disable-next-line no-sync
+    JSON.parse(fs.readFileSync(argv.dockerOptions, 'utf8')) :
+    undefined);
   const context: ITaskContext = {
     cwd: argv.cwd,
     mainModulePath: argv.mainModulePath,
@@ -18,8 +26,11 @@ export async function wrapCommandHandler(
     // eslint-disable-next-line unicorn/no-process-exit
     exitProcess: () => process.exit(),
     logger: createCliLogger(argv.verbose ? 'verbose' : 'info'),
-    // eslint-disable-next-line no-sync
-    dockerOptions: argv.dockerOptions ? JSON.parse(fs.readFileSync(argv.dockerOptions, 'utf8')) : undefined,
+    docker: {
+      containerCreator: new DockerContainerCreator(dockerode),
+      imageBuilder: new DockerImageBuilder(dockerode),
+      statsCollector: new DockerStatsCollector(),
+    },
   };
   let completed = false;
   try {

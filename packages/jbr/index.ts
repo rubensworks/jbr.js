@@ -3,6 +3,7 @@ export * from './lib/cli/CliRunner';
 export * from './lib/cli/ErrorHandled';
 export * from './lib/experiment/docker/DockerContainerCreator';
 export * from './lib/experiment/docker/DockerContainerHandler';
+export * from './lib/experiment/docker/DockerImageBuilder';
 export * from './lib/experiment/docker/DockerResourceConstraints';
 export * from './lib/experiment/docker/DockerStatsCollector';
 export * from './lib/experiment/docker/StaticDockerResourceConstraints';

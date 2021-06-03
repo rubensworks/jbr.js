@@ -21,13 +21,12 @@ describe('DockerContainerCreator', () => {
     dockerode = <any> {
       createContainer: jest.fn(() => container),
     };
-    creator = new DockerContainerCreator();
+    creator = new DockerContainerCreator(dockerode);
   });
 
   describe('start', () => {
     it('creates a container via the proper steps', async() => {
       const handler = await creator.start({
-        dockerode,
         imageName: 'IMAGE',
         resourceConstraints: {
           toHostConfig: () => ({ Memory: 123 }),

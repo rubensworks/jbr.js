@@ -33,7 +33,7 @@
   "jest": {
     "globals": {
       "ts-jest": {
-        "tsConfig": "../../tsconfig.json"
+        "tsconfig": "../../tsconfig.json"
       }
     },
     "transform": {
@@ -60,10 +60,8 @@
     "jbr": ">=0.0.0"
   },
   "dependencies": {
-    "@types/dockerode": "^3.2.3",
     "@types/fs-extra": "^9.0.11",
     "@types/yargs": "^16.0.1",
-    "dockerode": "^3.3.0",
     "fs-extra": "^10.0.0",
     "ldbc-snb-decentralized": "^1.0.1",
     "sparql-benchmark-runner": "^2.0.0"

@@ -1,46 +1,37 @@
 import Path from 'path';
-import type { ITaskContext,
-  DockerContainerCreator,
-  DockerContainerHandler, DockerResourceConstraints } from 'jbr';
-import {
-  DockerStatsCollector,
-  StaticDockerResourceConstraints,
-} from 'jbr';
+import type { ITaskContext, DockerContainerHandler, DockerResourceConstraints } from 'jbr';
+import { StaticDockerResourceConstraints } from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { HookSparqlEndpointComunica } from '../lib/HookSparqlEndpointComunica';
 
-let buildImage: any;
-let modem: any;
-jest.mock('dockerode', () => jest.fn().mockImplementation(() => ({
-  buildImage,
-  modem,
-})));
-
 describe('HookSparqlEndpointComunica', () => {
+  let endpointHandler: DockerContainerHandler;
   let context: ITaskContext;
   let resourceConstraints: DockerResourceConstraints;
-  let containerCreator: DockerContainerCreator;
-  let endpointHandler: DockerContainerHandler;
-  let statsCollector: DockerStatsCollector;
   let hook: HookSparqlEndpointComunica;
   beforeEach(() => {
+    endpointHandler = <any> {
+      close: jest.fn(),
+    };
     context = {
       cwd: 'CWD',
       mainModulePath: 'MMP',
       verbose: true,
       exitProcess: jest.fn(),
       logger: <any> new TestLogger(),
+      docker: <any> {
+        imageBuilder: {
+          build: jest.fn(),
+        },
+        containerCreator: <any> {
+          start: jest.fn(async() => endpointHandler),
+        },
+        statsCollector: {
+          collect: jest.fn(),
+        },
+      },
     };
     resourceConstraints = new StaticDockerResourceConstraints({}, {});
-    statsCollector = {
-      collect: jest.fn(),
-    };
-    endpointHandler = <any> {
-      close: jest.fn(),
-    };
-    containerCreator = {
-      start: jest.fn(async() => endpointHandler),
-    };
     hook = new HookSparqlEndpointComunica(
       'input/dockerfiles/Dockerfile-client',
       resourceConstraints,
@@ -49,66 +40,34 @@ describe('HookSparqlEndpointComunica', () => {
       'info',
       300,
       8_192,
-      containerCreator,
-      statsCollector,
     );
-
-    buildImage = jest.fn(() => 'IMAGE');
-    modem = {
-      followProgress: jest.fn((stream, cb) => cb(undefined, true)),
-    };
-    (<any> process).on = jest.fn();
-  });
-
-  describe('instantiated with default values', () => {
-    it('should have a DockerStatsCollector', async() => {
-      hook = new HookSparqlEndpointComunica(
-        'input/dockerfiles/Dockerfile-client',
-        new StaticDockerResourceConstraints({}, {}),
-        'input/config-client.json',
-        3_001,
-        'info',
-        300,
-        8_192,
-      );
-      expect(hook.statsCollector).toBeInstanceOf(DockerStatsCollector);
-    });
   });
 
   describe('prepare', () => {
     it('should prepare the hook', async() => {
       await hook.prepare(context);
 
-      expect(buildImage).toHaveBeenCalledWith({
-        context: context.cwd,
-        src: [ 'input/dockerfiles/Dockerfile-client', 'input/config-client.json' ],
-      }, {
-        t: 'jrb-experiment-CWD-sparql-endpoint-comunica',
-        buildargs: {
+      expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
+        cwd: context.cwd,
+        dockerFile: 'input/dockerfiles/Dockerfile-client',
+        auxiliaryFiles: [ 'input/config-client.json' ],
+        imageName: 'jrb-experiment-CWD-sparql-endpoint-comunica',
+        buildArgs: {
           CONFIG_CLIENT: 'input/config-client.json',
           LOG_LEVEL: 'info',
           MAX_MEMORY: '8192',
           QUERY_TIMEOUT: '300',
         },
-        dockerfile: 'input/dockerfiles/Dockerfile-client',
       });
-      expect(modem.followProgress).toHaveBeenCalledWith('IMAGE', expect.any(Function));
-    });
-
-    it('should propagate modem errors', async() => {
-      modem.followProgress = jest.fn((stream, cb) => {
-        cb(new Error('Container modem error'));
-      });
-      await expect(hook.prepare(context)).rejects.toThrowError('Container modem error');
     });
   });
 
   describe('start', () => {
     it('should start the hook', async() => {
-      const stopHook = await hook.start(context);
+      const handler = await hook.start(context);
+      expect(handler).toBe(endpointHandler);
 
-      expect(containerCreator.start).toHaveBeenCalledWith({
-        dockerode: expect.anything(),
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         imageName: 'jrb-experiment-CWD-sparql-endpoint-comunica',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-comunica.txt'),
@@ -123,7 +82,7 @@ describe('HookSparqlEndpointComunica', () => {
           },
         },
       });
-      expect(statsCollector.collect)
+      expect(context.docker.statsCollector.collect)
         .toHaveBeenCalledWith(endpointHandler, Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'));
       expect(endpointHandler.close).not.toHaveBeenCalled();
     });

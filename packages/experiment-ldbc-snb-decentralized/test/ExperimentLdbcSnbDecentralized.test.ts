@@ -1,11 +1,8 @@
 import Path from 'path';
-import type { Hook, ITaskContext, DockerContainerCreator,
+import type { Hook, ITaskContext,
   DockerContainerHandler,
   DockerResourceConstraints, ProcessHandler } from 'jbr';
-import {
-  DockerStatsCollector,
-  StaticDockerResourceConstraints,
-} from 'jbr';
+import { StaticDockerResourceConstraints } from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { ExperimentLdbcSnbDecentralized } from '../lib/ExperimentLdbcSnbDecentralized';
 
@@ -28,13 +25,6 @@ jest.mock('sparql-benchmark-runner', () => ({
   writeBenchmarkResults: jest.fn(),
 }));
 
-let buildImage: any;
-let modem: any;
-jest.mock('dockerode', () => jest.fn().mockImplementation(() => ({
-  buildImage,
-  modem,
-})));
-
 let files: Record<string, boolean | string> = {};
 let filesOut: Record<string, boolean | string> = {};
 let dirsOut: Record<string, boolean | string> = {};
@@ -52,21 +42,33 @@ jest.mock('fs-extra', () => ({
 }));
 
 describe('ExperimentLdbcSnbDecentralized', () => {
+  let serverHandler: DockerContainerHandler;
   let context: ITaskContext;
   let hookSparqlEndpoint: Hook;
   let endpointHandler: ProcessHandler;
-  let serverCreator: DockerContainerCreator;
-  let serverStatsCollector: DockerStatsCollector;
-  let serverHandler: DockerContainerHandler;
   let resourceConstraints: DockerResourceConstraints;
   let experiment: ExperimentLdbcSnbDecentralized;
   beforeEach(() => {
+    serverHandler = <any> {
+      close: jest.fn(),
+    };
     context = {
       cwd: 'CWD',
       mainModulePath: 'MMP',
       verbose: true,
       exitProcess: jest.fn(),
       logger: <any> new TestLogger(),
+      docker: <any> {
+        imageBuilder: {
+          build: jest.fn(),
+        },
+        containerCreator: <any> {
+          start: jest.fn(async() => serverHandler),
+        },
+        statsCollector: {
+          collect: jest.fn(),
+        },
+      },
     };
     endpointHandler = {
       close: jest.fn(),
@@ -77,19 +79,6 @@ describe('ExperimentLdbcSnbDecentralized', () => {
     };
     generatorGenerate = jest.fn();
     sparqlBenchmarkRun = jest.fn();
-    buildImage = jest.fn(() => 'IMAGE');
-    modem = {
-      followProgress: jest.fn((stream, cb) => cb(undefined, true)),
-    };
-    serverStatsCollector = {
-      collect: jest.fn(),
-    };
-    serverHandler = <any> {
-      close: jest.fn(),
-    };
-    serverCreator = {
-      start: jest.fn(async() => serverHandler),
-    };
     resourceConstraints = new StaticDockerResourceConstraints({}, {});
     experiment = new ExperimentLdbcSnbDecentralized(
       '0.1',
@@ -110,39 +99,11 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       3,
       1,
       true,
-      serverCreator,
-      serverStatsCollector,
     );
     files = {};
     dirsOut = {};
     filesOut = {};
     (<any> process).on = jest.fn();
-  });
-
-  describe('instantiated with default values', () => {
-    it('should have a DockerStatsCollector', async() => {
-      experiment = new ExperimentLdbcSnbDecentralized(
-        '0.1',
-        'input/config-enhancer.json',
-        'input/config-fragmenter.json',
-        'input/config-fragmenter-auxiliary.json',
-        'input/config-queries.json',
-        'input/config-server.json',
-        'input/templates/queries',
-        false,
-        '4G',
-        'input/dockerfiles/Dockerfile-server',
-        hookSparqlEndpoint,
-        3_000,
-        'info',
-        new StaticDockerResourceConstraints({}, {}),
-        'http://localhost:3001/sparql',
-        3,
-        1,
-        true,
-      );
-      expect(experiment.serverStatsCollector).toBeInstanceOf(DockerStatsCollector);
-    });
   });
 
   describe('prepare', () => {
@@ -151,25 +112,16 @@ describe('ExperimentLdbcSnbDecentralized', () => {
 
       expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context);
       expect(generatorGenerate).toHaveBeenCalled();
-      expect(buildImage).toHaveBeenCalledWith({
-        context: context.cwd,
-        src: [ 'input/dockerfiles/Dockerfile-server', 'input/config-server.json' ],
-      }, {
-        t: 'jrb-experiment-CWD-server',
-        buildargs: {
+      expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
+        cwd: context.cwd,
+        dockerFile: 'input/dockerfiles/Dockerfile-server',
+        auxiliaryFiles: [ 'input/config-server.json' ],
+        imageName: 'jrb-experiment-CWD-server',
+        buildArgs: {
           CONFIG_SERVER: 'input/config-server.json',
           LOG_LEVEL: 'info',
         },
-        dockerfile: 'input/dockerfiles/Dockerfile-server',
       });
-      expect(modem.followProgress).toHaveBeenCalledWith('IMAGE', expect.any(Function));
-    });
-
-    it('should propagate modem errors', async() => {
-      modem.followProgress = jest.fn((stream, cb) => {
-        cb(new Error('Container modem error'));
-      });
-      await expect(experiment.prepare(context)).rejects.toThrowError('Container modem error');
     });
   });
 
@@ -177,8 +129,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
     it('should run the experiment', async() => {
       await experiment.run(context);
 
-      expect(serverCreator.start).toHaveBeenCalledWith({
-        dockerode: expect.anything(),
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         imageName: 'jrb-experiment-CWD-server',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'server.txt'),
@@ -194,7 +145,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
         },
       });
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
-      expect(serverStatsCollector.collect)
+      expect(context.docker.statsCollector.collect)
         .toHaveBeenCalledWith(serverHandler, Path.join(context.cwd, 'output', 'stats-server.csv'));
       expect(sparqlBenchmarkRun).toHaveBeenCalled();
       expect(serverHandler.close).toHaveBeenCalled();
@@ -222,7 +173,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
 
       await experiment.run(context);
 
-      expect(serverCreator.start).toHaveBeenCalled();
+      expect(context.docker.containerCreator.start).toHaveBeenCalled();
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
       expect(serverHandler.close).toHaveBeenCalled();
       expect(endpointHandler.close).toHaveBeenCalled();

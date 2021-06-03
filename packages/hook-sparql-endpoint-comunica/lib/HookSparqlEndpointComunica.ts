@@ -1,8 +1,6 @@
 import Path from 'path';
-import Dockerode from 'dockerode';
 import type { ITaskContext, DockerResourceConstraints, ProcessHandler } from 'jbr';
-import { Hook, DockerStatsCollector } from 'jbr';
-import { DockerContainerCreator } from 'jbr/lib/experiment/docker/DockerContainerCreator';
+import { Hook } from 'jbr';
 
 /**
  * A hook instance for a Comunica-based SPARQL endpoint.
@@ -15,8 +13,6 @@ export class HookSparqlEndpointComunica extends Hook {
   public readonly clientLogLevel: string;
   public readonly queryTimeout: number;
   public readonly maxMemory: number;
-  public readonly containerCreator: DockerContainerCreator;
-  public readonly statsCollector: DockerStatsCollector;
 
   public constructor(
     dockerfileClient: string,
@@ -26,8 +22,6 @@ export class HookSparqlEndpointComunica extends Hook {
     clientLogLevel: string,
     queryTimeout: number,
     maxMemory: number,
-    containerCreator: DockerContainerCreator = new DockerContainerCreator(),
-    statsCollector: DockerStatsCollector = new DockerStatsCollector(),
   ) {
     super();
     this.dockerfileClient = dockerfileClient;
@@ -37,8 +31,6 @@ export class HookSparqlEndpointComunica extends Hook {
     this.clientLogLevel = clientLogLevel;
     this.queryTimeout = queryTimeout;
     this.maxMemory = maxMemory;
-    this.containerCreator = containerCreator;
-    this.statsCollector = statsCollector;
   }
 
   public getDockerImageName(context: ITaskContext): string {
@@ -47,29 +39,23 @@ export class HookSparqlEndpointComunica extends Hook {
 
   public async prepare(context: ITaskContext): Promise<void> {
     // Build client Dockerfile
-    const dockerode = new Dockerode(context.dockerOptions);
-    const buildStream = await dockerode.buildImage({
-      context: context.cwd,
-      src: [ this.dockerfileClient, this.configClient ],
-    }, {
-      t: this.getDockerImageName(context),
-      buildargs: {
+    await context.docker.imageBuilder.build({
+      cwd: context.cwd,
+      dockerFile: this.dockerfileClient,
+      auxiliaryFiles: [ this.configClient ],
+      imageName: this.getDockerImageName(context),
+      buildArgs: {
         CONFIG_CLIENT: this.configClient,
         QUERY_TIMEOUT: `${this.queryTimeout}`,
         MAX_MEMORY: `${this.maxMemory}`,
         LOG_LEVEL: this.clientLogLevel,
       },
-      dockerfile: this.dockerfileClient,
-    });
-    await new Promise((resolve, reject) => {
-      dockerode.modem.followProgress(buildStream, (err: Error, res: any) => err ? reject(err) : resolve(res));
     });
   }
 
   public async start(context: ITaskContext): Promise<ProcessHandler> {
     // Initialize Docker container
-    const containerHandler = await this.containerCreator.start({
-      dockerode: new Dockerode(context.dockerOptions),
+    const containerHandler = await context.docker.containerCreator.start({
       imageName: this.getDockerImageName(context),
       resourceConstraints: this.resourceConstraints,
       hostConfig: {
@@ -86,7 +72,7 @@ export class HookSparqlEndpointComunica extends Hook {
     });
 
     // Collect stats
-    await this.statsCollector
+    await context.docker.statsCollector
       .collect(containerHandler, Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'));
 
     return containerHandler;

@@ -1,7 +1,6 @@
 import * as Path from 'path';
-import Dockerode from 'dockerode';
 import * as fs from 'fs-extra';
-import { Experiment, DockerStatsCollector, DockerContainerCreator } from 'jbr';
+import { Experiment } from 'jbr';
 import type { Hook, ITaskContext, DockerResourceConstraints, DockerContainerHandler } from 'jbr';
 import { Generator } from 'ldbc-snb-decentralized/lib/Generator';
 import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
@@ -28,8 +27,6 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
   public readonly queryRunnerReplication: number;
   public readonly queryRunnerWarmupRounds: number;
   public readonly queryRunnerRecordTimestamps: boolean;
-  public readonly serverCreator: DockerContainerCreator;
-  public readonly serverStatsCollector: DockerStatsCollector;
 
   public constructor(
     scale: string,
@@ -50,8 +47,6 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     queryRunnerReplication: number,
     queryRunnerWarmupRounds: number,
     queryRunnerRecordTimestamps: boolean,
-    serverCreator: DockerContainerCreator = new DockerContainerCreator(),
-    serverStatsCollector: DockerStatsCollector = new DockerStatsCollector(),
   ) {
     super();
     this.scale = scale;
@@ -72,8 +67,6 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     this.queryRunnerReplication = queryRunnerReplication;
     this.queryRunnerWarmupRounds = queryRunnerWarmupRounds;
     this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps;
-    this.serverCreator = serverCreator;
-    this.serverStatsCollector = serverStatsCollector;
   }
 
   public getServerDockerImageName(context: ITaskContext): string {
@@ -98,20 +91,15 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     }).generate();
 
     // Build server Dockerfile
-    const dockerode = new Dockerode(context.dockerOptions);
-    const buildStream = await dockerode.buildImage({
-      context: context.cwd,
-      src: [ this.dockerfileServer, this.configServer ],
-    }, {
-      t: this.getServerDockerImageName(context),
-      buildargs: {
+    await context.docker.imageBuilder.build({
+      cwd: context.cwd,
+      dockerFile: this.dockerfileServer,
+      auxiliaryFiles: [ this.configServer ],
+      imageName: this.getServerDockerImageName(context),
+      buildArgs: {
         CONFIG_SERVER: this.configServer,
         LOG_LEVEL: this.serverLogLevel,
       },
-      dockerfile: this.dockerfileServer,
-    });
-    await new Promise((resolve, reject) => {
-      dockerode.modem.followProgress(buildStream, (err: Error, res: any) => err ? reject(err) : resolve(res));
     });
   }
 
@@ -164,8 +152,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
 
   public async startServer(context: ITaskContext): Promise<DockerContainerHandler> {
     // Initialize Docker container
-    const containerHandler = await this.serverCreator.start({
-      dockerode: new Dockerode(context.dockerOptions),
+    const containerHandler = await context.docker.containerCreator.start({
       imageName: this.getServerDockerImageName(context),
       resourceConstraints: this.serverResourceConstraints,
       hostConfig: {
@@ -182,7 +169,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     });
 
     // Collect stats
-    await this.serverStatsCollector.collect(containerHandler, Path.join(context.cwd, 'output', 'stats-server.csv'));
+    await context.docker.statsCollector.collect(containerHandler, Path.join(context.cwd, 'output', 'stats-server.csv'));
 
     return containerHandler;
   }
