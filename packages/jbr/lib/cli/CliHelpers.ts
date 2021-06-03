@@ -5,8 +5,8 @@ import ora from 'ora';
 import type { Logger } from 'winston';
 import { createLogger, format, transports } from 'winston';
 import { DockerStatsCollector } from '../..';
-import { DockerContainerCreator } from '../experiment/docker/DockerContainerCreator';
-import { DockerImageBuilder } from '../experiment/docker/DockerImageBuilder';
+import { DockerContainerCreator } from '../docker/DockerContainerCreator';
+import { DockerImageBuilder } from '../docker/DockerImageBuilder';
 import type { ITaskContext } from '../task/ITaskContext';
 
 export async function wrapCommandHandler(

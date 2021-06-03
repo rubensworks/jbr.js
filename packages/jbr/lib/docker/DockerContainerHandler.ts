@@ -1,5 +1,5 @@
 import type Dockerode from 'dockerode';
-import { ProcessHandler } from '../ProcessHandler';
+import { ProcessHandler } from '../experiment/ProcessHandler';
 
 /**
  * Docker container wrapped in a convenience datastructure.

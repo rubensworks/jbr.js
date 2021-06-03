@@ -1,4 +1,4 @@
-import { DockerContainerHandler } from '../../../lib/experiment/docker/DockerContainerHandler';
+import { DockerContainerHandler } from '../../../lib/docker/DockerContainerHandler';
 
 describe('DockerContainerHandler', () => {
   let container: any;

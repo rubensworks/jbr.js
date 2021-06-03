@@ -1,5 +1,5 @@
-import type { DockerContainerHandler } from '../../../lib/experiment/docker/DockerContainerHandler';
-import { DockerStatsCollector } from '../../../lib/experiment/docker/DockerStatsCollector';
+import type { DockerContainerHandler } from '../../../lib/docker/DockerContainerHandler';
+import { DockerStatsCollector } from '../../../lib/docker/DockerStatsCollector';
 const streamifyString = require('streamify-string');
 
 let write: any;
