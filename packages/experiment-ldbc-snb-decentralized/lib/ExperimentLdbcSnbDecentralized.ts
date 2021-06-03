@@ -1,7 +1,7 @@
 import * as Path from 'path';
 import Dockerode from 'dockerode';
 import * as fs from 'fs-extra';
-import { Experiment } from 'jbr';
+import { Experiment, DockerStatsCollector } from 'jbr';
 import type { Hook, ITaskContext, DockerResourceConstraints } from 'jbr';
 import { Generator } from 'ldbc-snb-decentralized/lib/Generator';
 import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
@@ -28,6 +28,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
   public readonly queryRunnerReplication: number;
   public readonly queryRunnerWarmupRounds: number;
   public readonly queryRunnerRecordTimestamps: boolean;
+  public readonly serverStatsCollector: DockerStatsCollector;
 
   public constructor(
     scale: string,
@@ -48,6 +49,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     queryRunnerReplication: number,
     queryRunnerWarmupRounds: number,
     queryRunnerRecordTimestamps: boolean,
+    serverStatsCollector: DockerStatsCollector = new DockerStatsCollector(),
   ) {
     super();
     this.scale = scale;
@@ -68,6 +70,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     this.queryRunnerReplication = queryRunnerReplication;
     this.queryRunnerWarmupRounds = queryRunnerWarmupRounds;
     this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps;
+    this.serverStatsCollector = serverStatsCollector;
   }
 
   public getServerDockerImageName(context: ITaskContext): string {
@@ -188,6 +191,9 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
 
     // Start container
     await container.start();
+
+    // Collect stats
+    await this.serverStatsCollector.collect(container, Path.join(context.cwd, 'output', 'stats-server.csv'));
 
     return async() => {
       await container.kill();

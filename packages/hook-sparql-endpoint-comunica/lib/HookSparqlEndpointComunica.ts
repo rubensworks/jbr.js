@@ -2,7 +2,7 @@ import Path from 'path';
 import Dockerode from 'dockerode';
 import * as fs from 'fs-extra';
 import type { ITaskContext, DockerResourceConstraints } from 'jbr';
-import { Hook } from 'jbr';
+import { Hook, DockerStatsCollector } from 'jbr';
 
 /**
  * A hook instance for a Comunica-based SPARQL endpoint.
@@ -15,6 +15,7 @@ export class HookSparqlEndpointComunica extends Hook {
   public readonly clientLogLevel: string;
   public readonly queryTimeout: number;
   public readonly maxMemory: number;
+  public readonly statsCollector: DockerStatsCollector;
 
   public constructor(
     dockerfileClient: string,
@@ -24,6 +25,7 @@ export class HookSparqlEndpointComunica extends Hook {
     clientLogLevel: string,
     queryTimeout: number,
     maxMemory: number,
+    statsCollector: DockerStatsCollector = new DockerStatsCollector(),
   ) {
     super();
     this.dockerfileClient = dockerfileClient;
@@ -33,6 +35,7 @@ export class HookSparqlEndpointComunica extends Hook {
     this.clientLogLevel = clientLogLevel;
     this.queryTimeout = queryTimeout;
     this.maxMemory = maxMemory;
+    this.statsCollector = statsCollector;
   }
 
   public getDockerImageName(context: ITaskContext): string {
@@ -92,6 +95,10 @@ export class HookSparqlEndpointComunica extends Hook {
 
     // Start container
     await container.start();
+
+    // Collect stats
+    await this.statsCollector
+      .collect(container, Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'));
 
     return async() => {
       await container.kill();

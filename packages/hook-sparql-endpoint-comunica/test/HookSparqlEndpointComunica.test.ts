@@ -1,5 +1,6 @@
+import Path from 'path';
 import type { ITaskContext } from 'jbr';
-import { StaticDockerResourceConstraints } from 'jbr';
+import { DockerStatsCollector, StaticDockerResourceConstraints } from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { HookSparqlEndpointComunica } from '../lib/HookSparqlEndpointComunica';
 
@@ -30,6 +31,7 @@ jest.mock('fs-extra', () => ({
 
 describe('HookSparqlEndpointComunica', () => {
   let context: ITaskContext;
+  let statsCollector: DockerStatsCollector;
   let hook: HookSparqlEndpointComunica;
   let container: any;
   beforeEach(() => {
@@ -40,6 +42,9 @@ describe('HookSparqlEndpointComunica', () => {
       exitProcess: jest.fn(),
       logger: <any> new TestLogger(),
     };
+    statsCollector = {
+      collect: jest.fn(),
+    };
     hook = new HookSparqlEndpointComunica(
       'input/dockerfiles/Dockerfile-client',
       new StaticDockerResourceConstraints({}, {}),
@@ -48,6 +53,7 @@ describe('HookSparqlEndpointComunica', () => {
       'info',
       300,
       8_192,
+      statsCollector,
     );
 
     buildImage = jest.fn(() => 'IMAGE');
@@ -65,6 +71,21 @@ describe('HookSparqlEndpointComunica', () => {
     dirsOut = {};
     filesOut = {};
     (<any> process).on = jest.fn();
+  });
+
+  describe('instantiated with default values', () => {
+    it('should have a DockerStatsCollector', async() => {
+      hook = new HookSparqlEndpointComunica(
+        'input/dockerfiles/Dockerfile-client',
+        new StaticDockerResourceConstraints({}, {}),
+        'input/config-client.json',
+        3_001,
+        'info',
+        300,
+        8_192,
+      );
+      expect(hook.statsCollector).toBeInstanceOf(DockerStatsCollector);
+    });
   });
 
   describe('prepare', () => {
@@ -121,6 +142,8 @@ describe('HookSparqlEndpointComunica', () => {
         stderr: true,
       });
       expect(container.start).toHaveBeenCalled();
+      expect(statsCollector.collect)
+        .toHaveBeenCalledWith(container, Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'));
       expect(container.kill).not.toHaveBeenCalled();
 
       expect(filesOut).toEqual({

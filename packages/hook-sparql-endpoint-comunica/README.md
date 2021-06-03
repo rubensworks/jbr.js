@@ -21,6 +21,23 @@ then you can install this Comunica-based SPARQL endpoint as follows.
 $ jbr set-hook someHookSparqlEndpoint sparql-endpoint-comunica
 ```
 
+## Output
+
+The following output is generated after an experiment with this hook has run.
+
+`output/stats-sparql-endpoint-comunica.csv`: Per second of the experiment: CPU percentage, memory usage (bytes), memory percentage, received bytes, transmitted bytes.
+```csv
+cpu_percentage,memory,memory_percentage,received,transmitted
+9.915362228116711,10489856,0.5024267940030527,488,0
+9.863725050505051,17354752,0.8312308965993495,648,0
+9.64850952141058,19116032,0.915589944401502,738,0
+9.345685076142132,23072768,1.105103526208198,738,0
+10.029959365079364,26759168,1.2816689750964243,738,0
+10.25411566137566,30363648,1.45431074734269,738,0
+```
+
+`output/logs/sparql-endpoint-comunica.txt`: Logs of the Comunica SPARQL endpoint.
+
 ## Configuration
 
 When installing this hook, your configuration file (`jbr-experiment.json`) will contain the following:

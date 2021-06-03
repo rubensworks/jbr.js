@@ -2,6 +2,7 @@ export * from './lib/cli/CliHelpers';
 export * from './lib/cli/CliRunner';
 export * from './lib/cli/ErrorHandled';
 export * from './lib/experiment/docker/DockerResourceConstraints';
+export * from './lib/experiment/docker/DockerStatsCollector';
 export * from './lib/experiment/docker/StaticDockerResourceConstraints';
 export * from './lib/experiment/ExperimentHandler';
 export * from './lib/experiment/Experiment';

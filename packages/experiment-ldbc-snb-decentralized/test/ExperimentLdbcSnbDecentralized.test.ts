@@ -1,5 +1,6 @@
+import Path from 'path';
 import type { Hook, ITaskContext } from 'jbr';
-import { StaticDockerResourceConstraints } from 'jbr';
+import { DockerStatsCollector, StaticDockerResourceConstraints } from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { ExperimentLdbcSnbDecentralized } from '../lib/ExperimentLdbcSnbDecentralized';
 
@@ -51,6 +52,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
   let context: ITaskContext;
   let hookSparqlEndpoint: Hook;
   let closeEndpoint: any;
+  let serverStatsCollector: DockerStatsCollector;
   let experiment: ExperimentLdbcSnbDecentralized;
   let container: any;
   beforeEach(() => {
@@ -79,6 +81,9 @@ describe('ExperimentLdbcSnbDecentralized', () => {
     modem = {
       followProgress: jest.fn((stream, cb) => cb(undefined, true)),
     };
+    serverStatsCollector = {
+      collect: jest.fn(),
+    };
     experiment = new ExperimentLdbcSnbDecentralized(
       '0.1',
       'input/config-enhancer.json',
@@ -98,11 +103,38 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       3,
       1,
       true,
+      serverStatsCollector,
     );
     files = {};
     dirsOut = {};
     filesOut = {};
     (<any> process).on = jest.fn();
+  });
+
+  describe('instantiated with default values', () => {
+    it('should have a DockerStatsCollector', async() => {
+      experiment = new ExperimentLdbcSnbDecentralized(
+        '0.1',
+        'input/config-enhancer.json',
+        'input/config-fragmenter.json',
+        'input/config-fragmenter-auxiliary.json',
+        'input/config-queries.json',
+        'input/config-server.json',
+        'input/templates/queries',
+        false,
+        '4G',
+        'input/dockerfiles/Dockerfile-server',
+        hookSparqlEndpoint,
+        3_000,
+        'info',
+        new StaticDockerResourceConstraints({}, {}),
+        'http://localhost:3001/sparql',
+        3,
+        1,
+        true,
+      );
+      expect(experiment.serverStatsCollector).toBeInstanceOf(DockerStatsCollector);
+    });
   });
 
   describe('prepare', () => {
@@ -160,6 +192,8 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       });
       expect(container.start).toHaveBeenCalled();
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
+      expect(serverStatsCollector.collect)
+        .toHaveBeenCalledWith(container, Path.join(context.cwd, 'output', 'stats-server.csv'));
       expect(sparqlBenchmarkRun).toHaveBeenCalled();
       expect(container.kill).toHaveBeenCalled();
       expect(container.remove).toHaveBeenCalled();
