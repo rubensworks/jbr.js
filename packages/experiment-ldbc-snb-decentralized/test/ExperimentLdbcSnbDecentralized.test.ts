@@ -60,7 +60,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       cwd: 'CWD',
       mainModulePath: 'MMP',
       verbose: true,
-      exitProcess: jest.fn(),
+      cleanupHandlers: [],
       logger: <any> new TestLogger(),
       docker: <any> {
         imageBuilder: {
@@ -162,7 +162,6 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(serverHandlerStopCollectingStats).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
-      expect(context.exitProcess).not.toHaveBeenCalled();
 
       expect(dirsOut).toEqual({
         'CWD/output': true,
@@ -189,7 +188,6 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
       expect(serverHandler.close).toHaveBeenCalled();
       expect(endpointHandler.close).toHaveBeenCalled();
-      expect(context.exitProcess).toHaveBeenCalled();
     });
   });
 });

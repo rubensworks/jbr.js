@@ -110,23 +110,14 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     // Setup SPARQL endpoint
     const endpointProcessHandler = await this.hookSparqlEndpoint.start(context);
 
-    // Stop processes on force-exit
-    async function closeServices(forceExit: boolean): Promise<void> {
-      try {
-        await serverHandler.close();
-      } catch {
-        // Ignore errors
-      }
-      try {
-        await endpointProcessHandler.close();
-      } catch {
-        // Ignore errors
-      }
-      if (forceExit) {
-        context.exitProcess();
-      }
+    // Register cleanup handler
+    async function cleanupHandler(): Promise<void> {
+      await Promise.all([
+        serverHandler.close(),
+        endpointProcessHandler.close(),
+      ]);
     }
-    process.on('SIGINT', () => closeServices(true));
+    context.cleanupHandlers.push(cleanupHandler);
 
     // Initiate SPARQL benchmark runner
     let stopServerStats: () => void;
@@ -159,7 +150,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     await writeBenchmarkResults(results, Path.join(resultsOutput, 'query-times.csv'), this.queryRunnerRecordTimestamps);
 
     // Close endpoint and server
-    await closeServices(false);
+    await cleanupHandler();
   }
 
   public async startServer(context: ITaskContext): Promise<DockerContainerHandler> {

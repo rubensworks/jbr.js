@@ -48,8 +48,9 @@ describe('TaskInitialize', () => {
       cwd: 'CWD',
       mainModulePath: 'MMP',
       verbose: true,
-      exitProcess: jest.fn(),
+      cleanupHandlers: [],
       logger: <any> new TestLogger(),
+      docker: <any> {},
     };
     task = new TaskInitialize(
       context,

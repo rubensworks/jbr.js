@@ -15,6 +15,7 @@ export async function wrapCommandHandler(
 ): Promise<void> {
   const startTime = process.hrtime();
 
+  // Create context
   const dockerode = new Dockerode(argv.dockerOptions ?
     // eslint-disable-next-line no-sync
     JSON.parse(fs.readFileSync(argv.dockerOptions, 'utf8')) :
@@ -23,33 +24,55 @@ export async function wrapCommandHandler(
     cwd: argv.cwd,
     mainModulePath: argv.mainModulePath,
     verbose: argv.verbose,
-    // eslint-disable-next-line unicorn/no-process-exit
-    exitProcess: () => process.exit(),
     logger: createCliLogger(argv.verbose ? 'verbose' : 'info'),
     docker: {
       containerCreator: new DockerContainerCreator(dockerode),
       imageBuilder: new DockerImageBuilder(dockerode),
     },
+    cleanupHandlers: [],
   };
+
+  // Register cleanup handling
+  let performingGlobalCleanup = false;
+  const globalCleanupHandler = async(): Promise<void> => {
+    performingGlobalCleanup = true;
+    try {
+      for (const cleanupHandler of context.cleanupHandlers) {
+        await cleanupHandler();
+      }
+    } catch (error: unknown) {
+      context.logger.error(`${util.format(error)}`);
+    }
+    // eslint-disable-next-line unicorn/no-process-exit
+    process.exit(1);
+  };
+  process.on('SIGINT', globalCleanupHandler);
+  process.on('uncaughtException', globalCleanupHandler);
+
+  // Run handler
   let completed = false;
   try {
     await handler(context);
     completed = true;
   } catch (error: unknown) {
-    if ('handled' in (<Error> error)) {
-      context.logger.error(`${(<Error> error).message}`);
-    } else {
-      context.logger.error(`${util.format(error)}`);
+    if (!performingGlobalCleanup) {
+      if ('handled' in (<Error>error)) {
+        context.logger.error(`${(<Error>error).message}`);
+      } else {
+        context.logger.error(`${util.format(error)}`);
+      }
     }
   } finally {
-    const endTime = process.hrtime(startTime);
-    const seconds = (endTime[0] + endTime[1] / 1_000_000_000).toFixed(2);
-    if (completed) {
-      context.logger.info(`✨ Done in ${seconds}s`);
-    } else {
-      context.logger.info(`🚨 Errored in ${seconds}s`);
-      // eslint-disable-next-line unicorn/no-process-exit
-      process.exit(1);
+    if (!performingGlobalCleanup) {
+      const endTime = process.hrtime(startTime);
+      const seconds = (endTime[0] + endTime[1] / 1_000_000_000).toFixed(2);
+      if (completed) {
+        context.logger.info(`✨ Done in ${seconds}s`);
+      } else {
+        context.logger.info(`🚨 Errored in ${seconds}s`);
+        // eslint-disable-next-line unicorn/no-process-exit
+        process.exit(1);
+      }
     }
   }
 }

@@ -26,7 +26,14 @@ describe('TaskValidate', () => {
   let experiment: Experiment;
   beforeEach(() => {
     task = new TaskValidate(
-      { cwd: 'CWD', mainModulePath: 'MMP', verbose: true, exitProcess: jest.fn(), logger: <any> new TestLogger() },
+      {
+        cwd: 'CWD',
+        mainModulePath: 'MMP',
+        verbose: true,
+        cleanupHandlers: [],
+        logger: <any> new TestLogger(),
+        docker: <any> {},
+      },
     );
 
     experiment = <any> {

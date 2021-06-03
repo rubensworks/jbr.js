@@ -40,8 +40,9 @@ describe('TaskPrepare', () => {
       cwd: 'CWD',
       mainModulePath: 'MMP',
       verbose: true,
-      exitProcess: jest.fn(),
+      cleanupHandlers: [],
       logger: <any> new TestLogger(),
+      docker: <any> {},
     };
     task = new TaskPrepare(
       context,

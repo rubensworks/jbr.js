@@ -3,5 +3,6 @@
   "ExperimentLoader",
   "DockerContainerCreator",
   "DockerContainerHandler",
-  "DockerImageBuilder"
+  "DockerImageBuilder",
+  "ITaskContext"
 ]

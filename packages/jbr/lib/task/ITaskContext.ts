@@ -9,10 +9,14 @@ export interface ITaskContext {
   cwd: string;
   mainModulePath: string;
   verbose: boolean;
-  exitProcess: () => void;
   logger: Logger;
   docker: {
     containerCreator: DockerContainerCreator;
     imageBuilder: DockerImageBuilder;
   };
+  /**
+   * Listeners can be appended to this array
+   * to make sure that they are invoked when the process ends abnormally.
+   */
+  cleanupHandlers: (() => Promise<void>)[];
 }
