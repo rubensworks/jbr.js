@@ -1,6 +1,11 @@
 import Path from 'path';
-import type { Hook, ITaskContext } from 'jbr';
-import { DockerStatsCollector, StaticDockerResourceConstraints } from 'jbr';
+import type { Hook, ITaskContext, DockerContainerCreator,
+  DockerContainerHandler,
+  DockerResourceConstraints, ProcessHandler } from 'jbr';
+import {
+  DockerStatsCollector,
+  StaticDockerResourceConstraints,
+} from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { ExperimentLdbcSnbDecentralized } from '../lib/ExperimentLdbcSnbDecentralized';
 
@@ -24,11 +29,9 @@ jest.mock('sparql-benchmark-runner', () => ({
 }));
 
 let buildImage: any;
-let createContainer: any;
 let modem: any;
 jest.mock('dockerode', () => jest.fn().mockImplementation(() => ({
   buildImage,
-  createContainer,
   modem,
 })));
 
@@ -51,10 +54,12 @@ jest.mock('fs-extra', () => ({
 describe('ExperimentLdbcSnbDecentralized', () => {
   let context: ITaskContext;
   let hookSparqlEndpoint: Hook;
-  let closeEndpoint: any;
+  let endpointHandler: ProcessHandler;
+  let serverCreator: DockerContainerCreator;
   let serverStatsCollector: DockerStatsCollector;
+  let serverHandler: DockerContainerHandler;
+  let resourceConstraints: DockerResourceConstraints;
   let experiment: ExperimentLdbcSnbDecentralized;
-  let container: any;
   beforeEach(() => {
     context = {
       cwd: 'CWD',
@@ -63,27 +68,29 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       exitProcess: jest.fn(),
       logger: <any> new TestLogger(),
     };
-    closeEndpoint = jest.fn();
+    endpointHandler = {
+      close: jest.fn(),
+    };
     hookSparqlEndpoint = <any> {
       prepare: jest.fn(),
-      start: jest.fn(() => closeEndpoint),
+      start: jest.fn(() => endpointHandler),
     };
     generatorGenerate = jest.fn();
     sparqlBenchmarkRun = jest.fn();
     buildImage = jest.fn(() => 'IMAGE');
-    container = {
-      attach: jest.fn(() => ({ pipe: jest.fn() })),
-      start: jest.fn(),
-      kill: jest.fn(),
-      remove: jest.fn(),
-    };
-    createContainer = jest.fn(() => container);
     modem = {
       followProgress: jest.fn((stream, cb) => cb(undefined, true)),
     };
     serverStatsCollector = {
       collect: jest.fn(),
     };
+    serverHandler = <any> {
+      close: jest.fn(),
+    };
+    serverCreator = {
+      start: jest.fn(async() => serverHandler),
+    };
+    resourceConstraints = new StaticDockerResourceConstraints({}, {});
     experiment = new ExperimentLdbcSnbDecentralized(
       '0.1',
       'input/config-enhancer.json',
@@ -98,11 +105,12 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       hookSparqlEndpoint,
       3_000,
       'info',
-      new StaticDockerResourceConstraints({}, {}),
+      resourceConstraints,
       'http://localhost:3001/sparql',
       3,
       1,
       true,
+      serverCreator,
       serverStatsCollector,
     );
     files = {};
@@ -169,12 +177,12 @@ describe('ExperimentLdbcSnbDecentralized', () => {
     it('should run the experiment', async() => {
       await experiment.run(context);
 
-      expect(createContainer).toHaveBeenCalledWith({
-        Image: 'jrb-experiment-CWD-server',
-        Tty: true,
-        AttachStdout: true,
-        AttachStderr: true,
-        HostConfig: {
+      expect(serverCreator.start).toHaveBeenCalledWith({
+        dockerode: expect.anything(),
+        imageName: 'jrb-experiment-CWD-server',
+        resourceConstraints,
+        logFilePath: Path.join('CWD', 'output', 'logs', 'server.txt'),
+        hostConfig: {
           Binds: [
             `${context.cwd}/generated/out-fragments/:/data`,
           ],
@@ -185,24 +193,14 @@ describe('ExperimentLdbcSnbDecentralized', () => {
           },
         },
       });
-      expect(container.attach).toHaveBeenCalledWith({
-        stream: true,
-        stdout: true,
-        stderr: true,
-      });
-      expect(container.start).toHaveBeenCalled();
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
       expect(serverStatsCollector.collect)
-        .toHaveBeenCalledWith(container, Path.join(context.cwd, 'output', 'stats-server.csv'));
+        .toHaveBeenCalledWith(serverHandler, Path.join(context.cwd, 'output', 'stats-server.csv'));
       expect(sparqlBenchmarkRun).toHaveBeenCalled();
-      expect(container.kill).toHaveBeenCalled();
-      expect(container.remove).toHaveBeenCalled();
-      expect(closeEndpoint).toHaveBeenCalled();
+      expect(serverHandler.close).toHaveBeenCalled();
+      expect(endpointHandler.close).toHaveBeenCalled();
       expect(context.exitProcess).not.toHaveBeenCalled();
 
-      expect(filesOut).toEqual({
-        'CWD/output/logs/server.txt': true,
-      });
       expect(dirsOut).toEqual({
         'CWD/output': true,
       });
@@ -212,9 +210,6 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       files['CWD/output'] = true;
       await experiment.run(context);
 
-      expect(filesOut).toEqual({
-        'CWD/output/logs/server.txt': true,
-      });
       expect(dirsOut).toEqual({});
     });
 
@@ -227,13 +222,10 @@ describe('ExperimentLdbcSnbDecentralized', () => {
 
       await experiment.run(context);
 
-      expect(createContainer).toHaveBeenCalled();
-      expect(container.attach).toHaveBeenCalled();
-      expect(container.start).toHaveBeenCalled();
+      expect(serverCreator.start).toHaveBeenCalled();
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
-      expect(container.kill).toHaveBeenCalled();
-      expect(container.remove).toHaveBeenCalled();
-      expect(closeEndpoint).toHaveBeenCalled();
+      expect(serverHandler.close).toHaveBeenCalled();
+      expect(endpointHandler.close).toHaveBeenCalled();
       expect(context.exitProcess).toHaveBeenCalled();
     });
   });

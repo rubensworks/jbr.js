@@ -1,5 +1,6 @@
 import { command as commandSetHook } from '../cli/commands/CommandSetHook';
 import { ErrorHandled } from '../cli/ErrorHandled';
+import type { ProcessHandler } from '../experiment/ProcessHandler';
 import type { ITaskContext } from '../task/ITaskContext';
 import { Hook } from './Hook';
 
@@ -13,7 +14,7 @@ export class HookNonConfigured extends Hook {
     throw this.makeError();
   }
 
-  public async start(context: ITaskContext): Promise<() => Promise<void>> {
+  public async start(context: ITaskContext): Promise<ProcessHandler> {
     throw this.makeError();
   }
 

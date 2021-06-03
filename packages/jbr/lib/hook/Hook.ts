@@ -1,3 +1,4 @@
+import type { ProcessHandler } from '../experiment/ProcessHandler';
 import type { ITaskContext } from '../task/ITaskContext';
 
 export abstract class Hook {
@@ -10,7 +11,7 @@ export abstract class Hook {
   /**
    * Called to start an experiment hook.
    * @param context The task context.
-   * @return callback to stop the hook.
+   * @return A process handler.
    */
-  public abstract start(context: ITaskContext): Promise<() => Promise<void>>;
+  public abstract start(context: ITaskContext): Promise<ProcessHandler>;
 }

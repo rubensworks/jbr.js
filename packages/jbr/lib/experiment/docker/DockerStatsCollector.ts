@@ -1,17 +1,18 @@
 import * as fs from 'fs';
-import type Dockerode from 'dockerode';
+
+import type { DockerContainerHandler } from './DockerContainerHandler';
 
 /**
  * Collect statistics of a docker container.
  */
 export class DockerStatsCollector {
-  public async collect(container: Dockerode.Container, outputFilePath: string): Promise<void> {
+  public async collect(containerHandler: DockerContainerHandler, outputFilePath: string): Promise<void> {
     // Create a CSV file output stream
     const out = fs.createWriteStream(outputFilePath, 'utf8');
     out.write('cpu_percentage,memory,memory_percentage,received,transmitted\n');
 
     // Read the stats stream
-    const statsStream: NodeJS.ReadableStream = <any> await container.stats({});
+    const statsStream: NodeJS.ReadableStream = <any> await containerHandler.container.stats({});
     statsStream.setEncoding('utf8');
     let first = true;
     statsStream.on('data', (stats: string) => {

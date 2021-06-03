@@ -1,8 +1,8 @@
 import * as Path from 'path';
 import Dockerode from 'dockerode';
 import * as fs from 'fs-extra';
-import { Experiment, DockerStatsCollector } from 'jbr';
-import type { Hook, ITaskContext, DockerResourceConstraints } from 'jbr';
+import { Experiment, DockerStatsCollector, DockerContainerCreator } from 'jbr';
+import type { Hook, ITaskContext, DockerResourceConstraints, DockerContainerHandler } from 'jbr';
 import { Generator } from 'ldbc-snb-decentralized/lib/Generator';
 import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
 
@@ -28,6 +28,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
   public readonly queryRunnerReplication: number;
   public readonly queryRunnerWarmupRounds: number;
   public readonly queryRunnerRecordTimestamps: boolean;
+  public readonly serverCreator: DockerContainerCreator;
   public readonly serverStatsCollector: DockerStatsCollector;
 
   public constructor(
@@ -49,6 +50,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     queryRunnerReplication: number,
     queryRunnerWarmupRounds: number,
     queryRunnerRecordTimestamps: boolean,
+    serverCreator: DockerContainerCreator = new DockerContainerCreator(),
     serverStatsCollector: DockerStatsCollector = new DockerStatsCollector(),
   ) {
     super();
@@ -70,6 +72,7 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     this.queryRunnerReplication = queryRunnerReplication;
     this.queryRunnerWarmupRounds = queryRunnerWarmupRounds;
     this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps;
+    this.serverCreator = serverCreator;
     this.serverStatsCollector = serverStatsCollector;
   }
 
@@ -114,20 +117,20 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
 
   public async run(context: ITaskContext): Promise<void> {
     // Start server
-    const closeServer = await this.startServer(context);
+    const serverHandler = await this.startServer(context);
 
     // Setup SPARQL endpoint
-    const closeEndpoint = await this.hookSparqlEndpoint.start(context);
+    const endpointProcessHandler = await this.hookSparqlEndpoint.start(context);
 
     // Stop processes on force-exit
     async function closeServices(forceExit: boolean): Promise<void> {
       try {
-        await closeServer();
+        await serverHandler.close();
       } catch {
         // Ignore errors
       }
       try {
-        await closeEndpoint();
+        await endpointProcessHandler.close();
       } catch {
         // Ignore errors
       }
@@ -159,15 +162,13 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     await closeServices(false);
   }
 
-  public async startServer(context: ITaskContext): Promise<() => Promise<void>> {
+  public async startServer(context: ITaskContext): Promise<DockerContainerHandler> {
     // Initialize Docker container
-    const dockerode = new Dockerode(context.dockerOptions);
-    const container = await dockerode.createContainer({
-      Image: this.getServerDockerImageName(context),
-      Tty: true,
-      AttachStdout: true,
-      AttachStderr: true,
-      HostConfig: {
+    const containerHandler = await this.serverCreator.start({
+      dockerode: new Dockerode(context.dockerOptions),
+      imageName: this.getServerDockerImageName(context),
+      resourceConstraints: this.serverResourceConstraints,
+      hostConfig: {
         Binds: [
           `${context.cwd}/generated/out-fragments/:/data`,
         ],
@@ -176,28 +177,13 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
             { HostPort: `${this.serverPort}` },
           ],
         },
-        ...this.serverResourceConstraints.toHostConfig(),
       },
+      logFilePath: Path.join(context.cwd, 'output', 'logs', 'server.txt'),
     });
-
-    // Write output to logs
-    const out = await container.attach({
-      stream: true,
-      stdout: true,
-      stderr: true,
-    });
-    // eslint-disable-next-line import/namespace
-    out.pipe(fs.createWriteStream(Path.join(context.cwd, 'output', 'logs', 'server.txt'), 'utf8'));
-
-    // Start container
-    await container.start();
 
     // Collect stats
-    await this.serverStatsCollector.collect(container, Path.join(context.cwd, 'output', 'stats-server.csv'));
+    await this.serverStatsCollector.collect(containerHandler, Path.join(context.cwd, 'output', 'stats-server.csv'));
 
-    return async() => {
-      await container.kill();
-      await container.remove();
-    };
+    return containerHandler;
   }
 }

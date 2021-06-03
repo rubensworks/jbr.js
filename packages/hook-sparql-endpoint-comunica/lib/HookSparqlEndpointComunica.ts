@@ -1,8 +1,8 @@
 import Path from 'path';
 import Dockerode from 'dockerode';
-import * as fs from 'fs-extra';
-import type { ITaskContext, DockerResourceConstraints } from 'jbr';
+import type { ITaskContext, DockerResourceConstraints, ProcessHandler } from 'jbr';
 import { Hook, DockerStatsCollector } from 'jbr';
+import { DockerContainerCreator } from 'jbr/lib/experiment/docker/DockerContainerCreator';
 
 /**
  * A hook instance for a Comunica-based SPARQL endpoint.
@@ -15,6 +15,7 @@ export class HookSparqlEndpointComunica extends Hook {
   public readonly clientLogLevel: string;
   public readonly queryTimeout: number;
   public readonly maxMemory: number;
+  public readonly containerCreator: DockerContainerCreator;
   public readonly statsCollector: DockerStatsCollector;
 
   public constructor(
@@ -25,6 +26,7 @@ export class HookSparqlEndpointComunica extends Hook {
     clientLogLevel: string,
     queryTimeout: number,
     maxMemory: number,
+    containerCreator: DockerContainerCreator = new DockerContainerCreator(),
     statsCollector: DockerStatsCollector = new DockerStatsCollector(),
   ) {
     super();
@@ -35,6 +37,7 @@ export class HookSparqlEndpointComunica extends Hook {
     this.clientLogLevel = clientLogLevel;
     this.queryTimeout = queryTimeout;
     this.maxMemory = maxMemory;
+    this.containerCreator = containerCreator;
     this.statsCollector = statsCollector;
   }
 
@@ -63,15 +66,13 @@ export class HookSparqlEndpointComunica extends Hook {
     });
   }
 
-  public async start(context: ITaskContext): Promise<() => Promise<void>> {
+  public async start(context: ITaskContext): Promise<ProcessHandler> {
     // Initialize Docker container
-    const dockerode = new Dockerode(context.dockerOptions);
-    const container = await dockerode.createContainer({
-      Image: this.getDockerImageName(context),
-      Tty: true,
-      AttachStdout: true,
-      AttachStderr: true,
-      HostConfig: {
+    const containerHandler = await this.containerCreator.start({
+      dockerode: new Dockerode(context.dockerOptions),
+      imageName: this.getDockerImageName(context),
+      resourceConstraints: this.resourceConstraints,
+      hostConfig: {
         Binds: [
           `${context.cwd}/input/context-client.json:/tmp/context.json`,
         ],
@@ -80,29 +81,14 @@ export class HookSparqlEndpointComunica extends Hook {
             { HostPort: `${this.clientPort}` },
           ],
         },
-        ...this.resourceConstraints.toHostConfig(),
       },
+      logFilePath: Path.join(context.cwd, 'output', 'logs', 'sparql-endpoint-comunica.txt'),
     });
-
-    // Write output to logs
-    const out = await container.attach({
-      stream: true,
-      stdout: true,
-      stderr: true,
-    });
-    // eslint-disable-next-line import/namespace
-    out.pipe(fs.createWriteStream(Path.join(context.cwd, 'output', 'logs', 'sparql-endpoint-comunica.txt'), 'utf8'));
-
-    // Start container
-    await container.start();
 
     // Collect stats
     await this.statsCollector
-      .collect(container, Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'));
+      .collect(containerHandler, Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'));
 
-    return async() => {
-      await container.kill();
-      await container.remove();
-    };
+    return containerHandler;
   }
 }
