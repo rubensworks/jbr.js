@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "@types/fs-extra": "^9.0.11",
-    "@types/yargs": "^16.0.1",
+    "@types/yargs": "^17.0.0",
     "fs-extra": "^10.0.0",
     "ldbc-snb-decentralized": "^1.0.1",
     "sparql-benchmark-runner": "^2.1.0"
