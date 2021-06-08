@@ -1,11 +1,11 @@
 /* eslint-disable no-bitwise,id-length */
 import type Dockerode from 'dockerode';
-import { DockerResourceConstraints } from './DockerResourceConstraints';
+import type { DockerResourceConstraints } from './DockerResourceConstraints';
 
 /**
  * Allows constraints to be placed on Docker container resources.
  */
-export class StaticDockerResourceConstraints extends DockerResourceConstraints {
+export class StaticDockerResourceConstraints implements DockerResourceConstraints {
   public static readonly QUANTITY_UNITS: Record<string, number> = {
     '': 1,
     k: 1 << 10,
@@ -17,7 +17,6 @@ export class StaticDockerResourceConstraints extends DockerResourceConstraints {
   public readonly memory: IDockerMemoryConstraints;
 
   public constructor(cpu: IDockerCpuConstraints, memory: IDockerMemoryConstraints) {
-    super();
     this.cpu = cpu;
     this.memory = memory;
   }

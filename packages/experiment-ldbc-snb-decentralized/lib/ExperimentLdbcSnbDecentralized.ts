@@ -1,6 +1,6 @@
 import * as Path from 'path';
 import * as fs from 'fs-extra';
-import { Experiment } from 'jbr';
+import type { Experiment } from 'jbr';
 import type { Hook, ITaskContext, DockerResourceConstraints, DockerContainerHandler } from 'jbr';
 import { Generator } from 'ldbc-snb-decentralized/lib/Generator';
 import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
@@ -8,7 +8,7 @@ import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparq
 /**
  * An experiment instance for the LDBC SNB Decentralized benchmark.
  */
-export class ExperimentLdbcSnbDecentralized extends Experiment {
+export class ExperimentLdbcSnbDecentralized implements Experiment {
   public readonly scale: string;
   public readonly configGenerateAux: string;
   public readonly configFragment: string;
@@ -48,7 +48,6 @@ export class ExperimentLdbcSnbDecentralized extends Experiment {
     queryRunnerWarmupRounds: number,
     queryRunnerRecordTimestamps: boolean,
   ) {
-    super();
     this.scale = scale;
     this.configGenerateAux = configGenerateAux;
     this.configFragment = configFragment;

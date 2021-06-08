@@ -1,11 +1,10 @@
 import Path from 'path';
-import type { ITaskContext, DockerResourceConstraints, ProcessHandler } from 'jbr';
-import { Hook } from 'jbr';
+import type { ITaskContext, DockerResourceConstraints, ProcessHandler, Hook } from 'jbr';
 
 /**
  * A hook instance for a Comunica-based SPARQL endpoint.
  */
-export class HookSparqlEndpointComunica extends Hook {
+export class HookSparqlEndpointComunica implements Hook {
   public readonly dockerfileClient: string;
   public readonly resourceConstraints: DockerResourceConstraints;
   public readonly configClient: string;
@@ -23,7 +22,6 @@ export class HookSparqlEndpointComunica extends Hook {
     queryTimeout: number,
     maxMemory: number,
   ) {
-    super();
     this.dockerfileClient = dockerfileClient;
     this.resourceConstraints = resourceConstraints;
     this.configClient = configClient;

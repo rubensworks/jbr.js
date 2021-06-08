@@ -1,16 +1,15 @@
 import fs from 'fs';
 import type Dockerode from 'dockerode';
-import { ProcessHandler } from '../experiment/ProcessHandler';
+import type { ProcessHandler } from '../experiment/ProcessHandler';
 
 /**
  * Docker container wrapped in a convenience datastructure.
  */
-export class DockerContainerHandler extends ProcessHandler {
+export class DockerContainerHandler implements ProcessHandler {
   public readonly container: Dockerode.Container;
   public readonly statsFilePath: string;
 
   public constructor(container: Dockerode.Container, statsFilePath: string) {
-    super();
     this.container = container;
     this.statsFilePath = statsFilePath;
   }

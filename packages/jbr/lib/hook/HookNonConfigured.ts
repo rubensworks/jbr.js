@@ -2,14 +2,14 @@ import { command as commandSetHook } from '../cli/commands/CommandSetHook';
 import { ErrorHandled } from '../cli/ErrorHandled';
 import type { ProcessHandler } from '../experiment/ProcessHandler';
 import type { ITaskContext } from '../task/ITaskContext';
-import { Hook } from './Hook';
+import type { Hook } from './Hook';
 
 /**
  * A hook that always errors upon usage.
  *
  * This hook should be used by default for hooks in new experiments, which have not been configured yet.
  */
-export class HookNonConfigured extends Hook {
+export class HookNonConfigured implements Hook {
   public async prepare(context: ITaskContext): Promise<void> {
     throw this.makeError();
   }
