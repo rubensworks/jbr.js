@@ -32,6 +32,7 @@
     "lib/**/*.d.ts",
     "lib/**/*.js",
     "lib/**/*.json",
+    "lib/templates",
     "index.d.ts",
     "index.ts",
     "components"

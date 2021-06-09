@@ -102,11 +102,10 @@ export class TaskInitialize {
     const configPath = Path.join(this.targetDirectory, ExperimentLoader.CONFIG_NAME);
     await fs.writeFile(configPath, JSON.stringify(experimentConfig, null, '  '), 'utf8');
 
-    // Create .gitignore file
-    await fs.writeFile(Path.join(this.targetDirectory, '.gitignore'), `/componentsjs-error-state.json
-/node_modules
-/generated
-/output`, 'utf8');
+    // Copy template files
+    for (const file of [ '.gitignore', 'README.md' ]) {
+      await fs.copyFile(Path.join(__dirname, '..', 'templates', file), Path.join(this.targetDirectory, file));
+    }
 
     // Instantiate experiment for validation
     const experiment = await experimentLoader.instantiateFromConfig(configPath, experimentIri);

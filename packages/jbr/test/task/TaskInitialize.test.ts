@@ -24,6 +24,9 @@ jest.mock('fs-extra', () => ({
   async pathExists(filePath: string) {
     return filePath in files;
   },
+  async copyFile(source: string, dest: string) {
+    filesOut[dest] = source;
+  },
 }));
 
 let experimentLoader: ExperimentLoader;
@@ -99,10 +102,10 @@ describe('TaskInitialize', () => {
         [Path.join('CWD', 'TARGETDIR', 'output')]: true,
       });
       expect(filesOut).toEqual({
-        [Path.join('CWD', 'TARGETDIR', '.gitignore')]: `/componentsjs-error-state.json
-/node_modules
-/generated
-/output`,
+        [Path.join('CWD', 'TARGETDIR', '.gitignore')]:
+          Path.join(__dirname, '..', '..', 'lib', 'templates', '.gitignore'),
+        [Path.join('CWD', 'TARGETDIR', 'README.md')]:
+          Path.join(__dirname, '..', '..', 'lib', 'templates', 'README.md'),
         [Path.join('CWD', 'TARGETDIR', 'jbr-experiment.json')]: `{
   "@context": [
     "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld",
