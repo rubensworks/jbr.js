@@ -1,6 +1,6 @@
 import * as Path from 'path';
-import * as spawn from 'cross-spawn';
 import type { ExperimentHandler } from '../../lib/experiment/ExperimentHandler';
+import type { NpmInstaller } from '../../lib/npm/NpmInstaller';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
 import type { ITaskContext } from '../../lib/task/ITaskContext';
 import { TaskInitialize } from '../../lib/task/TaskInitialize';
@@ -35,12 +35,9 @@ jest.mock('../../lib/task/ExperimentLoader', () => ({
   },
 }));
 
-jest.mock('cross-spawn', () => ({
-  sync: jest.fn(() => ({ error: undefined })),
-}));
-
 describe('TaskInitialize', () => {
   let context: ITaskContext;
+  let npmInstaller: NpmInstaller;
   let task: TaskInitialize;
   let handler: ExperimentHandler<any>;
   beforeEach(() => {
@@ -52,13 +49,16 @@ describe('TaskInitialize', () => {
       logger: <any> new TestLogger(),
       docker: <any> {},
     };
+    npmInstaller = {
+      install: jest.fn(),
+    };
     task = new TaskInitialize(
       context,
       'TYPE',
       'NAME',
       'TARGETDIR',
       false,
-      false,
+      npmInstaller,
     );
 
     handler = <any> {
@@ -145,7 +145,7 @@ describe('TaskInitialize', () => {
         'NAME',
         'TARGETDIR',
         true,
-        false,
+        npmInstaller,
       );
       files[Path.join('CWD', 'TARGETDIR')] = `TRUE`;
 
@@ -163,7 +163,7 @@ describe('TaskInitialize', () => {
         'NAME',
         'TARGETDIR',
         false,
-        false,
+        npmInstaller,
       );
 
       await expect(task.init()).rejects.toThrow(`Invalid experiment type 'TYPEUNKNOWN'. Must be one of 'TYPE'`);
@@ -177,28 +177,11 @@ describe('TaskInitialize', () => {
       'NAME',
       'TARGETDIR',
       false,
-      true,
+      npmInstaller,
     );
 
     expect(await task.init()).toBeTruthy();
 
-    expect(spawn.sync).toHaveBeenCalledWith('npm', [ 'install', 'jbr', '@jrb-experiment/TYPE' ], {
-      cwd: 'CWD/TARGETDIR',
-      stdio: 'inherit',
-    });
-  });
-
-  it('throws if npm install fails', async() => {
-    task = new TaskInitialize(
-      context,
-      'TYPE',
-      'NAME',
-      'TARGETDIR',
-      false,
-      true,
-    );
-
-    (<any> spawn.sync).mockImplementation(() => ({ error: new Error('NPM INSTALL FAILURE') }));
-    await expect(task.init()).rejects.toThrow('NPM INSTALL FAILURE');
+    expect(npmInstaller.install).toHaveBeenCalledWith('CWD/TARGETDIR', [ 'jbr', '@jbr-experiment/TYPE' ]);
   });
 });

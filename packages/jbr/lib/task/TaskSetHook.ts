@@ -1,7 +1,7 @@
 import * as Path from 'path';
-import * as spawn from 'cross-spawn';
 import * as fs from 'fs-extra';
 import { ErrorHandled } from '../cli/ErrorHandled';
+import type { NpmInstaller } from '../npm/NpmInstaller';
 import { ExperimentLoader } from './ExperimentLoader';
 import type { ITaskContext } from './ITaskContext';
 
@@ -12,32 +12,24 @@ export class TaskSetHook {
   private readonly context: ITaskContext;
   private readonly hookName: string;
   private readonly handlerTypeId: string;
-  private readonly invokeNpmInstall: boolean;
+  private readonly npmInstaller: NpmInstaller;
 
   public constructor(
     context: ITaskContext,
     hookName: string,
     handlerTypeId: string,
-    invokeNpmInstall: boolean,
+    npmInstaller: NpmInstaller,
   ) {
     this.context = context;
     this.hookName = hookName;
     this.handlerTypeId = handlerTypeId;
-    this.invokeNpmInstall = invokeNpmInstall;
+    this.npmInstaller = npmInstaller;
   }
 
   public async set(): Promise<void> {
     // Invoke npm install for hook
-    if (this.invokeNpmInstall) {
-      const hookPackageName = `@jrb-hook/${this.handlerTypeId}`;
-      const { error } = spawn.sync('npm', [ 'install', hookPackageName ], {
-        stdio: 'inherit',
-        cwd: this.context.cwd,
-      });
-      if (error) {
-        throw error;
-      }
-    }
+    const hookPackageName = `@jbr-hook/${this.handlerTypeId}`;
+    await this.npmInstaller.install(this.context.cwd, [ hookPackageName ]);
 
     // Resolve hook type
     const experimentLoader = await ExperimentLoader.build(this.context.mainModulePath);

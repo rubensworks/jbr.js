@@ -1,6 +1,6 @@
 import * as Path from 'path';
-import * as spawn from 'cross-spawn';
 import type { HookHandler } from '../../lib/hook/HookHandler';
+import type { NpmInstaller } from '../../lib/npm/NpmInstaller';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
 import type { ITaskContext } from '../../lib/task/ITaskContext';
 import { TaskSetHook } from '../../lib/task/TaskSetHook';
@@ -38,12 +38,9 @@ jest.mock('../../lib/task/ExperimentLoader', () => ({
   },
 }));
 
-jest.mock('cross-spawn', () => ({
-  sync: jest.fn(() => ({ error: undefined })),
-}));
-
 describe('TaskSetHook', () => {
   let context: ITaskContext;
+  let npmInstaller: NpmInstaller;
   let task: TaskSetHook;
   let handler: HookHandler<any>;
   beforeEach(() => {
@@ -55,11 +52,14 @@ describe('TaskSetHook', () => {
       logger: <any> new TestLogger(),
       docker: <any> {},
     };
+    npmInstaller = {
+      install: jest.fn(),
+    };
     task = new TaskSetHook(
       context,
       'hook1',
       'TYPE',
-      false,
+      npmInstaller,
     );
 
     handler = <any> {
@@ -150,7 +150,7 @@ describe('TaskSetHook', () => {
         context,
         'hook1',
         'TYPEUNKNOWN',
-        false,
+        npmInstaller,
       );
 
       await expect(task.set()).rejects.toThrow(`Invalid hook type 'TYPEUNKNOWN'. Must be one of 'TYPE'`);
@@ -161,7 +161,7 @@ describe('TaskSetHook', () => {
         context,
         'hookunknown',
         'TYPE',
-        false,
+        npmInstaller,
       );
 
       await expect(task.set()).rejects.toThrow(`Could not find a hook by name 'hookunknown' in '${Path.join('CWD', 'jbr-experiment.json')}'`);
@@ -172,27 +172,12 @@ describe('TaskSetHook', () => {
         context,
         'hook1',
         'TYPE',
-        true,
+        npmInstaller,
       );
 
       await task.set();
 
-      expect(spawn.sync).toHaveBeenCalledWith('npm', [ 'install', '@jrb-hook/TYPE' ], {
-        cwd: 'CWD',
-        stdio: 'inherit',
-      });
-    });
-
-    it('throws if npm install fails', async() => {
-      task = new TaskSetHook(
-        context,
-        'hook1',
-        'TYPE',
-        true,
-      );
-
-      (<any> spawn.sync).mockImplementation(() => ({ error: new Error('NPM INSTALL FAILURE') }));
-      await expect(task.set()).rejects.toThrow('NPM INSTALL FAILURE');
+      expect(npmInstaller.install).toHaveBeenCalledWith('CWD', [ '@jbr-hook/TYPE' ]);
     });
   });
 });

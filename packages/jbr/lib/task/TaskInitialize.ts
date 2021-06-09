@@ -1,8 +1,8 @@
 import * as Path from 'path';
-import * as spawn from 'cross-spawn';
 import * as fs from 'fs-extra';
 import { ErrorHandled } from '../cli/ErrorHandled';
 import { HookNonConfigured } from '../hook/HookNonConfigured';
+import type { NpmInstaller } from '../npm/NpmInstaller';
 import { ExperimentLoader } from './ExperimentLoader';
 import type { ITaskContext } from './ITaskContext';
 
@@ -15,7 +15,7 @@ export class TaskInitialize {
   private readonly experimentName: string;
   private readonly targetDirectory: string;
   private readonly forceReInit: boolean;
-  private readonly invokeNpmInstall: boolean;
+  private readonly npmInstaller: NpmInstaller;
 
   public constructor(
     context: ITaskContext,
@@ -23,14 +23,14 @@ export class TaskInitialize {
     experimentName: string,
     targetDirectory: string,
     forceReInit: boolean,
-    invokeNpmInstall: boolean,
+    npmInstaller: NpmInstaller,
   ) {
     this.context = context;
     this.experimentTypeId = experimentTypeId;
     this.experimentName = experimentName;
     this.targetDirectory = Path.join(this.context.cwd, targetDirectory);
     this.forceReInit = forceReInit;
-    this.invokeNpmInstall = invokeNpmInstall;
+    this.npmInstaller = npmInstaller;
   }
 
   public async init(): Promise<ITaskInitializeOutput> {
@@ -63,16 +63,8 @@ export class TaskInitialize {
     await fs.writeFile(packageJsonPath, JSON.stringify(experimentPackageJson, null, '  '), 'utf8');
 
     // Invoke npm install for jbr and experiment
-    if (this.invokeNpmInstall) {
-      const experimentPackageName = `@jrb-experiment/${this.experimentTypeId}`;
-      const { error } = spawn.sync('npm', [ 'install', 'jbr', experimentPackageName ], {
-        stdio: 'inherit',
-        cwd: this.targetDirectory,
-      });
-      if (error) {
-        throw error;
-      }
-    }
+    const experimentPackageName = `@jbr-experiment/${this.experimentTypeId}`;
+    await this.npmInstaller.install(this.targetDirectory, [ 'jbr', experimentPackageName ]);
 
     // Resolve experiment type
     const experimentLoader = await ExperimentLoader.build(this.targetDirectory);

@@ -1,7 +1,6 @@
 import * as Path from 'path';
 import * as fs from 'fs-extra';
-import type { Experiment } from 'jbr';
-import type { Hook, ITaskContext, DockerResourceConstraints, DockerContainerHandler } from 'jbr';
+import type { Experiment, Hook, ITaskContext, DockerResourceConstraints, DockerContainerHandler } from 'jbr';
 import { Generator } from 'ldbc-snb-decentralized/lib/Generator';
 import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
 

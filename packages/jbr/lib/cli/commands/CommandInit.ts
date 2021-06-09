@@ -1,8 +1,7 @@
-import * as fs from 'fs-extra';
 import type { Argv } from 'yargs';
 import type { ITaskContext } from '../../task/ITaskContext';
 import { TaskInitialize } from '../../task/TaskInitialize';
-import { wrapCommandHandler, wrapVisualProgress } from '../CliHelpers';
+import { createNpmInstaller, wrapCommandHandler, wrapVisualProgress } from '../CliHelpers';
 import { command as commandSetHook } from './CommandSetHook';
 
 export const command = 'init <type> <name>';
@@ -21,8 +20,9 @@ export const builder = (yargs: Argv<any>): Argv<any> =>
 export const handler = (argv: Record<string, any>): Promise<void> => wrapCommandHandler(argv,
   async(context: ITaskContext) => {
     const target = argv.target || argv.name;
+    const npmInstaller = await createNpmInstaller();
     const output = await wrapVisualProgress('Initializing new experiment',
-      async() => new TaskInitialize(context, argv.type, argv.name, target, argv.forceReInit, !await fs.pathExists(`${__dirname}/../../../test`)).init());
+      async() => new TaskInitialize(context, argv.type, argv.name, target, argv.forceReInit, npmInstaller).init());
 
     context.logger.info(`Initialized new experiment in ${output.experimentDirectory}`);
     if (output.hookNames.length > 0) {

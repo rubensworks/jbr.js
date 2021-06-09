@@ -1,10 +1,12 @@
-import * as fs from 'fs';
 import * as util from 'util';
 import Dockerode from 'dockerode';
+import * as fs from 'fs-extra';
 import ora from 'ora';
 import type { Logger } from 'winston';
 import { createLogger, format, transports } from 'winston';
-
+import { CliNpmInstaller } from '../../lib/npm/CliNpmInstaller';
+import type { NpmInstaller } from '../../lib/npm/NpmInstaller';
+import { VoidNpmInstaller } from '../../lib/npm/VoidNpmInstaller';
 import { DockerContainerCreator } from '../docker/DockerContainerCreator';
 import { DockerImageBuilder } from '../docker/DockerImageBuilder';
 import type { ITaskContext } from '../task/ITaskContext';
@@ -18,7 +20,7 @@ export async function wrapCommandHandler(
   // Create context
   const dockerode = new Dockerode(argv.dockerOptions ?
     // eslint-disable-next-line no-sync
-    JSON.parse(fs.readFileSync(argv.dockerOptions, 'utf8')) :
+    JSON.parse(await fs.readFile(argv.dockerOptions, 'utf8')) :
     undefined);
   const context: ITaskContext = {
     cwd: argv.cwd,
@@ -98,4 +100,8 @@ export function createCliLogger(logLevel: string): Logger {
       stderrLevels: [ 'error', 'warn', 'info', 'verbose', 'debug', 'silly' ],
     }) ],
   });
+}
+
+export async function createNpmInstaller(): Promise<NpmInstaller> {
+  return await fs.pathExists(`${__dirname}/../../test`) ? new VoidNpmInstaller() : new CliNpmInstaller();
 }
