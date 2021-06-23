@@ -47,6 +47,7 @@ This tool offers commands for executing the whole experimentation chain:
 jbr <command>
 
 Commands:
+  jbr generate-combinations      Generate combinations of experiment templates
   jbr init <type> <name>         Initializes a new experiment
   jbr prepare                    Prepare data for the current experiment
   jbr run                        Run the current experiment
@@ -138,6 +139,36 @@ my-experiment/
 ```
 
 ## Advanced
+
+### Combinations-based Experiments
+
+Certain experiments may be designed to _compare_ the effect different _factors_ to each other,
+such as full factorial experiments, or fractional experiments.
+For instance, this may be used to compare the effect of running a certain system once with algorithm A and once with B,
+and measuring the effects.
+
+Using jbr, you can easily setup and handle such combination-based experiments as follows:
+
+**1. Initialize experiment**
+
+TODO: create templates
+
+**2. Generate combinations**
+
+In order to instantiate the template for the configured combinations, run the following command:
+```bash
+$ jbr generate-combinations
+```
+
+This will create a new `combinations/` directory, containing sub-directories for all experiment combinations.
+Files in this directory should not be modified manually, but should only be managed via the template files and `jbr generate-combinations`.
+
+**3. Handle like any other experiment**
+
+From this point on, you can manage this combinations-based experiment like any other jbr experiment.
+
+Concretely, `jbr prepare` will prepare _all_ combinations,
+and `jbr run` will also run _all_ combinations.
 
 ### Docker Resource Constraint
 

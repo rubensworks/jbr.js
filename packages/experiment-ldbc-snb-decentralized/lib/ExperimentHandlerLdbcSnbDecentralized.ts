@@ -1,5 +1,6 @@
 import * as Path from 'path';
 import * as fs from 'fs-extra';
+import type { IExperimentPaths } from 'jbr';
 import { ExperimentHandler } from 'jbr';
 import { Templates } from 'ldbc-snb-decentralized/lib/Templates';
 import { ExperimentLdbcSnbDecentralized } from './ExperimentLdbcSnbDecentralized';
@@ -12,7 +13,7 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
     super('ldbc-snb-decentralized', ExperimentLdbcSnbDecentralized.name);
   }
 
-  public getDefaultParams(experimentDirectory: string): Record<string, any> {
+  public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
     return {
       scale: '0.1',
       configGenerateAux: 'input/config-enhancer.json',
@@ -42,29 +43,29 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
     return [ 'hookSparqlEndpoint' ];
   }
 
-  public async init(experimentDirectory: string, experiment: ExperimentLdbcSnbDecentralized): Promise<void> {
+  public async init(experimentPaths: IExperimentPaths, experiment: ExperimentLdbcSnbDecentralized): Promise<void> {
     // Copy config templates
     await Promise.all([
       fs.copyFile(Templates.ENHANCEMENT_CONFIG,
-        Path.join(experimentDirectory, experiment.configGenerateAux)),
+        Path.join(experimentPaths.root, experiment.configGenerateAux)),
       fs.copyFile(Templates.FRAGMENT_CONFIG,
-        Path.join(experimentDirectory, experiment.configFragment)),
+        Path.join(experimentPaths.root, experiment.configFragment)),
       fs.copyFile(Templates.ENHANCEMENT_FRAGMENT_CONFIG,
-        Path.join(experimentDirectory, experiment.configFragmentAux)),
+        Path.join(experimentPaths.root, experiment.configFragmentAux)),
       fs.copyFile(Templates.QUERY_CONFIG,
-        Path.join(experimentDirectory, experiment.configQueries)),
+        Path.join(experimentPaths.root, experiment.configQueries)),
       fs.copyFile(Templates.SERVER_CONFIG,
-        Path.join(experimentDirectory, experiment.configServer)),
+        Path.join(experimentPaths.root, experiment.configServer)),
       fs.copy(Templates.QUERIES_DIRECTORY,
-        Path.join(experimentDirectory, experiment.directoryQueryTemplates)),
+        Path.join(experimentPaths.root, experiment.directoryQueryTemplates)),
     ]);
 
     // Create Dockerfile for server
-    await fs.mkdir(Path.join(experimentDirectory, 'input', 'dockerfiles'));
+    await fs.mkdir(Path.join(experimentPaths.input, 'dockerfiles'));
     await fs.copyFile(Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-server'),
-      Path.join(experimentDirectory, 'input', 'dockerfiles', 'Dockerfile-server'));
+      Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-server'));
 
     // Create empty logs directory
-    await fs.mkdir(Path.join(experimentDirectory, 'output', 'logs'));
+    await fs.mkdir(Path.join(experimentPaths.output, 'logs'));
   }
 }

@@ -55,7 +55,7 @@ export class TaskSetHook {
     config[this.hookName] = {
       '@id': `${experimentIri}:${this.hookName}`,
       '@type': handlerType.hookClassName,
-      ...handlerType.getDefaultParams(this.context.cwd),
+      ...handlerType.getDefaultParams(this.context.experimentPaths),
     };
 
     // Append contexts
@@ -72,7 +72,7 @@ export class TaskSetHook {
     const experiment = await experimentLoader.instantiateFromConfig(configPath, experimentIri);
 
     // Invoke the handler type's init logic
-    await handlerType.init(this.context.cwd, (<any> experiment)[this.hookName]);
+    await handlerType.init(this.context.experimentPaths, (<any> experiment)[this.hookName]);
 
     // Remove hidden prepared marker file if it exists
     const markerPath = ExperimentLoader.getPreparedMarkerPath(this.context.cwd);

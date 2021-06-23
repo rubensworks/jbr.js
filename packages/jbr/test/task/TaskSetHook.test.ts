@@ -1,4 +1,5 @@
 import * as Path from 'path';
+import { createExperimentPaths } from '../../lib/cli/CliHelpers';
 import type { HookHandler } from '../../lib/hook/HookHandler';
 import type { NpmInstaller } from '../../lib/npm/NpmInstaller';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
@@ -46,6 +47,7 @@ describe('TaskSetHook', () => {
   beforeEach(() => {
     context = {
       cwd: 'CWD',
+      experimentPaths: createExperimentPaths('CWD'),
       mainModulePath: 'MMP',
       verbose: true,
       cleanupHandlers: [],

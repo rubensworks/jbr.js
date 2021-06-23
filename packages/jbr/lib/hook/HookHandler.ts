@@ -1,3 +1,4 @@
+import type { IExperimentPaths } from '../..';
 import type { Hook } from './Hook';
 
 /**
@@ -23,14 +24,14 @@ export abstract class HookHandler<H extends Hook> {
   /**
    * Default parameters that should be added to the 'jbr-experiment.json' file during initialization.
    * These should correspond to all (required) Components.js parameters for instantiating an experiment.
-   * @param experimentDirectory The target directory for the experiment. (does not exist yet)
+   * @param experimentPaths The experiment directories. (guaranteed to exists)
    */
-  public abstract getDefaultParams(experimentDirectory: string): Record<string, any>;
+  public abstract getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any>;
 
   /**
    * Called upon initializing a new experiment.
-   * @param experimentDirectory The target directory for the experiment. (guaranteed to exists)
+   * @param experimentPaths The experiment directories. (guaranteed to exists)
    * @param hookHandler The experiment hook handler instance.
    */
-  public abstract init(experimentDirectory: string, hookHandler: H): Promise<void>;
+  public abstract init(experimentPaths: IExperimentPaths, hookHandler: H): Promise<void>;
 }

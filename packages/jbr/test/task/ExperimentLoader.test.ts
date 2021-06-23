@@ -1,6 +1,7 @@
 import * as Path from 'path';
 import { ComponentsManagerBuilder } from 'componentsjs';
 import type { RdfObjectLoader } from 'rdf-object';
+import { createExperimentPaths } from '../../lib/cli/CliHelpers';
 import { ExperimentLoader } from '../../lib/task/ExperimentLoader';
 
 let componentsManager: any;
@@ -40,7 +41,14 @@ describe('ExperimentLoader', () => {
           };
         }),
       },
-      instantiate: jest.fn(iri => ({ CONFIG: iri })),
+      instantiate: jest.fn(iri => {
+        if (iri === 'urn:jrb:experiment-combinations') {
+          return {
+            getFactorCombinations: () => [{}, {}],
+          };
+        }
+        return { CONFIG: iri };
+      }),
       moduleState: {
         packageJsons: {},
       },
@@ -86,18 +94,105 @@ describe('ExperimentLoader', () => {
     });
   });
 
-  describe('instantiateFromPath', () => {
+  describe('instantiateExperiments', () => {
     it('instantiates a config', async() => {
       files['path/to/experiment/jbr-experiment.json'] = `TRUE`;
-      expect(await loader.instantiateFromPath('path/to/experiment'))
-        .toEqual({ CONFIG: 'urn:jrb:experiment' });
+      expect(await loader.instantiateExperiments('path/to/experiment'))
+        .toEqual({
+          experiments: [
+            { CONFIG: 'urn:jrb:experiment' },
+          ],
+          experimentPathsArray: [
+            createExperimentPaths('path/to/experiment'),
+          ],
+          combinationProvider: undefined,
+        });
       expect(componentsManager.configRegistry.register).toHaveBeenCalledWith('path/to/experiment/jbr-experiment.json');
       expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment');
     });
 
     it('throws when config file does not exist', async() => {
-      await expect(loader.instantiateFromPath('path/to/experiment'))
+      await expect(loader.instantiateExperiments('path/to/experiment'))
         .rejects.toThrowError(`Experiment config file could not be found at 'path/to/experiment/jbr-experiment.json'`);
+    });
+
+    it('instantiates a combinations-based config', async() => {
+      files['path/to/experiment/jbr-experiment.json.template'] = `TRUE`;
+      files['path/to/experiment/jbr-combinations.json'] = `TRUE`;
+      files[Path.join('path/to/experiment', 'combinations', 'combination_0')] = true;
+      files[Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json')] = true;
+      files[Path.join('path/to/experiment', 'combinations', 'combination_1')] = true;
+      files[Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json')] = true;
+      expect(await loader.instantiateExperiments('path/to/experiment'))
+        .toEqual({
+          experiments: [
+            { CONFIG: 'urn:jrb:experiment' },
+            { CONFIG: 'urn:jrb:experiment' },
+          ],
+          experimentPathsArray: [
+            createExperimentPaths(Path.join('path/to/experiment', 'combinations', 'combination_0')),
+            createExperimentPaths(Path.join('path/to/experiment', 'combinations', 'combination_1')),
+          ],
+          combinationProvider: expect.anything(),
+        });
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(1,
+        'path/to/experiment/jbr-combinations.json');
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(2,
+        Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json'));
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(3,
+        Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json'));
+      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment');
+    });
+
+    it('instantiates a combinations-based config with common prepare', async() => {
+      (componentsManager).instantiate = jest.fn(iri => {
+        if (iri === 'urn:jrb:experiment-combinations') {
+          return {
+            commonPrepare: true,
+            getFactorCombinations: () => [{}, {}],
+          };
+        }
+        return { CONFIG: iri };
+      });
+
+      files['path/to/experiment/jbr-experiment.json.template'] = `TRUE`;
+      files['path/to/experiment/jbr-combinations.json'] = `TRUE`;
+      files[Path.join('path/to/experiment', 'combinations', 'combination_0')] = true;
+      files[Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json')] = true;
+      files[Path.join('path/to/experiment', 'combinations', 'combination_1')] = true;
+      files[Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json')] = true;
+      expect(await loader.instantiateExperiments('path/to/experiment'))
+        .toEqual({
+          experiments: [
+            { CONFIG: 'urn:jrb:experiment' },
+            { CONFIG: 'urn:jrb:experiment' },
+          ],
+          experimentPathsArray: [
+            {
+              ...createExperimentPaths(Path.join('path/to/experiment', 'combinations', 'combination_0')),
+              generated: Path.join('path/to/experiment', 'generated'),
+            },
+            {
+              ...createExperimentPaths(Path.join('path/to/experiment', 'combinations', 'combination_1')),
+              generated: Path.join('path/to/experiment', 'generated'),
+            },
+          ],
+          combinationProvider: expect.anything(),
+        });
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(1,
+        'path/to/experiment/jbr-combinations.json');
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(2,
+        Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json'));
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(3,
+        Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json'));
+      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment');
+    });
+
+    it('throws when a combinations-based experiment is not generated', async() => {
+      files['path/to/experiment/jbr-experiment.json.template'] = `TRUE`;
+      files['path/to/experiment/jbr-combinations.json'] = `TRUE`;
+      await expect(loader.instantiateExperiments('path/to/experiment'))
+        .rejects.toThrowError(`Detected invalid combination-based experiment. It is required to (re-)run 'jbr generate-combinations' first.`);
     });
   });
 
@@ -347,6 +442,43 @@ describe('ExperimentLoader', () => {
     it('resolves if the marker exists', async() => {
       files[Path.join('path', 'generated', '.prepared')] = true;
       await ExperimentLoader.requireExperimentPrepared('path');
+    });
+  });
+
+  describe('isCombinationsExperiment', () => {
+    it('returns false if no files exists', async() => {
+      expect(await ExperimentLoader.isCombinationsExperiment('path')).toBeFalsy();
+    });
+
+    it('returns true if all required files exists', async() => {
+      files[Path.join('path', 'jbr-combinations.json')] = `true`;
+      files[Path.join('path', 'jbr-experiment.json.template')] = `true`;
+      expect(await ExperimentLoader.isCombinationsExperiment('path')).toBeTruthy();
+    });
+
+    it('throws if only jbr-combinations.json exists', async() => {
+      files[Path.join('path', 'jbr-combinations.json')] = `true`;
+      await expect(ExperimentLoader.isCombinationsExperiment('path')).rejects
+        .toThrowError(`Found 'jbr-combinations.json' for a combinations-based experiment, but 'jbr-experiment.json.template' is missing.`);
+    });
+
+    it('throws if only jbr-experiment.json.template exists', async() => {
+      files[Path.join('path', 'jbr-experiment.json.template')] = `true`;
+      await expect(ExperimentLoader.isCombinationsExperiment('path')).rejects
+        .toThrowError(`Found 'jbr-experiment.json.template' for a combinations-based experiment, but 'jbr-combinations.json' is missing.`);
+    });
+  });
+
+  describe('requireCombinationsExperiment', () => {
+    it('throws if not all required files exist', async() => {
+      await expect(ExperimentLoader.requireCombinationsExperiment('path')).rejects
+        .toThrowError(`A combinations-based experiments requires the files 'jbr-experiment.json.template' and 'jbr-combinations.json'.`);
+    });
+
+    it('does not throw if all required files exist', async() => {
+      files[Path.join('path', 'jbr-combinations.json')] = `true`;
+      files[Path.join('path', 'jbr-experiment.json.template')] = `true`;
+      await ExperimentLoader.requireCombinationsExperiment('path');
     });
   });
 });

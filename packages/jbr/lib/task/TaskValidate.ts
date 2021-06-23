@@ -34,7 +34,7 @@ export class TaskValidate {
     // Validate the experiment's config file
     try {
       await (await ExperimentLoader.build(this.context.mainModulePath))
-        .instantiateFromPath(this.context.cwd);
+        .instantiateExperiments(this.context.cwd);
     } catch (error: unknown) {
       errors.push(`Invalid ${ExperimentLoader.CONFIG_NAME} file: ${(<Error>error).message}`);
     }

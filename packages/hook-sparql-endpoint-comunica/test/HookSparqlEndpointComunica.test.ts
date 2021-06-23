@@ -1,6 +1,6 @@
 import Path from 'path';
 import type { ITaskContext, DockerContainerHandler, DockerResourceConstraints } from 'jbr';
-import { StaticDockerResourceConstraints } from 'jbr';
+import { createExperimentPaths, StaticDockerResourceConstraints } from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { HookSparqlEndpointComunica } from '../lib/HookSparqlEndpointComunica';
 
@@ -16,6 +16,7 @@ describe('HookSparqlEndpointComunica', () => {
     };
     context = {
       cwd: 'CWD',
+      experimentPaths: createExperimentPaths('CWD'),
       mainModulePath: 'MMP',
       verbose: true,
       cleanupHandlers: [],

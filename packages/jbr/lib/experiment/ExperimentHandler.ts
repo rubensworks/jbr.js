@@ -1,3 +1,4 @@
+import type { IExperimentPaths } from '../task/ITaskContext';
 import type { Experiment } from './Experiment';
 
 /**
@@ -22,9 +23,9 @@ export abstract class ExperimentHandler<E extends Experiment> {
   /**
    * Default parameters that should be added to the 'jbr-experiment.json' file during initialization.
    * These should correspond to all (required) Components.js parameters for instantiating an experiment.
-   * @param experimentDirectory The target directory for the experiment. (does not exist yet)
+   * @param experimentPaths The experiment directories. (guaranteed to exists)
    */
-  public abstract getDefaultParams(experimentDirectory: string): Record<string, any>;
+  public abstract getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any>;
 
   /**
    * Names of possible hooks into the experiment.
@@ -33,8 +34,8 @@ export abstract class ExperimentHandler<E extends Experiment> {
 
   /**
    * Called upon initializing a new experiment.
-   * @param experimentDirectory The target directory for the experiment. (guaranteed to exists)
+   * @param experimentPaths The experiment directories. (guaranteed to exists)
    * @param experiment The experiment instance.
    */
-  public abstract init(experimentDirectory: string, experiment: E): Promise<void>;
+  public abstract init(experimentPaths: IExperimentPaths, experiment: E): Promise<void>;
 }

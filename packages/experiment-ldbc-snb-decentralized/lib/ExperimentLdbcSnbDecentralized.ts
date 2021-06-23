@@ -78,7 +78,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     // Prepare dataset
     await new Generator({
       verbose: context.verbose,
-      cwd: Path.join(context.cwd, 'generated'),
+      cwd: context.experimentPaths.generated,
       overwrite: this.overwriteFilesDuringPrepare,
       scale: this.scale,
       enhancementConfig: this.configGenerateAux,
@@ -122,7 +122,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     let stopEndpointStats: () => void;
     const results = await new SparqlBenchmarkRunner({
       endpoint: this.endpointUrl,
-      querySets: await readQueries(Path.join(context.cwd, 'generated', 'out-queries')),
+      querySets: await readQueries(Path.join(context.experimentPaths.generated, 'out-queries')),
       replication: this.queryRunnerReplication,
       warmup: this.queryRunnerWarmupRounds,
       timestampsRecording: this.queryRunnerRecordTimestamps,
@@ -140,7 +140,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     });
 
     // Write results
-    const resultsOutput = Path.join(context.cwd, 'output');
+    const resultsOutput = context.experimentPaths.output;
     if (!await fs.pathExists(resultsOutput)) {
       await fs.mkdir(resultsOutput);
     }
@@ -157,7 +157,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
       resourceConstraints: this.serverResourceConstraints,
       hostConfig: {
         Binds: [
-          `${context.cwd}/generated/out-fragments/:/data`,
+          `${Path.join(context.experimentPaths.generated, 'out-fragments')}/:/data`,
         ],
         PortBindings: {
           '3000/tcp': [
@@ -165,8 +165,8 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
           ],
         },
       },
-      logFilePath: Path.join(context.cwd, 'output', 'logs', 'server.txt'),
-      statsFilePath: Path.join(context.cwd, 'output', 'stats-server.csv'),
+      logFilePath: Path.join(context.experimentPaths.output, 'logs', 'server.txt'),
+      statsFilePath: Path.join(context.experimentPaths.output, 'stats-server.csv'),
     });
   }
 }

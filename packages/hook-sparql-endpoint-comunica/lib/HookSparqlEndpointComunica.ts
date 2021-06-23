@@ -57,7 +57,7 @@ export class HookSparqlEndpointComunica implements Hook {
       resourceConstraints: this.resourceConstraints,
       hostConfig: {
         Binds: [
-          `${context.cwd}/input/context-client.json:/tmp/context.json`,
+          `${Path.join(context.experimentPaths.input, 'context-client.json')}:/tmp/context.json`,
         ],
         PortBindings: {
           '3000/tcp': [
@@ -65,8 +65,8 @@ export class HookSparqlEndpointComunica implements Hook {
           ],
         },
       },
-      logFilePath: Path.join(context.cwd, 'output', 'logs', 'sparql-endpoint-comunica.txt'),
-      statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'),
+      logFilePath: Path.join(context.experimentPaths.output, 'logs', 'sparql-endpoint-comunica.txt'),
+      statsFilePath: Path.join(context.experimentPaths.output, 'stats-sparql-endpoint-comunica.csv'),
     });
   }
 }

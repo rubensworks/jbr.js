@@ -1,4 +1,6 @@
 import * as Path from 'path';
+import type { IExperimentPaths } from 'jbr';
+import { createExperimentPaths } from 'jbr';
 import { HookHandlerSparqlEndpointComunica } from '../lib/HookHandlerSparqlEndpointComunica';
 
 let files: Record<string, string> = {};
@@ -19,8 +21,10 @@ jest.mock('fs-extra', () => ({
 
 describe('HookHandlerSparqlEndpointComunica', () => {
   let handler: HookHandlerSparqlEndpointComunica;
+  let experimentPaths: IExperimentPaths;
   beforeEach(() => {
     handler = new HookHandlerSparqlEndpointComunica();
+    experimentPaths = createExperimentPaths('dir');
 
     files = {};
     filesOut = {};
@@ -39,14 +43,14 @@ describe('HookHandlerSparqlEndpointComunica', () => {
 
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
-      expect(handler.getDefaultParams('dir')).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams('dir')).length).toEqual(7);
+      expect(handler.getDefaultParams(experimentPaths)).toBeInstanceOf(Object);
+      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(7);
     });
   });
 
   describe('init', () => {
     it('initializes directories and files', async() => {
-      await handler.init('dir', <any> {});
+      await handler.init(experimentPaths, <any> {});
 
       expect(dirsOut).toEqual({
         [Path.join('dir', 'input', 'dockerfiles')]: true,
@@ -64,7 +68,7 @@ describe('HookHandlerSparqlEndpointComunica', () => {
         [Path.join('dir', 'input', 'dockerfiles')]: `TRUE`,
         [Path.join('dir', 'input')]: `TRUE`,
       };
-      await handler.init('dir', <any> {});
+      await handler.init(experimentPaths, <any> {});
 
       expect(dirsOut).toEqual({});
       expect(filesOut).toEqual({

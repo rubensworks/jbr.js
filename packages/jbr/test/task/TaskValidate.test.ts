@@ -1,4 +1,5 @@
 import * as Path from 'path';
+import { createExperimentPaths } from '../../lib/cli/CliHelpers';
 import type { Experiment } from '../../lib/experiment/Experiment';
 import { ExperimentLoader } from '../../lib/task/ExperimentLoader';
 import { TaskValidate } from '../../lib/task/TaskValidate';
@@ -28,6 +29,7 @@ describe('TaskValidate', () => {
     task = new TaskValidate(
       {
         cwd: 'CWD',
+        experimentPaths: createExperimentPaths('CWD'),
         mainModulePath: 'MMP',
         verbose: true,
         cleanupHandlers: [],
@@ -40,7 +42,7 @@ describe('TaskValidate', () => {
       run: jest.fn(),
     };
     experimentLoader = <any> {
-      instantiateFromPath: jest.fn(() => experiment),
+      instantiateExperiments: jest.fn(() => experiment),
     };
     files = {};
   });
@@ -61,7 +63,7 @@ Make sure you invoke this command in a directory created with 'jbr init'`);
     });
 
     it('for missing files and failing instantiation', async() => {
-      experimentLoader.instantiateFromPath = async() => {
+      experimentLoader.instantiateExperiments = async() => {
         throw new Error('Instantiation error in TaskValidate test');
       };
       await expect(task.validate()).rejects.toThrowError(`Experiment validation failed:

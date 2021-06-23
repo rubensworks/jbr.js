@@ -1,3 +1,4 @@
+import * as Path from 'path';
 import * as util from 'util';
 import Dockerode from 'dockerode';
 import * as fs from 'fs-extra';
@@ -9,7 +10,16 @@ import type { NpmInstaller } from '../../lib/npm/NpmInstaller';
 import { VoidNpmInstaller } from '../../lib/npm/VoidNpmInstaller';
 import { DockerContainerCreator } from '../docker/DockerContainerCreator';
 import { DockerImageBuilder } from '../docker/DockerImageBuilder';
-import type { ITaskContext } from '../task/ITaskContext';
+import type { IExperimentPaths, ITaskContext } from '../task/ITaskContext';
+
+export function createExperimentPaths(basePath: string): IExperimentPaths {
+  return {
+    root: basePath,
+    input: Path.join(basePath, 'input'),
+    generated: Path.join(basePath, 'generated'),
+    output: Path.join(basePath, 'output'),
+  };
+}
 
 export async function wrapCommandHandler(
   argv: Record<string, any>,
@@ -24,6 +34,7 @@ export async function wrapCommandHandler(
     undefined);
   const context: ITaskContext = {
     cwd: argv.cwd,
+    experimentPaths: createExperimentPaths(argv.cwd),
     mainModulePath: argv.mainModulePath,
     verbose: argv.verbose,
     logger: createCliLogger(argv.verbose ? 'verbose' : 'info'),

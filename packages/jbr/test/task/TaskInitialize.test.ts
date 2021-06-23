@@ -1,4 +1,5 @@
 import * as Path from 'path';
+import { createExperimentPaths } from '../../lib/cli/CliHelpers';
 import type { ExperimentHandler } from '../../lib/experiment/ExperimentHandler';
 import type { NpmInstaller } from '../../lib/npm/NpmInstaller';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
@@ -46,6 +47,7 @@ describe('TaskInitialize', () => {
   beforeEach(() => {
     context = {
       cwd: 'CWD',
+      experimentPaths: createExperimentPaths('CWD'),
       mainModulePath: 'MMP',
       verbose: true,
       cleanupHandlers: [],
@@ -93,7 +95,8 @@ describe('TaskInitialize', () => {
         hookNames: [ 'hook1', 'hook2' ],
       });
 
-      expect(handler.init).toHaveBeenCalledWith(Path.join('CWD', 'TARGETDIR'), { CONFIG: 'IRI' });
+      expect(handler.init)
+        .toHaveBeenCalledWith(createExperimentPaths(Path.join('CWD', 'TARGETDIR')), { CONFIG: 'IRI' });
 
       expect(dirsOut).toEqual({
         [Path.join('CWD', 'TARGETDIR')]: true,

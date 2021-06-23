@@ -7,6 +7,7 @@ import type { DockerImageBuilder } from '../docker/DockerImageBuilder';
  */
 export interface ITaskContext {
   cwd: string;
+  experimentPaths: IExperimentPaths;
   mainModulePath: string;
   verbose: boolean;
   logger: Logger;
@@ -19,4 +20,14 @@ export interface ITaskContext {
    * to make sure that they are invoked when the process ends abnormally.
    */
   cleanupHandlers: (() => Promise<void>)[];
+}
+
+/**
+ * Relevant paths for an experiment.
+ */
+export interface IExperimentPaths {
+  root: string;
+  input: string;
+  generated: string;
+  output: string;
 }

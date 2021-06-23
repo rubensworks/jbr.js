@@ -1,4 +1,6 @@
 import * as Path from 'path';
+import type { IExperimentPaths } from 'jbr';
+import { createExperimentPaths } from 'jbr';
 import { Templates } from 'ldbc-snb-decentralized/lib/Templates';
 import { ExperimentHandlerLdbcSnbDecentralized } from '../lib/ExperimentHandlerLdbcSnbDecentralized';
 
@@ -19,8 +21,10 @@ jest.mock('fs-extra', () => ({
 
 describe('ExperimentHandlerLdbcSnbDecentralized', () => {
   let handler: ExperimentHandlerLdbcSnbDecentralized;
+  let experimentPaths: IExperimentPaths;
   beforeEach(() => {
     handler = new ExperimentHandlerLdbcSnbDecentralized();
+    experimentPaths = createExperimentPaths('dir');
 
     filesOut = {};
     dirsOut = {};
@@ -38,8 +42,8 @@ describe('ExperimentHandlerLdbcSnbDecentralized', () => {
 
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
-      expect(handler.getDefaultParams('dir')).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams('dir')).length).toEqual(17);
+      expect(handler.getDefaultParams(experimentPaths)).toBeInstanceOf(Object);
+      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(17);
     });
   });
 
@@ -51,7 +55,7 @@ describe('ExperimentHandlerLdbcSnbDecentralized', () => {
 
   describe('init', () => {
     it('initializes directories and files', async() => {
-      await handler.init('dir', <any> {
+      await handler.init(experimentPaths, <any> {
         configGenerateAux: 'configGenerateAux.json',
         configFragment: 'configFragment.json',
         configFragmentAux: 'configFragmentAux.json',

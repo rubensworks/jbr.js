@@ -1,4 +1,5 @@
 import * as Path from 'path';
+import { createExperimentPaths } from '../../lib/cli/CliHelpers';
 import type { Experiment } from '../../lib/experiment/Experiment';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
 import type { ITaskContext } from '../../lib/task/ITaskContext';
@@ -38,6 +39,7 @@ describe('TaskPrepare', () => {
   beforeEach(() => {
     context = {
       cwd: 'CWD',
+      experimentPaths: createExperimentPaths('CWD'),
       mainModulePath: 'MMP',
       verbose: true,
       cleanupHandlers: [],
@@ -52,7 +54,12 @@ describe('TaskPrepare', () => {
       prepare: jest.fn(),
     };
     experimentLoader = <any> {
-      instantiateFromPath: jest.fn(() => experiment),
+      instantiateExperiments: jest.fn(() => {
+        return {
+          experimentPathsArray: [ createExperimentPaths('CWD') ],
+          experiments: [ experiment ],
+        };
+      }),
     };
     files = {};
     filesUnlinked = {};
@@ -76,6 +83,58 @@ describe('TaskPrepare', () => {
         .toHaveBeenCalledWith(context);
 
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeTruthy();
+      expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
+    });
+
+    it('prepares multiple experiments', async() => {
+      const experiment1 = <any> {
+        prepare: jest.fn(),
+      };
+      const experiment2 = <any> {
+        prepare: jest.fn(),
+      };
+      const expPaths1 = createExperimentPaths('CWD/1');
+      const expPaths2 = createExperimentPaths('CWD/2');
+      (<any> experimentLoader).instantiateExperiments = jest.fn(() => {
+        return {
+          experimentPathsArray: [ expPaths1, expPaths2 ],
+          experiments: [ experiment1, experiment2 ],
+        };
+      });
+
+      await task.prepare();
+      expect(experiment1.prepare)
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths1 });
+      expect(experiment2.prepare)
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths2 });
+
+      expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeFalsy();
+      expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
+    });
+
+    it('prepares multiple experiments with common prepare', async() => {
+      const experiment1 = <any> {
+        prepare: jest.fn(),
+      };
+      const experiment2 = <any> {
+        prepare: jest.fn(),
+      };
+      const expPaths = createExperimentPaths('CWD');
+      (<any> experimentLoader).instantiateExperiments = jest.fn(() => {
+        return {
+          combinationProvider: { commonPrepare: true },
+          experimentPathsArray: [ expPaths, expPaths ],
+          experiments: [ experiment1, experiment2 ],
+        };
+      });
+
+      await task.prepare();
+      expect(experiment1.prepare)
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths });
+      expect(experiment2.prepare)
+        .not.toHaveBeenCalled();
+
+      expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeFalsy();
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
     });
   });

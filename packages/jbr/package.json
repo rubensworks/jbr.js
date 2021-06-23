@@ -67,7 +67,7 @@
     "@types/fs-extra": "^9.0.11",
     "@types/yargs": "^16.0.1",
     "cli-progress": "^3.9.0",
-    "componentsjs": "^4.2.0",
+    "componentsjs": "^4.3.0",
     "cross-spawn": "^7.0.3",
     "dockerode": "^3.3.0",
     "fs-extra": "^10.0.0",

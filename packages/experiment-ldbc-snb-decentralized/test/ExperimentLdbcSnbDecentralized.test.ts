@@ -2,7 +2,7 @@ import Path from 'path';
 import type { Hook, ITaskContext,
   DockerContainerHandler,
   DockerResourceConstraints, ProcessHandler } from 'jbr';
-import { StaticDockerResourceConstraints } from 'jbr';
+import { StaticDockerResourceConstraints, createExperimentPaths } from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { ExperimentLdbcSnbDecentralized } from '../lib/ExperimentLdbcSnbDecentralized';
 
@@ -58,6 +58,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
     };
     context = {
       cwd: 'CWD',
+      experimentPaths: createExperimentPaths('CWD'),
       mainModulePath: 'MMP',
       verbose: true,
       cleanupHandlers: [],

@@ -1,4 +1,5 @@
 import * as Path from 'path';
+import { createExperimentPaths } from '../../lib/cli/CliHelpers';
 import type { Experiment } from '../../lib/experiment/Experiment';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
 import type { ITaskContext } from '../../lib/task/ITaskContext';
@@ -31,6 +32,7 @@ describe('TaskRun', () => {
   beforeEach(() => {
     context = {
       cwd: 'CWD',
+      experimentPaths: createExperimentPaths('CWD'),
       mainModulePath: 'MMP',
       verbose: true,
       cleanupHandlers: [],
@@ -43,7 +45,12 @@ describe('TaskRun', () => {
       run: jest.fn(),
     };
     experimentLoader = <any> {
-      instantiateFromPath: jest.fn(() => experiment),
+      instantiateExperiments: jest.fn(() => {
+        return {
+          experimentPathsArray: [ createExperimentPaths('CWD') ],
+          experiments: [ experiment ],
+        };
+      }),
     };
     files = {};
   });

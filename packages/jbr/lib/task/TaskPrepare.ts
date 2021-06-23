@@ -22,9 +22,15 @@ export class TaskPrepare {
     }
 
     // Run experiment's prepare logic
-    const experiment = await (await ExperimentLoader.build(this.context.mainModulePath))
-      .instantiateFromPath(this.context.cwd);
-    await experiment.prepare(this.context);
+    const { experiments, experimentPathsArray, combinationProvider } = await (await ExperimentLoader
+      .build(this.context.mainModulePath)).instantiateExperiments(this.context.cwd);
+    for (const [ i, experiment ] of experiments.entries()) {
+      if (i > 0 && combinationProvider?.commonPrepare) {
+        // Only run prepare once if the generated output is shared between combinations
+        break;
+      }
+      await experiment.prepare({ ...this.context, experimentPaths: experimentPathsArray[i] });
+    }
 
     // Create a hidden marker file in generate/ to indicate that this experiment has been successfully prepared
     await fs.writeFile(markerPath, '', 'utf8');

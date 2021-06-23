@@ -1,5 +1,6 @@
 import * as Path from 'path';
 import * as fs from 'fs-extra';
+import { createExperimentPaths } from '../cli/CliHelpers';
 import { ErrorHandled } from '../cli/ErrorHandled';
 import { HookNonConfigured } from '../hook/HookNonConfigured';
 import type { NpmInstaller } from '../npm/NpmInstaller';
@@ -10,6 +11,12 @@ import type { ITaskContext } from './ITaskContext';
  * Initializes an experiment of the given type.
  */
 export class TaskInitialize {
+  public static readonly INIT_DIRS: string[] = [
+    'input',
+    'generated',
+    'output',
+  ];
+
   private readonly context: ITaskContext;
   private readonly experimentTypeId: string;
   private readonly experimentName: string;
@@ -45,9 +52,9 @@ export class TaskInitialize {
 
     // Create experiment directory
     await fs.mkdir(this.targetDirectory);
-    await fs.mkdir(Path.join(this.targetDirectory, 'input'));
-    await fs.mkdir(Path.join(this.targetDirectory, 'generated'));
-    await fs.mkdir(Path.join(this.targetDirectory, 'output'));
+    for (const initDir of TaskInitialize.INIT_DIRS) {
+      await fs.mkdir(Path.join(this.targetDirectory, initDir));
+    }
 
     // Create package.json
     const experimentPackageJson = {
@@ -89,6 +96,7 @@ export class TaskInitialize {
       };
       return acc;
     }, {});
+    const experimentPaths = createExperimentPaths(this.targetDirectory);
     const experimentConfig = {
       '@context': [
         jbrContextUrl,
@@ -96,7 +104,7 @@ export class TaskInitialize {
       ],
       '@id': experimentIri,
       '@type': experimentType.experimentClassName,
-      ...experimentType.getDefaultParams(this.targetDirectory),
+      ...experimentType.getDefaultParams(experimentPaths),
       ...hookEntries,
     };
     const configPath = Path.join(this.targetDirectory, ExperimentLoader.CONFIG_NAME);
@@ -111,7 +119,7 @@ export class TaskInitialize {
     const experiment = await experimentLoader.instantiateFromConfig(configPath, experimentIri);
 
     // Invoke the experiment type's init logic
-    await experimentType.init(this.targetDirectory, experiment);
+    await experimentType.init(experimentPaths, experiment);
 
     return {
       experimentDirectory: this.targetDirectory,
