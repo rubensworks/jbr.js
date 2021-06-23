@@ -32,13 +32,13 @@ export class HookSparqlEndpointComunica implements Hook {
   }
 
   public getDockerImageName(context: ITaskContext): string {
-    return `jrb-experiment-${Path.basename(context.cwd)}-sparql-endpoint-comunica`;
+    return `jrb-experiment-${Path.basename(context.experimentPaths.root)}-sparql-endpoint-comunica`;
   }
 
   public async prepare(context: ITaskContext): Promise<void> {
     // Build client Dockerfile
     await context.docker.imageBuilder.build({
-      cwd: context.cwd,
+      cwd: context.experimentPaths.root,
       dockerFile: this.dockerfileClient,
       auxiliaryFiles: [ this.configClient ],
       imageName: this.getDockerImageName(context),

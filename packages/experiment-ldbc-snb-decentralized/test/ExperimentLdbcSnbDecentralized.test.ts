@@ -146,7 +146,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
         statsFilePath: Path.join(context.cwd, 'output', 'stats-server.csv'),
         hostConfig: {
           Binds: [
-            `${context.cwd}/generated/out-fragments/:/data`,
+            `${context.experimentPaths.root}/generated/out-fragments/:/data`,
           ],
           PortBindings: {
             '3000/tcp': [

@@ -29,7 +29,7 @@ export class TaskSetHook {
   public async set(): Promise<void> {
     // Invoke npm install for hook
     const hookPackageName = `@jbr-hook/${this.handlerTypeId}`;
-    await this.npmInstaller.install(this.context.cwd, [ hookPackageName ]);
+    await this.npmInstaller.install(this.context.experimentPaths.root, [ hookPackageName ]);
 
     // Resolve hook type
     const experimentLoader = await ExperimentLoader.build(this.context.mainModulePath);
@@ -41,7 +41,7 @@ export class TaskSetHook {
     const { handler: handlerType, contexts } = handlerTypeWrapped;
 
     // Read config file
-    const configPath = Path.join(this.context.cwd, ExperimentLoader.CONFIG_NAME);
+    const configPath = Path.join(this.context.experimentPaths.root, ExperimentLoader.CONFIG_NAME);
     const config = JSON.parse(await fs.readFile(configPath, 'utf8'));
     const experimentIri = config['@id'];
 
@@ -75,7 +75,7 @@ export class TaskSetHook {
     await handlerType.init(this.context.experimentPaths, (<any> experiment)[this.hookName]);
 
     // Remove hidden prepared marker file if it exists
-    const markerPath = ExperimentLoader.getPreparedMarkerPath(this.context.cwd);
+    const markerPath = ExperimentLoader.getPreparedMarkerPath(this.context.experimentPaths.root);
     if (await fs.pathExists(markerPath)) {
       await fs.unlink(markerPath);
       this.context.logger.warn(`Removed 'prepared' flag from this experiment. Invoke 'jbr prepare' before running this experiment.`);

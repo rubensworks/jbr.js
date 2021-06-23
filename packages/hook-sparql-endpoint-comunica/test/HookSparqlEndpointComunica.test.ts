@@ -76,7 +76,7 @@ describe('HookSparqlEndpointComunica', () => {
         statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'),
         hostConfig: {
           Binds: [
-            `${context.cwd}/input/context-client.json:/tmp/context.json`,
+            `${context.experimentPaths.root}/input/context-client.json:/tmp/context.json`,
           ],
           PortBindings: {
             '3000/tcp': [

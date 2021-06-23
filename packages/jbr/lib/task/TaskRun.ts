@@ -14,9 +14,9 @@ export class TaskRun {
   }
 
   public async run(): Promise<void> {
-    await ExperimentLoader.requireExperimentPrepared(this.context.cwd);
+    await ExperimentLoader.requireExperimentPrepared(this.context.experimentPaths.root);
     const { experiments, experimentPathsArray } = await (await ExperimentLoader.build(this.context.mainModulePath))
-      .instantiateExperiments(this.context.cwd);
+      .instantiateExperiments(this.context.experimentPaths.root);
     for (const [ i, experiment ] of experiments.entries()) {
       await experiment.run({ ...this.context, experimentPaths: experimentPathsArray[i] });
     }

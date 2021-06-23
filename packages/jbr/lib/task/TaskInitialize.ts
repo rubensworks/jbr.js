@@ -6,6 +6,7 @@ import { HookNonConfigured } from '../hook/HookNonConfigured';
 import type { NpmInstaller } from '../npm/NpmInstaller';
 import { ExperimentLoader } from './ExperimentLoader';
 import type { ITaskContext } from './ITaskContext';
+import { TaskGenerateCombinations } from './TaskGenerateCombinations';
 
 /**
  * Initializes an experiment of the given type.
@@ -22,6 +23,7 @@ export class TaskInitialize {
   private readonly experimentName: string;
   private readonly targetDirectory: string;
   private readonly forceReInit: boolean;
+  private readonly combinations: boolean;
   private readonly npmInstaller: NpmInstaller;
 
   public constructor(
@@ -30,6 +32,7 @@ export class TaskInitialize {
     experimentName: string,
     targetDirectory: string,
     forceReInit: boolean,
+    combinations: boolean,
     npmInstaller: NpmInstaller,
   ) {
     this.context = context;
@@ -37,6 +40,7 @@ export class TaskInitialize {
     this.experimentName = experimentName;
     this.targetDirectory = Path.join(this.context.cwd, targetDirectory);
     this.forceReInit = forceReInit;
+    this.combinations = combinations;
     this.npmInstaller = npmInstaller;
   }
 
@@ -107,8 +111,31 @@ export class TaskInitialize {
       ...experimentType.getDefaultParams(experimentPaths),
       ...hookEntries,
     };
-    const configPath = Path.join(this.targetDirectory, ExperimentLoader.CONFIG_NAME);
+    const configPath = Path.join(this.targetDirectory, this.combinations ?
+      ExperimentLoader.CONFIG_TEMPLATE_NAME :
+      ExperimentLoader.CONFIG_NAME);
     await fs.writeFile(configPath, JSON.stringify(experimentConfig, null, '  '), 'utf8');
+
+    // Create combinations file for combinations-based experiments
+    if (this.combinations) {
+      const combinationsConfig = {
+        '@context': [
+          jbrContextUrl,
+        ],
+        '@id': `${experimentIri}-combinations`,
+        '@type': 'FullFactorialCombinationProvider',
+        commonPrepare: false,
+        factors: {},
+      };
+      const combinationsPath = Path.join(this.targetDirectory, ExperimentLoader.COMBINATIONS_NAME);
+      await fs.writeFile(combinationsPath, JSON.stringify(combinationsConfig, null, '  '), 'utf8');
+
+      // Generate initial combinations
+      await new TaskGenerateCombinations({
+        ...this.context,
+        experimentPaths: createExperimentPaths(this.targetDirectory),
+      }).generate();
+    }
 
     // Copy template files
     for (const file of [ '.gitignore', 'README.md' ]) {
@@ -116,10 +143,12 @@ export class TaskInitialize {
     }
 
     // Instantiate experiment for validation
-    const experiment = await experimentLoader.instantiateFromConfig(configPath, experimentIri);
+    const { experiments } = await experimentLoader.instantiateExperiments(this.targetDirectory);
 
     // Invoke the experiment type's init logic
-    await experimentType.init(experimentPaths, experiment);
+    for (const experiment of experiments) {
+      await experimentType.init(experimentPaths, experiment);
+    }
 
     return {
       experimentDirectory: this.targetDirectory,

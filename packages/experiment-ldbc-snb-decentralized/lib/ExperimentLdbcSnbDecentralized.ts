@@ -68,7 +68,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
   }
 
   public getServerDockerImageName(context: ITaskContext): string {
-    return `jrb-experiment-${Path.basename(context.cwd)}-server`;
+    return `jrb-experiment-${Path.basename(context.experimentPaths.root)}-server`;
   }
 
   public async prepare(context: ITaskContext): Promise<void> {
@@ -90,7 +90,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
 
     // Build server Dockerfile
     await context.docker.imageBuilder.build({
-      cwd: context.cwd,
+      cwd: context.experimentPaths.root,
       dockerFile: this.dockerfileServer,
       auxiliaryFiles: [ this.configServer ],
       imageName: this.getServerDockerImageName(context),

@@ -26,7 +26,7 @@ export class TaskValidate {
 
     // Check if the required files exist
     for (const fileName of TaskValidate.REQUIRED_FILES) {
-      if (!await fs.pathExists(Path.join(this.context.cwd, fileName))) {
+      if (!await fs.pathExists(Path.join(this.context.experimentPaths.root, fileName))) {
         errors.push(`Missing '${fileName}' file`);
       }
     }
@@ -34,7 +34,7 @@ export class TaskValidate {
     // Validate the experiment's config file
     try {
       await (await ExperimentLoader.build(this.context.mainModulePath))
-        .instantiateExperiments(this.context.cwd);
+        .instantiateExperiments(this.context.experimentPaths.root);
     } catch (error: unknown) {
       errors.push(`Invalid ${ExperimentLoader.CONFIG_NAME} file: ${(<Error>error).message}`);
     }

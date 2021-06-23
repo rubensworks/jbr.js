@@ -18,19 +18,20 @@ export class TaskGenerateCombinations {
   }
 
   public async generate(): Promise<FactorCombination[]> {
-    await ExperimentLoader.requireCombinationsExperiment(this.context.cwd);
+    await ExperimentLoader.requireCombinationsExperiment(this.context.experimentPaths.root);
 
     // Determine combinations
     const experimentLoader = await ExperimentLoader.build(this.context.mainModulePath);
-    const combinationsProvider = await experimentLoader.instantiateCombinationProvider(this.context.cwd);
+    const combinationsProvider = await experimentLoader
+      .instantiateCombinationProvider(this.context.experimentPaths.root);
     const combinations = combinationsProvider.getFactorCombinations();
 
     // Load config template
-    const configTemplatePath = Path.join(this.context.cwd, ExperimentLoader.CONFIG_TEMPLATE_NAME);
+    const configTemplatePath = Path.join(this.context.experimentPaths.root, ExperimentLoader.CONFIG_TEMPLATE_NAME);
     const configTemplateContents = await fs.readFile(configTemplatePath, 'utf8');
 
     // Create combination directories and config files
-    const combinationsPath = Path.join(this.context.cwd, 'combinations');
+    const combinationsPath = Path.join(this.context.experimentPaths.root, 'combinations');
     if (!await fs.pathExists(combinationsPath)) {
       await fs.mkdir(combinationsPath);
     }
@@ -53,7 +54,7 @@ export class TaskGenerateCombinations {
 
       // Copy inputs
       const combinationInputPath = Path.join(combinationInstancePath, 'input');
-      const templateInputPath = Path.join(this.context.cwd, 'input');
+      const templateInputPath = Path.join(this.context.experimentPaths.root, 'input');
       await TaskGenerateCombinations.copyFiles(
         templateInputPath,
         combinationInputPath,
@@ -62,7 +63,7 @@ export class TaskGenerateCombinations {
 
       // Create output softlink from root to combinations
       // Note that these paths are absolute because of Windows...
-      const combinationOutputPath = Path.join(this.context.cwd, 'output', combinationIdString);
+      const combinationOutputPath = Path.join(this.context.experimentPaths.root, 'output', combinationIdString);
       if (await fs.pathExists(combinationOutputPath)) {
         await fs.unlink(combinationOutputPath);
       }
@@ -70,7 +71,8 @@ export class TaskGenerateCombinations {
     }
 
     // Instantiate experiments for validation
-    await (await ExperimentLoader.build(this.context.mainModulePath)).instantiateExperiments(this.context.cwd);
+    await (await ExperimentLoader.build(this.context.mainModulePath))
+      .instantiateExperiments(this.context.experimentPaths.root);
 
     return combinations;
   }

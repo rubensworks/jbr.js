@@ -151,11 +151,61 @@ Using jbr, you can easily setup and handle such combination-based experiments as
 
 **1. Initialize experiment**
 
-TODO: create templates
+Experiments that should be combinations-based must be initialized using the `-c` flag:
+```bash
+$ jbr init -c experiment-type my-experiment
+$ cd my-experiment
+```
 
-**2. Generate combinations**
+Instead of creating a `jbr-experiment.json` file,
+this will create a `jbr-experiment.json.template` file,
+together with an accompanying `jbr-combinations.json` file.
 
-In order to instantiate the template for the configured combinations, run the following command:
+**2. Define combinations**
+
+Inside the `jbr-experiment.json.template` file (and input text files), you may define any number of variables using the `%FACTOR-variableName%` syntax.
+Inside the `jbr-combinations.json` file, you can define corresponding values for the given variables.
+
+For example, `jbr-experiment.json.template` can look like:
+```text
+{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/ldbc-snb-decentralized/^0.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-hook/sparql-endpoint-comunica/^0.0.0/components/context.jsonld"
+  ],
+  "@id": "urn:jrb:experimentname",
+  "@type": "MyExperiment",
+  "cpu_percentage": %FACTOR-cpu%,
+  "memory_percentage": %FACTOR-memory%
+}
+```
+Variable values can be assigned in `jbr-combinations.json`:
+```json
+{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld"
+  ],
+  "@id": "urn:jrb:experimentname-combinations",
+  "@type": "FullFactorialCombinationProvider",
+  "commonPrepare": false,
+  "factors": {
+    "cpu": [ 50, 100 ],
+    "memory": [ 50, 100 ]
+  }
+}
+```
+
+Because `FullFactorialCombinationProvider` is used in `jbr-combinations.json`, all combinations (4) of the `cpu` and `memory` variable will apply to this experiment.
+
+_If the prepare phase for all combinations is identical, and can be shared, then `commonPrepare` can be set to true._
+
+_`FractionalCombinationProvider` may also be used if only select combinations should apply._
+
+**3. Regenerate combinations**
+
+Each time you make a change inside your input files, `jbr-combinations.json`, or `jbr-experiment.json.template`,
+you should (re)generate the instantiated combinations by running the following command:
 ```bash
 $ jbr generate-combinations
 ```
@@ -163,7 +213,7 @@ $ jbr generate-combinations
 This will create a new `combinations/` directory, containing sub-directories for all experiment combinations.
 Files in this directory should not be modified manually, but should only be managed via the template files and `jbr generate-combinations`.
 
-**3. Handle like any other experiment**
+**4. Handle like any other experiment**
 
 From this point on, you can manage this combinations-based experiment like any other jbr experiment.
 

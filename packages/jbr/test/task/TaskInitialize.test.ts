@@ -36,7 +36,15 @@ jest.mock('../../lib/task/ExperimentLoader', () => ({
     ...jest.requireActual('../../lib/task/ExperimentLoader').ExperimentLoader,
     build: jest.fn(() => experimentLoader),
     getDefaultExperimentIri: () => 'IRI',
+    requireCombinationsExperiment: () => true,
   },
+}));
+
+let taskGenerateCombinations: any;
+jest.mock('../../lib/task/TaskGenerateCombinations', () => ({
+  TaskGenerateCombinations: jest.fn().mockImplementation(() => ({
+    generate: taskGenerateCombinations,
+  })),
 }));
 
 describe('TaskInitialize', () => {
@@ -63,6 +71,7 @@ describe('TaskInitialize', () => {
       'NAME',
       'TARGETDIR',
       false,
+      false,
       npmInstaller,
     );
 
@@ -79,8 +88,13 @@ describe('TaskInitialize', () => {
           contexts: [ 'context1', 'context2' ],
         },
       })),
-      instantiateFromConfig: jest.fn((path, iri) => ({ CONFIG: iri })),
+      instantiateExperiments: jest.fn((path: any) => {
+        return {
+          experiments: [{ CONFIG: path }],
+        };
+      }),
     };
+    taskGenerateCombinations = jest.fn();
 
     files = {};
     filesOut = {};
@@ -96,7 +110,7 @@ describe('TaskInitialize', () => {
       });
 
       expect(handler.init)
-        .toHaveBeenCalledWith(createExperimentPaths(Path.join('CWD', 'TARGETDIR')), { CONFIG: 'IRI' });
+        .toHaveBeenCalledWith(createExperimentPaths(Path.join('CWD', 'TARGETDIR')), { CONFIG: 'CWD/TARGETDIR' });
 
       expect(dirsOut).toEqual({
         [Path.join('CWD', 'TARGETDIR')]: true,
@@ -151,6 +165,7 @@ describe('TaskInitialize', () => {
         'NAME',
         'TARGETDIR',
         true,
+        false,
         npmInstaller,
       );
       files[Path.join('CWD', 'TARGETDIR')] = `TRUE`;
@@ -169,6 +184,7 @@ describe('TaskInitialize', () => {
         'NAME',
         'TARGETDIR',
         false,
+        false,
         npmInstaller,
       );
 
@@ -183,11 +199,83 @@ describe('TaskInitialize', () => {
       'NAME',
       'TARGETDIR',
       false,
+      false,
       npmInstaller,
     );
 
     expect(await task.init()).toBeTruthy();
 
     expect(npmInstaller.install).toHaveBeenCalledWith('CWD/TARGETDIR', [ 'jbr', '@jbr-experiment/TYPE' ]);
+  });
+
+  it('initializes a valid combinations-based experiment', async() => {
+    task = new TaskInitialize(
+      context,
+      'TYPE',
+      'NAME',
+      'TARGETDIR',
+      false,
+      true,
+      npmInstaller,
+    );
+
+    expect(await task.init()).toEqual({
+      experimentDirectory: Path.join('CWD', 'TARGETDIR'),
+      hookNames: [ 'hook1', 'hook2' ],
+    });
+
+    expect(taskGenerateCombinations).toHaveBeenCalled();
+
+    expect(handler.init)
+      .toHaveBeenCalledWith(createExperimentPaths(Path.join('CWD', 'TARGETDIR')), { CONFIG: 'CWD/TARGETDIR' });
+
+    expect(dirsOut).toEqual({
+      [Path.join('CWD', 'TARGETDIR')]: true,
+      [Path.join('CWD', 'TARGETDIR', 'generated')]: true,
+      [Path.join('CWD', 'TARGETDIR', 'input')]: true,
+      [Path.join('CWD', 'TARGETDIR', 'output')]: true,
+    });
+    expect(filesOut).toEqual({
+      [Path.join('CWD', 'TARGETDIR', '.gitignore')]:
+        Path.join(__dirname, '..', '..', 'lib', 'templates', '.gitignore'),
+      [Path.join('CWD', 'TARGETDIR', 'README.md')]:
+        Path.join(__dirname, '..', '..', 'lib', 'templates', 'README.md'),
+      [Path.join('CWD', 'TARGETDIR', 'jbr-combinations.json')]: `{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld"
+  ],
+  "@id": "IRI-combinations",
+  "@type": "FullFactorialCombinationProvider",
+  "commonPrepare": false,
+  "factors": {}
+}`,
+      [Path.join('CWD', 'TARGETDIR', 'jbr-experiment.json.template')]: `{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld",
+    "context1",
+    "context2"
+  ],
+  "@id": "IRI",
+  "@type": "TYPE",
+  "param1": "value1",
+  "hook1": {
+    "@id": "IRI:hook1",
+    "@type": "HookNonConfigured"
+  },
+  "hook2": {
+    "@id": "IRI:hook2",
+    "@type": "HookNonConfigured"
+  }
+}`,
+      [Path.join('CWD', 'TARGETDIR', 'package.json')]: `{
+  "private": true,
+  "name": "NAME",
+  "dependencies": {},
+  "scripts": {
+    "jbr": "jbr",
+    "validate": "jbr validate"
+  }
+}`,
+    });
   });
 });

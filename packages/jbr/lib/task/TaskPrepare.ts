@@ -16,14 +16,14 @@ export class TaskPrepare {
 
   public async prepare(): Promise<void> {
     // Remove hidden marker file if it exists
-    const markerPath = ExperimentLoader.getPreparedMarkerPath(this.context.cwd);
+    const markerPath = ExperimentLoader.getPreparedMarkerPath(this.context.experimentPaths.root);
     if (await fs.pathExists(markerPath)) {
       await fs.unlink(markerPath);
     }
 
     // Run experiment's prepare logic
     const { experiments, experimentPathsArray, combinationProvider } = await (await ExperimentLoader
-      .build(this.context.mainModulePath)).instantiateExperiments(this.context.cwd);
+      .build(this.context.mainModulePath)).instantiateExperiments(this.context.experimentPaths.root);
     for (const [ i, experiment ] of experiments.entries()) {
       if (i > 0 && combinationProvider?.commonPrepare) {
         // Only run prepare once if the generated output is shared between combinations

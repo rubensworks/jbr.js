@@ -16,15 +16,28 @@ export const builder = (yargs: Argv<any>): Argv<any> =>
         alias: 'f',
         describe: 'If existing experiments must be overwritten',
       },
+      combinations: {
+        type: 'boolean',
+        alias: 'c',
+        describe: 'Creates a combinations-based experiment',
+      },
     });
 export const handler = (argv: Record<string, any>): Promise<void> => wrapCommandHandler(argv,
   async(context: ITaskContext) => {
     const target = argv.target || argv.name;
     const npmInstaller = await createNpmInstaller();
-    const output = await wrapVisualProgress('Initializing new experiment',
-      async() => new TaskInitialize(context, argv.type, argv.name, target, argv.forceReInit, npmInstaller).init());
+    const output = await wrapVisualProgress(`Initializing new${argv.combinations ? ' combinations-based' : ''} experiment`,
+      async() => new TaskInitialize(
+        context,
+        argv.type,
+        argv.name,
+        target,
+        argv.forceReInit,
+        argv.combinations,
+        npmInstaller,
+      ).init());
 
-    context.logger.info(`Initialized new experiment in ${output.experimentDirectory}`);
+    context.logger.info(`Initialized new${argv.combinations ? ' combinations-based' : ''} experiment in ${output.experimentDirectory}`);
     if (output.hookNames.length > 0) {
       context.logger.warn(`\nThis experiment requires the following hooks before it can be used:`);
       for (const hookName of output.hookNames) {
