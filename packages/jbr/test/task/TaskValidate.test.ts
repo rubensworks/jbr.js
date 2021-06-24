@@ -73,5 +73,21 @@ Make sure you invoke this command in a directory created with 'jbr init'`);
 
 Make sure you invoke this command in a directory created with 'jbr init'`);
     });
+
+    it('for a valid combinations-based experiment', async() => {
+      files[Path.join('CWD', ExperimentLoader.CONFIG_TEMPLATE_NAME)] = true;
+      files[Path.join('CWD', ExperimentLoader.COMBINATIONS_NAME)] = true;
+      files[Path.join('CWD', ExperimentLoader.PACKAGEJSON_NAME)] = true;
+      await task.validate();
+    });
+
+    it('for missing files in a combinations-based experiment', async() => {
+      files[Path.join('CWD', ExperimentLoader.CONFIG_TEMPLATE_NAME)] = true;
+      await expect(task.validate()).rejects.toThrowError(`Combinations-based experiment validation failed:
+  - Missing 'jbr-combinations.json' file
+  - Missing 'package.json' file
+
+Make sure you invoke this command in a directory created with 'jbr init -c'`);
+    });
   });
 });

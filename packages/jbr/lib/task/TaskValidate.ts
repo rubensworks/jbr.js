@@ -13,6 +13,12 @@ export class TaskValidate {
     ExperimentLoader.PACKAGEJSON_NAME,
   ];
 
+  public static readonly REQUIRED_FILES_COMBINATIONS: string[] = [
+    ExperimentLoader.CONFIG_TEMPLATE_NAME,
+    ExperimentLoader.COMBINATIONS_NAME,
+    ExperimentLoader.PACKAGEJSON_NAME,
+  ];
+
   private readonly context: ITaskContext;
 
   public constructor(
@@ -24,8 +30,12 @@ export class TaskValidate {
   public async validate(): Promise<void> {
     const errors: string[] = [];
 
+    const combinationsBased =
+      await fs.pathExists(Path.join(this.context.experimentPaths.root, ExperimentLoader.CONFIG_TEMPLATE_NAME)) ||
+      await fs.pathExists(Path.join(this.context.experimentPaths.root, ExperimentLoader.COMBINATIONS_NAME));
+
     // Check if the required files exist
-    for (const fileName of TaskValidate.REQUIRED_FILES) {
+    for (const fileName of combinationsBased ? TaskValidate.REQUIRED_FILES_COMBINATIONS : TaskValidate.REQUIRED_FILES) {
       if (!await fs.pathExists(Path.join(this.context.experimentPaths.root, fileName))) {
         errors.push(`Missing '${fileName}' file`);
       }
@@ -41,10 +51,10 @@ export class TaskValidate {
 
     // Emit a validation failed message
     if (errors.length > 0) {
-      throw new ErrorHandled(`Experiment validation failed:
+      throw new ErrorHandled(`${combinationsBased ? 'Combinations-based experiment' : 'Experiment'} validation failed:
   - ${errors.join('\n  - ')}
 
-Make sure you invoke this command in a directory created with 'jbr init'`);
+Make sure you invoke this command in a directory created with 'jbr init${combinationsBased ? ' -c' : ''}'`);
     }
   }
 }
