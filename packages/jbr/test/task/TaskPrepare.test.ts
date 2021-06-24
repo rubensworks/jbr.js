@@ -73,6 +73,8 @@ describe('TaskPrepare', () => {
 
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeFalsy();
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
+
+      expect(context.logger.info).toHaveBeenCalledTimes(0);
     });
 
     it('prepares an experiment with an existing marker file', async() => {
@@ -84,6 +86,8 @@ describe('TaskPrepare', () => {
 
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeTruthy();
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
+
+      expect(context.logger.info).toHaveBeenCalledTimes(0);
     });
 
     it('prepares multiple experiments', async() => {
@@ -110,6 +114,8 @@ describe('TaskPrepare', () => {
 
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeFalsy();
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
+
+      expect(context.logger.info).toHaveBeenCalledTimes(2);
     });
 
     it('prepares multiple experiments with common prepare', async() => {
@@ -136,6 +142,8 @@ describe('TaskPrepare', () => {
 
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeFalsy();
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
+
+      expect(context.logger.info).toHaveBeenCalledTimes(0);
     });
   });
 });

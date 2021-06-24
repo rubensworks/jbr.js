@@ -18,6 +18,11 @@ export class TaskRun {
     const { experiments, experimentPathsArray } = await (await ExperimentLoader.build(this.context.mainModulePath))
       .instantiateExperiments(this.context.experimentPaths.root);
     for (const [ i, experiment ] of experiments.entries()) {
+      // Log status
+      if (experiments.length > 1) {
+        this.context.logger.info(`🧩 Running experiment combination ${i}`);
+      }
+
       await experiment.run({ ...this.context, experimentPaths: experimentPathsArray[i] });
     }
   }

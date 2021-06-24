@@ -25,6 +25,11 @@ export class TaskPrepare {
     const { experiments, experimentPathsArray, combinationProvider } = await (await ExperimentLoader
       .build(this.context.mainModulePath)).instantiateExperiments(this.context.experimentPaths.root);
     for (const [ i, experiment ] of experiments.entries()) {
+      // Log status
+      if (experiments.length > 1 && !combinationProvider?.commonPrepare) {
+        this.context.logger.info(`🧩 Preparing experiment combination ${i}`);
+      }
+
       if (i > 0 && combinationProvider?.commonPrepare) {
         // Only run prepare once if the generated output is shared between combinations
         break;

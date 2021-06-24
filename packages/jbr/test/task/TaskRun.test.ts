@@ -60,10 +60,36 @@ describe('TaskRun', () => {
       files[Path.join('CWD', 'generated', '.prepared')] = true;
       await task.run();
       expect(experiment.run).toHaveBeenCalledWith(context);
+
+      expect(context.logger.info).toHaveBeenCalledTimes(0);
     });
 
     it('throws without an existing marker file', async() => {
       await expect(task.run()).rejects.toThrowError(`The experiment at 'CWD' has not been prepared successfully yet, invoke 'jbr prepare' first.`);
+    });
+
+    it('runs multiple experiments', async() => {
+      const experiment1 = <any> {
+        run: jest.fn(),
+      };
+      const experiment2 = <any> {
+        run: jest.fn(),
+      };
+      const expPaths1 = createExperimentPaths('CWD/1');
+      const expPaths2 = createExperimentPaths('CWD/2');
+      (<any> experimentLoader).instantiateExperiments = jest.fn(() => {
+        return {
+          experimentPathsArray: [ expPaths1, expPaths2 ],
+          experiments: [ experiment1, experiment2 ],
+        };
+      });
+
+      files[Path.join('CWD', 'generated', '.prepared')] = true;
+      await task.run();
+      expect(experiment1.run).toHaveBeenCalledWith({ ...context, experimentPaths: expPaths1 });
+      expect(experiment2.run).toHaveBeenCalledWith({ ...context, experimentPaths: expPaths2 });
+
+      expect(context.logger.info).toHaveBeenCalledTimes(2);
     });
   });
 });
