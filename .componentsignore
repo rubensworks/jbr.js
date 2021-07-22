@@ -4,5 +4,6 @@
   "DockerContainerCreator",
   "DockerContainerHandler",
   "DockerImageBuilder",
+  "DockerImagePuller",
   "ITaskContext"
 ]

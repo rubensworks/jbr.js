@@ -10,6 +10,7 @@ import type { NpmInstaller } from '../../lib/npm/NpmInstaller';
 import { VoidNpmInstaller } from '../../lib/npm/VoidNpmInstaller';
 import { DockerContainerCreator } from '../docker/DockerContainerCreator';
 import { DockerImageBuilder } from '../docker/DockerImageBuilder';
+import { DockerImagePuller } from '../docker/DockerImagePuller';
 import type { IExperimentPaths, ITaskContext } from '../task/ITaskContext';
 
 export function createExperimentPaths(basePath: string): IExperimentPaths {
@@ -41,6 +42,7 @@ export async function wrapCommandHandler(
     docker: {
       containerCreator: new DockerContainerCreator(dockerode),
       imageBuilder: new DockerImageBuilder(dockerode),
+      imagePuller: new DockerImagePuller(dockerode),
     },
     cleanupHandlers: [],
   };
