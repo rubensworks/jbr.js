@@ -1,0 +1,207 @@
+import Path from 'path';
+import type { Hook, ITaskContext, ProcessHandler } from 'jbr';
+import { createExperimentPaths } from 'jbr';
+import { TestLogger } from '../../jbr/test/TestLogger';
+import { ExperimentWatDiv } from '../lib/ExperimentWatDiv';
+
+let sparqlBenchmarkRun: any;
+jest.mock('sparql-benchmark-runner', () => ({
+  SparqlBenchmarkRunner: jest.fn().mockImplementation((options: any) => {
+    options.logger('Test logger');
+    return {
+      run: sparqlBenchmarkRun,
+    };
+  }),
+  readQueries: jest.fn(),
+  writeBenchmarkResults: jest.fn(),
+}));
+
+let files: Record<string, boolean | string> = {};
+let filesOut: Record<string, boolean | string> = {};
+let dirsOut: Record<string, boolean | string> = {};
+jest.mock('fs-extra', () => ({
+  ...jest.requireActual('fs-extra'),
+  async pathExists(path: string) {
+    return path in files;
+  },
+  async mkdir(dirPath: string) {
+    dirsOut[dirPath] = true;
+  },
+  createWriteStream: jest.fn((path: string) => {
+    filesOut[path] = true;
+  }),
+}));
+
+describe('ExperimentWatDiv', () => {
+  let context: ITaskContext;
+  let hookSparqlEndpoint: Hook;
+  let endpointHandlerStopCollectingStats: any;
+  let endpointHandler: ProcessHandler;
+  let experiment: ExperimentWatDiv;
+  beforeEach(() => {
+    context = {
+      cwd: 'CWD',
+      experimentPaths: createExperimentPaths('CWD'),
+      mainModulePath: 'MMP',
+      verbose: true,
+      cleanupHandlers: [],
+      logger: <any> new TestLogger(),
+      docker: <any> {
+        containerCreator: <any> {
+          start: jest.fn(async() => endpointHandler),
+        },
+        imagePuller: {
+          pull: jest.fn(),
+        },
+      },
+    };
+    endpointHandlerStopCollectingStats = jest.fn();
+    endpointHandler = {
+      close: jest.fn(),
+      startCollectingStats: jest.fn(() => endpointHandlerStopCollectingStats),
+      join: jest.fn(),
+    };
+    hookSparqlEndpoint = <any> {
+      prepare: jest.fn(),
+      start: jest.fn(() => endpointHandler),
+    };
+    sparqlBenchmarkRun = jest.fn(async({ onStart, onStop }) => {
+      await onStart();
+      await onStop();
+    });
+    experiment = new ExperimentWatDiv(
+      1,
+      5,
+      1,
+      true,
+      hookSparqlEndpoint,
+      'http://localhost:3001/sparql',
+      3,
+      1,
+      true,
+    );
+    files = {};
+    dirsOut = {};
+    filesOut = {};
+    (<any> process).on = jest.fn();
+  });
+
+  describe('prepare', () => {
+    it('should prepare the experiment', async() => {
+      await experiment.prepare(context);
+
+      expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context);
+
+      expect(context.docker.imagePuller.pull).toHaveBeenCalledTimes(2);
+      expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
+        repoTag: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
+      });
+      expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
+        repoTag: ExperimentWatDiv.DOCKER_IMAGE_HDT,
+      });
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(3);
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        imageName: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
+        cmdArgs: [ '-s', '1', '-q', '5', '-r', '1' ],
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.generated}:/output`,
+          ],
+        },
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-generation.txt'),
+      });
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        imageName: ExperimentWatDiv.DOCKER_IMAGE_HDT,
+        cmdArgs: [ 'rdf2hdt', '/output/dataset.nt', '/output/dataset.hdt' ],
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.generated}:/output`,
+          ],
+        },
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt.txt'),
+      });
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        imageName: ExperimentWatDiv.DOCKER_IMAGE_HDT,
+        cmdArgs: [ 'hdtSearch', '/output/dataset.hdt', '-q', '0' ],
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.generated}:/output`,
+          ],
+        },
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt-index.txt'),
+      });
+    });
+
+    it('should prepare the experiment without HDT', async() => {
+      experiment = new ExperimentWatDiv(
+        1,
+        5,
+        1,
+        false,
+        hookSparqlEndpoint,
+        'http://localhost:3001/sparql',
+        3,
+        1,
+        true,
+      );
+
+      await experiment.prepare(context);
+
+      expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context);
+
+      expect(context.docker.imagePuller.pull).toHaveBeenCalledTimes(1);
+      expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
+        repoTag: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
+      });
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(1);
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        imageName: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
+        cmdArgs: [ '-s', '1', '-q', '5', '-r', '1' ],
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.generated}:/output`,
+          ],
+        },
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-generation.txt'),
+      });
+    });
+  });
+
+  describe('run', () => {
+    it('should run the experiment', async() => {
+      await experiment.run(context);
+
+      expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
+      expect(sparqlBenchmarkRun).toHaveBeenCalled();
+      expect(endpointHandler.close).toHaveBeenCalled();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
+
+      expect(dirsOut).toEqual({
+        'CWD/output': true,
+      });
+    });
+
+    it('should not create an output dir if it already exists', async() => {
+      files['CWD/output'] = true;
+      await experiment.run(context);
+
+      expect(dirsOut).toEqual({});
+    });
+
+    it('should gracefully close services on SIGINT', async() => {
+      (<any> process).on = jest.fn((event, cb) => {
+        if (event === 'SIGINT') {
+          cb();
+        }
+      });
+
+      await experiment.run(context);
+
+      expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
+      expect(endpointHandler.close).toHaveBeenCalled();
+    });
+  });
+});
