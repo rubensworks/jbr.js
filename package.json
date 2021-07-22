@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "engines": {
-    "node": ">=8.0"
+    "node": ">=14.0"
   },
   "jest": {
     "transform": {
