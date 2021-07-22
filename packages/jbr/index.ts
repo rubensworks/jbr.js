@@ -4,6 +4,7 @@ export * from './lib/cli/ErrorHandled';
 export * from './lib/docker/DockerContainerCreator';
 export * from './lib/docker/DockerContainerHandler';
 export * from './lib/docker/DockerImageBuilder';
+export * from './lib/docker/DockerImagePuller';
 export * from './lib/docker/DockerResourceConstraints';
 export * from './lib/docker/StaticDockerResourceConstraints';
 export * from './lib/experiment/ExperimentHandler';
