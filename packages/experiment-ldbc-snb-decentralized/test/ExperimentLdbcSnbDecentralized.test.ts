@@ -78,6 +78,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
     endpointHandlerStopCollectingStats = jest.fn();
     endpointHandler = {
       close: jest.fn(),
+      join: jest.fn(),
       startCollectingStats: jest.fn(() => endpointHandlerStopCollectingStats),
     };
     hookSparqlEndpoint = <any> {

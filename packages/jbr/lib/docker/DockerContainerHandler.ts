@@ -7,10 +7,22 @@ import type { ProcessHandler } from '../experiment/ProcessHandler';
  */
 export class DockerContainerHandler implements ProcessHandler {
   public readonly container: Dockerode.Container;
-  public readonly statsFilePath: string;
+  public readonly outputStream: NodeJS.ReadableStream;
+  public readonly statsFilePath?: string;
 
-  public constructor(container: Dockerode.Container, statsFilePath: string) {
+  public ended: boolean;
+  public errored?: Error;
+
+  public constructor(container: Dockerode.Container, outputStream: NodeJS.ReadableStream, statsFilePath?: string) {
     this.container = container;
+    this.outputStream = outputStream;
+    this.ended = false;
+    this.outputStream.on('end', () => {
+      this.ended = true;
+    });
+    this.outputStream.on('error', (error: Error) => {
+      this.errored = error;
+    });
     this.statsFilePath = statsFilePath;
   }
 
@@ -22,7 +34,31 @@ export class DockerContainerHandler implements ProcessHandler {
     await this.container.remove();
   }
 
+  /**
+   * Wait until this container is ended.
+   */
+  public async join(): Promise<void> {
+    if (this.errored) {
+      throw this.errored;
+    }
+    if (!this.ended) {
+      await new Promise<void>((resolve, reject) => {
+        this.outputStream.on('error', reject);
+        this.outputStream.on('end', resolve);
+      });
+    }
+  }
+
   public async startCollectingStats(): Promise<() => void> {
+    // Just consume the stats stream if we don't have a statsFilePath
+    if (!this.statsFilePath) {
+      const statsStream: NodeJS.ReadableStream = <any> await this.container.stats({});
+      statsStream.resume();
+      return () => {
+        statsStream.removeAllListeners('data');
+      };
+    }
+
     // Create a CSV file output stream
     const out = fs.createWriteStream(this.statsFilePath, 'utf8');
     out.write('cpu_percentage,memory,memory_percentage,received,transmitted\n');
