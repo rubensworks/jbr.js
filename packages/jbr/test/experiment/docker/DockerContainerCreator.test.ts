@@ -13,7 +13,7 @@ describe('DockerContainerCreator', () => {
   let creator: DockerContainerCreator;
   beforeEach(() => {
     container = {
-      attach: jest.fn(() => ({ pipe: jest.fn() })),
+      attach: jest.fn(() => ({ pipe: jest.fn(), on: jest.fn(), resume: jest.fn() })),
       start: jest.fn(),
       kill: jest.fn(),
       remove: jest.fn(),
@@ -54,6 +54,33 @@ describe('DockerContainerCreator', () => {
           ],
           Memory: 123,
         },
+      });
+      expect(container.attach).toHaveBeenCalledWith({
+        stream: true,
+        stdout: true,
+        stderr: true,
+      });
+      // eslint-disable-next-line import/namespace
+      expect(fs.createWriteStream).toHaveBeenCalledWith('LOGPATH', 'utf8');
+      expect(container.start).toHaveBeenCalled();
+      expect(container.kill).not.toHaveBeenCalled();
+      expect(container.remove).not.toHaveBeenCalled();
+    });
+
+    it('creates a container via the proper steps optional fields', async() => {
+      const handler = await creator.start({
+        imageName: 'IMAGE',
+      });
+      expect(handler).toBeInstanceOf(DockerContainerHandler);
+      expect(handler.container).toBe(container);
+      expect(handler.statsFilePath).toBeUndefined();
+
+      expect(dockerode.createContainer).toHaveBeenCalledWith({
+        Image: 'IMAGE',
+        Tty: true,
+        AttachStdout: true,
+        AttachStderr: true,
+        HostConfig: {},
       });
       expect(container.attach).toHaveBeenCalledWith({
         stream: true,

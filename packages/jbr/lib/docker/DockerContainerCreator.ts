@@ -22,34 +22,45 @@ export class DockerContainerCreator {
     const container = await this.dockerode.createContainer({
       Image: options.imageName,
       Tty: true,
+      Cmd: options.cmdArgs,
       AttachStdout: true,
       AttachStderr: true,
       HostConfig: {
-        ...options.hostConfig,
-        ...options.resourceConstraints.toHostConfig(),
+        ...options.hostConfig || {},
+        ...options.resourceConstraints?.toHostConfig(),
       },
     });
 
-    // Write output to logs
+    // Attach output of container
     const out = await container.attach({
       stream: true,
       stdout: true,
       stderr: true,
     });
-    // eslint-disable-next-line import/namespace
-    out.pipe(fs.createWriteStream(options.logFilePath, 'utf8'));
+
+    // Create container handler
+    const containerHandler = new DockerContainerHandler(container, out, options.statsFilePath);
+
+    // Write output to logs
+    if (options.logFilePath) {
+      // eslint-disable-next-line import/namespace
+      out.pipe(fs.createWriteStream(options.logFilePath, 'utf8'));
+    } else {
+      out.resume();
+    }
 
     // Start container
     await container.start();
 
-    return new DockerContainerHandler(container, options.statsFilePath);
+    return containerHandler;
   }
 }
 
 export interface IDockerContainerCreatorArgs {
   imageName: string;
-  resourceConstraints: DockerResourceConstraints;
-  hostConfig: Dockerode.HostConfig;
-  logFilePath: string;
-  statsFilePath: string;
+  cmdArgs?: string[];
+  resourceConstraints?: DockerResourceConstraints;
+  hostConfig?: Dockerode.HostConfig;
+  logFilePath?: string;
+  statsFilePath?: string;
 }
