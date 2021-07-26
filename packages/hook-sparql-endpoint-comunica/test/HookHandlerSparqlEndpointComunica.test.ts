@@ -48,6 +48,12 @@ describe('HookHandlerSparqlEndpointComunica', () => {
     });
   });
 
+  describe('getSubHookNames', () => {
+    it('returns an empty array', () => {
+      expect(handler.getSubHookNames()).toEqual([]);
+    });
+  });
+
   describe('init', () => {
     it('initializes directories and files', async() => {
       await handler.init(experimentPaths, <any> {});

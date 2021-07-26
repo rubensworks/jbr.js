@@ -27,6 +27,10 @@ export class HookHandlerSparqlEndpointComunica extends HookHandler<HookSparqlEnd
     };
   }
 
+  public getSubHookNames(): string[] {
+    return [];
+  }
+
   public async init(experimentPaths: IExperimentPaths, hookHandler: HookSparqlEndpointComunica): Promise<void> {
     // Create Dockerfile for client
     if (!await fs.pathExists(Path.join(experimentPaths.input, 'dockerfiles'))) {

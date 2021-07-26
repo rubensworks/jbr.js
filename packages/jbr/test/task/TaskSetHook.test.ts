@@ -59,7 +59,7 @@ describe('TaskSetHook', () => {
     };
     task = new TaskSetHook(
       context,
-      'hook1',
+      [ 'hook1' ],
       'TYPE',
       npmInstaller,
     );
@@ -67,6 +67,7 @@ describe('TaskSetHook', () => {
     handler = <any> {
       hookClassName: 'TYPE',
       getDefaultParams: jest.fn(() => ({ param1: 'value1' })),
+      getSubHookNames: () => [],
       init: jest.fn(),
     };
     experimentLoader = <any> {
@@ -76,7 +77,10 @@ describe('TaskSetHook', () => {
           contexts: [ 'context2', 'context3' ],
         },
       })),
-      instantiateFromConfig: jest.fn((path, iri) => ({ CONFIG: iri })),
+      instantiateFromConfig: jest.fn((path, iri) => ({
+        CONFIG: iri,
+        hook1: 'abc',
+      })),
     };
 
     files = {
@@ -100,7 +104,7 @@ describe('TaskSetHook', () => {
 
   describe('set', () => {
     it('sets a valid hook', async() => {
-      await task.set();
+      expect(await task.set()).toEqual({ subHookNames: []});
 
       expect(filesOut).toEqual({
         [Path.join('CWD', 'jbr-experiment.json')]: `{
@@ -150,7 +154,7 @@ describe('TaskSetHook', () => {
     it('should throw when initializing an unknown handler type', async() => {
       task = new TaskSetHook(
         context,
-        'hook1',
+        [ 'hook1' ],
         'TYPEUNKNOWN',
         npmInstaller,
       );
@@ -161,18 +165,18 @@ describe('TaskSetHook', () => {
     it('should throw when initializing an unknown hook', async() => {
       task = new TaskSetHook(
         context,
-        'hookunknown',
+        [ 'hookunknown' ],
         'TYPE',
         npmInstaller,
       );
 
-      await expect(task.set()).rejects.toThrow(`Could not find a hook by name 'hookunknown' in '${Path.join('CWD', 'jbr-experiment.json')}'`);
+      await expect(task.set()).rejects.toThrow(`Illegal hook path: could not find 'hookunknown' in '${Path.join('CWD', 'jbr-experiment.json')}'`);
     });
 
     it('sets a valid hook with npm install', async() => {
       task = new TaskSetHook(
         context,
-        'hook1',
+        [ 'hook1' ],
         'TYPE',
         npmInstaller,
       );

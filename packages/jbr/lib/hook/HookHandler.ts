@@ -29,6 +29,11 @@ export abstract class HookHandler<H extends Hook> {
   public abstract getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any>;
 
   /**
+   * Names of possible sub-hooks into the hook.
+   */
+  public abstract getSubHookNames(): string[];
+
+  /**
    * Called upon initializing a new experiment.
    * @param experimentPaths The experiment directories. (guaranteed to exists)
    * @param hookHandler The experiment hook handler instance.
