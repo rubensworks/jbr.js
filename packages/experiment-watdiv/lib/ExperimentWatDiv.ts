@@ -48,7 +48,7 @@ export class ExperimentWatDiv implements Experiment {
     // Prepare dataset
     context.logger.info(`Generating WatDiv dataset and queries`);
     await context.docker.imagePuller.pull({ repoTag: ExperimentWatDiv.DOCKER_IMAGE_WATDIV });
-    await context.docker.containerCreator.start({
+    await (await context.docker.containerCreator.start({
       imageName: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
       cmdArgs: [ '-s', String(this.datasetScale), '-q', String(this.queryCount), '-r', String(this.queryRecurrence) ],
       hostConfig: {
@@ -57,7 +57,7 @@ export class ExperimentWatDiv implements Experiment {
         ],
       },
       logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-generation.txt'),
-    });
+    })).join();
 
     if (this.generateHdt) {
       // Create HDT file
