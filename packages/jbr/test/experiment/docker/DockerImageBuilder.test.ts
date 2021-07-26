@@ -42,6 +42,24 @@ describe('DockerImageBuilder', () => {
       expect(dockerode.modem.followProgress).toHaveBeenCalledWith('IMAGE', expect.any(Function));
     });
 
+    it('builds an image via the proper steps without optional options', async() => {
+      await builder.build({
+        cwd: 'PATH',
+        dockerFile: 'DOCKERFILE',
+        imageName: 'IMAGE',
+      });
+
+      expect(dockerode.buildImage).toHaveBeenCalledWith({
+        context: 'PATH',
+        src: [ 'DOCKERFILE' ],
+      }, {
+        t: 'IMAGE',
+        dockerfile: 'DOCKERFILE',
+      });
+
+      expect(dockerode.modem.followProgress).toHaveBeenCalledWith('IMAGE', expect.any(Function));
+    });
+
     it('should propagate modem errors', async() => {
       dockerode.modem.followProgress = jest.fn((stream, cb) => {
         cb(new Error('Container modem error'));
@@ -57,6 +75,23 @@ describe('DockerImageBuilder', () => {
           arg2: 'b',
         },
       })).rejects.toThrowError('Container modem error');
+    });
+
+    it('should propagate modem output errors', async() => {
+      dockerode.modem.followProgress = jest.fn((stream, cb) => {
+        cb(null, [{ error: 'Some container modem error' }]);
+      });
+
+      await expect(builder.build({
+        cwd: 'PATH',
+        dockerFile: 'DOCKERFILE',
+        auxiliaryFiles: [ 'file1', 'file2' ],
+        imageName: 'IMAGE',
+        buildArgs: {
+          arg1: 'a',
+          arg2: 'b',
+        },
+      })).rejects.toThrowError('Some container modem error');
     });
   });
 });

@@ -46,6 +46,7 @@ export class DockerContainerHandler implements ProcessHandler {
         this.outputStream.on('error', reject);
         this.outputStream.on('end', resolve);
       });
+      await this.container.remove();
     }
   }
 

@@ -17,22 +17,25 @@ export class DockerImageBuilder {
   public async build(options: IDockerImageBuilderArgs): Promise<void> {
     const buildStream = await this.dockerode.buildImage({
       context: options.cwd,
-      src: [ options.dockerFile, ...options.auxiliaryFiles ],
+      src: [ options.dockerFile, ...options.auxiliaryFiles || [] ],
     }, {
       t: options.imageName,
       buildargs: options.buildArgs,
       dockerfile: options.dockerFile,
     });
-    await new Promise((resolve, reject) => {
+    const output: any[] = await new Promise((resolve, reject) => {
       this.dockerode.modem.followProgress(buildStream, (err: Error, res: any) => err ? reject(err) : resolve(res));
     });
+    if (output.length > 0 && output[output.length - 1].error) {
+      throw new Error(output[output.length - 1].error);
+    }
   }
 }
 
 export interface IDockerImageBuilderArgs {
   cwd: string;
   dockerFile: string;
-  auxiliaryFiles: string[];
+  auxiliaryFiles?: string[];
   imageName: string;
-  buildArgs: Record<string, string>;
+  buildArgs?: Record<string, string>;
 }
