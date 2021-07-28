@@ -1,5 +1,5 @@
 import Path from 'path';
-import type { ITaskContext, DockerResourceConstraints, ProcessHandler, Hook } from 'jbr';
+import type { ITaskContext, DockerResourceConstraints, ProcessHandler, Hook, IHookStartOptions } from 'jbr';
 
 /**
  * A hook instance for a Comunica-based SPARQL endpoint.
@@ -51,7 +51,7 @@ export class HookSparqlEndpointComunica implements Hook {
     });
   }
 
-  public async start(context: ITaskContext): Promise<ProcessHandler> {
+  public async start(context: ITaskContext, options?: IHookStartOptions): Promise<ProcessHandler> {
     return await context.docker.containerCreator.start({
       imageName: this.getDockerImageName(context),
       resourceConstraints: this.resourceConstraints,
@@ -64,6 +64,7 @@ export class HookSparqlEndpointComunica implements Hook {
             { HostPort: `${this.clientPort}` },
           ],
         },
+        NetworkMode: options?.docker?.network,
       },
       logFilePath: Path.join(context.experimentPaths.output, 'logs', 'sparql-endpoint-comunica.txt'),
       statsFilePath: Path.join(context.experimentPaths.output, 'stats-sparql-endpoint-comunica.csv'),

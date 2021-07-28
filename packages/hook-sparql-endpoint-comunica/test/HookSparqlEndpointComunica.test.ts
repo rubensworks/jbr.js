@@ -88,5 +88,30 @@ describe('HookSparqlEndpointComunica', () => {
       expect(endpointHandler.startCollectingStats).not.toHaveBeenCalled();
       expect(endpointHandler.close).not.toHaveBeenCalled();
     });
+
+    it('should start the hook with a network', async() => {
+      const handler = await hook.start(context, { docker: { network: 'n1' }});
+      expect(handler).toBe(endpointHandler);
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        imageName: 'jrb-experiment-CWD-sparql-endpoint-comunica',
+        resourceConstraints,
+        logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-comunica.txt'),
+        statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'),
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.root}/input/context-client.json:/tmp/context.json`,
+          ],
+          PortBindings: {
+            '3000/tcp': [
+              { HostPort: `3001` },
+            ],
+          },
+          NetworkMode: 'n1',
+        },
+      });
+      expect(endpointHandler.startCollectingStats).not.toHaveBeenCalled();
+      expect(endpointHandler.close).not.toHaveBeenCalled();
+    });
   });
 });
