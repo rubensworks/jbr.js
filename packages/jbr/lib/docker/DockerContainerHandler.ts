@@ -30,8 +30,16 @@ export class DockerContainerHandler implements ProcessHandler {
    * Stop and clean this container
    */
   public async close(): Promise<void> {
-    await this.container.kill();
-    await this.container.remove();
+    try {
+      await this.container.kill();
+    } catch {
+      // Ignore error
+    }
+    try {
+      await this.container.remove();
+    } catch {
+      // Ignore error
+    }
   }
 
   /**
