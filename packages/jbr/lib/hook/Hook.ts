@@ -11,7 +11,12 @@ export interface Hook {
   /**
    * Called to start an experiment hook.
    * @param context The task context.
+   * @param options Custom start options.
    * @return A process handler.
    */
-  start: (context: ITaskContext) => Promise<ProcessHandler>;
+  start: (context: ITaskContext, options?: IHookStartOptions) => Promise<ProcessHandler>;
+}
+
+export interface IHookStartOptions {
+  docker?: { network?: string };
 }
