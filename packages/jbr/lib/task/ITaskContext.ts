@@ -2,6 +2,7 @@ import type { Logger } from 'winston';
 import type { DockerContainerCreator } from '../docker/DockerContainerCreator';
 import type { DockerImageBuilder } from '../docker/DockerImageBuilder';
 import type { DockerImagePuller } from '../docker/DockerImagePuller';
+import type { DockerNetworkCreator } from '../docker/DockerNetworkCreator';
 
 /**
  * Common data when running a task.
@@ -16,6 +17,7 @@ export interface ITaskContext {
     containerCreator: DockerContainerCreator;
     imageBuilder: DockerImageBuilder;
     imagePuller: DockerImagePuller;
+    networkCreator: DockerNetworkCreator;
   };
   /**
    * Listeners can be appended to this array

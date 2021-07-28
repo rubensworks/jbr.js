@@ -11,6 +11,7 @@ import { VoidNpmInstaller } from '../../lib/npm/VoidNpmInstaller';
 import { DockerContainerCreator } from '../docker/DockerContainerCreator';
 import { DockerImageBuilder } from '../docker/DockerImageBuilder';
 import { DockerImagePuller } from '../docker/DockerImagePuller';
+import { DockerNetworkCreator } from '../docker/DockerNetworkCreator';
 import type { IExperimentPaths, ITaskContext } from '../task/ITaskContext';
 
 export function createExperimentPaths(basePath: string): IExperimentPaths {
@@ -43,13 +44,20 @@ export async function wrapCommandHandler(
       containerCreator: new DockerContainerCreator(dockerode),
       imageBuilder: new DockerImageBuilder(dockerode),
       imagePuller: new DockerImagePuller(dockerode),
+      networkCreator: new DockerNetworkCreator(dockerode),
     },
     cleanupHandlers: [],
   };
 
   // Register cleanup handling
   let performingGlobalCleanup = false;
-  const globalCleanupHandler = async(): Promise<void> => {
+  const globalCleanupHandler = async(uncaughtException: any): Promise<void> => {
+    // Print error if uncaught exception
+    if (uncaughtException instanceof Error) {
+      // eslint-disable-next-line no-console
+      console.error(uncaughtException);
+    }
+
     performingGlobalCleanup = true;
     try {
       for (const cleanupHandler of context.cleanupHandlers) {
