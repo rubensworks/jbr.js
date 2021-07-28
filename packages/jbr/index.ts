@@ -10,6 +10,7 @@ export * from './lib/docker/StaticDockerResourceConstraints';
 export * from './lib/experiment/ExperimentHandler';
 export * from './lib/experiment/Experiment';
 export * from './lib/experiment/ProcessHandler';
+export * from './lib/experiment/ProcessHandlerComposite';
 export * from './lib/factor/CombinationProvider';
 export * from './lib/factor/FractionalCombinationProvider';
 export * from './lib/factor/FullFactorialCombinationProvider';
