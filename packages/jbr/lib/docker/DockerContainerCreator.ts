@@ -20,6 +20,8 @@ export class DockerContainerCreator {
   public async start(options: IDockerContainerCreatorArgs): Promise<DockerContainerHandler> {
     // Initialize Docker container
     const container = await this.dockerode.createContainer({
+      name: options.containerName,
+      Hostname: options.containerName,
       Image: options.imageName,
       Tty: true,
       Cmd: options.cmdArgs,
@@ -57,6 +59,7 @@ export class DockerContainerCreator {
 }
 
 export interface IDockerContainerCreatorArgs {
+  containerName?: string;
   imageName: string;
   cmdArgs?: string[];
   resourceConstraints?: DockerResourceConstraints;
