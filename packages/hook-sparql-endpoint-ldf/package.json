@@ -1,0 +1,68 @@
+{
+  "name": "@jbr-hook/sparql-endpoint-ldf",
+  "version": "0.0.1",
+  "description": "LDF Server SPARQL endpoint hook handler for JBR",
+  "main": "index.js",
+  "typings": "index",
+  "lsd:module": true,
+  "author": "Ruben Taelman <rubensworks@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rubensworks/jbr.js.git",
+    "directory": "packages/hook-sparql-endpoint-ldf"
+  },
+  "bugs": {
+    "url": "https://github.com/rubensworks/jbr.js/issues"
+  },
+  "homepage": "https://github.com/rubensworks/jbr.js#readme",
+  "license": "MIT",
+  "keywords": [
+    "hook",
+    "LDF server",
+    "Linked Data Fragments",
+    "SPARQL endpoint",
+    "jbr",
+    "benchmarking"
+  ],
+  "files": [
+    "lib/**/*.d.ts",
+    "lib/**/*.js",
+    "lib/templates",
+    "index.d.ts",
+    "index.ts",
+    "components"
+  ],
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "../../tsconfig.json"
+      }
+    },
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "(/test/.*|(\\.|/)(test|spec))\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "collectCoverage": true
+  },
+  "scripts": {
+    "test": "node \"../../node_modules/jest/bin/jest.js\" ${1}",
+    "test-watch": "node \"../../node_modules/jest/bin/jest.js\" ${1} --watch",
+    "build": "node \"../../node_modules/typescript/bin/tsc\"",
+    "build:components": "componentsjs-generator -s lib --typeScopedContexts -i ../../.componentsignore",
+    "validate": "npm ls"
+  },
+  "devDependencies": {
+    "jbr": "^0.0.1"
+  },
+  "peerDependencies": {
+    "jbr": ">=0.0.0"
+  },
+  "dependencies": {
+    "@types/fs-extra": "^9.0.11",
+    "fs-extra": "^10.0.0"
+  }
+}
