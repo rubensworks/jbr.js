@@ -79,7 +79,9 @@ describe('TaskSetHook', () => {
       })),
       instantiateFromConfig: jest.fn((path, iri) => ({
         CONFIG: iri,
-        hook1: 'abc',
+        hook1: {
+          hook2: 'abc',
+        },
       })),
     };
 
@@ -184,6 +186,118 @@ describe('TaskSetHook', () => {
       await task.set();
 
       expect(npmInstaller.install).toHaveBeenCalledWith('CWD', [ '@jbr-hook/TYPE' ]);
+    });
+
+    it('sets a valid hook with sub-hooks', async() => {
+      handler.getSubHookNames = () => [ 'subHook1', 'subHook2' ];
+
+      expect(await task.set()).toEqual({ subHookNames: [ 'subHook1', 'subHook2' ]});
+
+      expect(filesOut).toEqual({
+        [Path.join('CWD', 'jbr-experiment.json')]: `{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld",
+    "context1",
+    "context2",
+    "context3"
+  ],
+  "@id": "IRI",
+  "@type": "TYPE",
+  "hook1": {
+    "@id": "IRI:hook1",
+    "@type": "TYPE",
+    "param1": "value1",
+    "subHook1": {
+      "@id": "IRI:subHook1",
+      "@type": "HookNonConfigured"
+    },
+    "subHook2": {
+      "@id": "IRI:subHook2",
+      "@type": "HookNonConfigured"
+    }
+  }
+}`,
+      });
+      expect(filesUnlinked).toEqual({});
+    });
+
+    it('sets a valid sub-hook', async() => {
+      task = new TaskSetHook(
+        context,
+        [ 'hook1', 'hook2' ],
+        'TYPE',
+        npmInstaller,
+      );
+
+      files[Path.join('CWD', 'jbr-experiment.json')] = `{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld",
+    "context1",
+    "context2"
+  ],
+  "@id": "IRI",
+  "@type": "TYPE",
+  "hook1": {
+    "@id": "IRI:hook1",
+    "@type": "HookNonConfigured",
+    "hook2": {
+      "@id": "IRI:hook2",
+      "@type": "HookNonConfigured"
+    }
+  }
+}`;
+
+      expect(await task.set()).toEqual({ subHookNames: []});
+
+      expect(filesOut).toEqual({
+        [Path.join('CWD', 'jbr-experiment.json')]: `{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld",
+    "context1",
+    "context2",
+    "context3"
+  ],
+  "@id": "IRI",
+  "@type": "TYPE",
+  "hook1": {
+    "@id": "IRI:hook1",
+    "@type": "HookNonConfigured",
+    "hook2": {
+      "@id": "IRI:hook1_hook2",
+      "@type": "TYPE",
+      "param1": "value1"
+    }
+  }
+}`,
+      });
+      expect(filesUnlinked).toEqual({});
+    });
+
+    it('should throw on a non-existing sub-hook', async() => {
+      task = new TaskSetHook(
+        context,
+        [ 'hook1', 'hook2' ],
+        'TYPE',
+        npmInstaller,
+      );
+      await expect(task.set()).rejects.toThrowError(`Illegal hook path: could not find 'hook2' in 'CWD/jbr-experiment.json' on`);
+    });
+
+    it('should throw on empty hook path', async() => {
+      task = new TaskSetHook(
+        context,
+        [],
+        'TYPE',
+        npmInstaller,
+      );
+      await expect(task.set()).rejects.toThrowError(`Illegal hook path of length 0`);
+    });
+  });
+
+  describe('setObjectPath', () => {
+    it('should throw on non existing path element', () => {
+      expect(() => TaskSetHook.setObjectPath('CONFIG', { a: {}}, [ 'a', 'b', 'c' ], 'V'))
+        .toThrowError(`Illegal hook path: could not set a child for 'b' in 'CONFIG' on {}`);
     });
   });
 });

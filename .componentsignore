@@ -3,6 +3,8 @@
   "ExperimentLoader",
   "DockerContainerCreator",
   "DockerContainerHandler",
+  "DockerNetworkCreator",
+  "DockerNetworkHandler",
   "DockerImageBuilder",
   "DockerImagePuller",
   "ITaskContext"

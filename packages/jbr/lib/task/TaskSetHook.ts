@@ -114,7 +114,7 @@ export class TaskSetHook {
     } else {
       const child = object[path[0]];
       if (!child) {
-        throw new Error(`Illegal hook path: could not find '${path[0]}' in '${configPath}' on ${inspect(object)}`);
+        throw new Error(`Illegal hook path: could not set a child for '${path[0]}' in '${configPath}' on ${inspect(object)}`);
       }
       return TaskSetHook.setObjectPath(configPath, child, path.slice(1), value);
     }
