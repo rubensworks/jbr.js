@@ -27,7 +27,7 @@ describe('DockerImagePuller', () => {
 
     it('should propagate modem errors', async() => {
       dockerode.modem.followProgress = jest.fn((stream, cb) => {
-        cb(new Error('Container modem error'));
+        cb(new Error('Container modem error'), []);
       });
 
       await expect(builder.pull({

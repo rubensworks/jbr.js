@@ -19,12 +19,14 @@ export class DockerImageBuilder {
       context: options.cwd,
       src: [ options.dockerFile, ...options.auxiliaryFiles || [] ],
     }, {
+      // eslint-disable-next-line id-length
       t: options.imageName,
       buildargs: options.buildArgs,
       dockerfile: options.dockerFile,
     });
     const output: any[] = await new Promise((resolve, reject) => {
-      this.dockerode.modem.followProgress(buildStream, (err: Error, res: any) => err ? reject(err) : resolve(res));
+      this.dockerode.modem.followProgress(buildStream,
+        (err: Error | null, res: any[]) => err ? reject(err) : resolve(res));
     });
     if (output.length > 0 && output[output.length - 1].error) {
       throw new Error(output[output.length - 1].error);
