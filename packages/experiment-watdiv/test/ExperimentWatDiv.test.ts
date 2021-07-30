@@ -64,6 +64,7 @@ describe('ExperimentWatDiv', () => {
     hookSparqlEndpoint = <any> {
       prepare: jest.fn(),
       start: jest.fn(() => endpointHandler),
+      clean: jest.fn(),
     };
     sparqlBenchmarkRun = jest.fn(async({ onStart, onStop }) => {
       await onStart();
@@ -202,6 +203,14 @@ describe('ExperimentWatDiv', () => {
 
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
       expect(endpointHandler.close).toHaveBeenCalled();
+    });
+  });
+
+  describe('clean', () => {
+    it('should clean without targets', async() => {
+      await experiment.clean(context, {});
+
+      expect(hookSparqlEndpoint.clean).toHaveBeenCalledWith(context, {});
     });
   });
 });

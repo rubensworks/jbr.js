@@ -18,4 +18,19 @@ export class DockerNetworkCreator {
   public async create(options: Dockerode.NetworkCreateOptions): Promise<DockerNetworkHandler> {
     return new DockerNetworkHandler(await this.dockerode.createNetwork(options));
   }
+
+  /**
+   * Remove a network
+   * @param name A network name
+   */
+  public async remove(name: string): Promise<void> {
+    const network = this.dockerode.getNetwork(name);
+    if (network) {
+      try {
+        await network.remove({ force: true });
+      } catch {
+        // Ignore errors
+      }
+    }
+  }
 }

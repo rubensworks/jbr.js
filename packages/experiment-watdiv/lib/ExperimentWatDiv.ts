@@ -1,6 +1,6 @@
 import * as Path from 'path';
 import * as fs from 'fs-extra';
-import type { Experiment, Hook, ITaskContext } from 'jbr';
+import type { Experiment, Hook, ICleanTargets, ITaskContext } from 'jbr';
 import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
 
 /**
@@ -136,5 +136,9 @@ export class ExperimentWatDiv implements Experiment {
 
     // Close endpoint and server
     await cleanupHandler();
+  }
+
+  public async clean(context: ITaskContext, cleanTargets: ICleanTargets): Promise<void> {
+    await this.hookSparqlEndpoint.clean(context, cleanTargets);
   }
 }

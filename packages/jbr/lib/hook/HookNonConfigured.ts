@@ -1,6 +1,7 @@
 import { command as commandSetHook } from '../cli/commands/CommandSetHook';
 import { ErrorHandled } from '../cli/ErrorHandled';
 import type { ProcessHandler } from '../experiment/ProcessHandler';
+import type { ICleanTargets } from '../task/ICleanTargets';
 import type { ITaskContext } from '../task/ITaskContext';
 import type { Hook } from './Hook';
 
@@ -15,6 +16,10 @@ export class HookNonConfigured implements Hook {
   }
 
   public async start(context: ITaskContext): Promise<ProcessHandler> {
+    throw this.makeError();
+  }
+
+  public async clean(context: ITaskContext, cleanTargets: ICleanTargets): Promise<void> {
     throw this.makeError();
   }
 

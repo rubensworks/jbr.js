@@ -69,6 +69,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
         },
         containerCreator: <any> {
           start: jest.fn(async() => serverHandler),
+          remove: jest.fn(),
         },
         statsCollector: {
           collect: jest.fn(),
@@ -84,6 +85,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
     hookSparqlEndpoint = <any> {
       prepare: jest.fn(),
       start: jest.fn(() => endpointHandler),
+      clean: jest.fn(),
     };
     generatorGenerate = jest.fn();
     sparqlBenchmarkRun = jest.fn(async({ onStart, onStop }) => {
@@ -141,6 +143,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       await experiment.run(context);
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        containerName: 'ldbc-snb-decentralized-server',
         imageName: 'jrb-experiment-CWD-server',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'server.txt'),
@@ -190,6 +193,22 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
       expect(serverHandler.close).toHaveBeenCalled();
       expect(endpointHandler.close).toHaveBeenCalled();
+    });
+  });
+
+  describe('clean', () => {
+    it('should clean without targets', async() => {
+      await experiment.clean(context, {});
+
+      expect(hookSparqlEndpoint.clean).toHaveBeenCalledWith(context, {});
+    });
+
+    it('should clean with docker target', async() => {
+      await experiment.clean(context, { docker: true });
+
+      expect(hookSparqlEndpoint.clean).toHaveBeenCalledWith(context, { docker: true });
+
+      expect(context.docker.containerCreator.remove).toHaveBeenCalledWith('ldbc-snb-decentralized-server');
     });
   });
 });

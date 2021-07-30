@@ -47,6 +47,7 @@ This tool offers commands for executing the whole experimentation chain:
 jbr <command>
 
 Commands:
+  jbr clean                      Cleans up an experiment
   jbr generate-combinations      Generate combinations of experiment templates
   jbr init <type> <name>         Initializes a new experiment
   jbr prepare                    Prepare data for the current experiment

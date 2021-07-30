@@ -1,6 +1,8 @@
 import * as Path from 'path';
 import * as fs from 'fs-extra';
-import type { Experiment, Hook, ITaskContext, DockerResourceConstraints, DockerContainerHandler } from 'jbr';
+import type { Experiment, Hook, ITaskContext,
+  DockerResourceConstraints, DockerContainerHandler, ICleanTargets } from 'jbr';
+
 import { Generator } from 'ldbc-snb-decentralized/lib/Generator';
 import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
 
@@ -153,6 +155,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
 
   public async startServer(context: ITaskContext): Promise<DockerContainerHandler> {
     return await context.docker.containerCreator.start({
+      containerName: 'ldbc-snb-decentralized-server',
       imageName: this.getServerDockerImageName(context),
       resourceConstraints: this.serverResourceConstraints,
       hostConfig: {
@@ -168,5 +171,13 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
       logFilePath: Path.join(context.experimentPaths.output, 'logs', 'server.txt'),
       statsFilePath: Path.join(context.experimentPaths.output, 'stats-server.csv'),
     });
+  }
+
+  public async clean(context: ITaskContext, cleanTargets: ICleanTargets): Promise<void> {
+    await this.hookSparqlEndpoint.clean(context, cleanTargets);
+
+    if (cleanTargets.docker) {
+      await context.docker.containerCreator.remove('ldbc-snb-decentralized-server');
+    }
   }
 }

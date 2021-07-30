@@ -27,6 +27,7 @@ describe('HookSparqlEndpointComunica', () => {
         },
         containerCreator: <any> {
           start: jest.fn(async() => endpointHandler),
+          remove: jest.fn(),
         },
         statsCollector: {
           collect: jest.fn(),
@@ -70,6 +71,7 @@ describe('HookSparqlEndpointComunica', () => {
       expect(handler).toBe(endpointHandler);
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        containerName: 'comunica',
         imageName: 'jrb-experiment-CWD-sparql-endpoint-comunica',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-comunica.txt'),
@@ -94,6 +96,7 @@ describe('HookSparqlEndpointComunica', () => {
       expect(handler).toBe(endpointHandler);
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        containerName: 'comunica',
         imageName: 'jrb-experiment-CWD-sparql-endpoint-comunica',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-comunica.txt'),
@@ -112,6 +115,20 @@ describe('HookSparqlEndpointComunica', () => {
       });
       expect(endpointHandler.startCollectingStats).not.toHaveBeenCalled();
       expect(endpointHandler.close).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('clean', () => {
+    it('should clean without targets', async() => {
+      await hook.clean(context, {});
+
+      expect(context.docker.containerCreator.remove).not.toHaveBeenCalled();
+    });
+
+    it('should clean with docker target', async() => {
+      await hook.clean(context, { docker: true });
+
+      expect(context.docker.containerCreator.remove).toHaveBeenCalledWith('comunica');
     });
   });
 });

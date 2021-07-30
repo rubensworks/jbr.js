@@ -56,6 +56,21 @@ export class DockerContainerCreator {
 
     return containerHandler;
   }
+
+  /**
+   * Remove a container
+   * @param name A container name
+   */
+  public async remove(name: string): Promise<void> {
+    const container = this.dockerode.getContainer(name);
+    if (container) {
+      try {
+        await container.remove({ force: true });
+      } catch {
+        // Ignore errors
+      }
+    }
+  }
 }
 
 export interface IDockerContainerCreatorArgs {

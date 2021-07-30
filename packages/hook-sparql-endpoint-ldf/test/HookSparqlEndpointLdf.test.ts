@@ -28,12 +28,14 @@ describe('HookSparqlEndpointLdf', () => {
         },
         containerCreator: <any> {
           start: jest.fn(async() => endpointHandler),
+          remove: jest.fn(),
         },
         statsCollector: {
           collect: jest.fn(),
         },
         networkCreator: {
           create: jest.fn(() => ({ network: { id: 'NETWORK' }})),
+          remove: jest.fn(),
         },
       },
     };
@@ -41,6 +43,7 @@ describe('HookSparqlEndpointLdf', () => {
     subHook = {
       prepare: jest.fn(),
       start: jest.fn(),
+      clean: jest.fn(),
     };
     hook = new HookSparqlEndpointLdf(
       'input/dockerfiles/Dockerfile-ldf-server',
@@ -183,6 +186,27 @@ describe('HookSparqlEndpointLdf', () => {
       });
 
       expect(subHook.start).toHaveBeenCalledWith(context, { docker: { network: 'MY-NETWORK' }});
+    });
+  });
+
+  describe('clean', () => {
+    it('should clean without targets', async() => {
+      await hook.clean(context, {});
+
+      expect(subHook.clean).toHaveBeenCalledWith(context, {});
+
+      expect(context.docker.containerCreator.remove).not.toHaveBeenCalled();
+    });
+
+    it('should clean with docker target', async() => {
+      await hook.clean(context, { docker: true });
+
+      expect(subHook.clean).toHaveBeenCalledWith(context, { docker: true });
+
+      expect(context.docker.networkCreator.remove)
+        .toHaveBeenCalledWith('jrb-experiment-CWD-sparql-endpoint-ldf-network');
+      expect(context.docker.containerCreator.remove).toHaveBeenCalledWith('ldfserver');
+      expect(context.docker.containerCreator.remove).toHaveBeenCalledWith('cache');
     });
   });
 });

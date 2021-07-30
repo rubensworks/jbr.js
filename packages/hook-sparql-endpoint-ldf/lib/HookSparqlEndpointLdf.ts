@@ -1,6 +1,7 @@
 import Path from 'path';
 import { ProcessHandlerComposite } from 'jbr';
-import type { ITaskContext, DockerResourceConstraints, ProcessHandler, Hook, IHookStartOptions } from 'jbr';
+import type { ITaskContext, DockerResourceConstraints,
+  ProcessHandler, Hook, IHookStartOptions, ICleanTargets } from 'jbr';
 
 /**
  * A hook instance for a LDF server-based SPARQL endpoint.
@@ -132,5 +133,15 @@ export class HookSparqlEndpointLdf implements Hook {
       serverHandler,
       ...networkHandler ? [ networkHandler ] : [],
     ]);
+  }
+
+  public async clean(context: ITaskContext, cleanTargets: ICleanTargets): Promise<void> {
+    await this.hookSparqlEndpointLdfEngine.clean(context, cleanTargets);
+
+    if (cleanTargets.docker) {
+      await context.docker.networkCreator.remove(this.getDockerImageName(context, 'network'));
+      await context.docker.containerCreator.remove('ldfserver');
+      await context.docker.containerCreator.remove('cache');
+    }
   }
 }

@@ -20,6 +20,7 @@ describe('DockerContainerCreator', () => {
     };
     dockerode = <any> {
       createContainer: jest.fn(() => container),
+      getContainer: jest.fn(() => container),
     };
     creator = new DockerContainerCreator(dockerode);
   });
@@ -92,6 +93,33 @@ describe('DockerContainerCreator', () => {
       expect(container.start).toHaveBeenCalled();
       expect(container.kill).not.toHaveBeenCalled();
       expect(container.remove).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('remove', () => {
+    it('removes a container', async() => {
+      await creator.remove('C1');
+
+      expect(dockerode.getContainer).toHaveBeenCalledWith('C1');
+      expect(container.remove).toHaveBeenCalledWith({ force: true });
+    });
+
+    it('does nothing for a non-existing container', async() => {
+      dockerode.getContainer = jest.fn();
+
+      await creator.remove('C1');
+
+      expect(dockerode.getContainer).toHaveBeenCalledWith('C1');
+      expect(container.remove).not.toHaveBeenCalled();
+    });
+
+    it('does nothing for a erroring container removal', async() => {
+      container.remove = jest.fn(() => Promise.reject(new Error('remove container error')));
+
+      await creator.remove('C1');
+
+      expect(dockerode.getContainer).toHaveBeenCalledWith('C1');
+      expect(container.remove).toHaveBeenCalledWith({ force: true });
     });
   });
 });

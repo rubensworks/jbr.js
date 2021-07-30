@@ -19,4 +19,11 @@ Initialize this hook via 'jbr set-hook <hook> <handler>'`);
 Initialize this hook via 'jbr set-hook <hook> <handler>'`);
     });
   });
+
+  describe('clean', () => {
+    it('always throws', async() => {
+      await expect(hook.clean(<any> {}, <any> {})).rejects.toThrow(`Unable to run an experiment with a non-configured hook ('ExperimentHookNonConfigured').
+Initialize this hook via 'jbr set-hook <hook> <handler>'`);
+    });
+  });
 });
