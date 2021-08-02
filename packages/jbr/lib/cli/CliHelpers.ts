@@ -55,6 +55,8 @@ export async function wrapCommandHandler(
     // Print error if uncaught exception
     if (uncaughtException instanceof Error) {
       // eslint-disable-next-line no-console
+      console.error('Uncaught Exception:');
+      // eslint-disable-next-line no-console
       console.error(uncaughtException);
     }
 
