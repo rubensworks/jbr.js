@@ -20,6 +20,11 @@ export function runCli(cwd: string, argv: string[]): void {
         alias: 'd',
         describe: 'Path to a file with custom Docker options',
       },
+      breakpoints: {
+        type: 'boolean',
+        alias: 'b',
+        describe: 'If experiment breakpoints are enabled',
+      },
     })
     .commandDir('commands')
     .demandCommand()

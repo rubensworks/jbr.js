@@ -120,6 +120,11 @@ export class ExperimentWatDiv implements Experiment {
       async onStart() {
         // Collect stats
         stopEndpointStats = await endpointProcessHandler.startCollectingStats();
+
+        // Breakpoint right before starting queries.
+        if (context.breakpointBarrier) {
+          await context.breakpointBarrier();
+        }
       },
       async onStop() {
         stopEndpointStats();

@@ -24,6 +24,13 @@ export interface ITaskContext {
    * to make sure that they are invoked when the process ends abnormally.
    */
   cleanupHandlers: (() => Promise<void>)[];
+  /**
+   * An optional barrier that -when defined-
+   * must cause experiments to await its resolution.
+   *
+   * This can be used as break-points when debugging experiments.
+   */
+  breakpointBarrier?: () => Promise<void>;
 }
 
 /**

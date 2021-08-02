@@ -61,6 +61,7 @@ Options:
   -m, --mainModulePath  Path from which modules should be loaded        [string]
   -v, --verbose         If more logging output should be generated     [boolean]
   -d, --dockerOptions   Path to a file with custom Docker options       [string]
+  -b, --breakpoints     If experiment breakpoints are enabled          [boolean]
       --help            Show help
 ```
 

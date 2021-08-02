@@ -23,6 +23,17 @@ export function createExperimentPaths(basePath: string): IExperimentPaths {
   };
 }
 
+export function breakpointBarrier(): Promise<void> {
+  return new Promise<void>(resolve => {
+    process.stdout.write('BREAKPOINT: Press any key to continue\n');
+    process.stdin.setRawMode(true);
+    process.stdin.on('data', () => {
+      process.stdin.setRawMode(false);
+      resolve();
+    });
+  });
+}
+
 export async function wrapCommandHandler(
   argv: Record<string, any>,
   handler: (context: ITaskContext) => Promise<void>,
@@ -47,6 +58,7 @@ export async function wrapCommandHandler(
       networkCreator: new DockerNetworkCreator(dockerode),
     },
     cleanupHandlers: [],
+    ...argv.breakpoints ? { breakpointBarrier } : {},
   };
 
   // Register cleanup handling

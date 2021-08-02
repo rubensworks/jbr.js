@@ -134,6 +134,11 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
         // Collect stats
         stopServerStats = await serverHandler.startCollectingStats();
         stopEndpointStats = await endpointProcessHandler.startCollectingStats();
+
+        // Breakpoint right before starting queries.
+        if (context.breakpointBarrier) {
+          await context.breakpointBarrier();
+        }
       },
       async onStop() {
         stopServerStats();

@@ -204,6 +204,31 @@ describe('ExperimentWatDiv', () => {
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
       expect(endpointHandler.close).toHaveBeenCalled();
     });
+
+    it('should run the experiment with breakpoint', async() => {
+      let breakpointBarrierResolver: any;
+      const breakpointBarrier: any = () => new Promise(resolve => {
+        breakpointBarrierResolver = resolve;
+      });
+      const experimentEnd = experiment.run({ ...context, breakpointBarrier });
+
+      await new Promise(setImmediate);
+
+      expect(hookSparqlEndpoint.start).toHaveBeenCalled();
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
+      expect(sparqlBenchmarkRun).toHaveBeenCalled();
+      expect(endpointHandler.close).not.toHaveBeenCalled();
+
+      breakpointBarrierResolver();
+      await experimentEnd;
+
+      expect(endpointHandler.close).toHaveBeenCalled();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
+
+      expect(dirsOut).toEqual({
+        'CWD/output': true,
+      });
+    });
   });
 
   describe('clean', () => {
