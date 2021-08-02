@@ -12,6 +12,7 @@ describe('DockerNetworkCreator', () => {
     dockerode = <any> {
       createNetwork: jest.fn(() => 'NETWORK'),
       getNetwork: jest.fn(() => network),
+      pruneNetworks: jest.fn(),
     };
     creator = new DockerNetworkCreator(dockerode);
   });
@@ -32,6 +33,7 @@ describe('DockerNetworkCreator', () => {
     it('removes a container', async() => {
       await creator.remove('N1');
 
+      expect(dockerode.pruneNetworks).toHaveBeenCalledWith();
       expect(dockerode.getNetwork).toHaveBeenCalledWith('N1');
       expect(network.remove).toHaveBeenCalledWith({ force: true });
     });
@@ -41,6 +43,7 @@ describe('DockerNetworkCreator', () => {
 
       await creator.remove('N1');
 
+      expect(dockerode.pruneNetworks).toHaveBeenCalledWith();
       expect(dockerode.getNetwork).toHaveBeenCalledWith('N1');
       expect(network.remove).not.toHaveBeenCalled();
     });
@@ -50,6 +53,7 @@ describe('DockerNetworkCreator', () => {
 
       await creator.remove('N1');
 
+      expect(dockerode.pruneNetworks).toHaveBeenCalledWith();
       expect(dockerode.getNetwork).toHaveBeenCalledWith('N1');
       expect(network.remove).toHaveBeenCalledWith({ force: true });
     });

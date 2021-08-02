@@ -24,6 +24,9 @@ export class DockerNetworkCreator {
    * @param name A network name
    */
   public async remove(name: string): Promise<void> {
+    // First prune unused networks
+    await this.dockerode.pruneNetworks();
+
     const network = this.dockerode.getNetwork(name);
     if (network) {
       try {
