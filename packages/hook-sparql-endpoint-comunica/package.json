@@ -11,6 +11,9 @@
     "url": "https://github.com/rubensworks/jbr.js.git",
     "directory": "packages/hook-sparql-endpoint-comunica"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "bugs": {
     "url": "https://github.com/rubensworks/jbr.js/issues"
   },
