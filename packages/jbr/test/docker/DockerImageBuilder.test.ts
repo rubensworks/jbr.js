@@ -1,5 +1,5 @@
 import type * as Dockerode from 'dockerode';
-import { DockerImageBuilder } from '../../../lib/docker/DockerImageBuilder';
+import { DockerImageBuilder } from '../../lib/docker/DockerImageBuilder';
 
 describe('DockerImageBuilder', () => {
   let dockerode: Dockerode;

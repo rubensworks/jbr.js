@@ -1,7 +1,7 @@
 import type * as Dockerode from 'dockerode';
 import * as fs from 'fs-extra';
-import { DockerContainerCreator } from '../../../lib/docker/DockerContainerCreator';
-import { DockerContainerHandler } from '../../../lib/docker/DockerContainerHandler';
+import { DockerContainerCreator } from '../../lib/docker/DockerContainerCreator';
+import { DockerContainerHandler } from '../../lib/docker/DockerContainerHandler';
 
 jest.mock('fs-extra', () => ({
   createWriteStream: jest.fn(),

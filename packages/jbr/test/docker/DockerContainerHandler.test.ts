@@ -1,5 +1,5 @@
 import { Readable } from 'stream';
-import { DockerContainerHandler } from '../../../lib/docker/DockerContainerHandler';
+import { DockerContainerHandler } from '../../lib/docker/DockerContainerHandler';
 const streamifyString = require('streamify-string');
 
 let write: any;

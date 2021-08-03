@@ -1,5 +1,5 @@
 import type * as Dockerode from 'dockerode';
-import { DockerNetworkCreator } from '../../../lib/docker/DockerNetworkCreator';
+import { DockerNetworkCreator } from '../../lib/docker/DockerNetworkCreator';
 
 describe('DockerNetworkCreator', () => {
   let network: any;

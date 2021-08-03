@@ -1,5 +1,5 @@
 import type * as Dockerode from 'dockerode';
-import { DockerImagePuller } from '../../../lib/docker/DockerImagePuller';
+import { DockerImagePuller } from '../../lib/docker/DockerImagePuller';
 
 describe('DockerImagePuller', () => {
   let dockerode: Dockerode;

@@ -1,4 +1,4 @@
-import { StaticDockerResourceConstraints } from '../../../lib/docker/StaticDockerResourceConstraints';
+import { StaticDockerResourceConstraints } from '../../lib/docker/StaticDockerResourceConstraints';
 
 describe('StaticDockerResourceConstraints', () => {
   let constraints: StaticDockerResourceConstraints;

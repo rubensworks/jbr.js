@@ -1,4 +1,4 @@
-import { DockerNetworkHandler } from '../../../lib/docker/DockerNetworkHandler';
+import { DockerNetworkHandler } from '../../lib/docker/DockerNetworkHandler';
 const streamifyString = require('streamify-string');
 
 let write: any;
