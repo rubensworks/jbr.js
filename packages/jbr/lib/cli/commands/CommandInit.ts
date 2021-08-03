@@ -21,11 +21,15 @@ export const builder = (yargs: Argv<any>): Argv<any> =>
         alias: 'c',
         describe: 'Creates a combinations-based experiment',
       },
+      next: {
+        type: 'boolean',
+        describe: 'Install jbr at npm from the experimental next tag',
+      },
     });
 export const handler = (argv: Record<string, any>): Promise<void> => wrapCommandHandler(argv,
   async(context: ITaskContext) => {
     const target = argv.target || argv.name;
-    const npmInstaller = await createNpmInstaller();
+    const npmInstaller = await createNpmInstaller(argv.next);
     const output = await wrapVisualProgress(`Initializing new${argv.combinations ? ' combinations-based' : ''} experiment`,
       async() => new TaskInitialize(
         context,

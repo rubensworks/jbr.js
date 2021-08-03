@@ -7,24 +7,55 @@ jest.mock('cross-spawn', () => ({
 
 describe('CliNpmInstaller', () => {
   let installer: CliNpmInstaller;
+
   beforeEach(() => {
-    installer = new CliNpmInstaller();
+    (<any> spawn.sync).mockImplementation(() => ({ error: undefined, status: 0 }));
   });
 
-  describe('install', () => {
-    it('should handle process with exit code 0', async() => {
-      await installer.install('CWD', [ 'package' ]);
+  describe('without next version', () => {
+    beforeEach(() => {
+      installer = new CliNpmInstaller(false);
     });
 
-    it('should reject on spawn errors', async() => {
-      (<any> spawn.sync).mockImplementation(() => ({ error: new Error('NPM INSTALL FAILURE') }));
-      await expect(installer.install('CWD', [ 'package' ])).rejects.toThrowError('NPM INSTALL FAILURE');
+    describe('install', () => {
+      it('should handle process with exit code 0', async() => {
+        await installer.install('CWD', [ 'package' ]);
+      });
+
+      it('should reject on spawn errors', async() => {
+        (<any> spawn.sync).mockImplementation(() => ({ error: new Error('NPM INSTALL FAILURE') }));
+        await expect(installer.install('CWD', [ 'package' ])).rejects.toThrowError('NPM INSTALL FAILURE');
+      });
+
+      it('should reject on shell errors', async() => {
+        (<any> spawn.sync).mockImplementation(() => ({ status: 1, stderr: 'MY ERROR' }));
+        await expect(installer.install('CWD', [ 'package' ])).rejects
+          .toThrowError(`Npm installation failed for package:\nMY ERROR`);
+      });
+    });
+  });
+
+  describe('for next version', () => {
+    beforeEach(() => {
+      installer = new CliNpmInstaller(true);
     });
 
-    it('should reject on shell errors', async() => {
-      (<any> spawn.sync).mockImplementation(() => ({ status: 1, stderr: 'MY ERROR' }));
-      await expect(installer.install('CWD', [ 'package' ])).rejects
-        .toThrowError(`Npm installation failed for package:\nMY ERROR`);
+    describe('install', () => {
+      it('should handle process with exit code 0', async() => {
+        await installer.install('CWD', [ 'package' ]);
+      });
+
+      it('should reject on spawn errors', async() => {
+        (<any> spawn.sync).mockImplementation(() => ({ error: new Error('NPM INSTALL FAILURE') }));
+        await expect(installer.install('CWD', [ 'package' ])).rejects
+          .toThrowError('NPM INSTALL FAILURE');
+      });
+
+      it('should reject on shell errors', async() => {
+        (<any> spawn.sync).mockImplementation(() => ({ status: 1, stderr: 'MY ERROR' }));
+        await expect(installer.install('CWD', [ 'package' ])).rejects
+          .toThrowError(`Npm installation failed for package@next:\nMY ERROR`);
+      });
     });
   });
 });
