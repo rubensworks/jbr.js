@@ -66,7 +66,6 @@ describe('ExperimentHandlerLdbcSnbDecentralized', () => {
 
       expect(dirsOut).toEqual({
         [Path.join('dir', 'input', 'dockerfiles')]: true,
-        [Path.join('dir', 'output', 'logs')]: true,
         [Path.join('dir', 'queryTemplates')]: Templates.QUERIES_DIRECTORY,
       });
       expect(filesOut).toEqual({

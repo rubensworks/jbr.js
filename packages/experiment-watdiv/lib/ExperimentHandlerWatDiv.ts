@@ -1,5 +1,3 @@
-import Path from 'path';
-import * as fs from 'fs-extra';
 import type { IExperimentPaths } from 'jbr';
 import { ExperimentHandler } from 'jbr';
 import { ExperimentWatDiv } from './ExperimentWatDiv';
@@ -32,7 +30,6 @@ export class ExperimentHandlerWatDiv extends ExperimentHandler<ExperimentWatDiv>
   }
 
   public async init(experimentPaths: IExperimentPaths, experiment: ExperimentWatDiv): Promise<void> {
-    // Create empty logs directory
-    await fs.mkdir(Path.join(experimentPaths.output, 'logs'));
+    // Do nothing
   }
 }

@@ -64,8 +64,5 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
     await fs.mkdir(Path.join(experimentPaths.input, 'dockerfiles'));
     await fs.copyFile(Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-server'),
       Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-server'));
-
-    // Create empty logs directory
-    await fs.mkdir(Path.join(experimentPaths.output, 'logs'));
   }
 }

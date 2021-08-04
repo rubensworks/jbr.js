@@ -45,6 +45,9 @@ export class ExperimentWatDiv implements Experiment {
     // Prepare hook
     await this.hookSparqlEndpoint.prepare(context);
 
+    // Ensure logs directory exists
+    await fs.ensureDir(Path.join(context.experimentPaths.output, 'logs'));
+
     // Prepare dataset
     context.logger.info(`Generating WatDiv dataset and queries`);
     await context.docker.imagePuller.pull({ repoTag: ExperimentWatDiv.DOCKER_IMAGE_WATDIV });

@@ -39,6 +39,9 @@ jest.mock('fs-extra', () => ({
   createWriteStream: jest.fn((path: string) => {
     filesOut[path] = true;
   }),
+  async ensureDir(dirPath: string) {
+    dirsOut[dirPath] = true;
+  },
 }));
 
 describe('ExperimentLdbcSnbDecentralized', () => {
@@ -170,6 +173,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
 
       expect(dirsOut).toEqual({
         'CWD/output': true,
+        'CWD/output/logs': true,
       });
     });
 
@@ -177,7 +181,9 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       files['CWD/output'] = true;
       await experiment.run(context);
 
-      expect(dirsOut).toEqual({});
+      expect(dirsOut).toEqual({
+        'CWD/output/logs': true,
+      });
     });
 
     it('should gracefully close services on SIGINT', async() => {
@@ -220,6 +226,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
 
       expect(dirsOut).toEqual({
         'CWD/output': true,
+        'CWD/output/logs': true,
       });
     });
   });

@@ -30,6 +30,9 @@ jest.mock('fs-extra', () => ({
   createWriteStream: jest.fn((path: string) => {
     filesOut[path] = true;
   }),
+  async ensureDir(dirPath: string) {
+    dirsOut[dirPath] = true;
+  },
 }));
 
 describe('ExperimentWatDiv', () => {
@@ -132,6 +135,10 @@ describe('ExperimentWatDiv', () => {
         },
         logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt-index.txt'),
       });
+
+      expect(dirsOut).toEqual({
+        'CWD/output/logs': true,
+      });
     });
 
     it('should prepare the experiment without HDT', async() => {
@@ -166,6 +173,10 @@ describe('ExperimentWatDiv', () => {
           ],
         },
         logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-generation.txt'),
+      });
+
+      expect(dirsOut).toEqual({
+        'CWD/output/logs': true,
       });
     });
   });

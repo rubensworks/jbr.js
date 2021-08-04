@@ -159,6 +159,9 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
   }
 
   public async startServer(context: ITaskContext): Promise<DockerContainerHandler> {
+    // Ensure logs directory exists
+    await fs.ensureDir(Path.join(context.experimentPaths.output, 'logs'));
+
     return await context.docker.containerCreator.start({
       containerName: 'ldbc-snb-decentralized-server',
       imageName: this.getServerDockerImageName(context),

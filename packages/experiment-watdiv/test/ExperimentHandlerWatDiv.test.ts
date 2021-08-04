@@ -1,4 +1,3 @@
-import * as Path from 'path';
 import type { IExperimentPaths } from 'jbr';
 import { createExperimentPaths } from 'jbr';
 import { ExperimentHandlerWatDiv } from '../lib/ExperimentHandlerWatDiv';
@@ -56,9 +55,7 @@ describe('ExperimentHandlerWatDiv', () => {
     it('initializes directories and files', async() => {
       await handler.init(experimentPaths, <any> {});
 
-      expect(dirsOut).toEqual({
-        [Path.join('dir', 'output', 'logs')]: true,
-      });
+      expect(dirsOut).toEqual({});
       expect(filesOut).toEqual({});
     });
   });
