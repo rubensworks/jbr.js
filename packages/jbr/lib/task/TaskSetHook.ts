@@ -89,12 +89,12 @@ export class TaskSetHook {
     }
 
     // Instantiate experiment for validation
-    const { experiments, experimentPathsArray } = await experimentLoader
+    const { experiments } = await experimentLoader
       .instantiateExperiments(this.context.experimentPaths.root);
 
     // Invoke the handler type's init logic
-    for (const [ experimentIndex, experiment ] of experiments.entries()) {
-      await handlerType.init(experimentPathsArray[experimentIndex],
+    for (const experiment of experiments) {
+      await handlerType.init(this.context.experimentPaths,
         TaskSetHook.getObjectPath(configPath, experiment, this.hookPathName));
     }
 

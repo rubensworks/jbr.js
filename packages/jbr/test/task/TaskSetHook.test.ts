@@ -139,6 +139,7 @@ describe('TaskSetHook', () => {
     it('sets a valid hook', async() => {
       expect(await task.set()).toEqual({ subHookNames: []});
 
+      expect(handler.init).toHaveBeenCalledWith(context.experimentPaths, { hook2: 'abc' });
       expect(filesOut).toEqual({
         [Path.join('CWD', 'jbr-experiment.json')]: `{
   "@context": [
