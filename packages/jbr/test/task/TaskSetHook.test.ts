@@ -30,13 +30,22 @@ jest.mock('fs-extra', () => ({
 }));
 
 let experimentLoader: ExperimentLoader;
+let isCombinationsExperiment = false;
 jest.mock('../../lib/task/ExperimentLoader', () => ({
   ExperimentLoader: {
     ...jest.requireActual('../../lib/task/ExperimentLoader').ExperimentLoader,
     build: jest.fn(() => experimentLoader),
     getDefaultExperimentIri: () => 'IRI',
     getPreparedMarkerPath: jest.requireActual('../../lib/task/ExperimentLoader').ExperimentLoader.getPreparedMarkerPath,
+    isCombinationsExperiment: () => isCombinationsExperiment,
   },
+}));
+
+let taskGenerateCombinations: any;
+jest.mock('../../lib/task/TaskGenerateCombinations', () => ({
+  TaskGenerateCombinations: jest.fn().mockImplementation(() => ({
+    generate: taskGenerateCombinations,
+  })),
 }));
 
 describe('TaskSetHook', () => {
@@ -70,6 +79,7 @@ describe('TaskSetHook', () => {
       getSubHookNames: () => [],
       init: jest.fn(),
     };
+    isCombinationsExperiment = false;
     experimentLoader = <any> {
       discoverHookHandlers: jest.fn(() => ({
         TYPE: {
@@ -77,16 +87,37 @@ describe('TaskSetHook', () => {
           contexts: [ 'context2', 'context3' ],
         },
       })),
-      instantiateFromConfig: jest.fn((path, iri) => ({
-        CONFIG: iri,
-        hook1: {
-          hook2: 'abc',
-        },
+      instantiateExperiments: jest.fn(path => ({
+        experiments: [
+          {
+            CONFIG: path,
+            hook1: {
+              hook2: 'abc',
+            },
+          },
+        ],
+        experimentPathsArray: [
+          'PATH1',
+        ],
       })),
     };
+    taskGenerateCombinations = jest.fn();
 
     files = {
       [Path.join('CWD', 'jbr-experiment.json')]: `{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld",
+    "context1",
+    "context2"
+  ],
+  "@id": "IRI",
+  "@type": "TYPE",
+  "hook1": {
+    "@id": "IRI:hook1",
+    "@type": "HookNonConfigured"
+  }
+}`,
+      [Path.join('CWD', 'jbr-experiment.json.template')]: `{
   "@context": [
     "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld",
     "context1",
@@ -151,6 +182,31 @@ describe('TaskSetHook', () => {
 }`,
       });
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeTruthy();
+    });
+
+    it('sets a valid hook for a combinations-based experiment', async() => {
+      isCombinationsExperiment = true;
+      expect(await task.set()).toEqual({ subHookNames: []});
+
+      expect(taskGenerateCombinations).toHaveBeenCalled();
+      expect(filesOut).toEqual({
+        [Path.join('CWD', 'jbr-experiment.json.template')]: `{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld",
+    "context1",
+    "context2",
+    "context3"
+  ],
+  "@id": "IRI",
+  "@type": "TYPE",
+  "hook1": {
+    "@id": "IRI:hook1",
+    "@type": "TYPE",
+    "param1": "value1"
+  }
+}`,
+      });
+      expect(filesUnlinked).toEqual({});
     });
 
     it('should throw when initializing an unknown handler type', async() => {

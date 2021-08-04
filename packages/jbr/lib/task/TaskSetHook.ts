@@ -6,6 +6,7 @@ import { HookNonConfigured } from '../hook/HookNonConfigured';
 import type { NpmInstaller } from '../npm/NpmInstaller';
 import { ExperimentLoader } from './ExperimentLoader';
 import type { ITaskContext } from './ITaskContext';
+import { TaskGenerateCombinations } from './TaskGenerateCombinations';
 
 /**
  * Sets a handler for a given experiment's hook
@@ -43,7 +44,11 @@ export class TaskSetHook {
     const { handler: handlerType, contexts } = handlerTypeWrapped;
 
     // Read config file
-    const configPath = Path.join(this.context.experimentPaths.root, ExperimentLoader.CONFIG_NAME);
+    const combinationsExperiment = await ExperimentLoader.isCombinationsExperiment(this.context.experimentPaths.root);
+    const configPath = Path.join(
+      this.context.experimentPaths.root,
+      combinationsExperiment ? ExperimentLoader.CONFIG_TEMPLATE_NAME : ExperimentLoader.CONFIG_NAME,
+    );
     const config = JSON.parse(await fs.readFile(configPath, 'utf8'));
     const experimentIri = config['@id'];
 
@@ -78,12 +83,20 @@ export class TaskSetHook {
     // Write updated config file
     await fs.writeFile(configPath, JSON.stringify(config, null, '  '), 'utf8');
 
+    // For combination-based experiments, re-generate combinations
+    if (combinationsExperiment) {
+      await new TaskGenerateCombinations(this.context).generate();
+    }
+
     // Instantiate experiment for validation
-    const experiment = await experimentLoader.instantiateFromConfig(configPath, experimentIri);
+    const { experiments, experimentPathsArray } = await experimentLoader
+      .instantiateExperiments(this.context.experimentPaths.root);
 
     // Invoke the handler type's init logic
-    await handlerType.init(this.context.experimentPaths,
-      TaskSetHook.getObjectPath(configPath, experiment, this.hookPathName));
+    for (const [ experimentIndex, experiment ] of experiments.entries()) {
+      await handlerType.init(experimentPathsArray[experimentIndex],
+        TaskSetHook.getObjectPath(configPath, experiment, this.hookPathName));
+    }
 
     // Remove hidden prepared marker file if it exists
     const markerPath = ExperimentLoader.getPreparedMarkerPath(this.context.experimentPaths.root);
