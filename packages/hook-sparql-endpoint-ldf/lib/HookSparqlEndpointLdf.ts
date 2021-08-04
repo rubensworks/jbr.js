@@ -81,6 +81,14 @@ export class HookSparqlEndpointLdf implements Hook {
       await context.docker.networkCreator.create({ Name: this.getDockerImageName(context, 'network') });
     const network = options?.docker?.network || networkHandler!.network.id;
 
+    // Determine dataset path
+    let datasetPath = this.dataset;
+    if (datasetPath.startsWith('generated/')) {
+      datasetPath = Path.join(context.experimentPaths.generated, datasetPath.slice(10));
+    } else {
+      datasetPath = Path.join(context.experimentPaths.root, this.dataset);
+    }
+
     // Start LDF server
     const serverHandler = await context.docker.containerCreator.start({
       containerName: 'ldfserver',
@@ -88,8 +96,8 @@ export class HookSparqlEndpointLdf implements Hook {
       resourceConstraints: this.resourceConstraints,
       hostConfig: {
         Binds: [
-          `${Path.join(context.experimentPaths.root, this.dataset)}:/data/dataset.hdt`,
-          `${Path.join(context.experimentPaths.root, this.dataset)}.index.v1-1:/data/dataset.hdt.index.v1-1`,
+          `${datasetPath}:/data/dataset.hdt`,
+          `${datasetPath}.index.v1-1:/data/dataset.hdt.index.v1-1`,
         ],
         PortBindings: {
           '3000/tcp': [

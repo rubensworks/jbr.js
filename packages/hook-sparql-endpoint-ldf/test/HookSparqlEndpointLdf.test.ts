@@ -187,6 +187,71 @@ describe('HookSparqlEndpointLdf', () => {
 
       expect(subHook.start).toHaveBeenCalledWith(context, { docker: { network: 'MY-NETWORK' }});
     });
+
+    it('should start the hook for a different dataset path', async() => {
+      hook = new HookSparqlEndpointLdf(
+        'input/dockerfiles/Dockerfile-ldf-server',
+        'input/dockerfiles/Dockerfile-ldf-server-cache',
+        resourceConstraints,
+        'input/config-ldf-server.json',
+        3_001,
+        3_000,
+        4,
+        8_192,
+        'input/dataset.hdt',
+        subHook,
+      );
+
+      const handler = await hook.start(context);
+      expect(handler).toBeInstanceOf(ProcessHandlerComposite);
+      expect((<any> handler).processHandlers).toHaveLength(4);
+
+      expect(context.docker.networkCreator.create).toHaveBeenCalledWith({
+        Name: 'jrb-experiment-CWD-sparql-endpoint-ldf-network',
+      });
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        containerName: 'ldfserver',
+        imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-server',
+        resourceConstraints,
+        logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-ldf-server.txt'),
+        statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-ldf-server.csv'),
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.root}/input/dataset.hdt:/data/dataset.hdt`,
+            `${context.experimentPaths.root}/input/dataset.hdt.index.v1-1:/data/dataset.hdt.index.v1-1`,
+          ],
+          PortBindings: {
+            '3000/tcp': [
+              { HostPort: `3001` },
+            ],
+          },
+          NetworkMode: 'NETWORK',
+        },
+      });
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        containerName: 'cache',
+        imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-cache',
+        resourceConstraints,
+        logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-ldf-cache.txt'),
+        statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-ldf-cache.csv'),
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.root}/input/nginx-default:/etc/nginx/sites-enabled/default`,
+            `${context.experimentPaths.root}/input/nginx.conf:/etc/nginx/nginx.conf`,
+          ],
+          PortBindings: {
+            '80/tcp': [
+              { HostPort: `3000` },
+            ],
+          },
+          NetworkMode: 'NETWORK',
+        },
+      });
+
+      expect(subHook.start).toHaveBeenCalledWith(context, { docker: { network: 'NETWORK' }});
+    });
   });
 
   describe('clean', () => {
