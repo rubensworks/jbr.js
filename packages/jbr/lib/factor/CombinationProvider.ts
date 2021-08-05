@@ -3,9 +3,9 @@
  */
 export interface CombinationProvider {
   /**
-   * If the prepare phase is identical across combinations.
+   * If the generated/ directory is reused across combinations.
    */
-  commonPrepare: boolean;
+  commonGenerated: boolean;
   getFactorCombinations: () => FactorCombination[];
 }
 

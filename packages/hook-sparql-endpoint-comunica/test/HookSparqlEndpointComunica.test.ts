@@ -6,6 +6,7 @@ import { HookSparqlEndpointComunica } from '../lib/HookSparqlEndpointComunica';
 
 describe('HookSparqlEndpointComunica', () => {
   let endpointHandler: DockerContainerHandler;
+  let logger: any;
   let context: ITaskContext;
   let resourceConstraints: DockerResourceConstraints;
   let hook: HookSparqlEndpointComunica;
@@ -14,13 +15,14 @@ describe('HookSparqlEndpointComunica', () => {
       close: jest.fn(),
       startCollectingStats: jest.fn(),
     };
+    logger = <any> new TestLogger();
     context = {
       cwd: 'CWD',
       experimentPaths: createExperimentPaths('CWD'),
       mainModulePath: 'MMP',
       verbose: true,
       cleanupHandlers: [],
-      logger: <any> new TestLogger(),
+      logger,
       docker: <any> {
         imageBuilder: {
           build: jest.fn(),
@@ -61,6 +63,7 @@ describe('HookSparqlEndpointComunica', () => {
           MAX_MEMORY: '8192',
           QUERY_TIMEOUT: '300',
         },
+        logger,
       });
     });
   });

@@ -100,6 +100,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
         CONFIG_SERVER: this.configServer,
         LOG_LEVEL: this.serverLogLevel,
       },
+      logger: context.logger,
     });
   }
 

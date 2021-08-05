@@ -92,20 +92,20 @@ describe('FullFactorialCombinationProvider', () => {
     });
   });
 
-  describe('commonPrepare', () => {
+  describe('commonGenerated', () => {
     it('defaults to false', () => {
       const provider = new FullFactorialCombinationProvider({});
-      expect(provider.commonPrepare).toEqual(false);
+      expect(provider.commonGenerated).toEqual(false);
     });
 
     it('can be overridden to false', () => {
       const provider = new FullFactorialCombinationProvider({}, false);
-      expect(provider.commonPrepare).toEqual(false);
+      expect(provider.commonGenerated).toEqual(false);
     });
 
     it('can be overridden to true', () => {
       const provider = new FullFactorialCombinationProvider({}, true);
-      expect(provider.commonPrepare).toEqual(true);
+      expect(provider.commonGenerated).toEqual(true);
     });
   });
 });

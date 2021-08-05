@@ -33,7 +33,7 @@ export class HookSparqlEndpointComunica implements Hook {
   }
 
   public getDockerImageName(context: ITaskContext): string {
-    return `jrb-experiment-${Path.basename(Path.join(context.experimentPaths.generated, '..'))}-sparql-endpoint-comunica`;
+    return `jrb-experiment-${Path.basename(context.experimentPaths.root)}-sparql-endpoint-comunica`;
   }
 
   public async prepare(context: ITaskContext): Promise<void> {
@@ -49,6 +49,7 @@ export class HookSparqlEndpointComunica implements Hook {
         MAX_MEMORY: `${this.maxMemory}`,
         LOG_LEVEL: this.clientLogLevel,
       },
+      logger: context.logger,
     });
   }
 

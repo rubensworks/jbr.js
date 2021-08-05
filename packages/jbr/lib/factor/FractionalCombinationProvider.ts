@@ -5,15 +5,15 @@ import type { CombinationProvider, FactorCombination } from './CombinationProvid
  */
 export class FractionalCombinationProvider implements CombinationProvider {
   private readonly combinations: FactorCombination[];
-  public readonly commonPrepare: boolean;
+  public readonly commonGenerated: boolean;
 
   /**
    * @param combinations An array of hashes containing factors mapped to values. @range {json}
-   * @param commonPrepare If the prepare phase is identical across combinations.
+   * @param commonGenerated If the prepare phase is identical across combinations.
    */
-  public constructor(combinations: FactorCombination[], commonPrepare = false) {
+  public constructor(combinations: FactorCombination[], commonGenerated = false) {
     this.combinations = combinations;
-    this.commonPrepare = commonPrepare;
+    this.commonGenerated = commonGenerated;
   }
 
   public getFactorCombinations(): FactorCombination[] {

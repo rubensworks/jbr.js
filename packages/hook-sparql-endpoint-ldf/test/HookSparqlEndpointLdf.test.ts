@@ -6,6 +6,7 @@ import { HookSparqlEndpointLdf } from '../lib/HookSparqlEndpointLdf';
 
 describe('HookSparqlEndpointLdf', () => {
   let endpointHandler: DockerContainerHandler;
+  let logger: any;
   let context: ITaskContext;
   let resourceConstraints: DockerResourceConstraints;
   let subHook: Hook;
@@ -15,13 +16,14 @@ describe('HookSparqlEndpointLdf', () => {
       close: jest.fn(),
       startCollectingStats: jest.fn(),
     };
+    logger = new TestLogger();
     context = {
       cwd: 'CWD',
       experimentPaths: createExperimentPaths('CWD'),
       mainModulePath: 'MMP',
       verbose: true,
       cleanupHandlers: [],
-      logger: <any> new TestLogger(),
+      logger,
       docker: <any> {
         imageBuilder: {
           build: jest.fn(),
@@ -73,12 +75,14 @@ describe('HookSparqlEndpointLdf', () => {
           SERVER_WORKERS: '4',
           MAX_MEMORY: '8192',
         },
+        logger,
       });
 
       expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
         cwd: context.cwd,
         dockerFile: 'input/dockerfiles/Dockerfile-ldf-server-cache',
         imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-cache',
+        logger,
       });
 
       expect(subHook.prepare).toHaveBeenCalledWith(context);

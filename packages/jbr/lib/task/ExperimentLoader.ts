@@ -85,7 +85,7 @@ export class ExperimentLoader {
         const combinationInstanceConfigPath = Path.join(combinationInstancePath, ExperimentLoader.CONFIG_NAME);
         configPaths.push(combinationInstanceConfigPath);
         const experimentPaths = createExperimentPaths(combinationInstancePath);
-        if (combinationProvider.commonPrepare) {
+        if (combinationProvider.commonGenerated) {
           experimentPaths.generated = Path.join(experimentPath, 'generated');
         }
         experimentPathsArray.push(experimentPaths);

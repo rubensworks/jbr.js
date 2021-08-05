@@ -1,4 +1,5 @@
 import type Dockerode from 'dockerode';
+import type { Logger } from 'winston';
 
 /**
  * Conveniently build a Docker image.
@@ -25,8 +26,15 @@ export class DockerImageBuilder {
       dockerfile: options.dockerFile,
     });
     const output: any[] = await new Promise((resolve, reject) => {
-      this.dockerode.modem.followProgress(buildStream,
-        (err: Error | null, res: any[]) => err ? reject(err) : resolve(res));
+      this.dockerode.modem.followProgress(
+        buildStream,
+        (err: Error | null, res: any[]) => err ? reject(err) : resolve(res),
+        (data: any) => {
+          if (data.stream && data.stream.trim()) {
+            options.logger.info(data.stream.trim());
+          }
+        },
+      );
     });
     if (output.length > 0 && output[output.length - 1].error) {
       throw new Error(output[output.length - 1].error);
@@ -40,4 +48,5 @@ export interface IDockerImageBuilderArgs {
   auxiliaryFiles?: string[];
   imageName: string;
   buildArgs?: Record<string, string>;
+  logger: Logger;
 }

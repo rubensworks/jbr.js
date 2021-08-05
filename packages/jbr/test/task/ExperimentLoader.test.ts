@@ -144,11 +144,11 @@ describe('ExperimentLoader', () => {
       expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment');
     });
 
-    it('instantiates a combinations-based config with common prepare', async() => {
+    it('instantiates a combinations-based config with common generated', async() => {
       (componentsManager).instantiate = jest.fn(iri => {
         if (iri === 'urn:jrb:experiment-combinations') {
           return {
-            commonPrepare: true,
+            commonGenerated: true,
             getFactorCombinations: () => [{}, {}],
           };
         }

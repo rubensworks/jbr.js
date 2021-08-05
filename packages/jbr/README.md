@@ -190,7 +190,7 @@ Variable values can be assigned in `jbr-combinations.json`:
   ],
   "@id": "urn:jrb:experimentname-combinations",
   "@type": "FullFactorialCombinationProvider",
-  "commonPrepare": false,
+  "commonGenerated": false,
   "factors": {
     "cpu": [ 50, 100 ],
     "memory": [ 50, 100 ]
@@ -200,7 +200,7 @@ Variable values can be assigned in `jbr-combinations.json`:
 
 Because `FullFactorialCombinationProvider` is used in `jbr-combinations.json`, all combinations (4) of the `cpu` and `memory` variable will apply to this experiment.
 
-_If the prepare phase for all combinations is identical, and can be shared, then `commonPrepare` can be set to true._
+_If the generated directory can be reused across combinations, then `commonGenerated` can be set to true._
 
 _`FractionalCombinationProvider` may also be used if only select combinations should apply._
 

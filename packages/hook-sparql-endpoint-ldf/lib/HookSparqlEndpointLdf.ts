@@ -43,7 +43,7 @@ export class HookSparqlEndpointLdf implements Hook {
   }
 
   public getDockerImageName(context: ITaskContext, type: string): string {
-    return `jrb-experiment-${Path.basename(Path.join(context.experimentPaths.generated, '..'))}-sparql-endpoint-ldf-${type}`;
+    return `jrb-experiment-${Path.basename(context.experimentPaths.root)}-sparql-endpoint-ldf-${type}`;
   }
 
   public async prepare(context: ITaskContext): Promise<void> {
@@ -59,6 +59,7 @@ export class HookSparqlEndpointLdf implements Hook {
         SERVER_WORKERS: `${this.workers}`,
         MAX_MEMORY: `${this.maxMemory}`,
       },
+      logger: context.logger,
     });
 
     // Build cache Dockerfile
@@ -67,6 +68,7 @@ export class HookSparqlEndpointLdf implements Hook {
       cwd: context.experimentPaths.root,
       dockerFile: this.dockerfileCache,
       imageName: this.getDockerImageName(context, 'cache'),
+      logger: context.logger,
     });
 
     // Prepare LDF engine

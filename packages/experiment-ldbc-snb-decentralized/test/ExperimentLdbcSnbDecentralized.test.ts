@@ -47,6 +47,7 @@ jest.mock('fs-extra', () => ({
 describe('ExperimentLdbcSnbDecentralized', () => {
   let serverHandlerStopCollectingStats: any;
   let serverHandler: DockerContainerHandler;
+  let logger: any;
   let context: ITaskContext;
   let hookSparqlEndpoint: Hook;
   let endpointHandlerStopCollectingStats: any;
@@ -59,13 +60,14 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       close: jest.fn(),
       startCollectingStats: jest.fn(() => serverHandlerStopCollectingStats),
     };
+    logger = new TestLogger();
     context = {
       cwd: 'CWD',
       experimentPaths: createExperimentPaths('CWD'),
       mainModulePath: 'MMP',
       verbose: true,
       cleanupHandlers: [],
-      logger: <any> new TestLogger(),
+      logger,
       docker: <any> {
         imageBuilder: {
           build: jest.fn(),
@@ -137,6 +139,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
           CONFIG_SERVER: 'input/config-server.json',
           LOG_LEVEL: 'info',
         },
+        logger,
       });
     });
   });

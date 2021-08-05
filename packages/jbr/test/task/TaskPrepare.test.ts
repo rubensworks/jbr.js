@@ -74,7 +74,7 @@ describe('TaskPrepare', () => {
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeFalsy();
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
 
-      expect(context.logger.info).toHaveBeenCalledTimes(0);
+      expect(context.logger.info).toHaveBeenCalledTimes(1);
     });
 
     it('prepares an experiment with an existing marker file', async() => {
@@ -87,7 +87,7 @@ describe('TaskPrepare', () => {
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeTruthy();
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
 
-      expect(context.logger.info).toHaveBeenCalledTimes(0);
+      expect(context.logger.info).toHaveBeenCalledTimes(1);
     });
 
     it('prepares multiple experiments', async() => {
@@ -125,25 +125,26 @@ describe('TaskPrepare', () => {
       const experiment2 = <any> {
         prepare: jest.fn(),
       };
-      const expPaths = createExperimentPaths('CWD');
+      const expPaths1 = createExperimentPaths('CWD1');
+      const expPaths2 = createExperimentPaths('CWD1');
       (<any> experimentLoader).instantiateExperiments = jest.fn(() => {
         return {
           combinationProvider: { commonPrepare: true },
-          experimentPathsArray: [ expPaths, expPaths ],
+          experimentPathsArray: [ expPaths1, expPaths2 ],
           experiments: [ experiment1, experiment2 ],
         };
       });
 
       await task.prepare();
       expect(experiment1.prepare)
-        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths });
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths1 });
       expect(experiment2.prepare)
-        .not.toHaveBeenCalled();
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths2 });
 
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeFalsy();
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
 
-      expect(context.logger.info).toHaveBeenCalledTimes(0);
+      expect(context.logger.info).toHaveBeenCalledTimes(2);
     });
   });
 });
