@@ -5,8 +5,9 @@ export interface Experiment {
   /**
    * Called when data needs to be prepared for an experiment.
    * @param context The task context.
+   * @param forceOverwriteGenerated If the generated directory should be overridden.
    */
-  prepare: (context: ITaskContext) => Promise<void>;
+  prepare: (context: ITaskContext, forceOverwriteGenerated: boolean) => Promise<void>;
 
   /**
    * Called when an experiment is executed.

@@ -15,7 +15,7 @@ describe('DockerImageBuilder', () => {
     };
     builder = new DockerImageBuilder(dockerode);
     logger = <any> {
-      info: jest.fn(),
+      verbose: jest.fn(),
     };
   });
 
@@ -124,9 +124,9 @@ describe('DockerImageBuilder', () => {
         logger,
       });
 
-      expect(logger.info).toHaveBeenCalledTimes(2);
-      expect(logger.info).toHaveBeenCalledWith('ABC');
-      expect(logger.info).toHaveBeenCalledWith('DEF');
+      expect(logger.verbose).toHaveBeenCalledTimes(2);
+      expect(logger.verbose).toHaveBeenCalledWith('ABC');
+      expect(logger.verbose).toHaveBeenCalledWith('DEF');
     });
   });
 });

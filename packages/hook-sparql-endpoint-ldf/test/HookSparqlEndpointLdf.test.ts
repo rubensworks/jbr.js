@@ -63,7 +63,7 @@ describe('HookSparqlEndpointLdf', () => {
 
   describe('prepare', () => {
     it('should prepare the hook', async() => {
-      await hook.prepare(context);
+      await hook.prepare(context, false);
 
       expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
         cwd: context.cwd,
@@ -85,7 +85,33 @@ describe('HookSparqlEndpointLdf', () => {
         logger,
       });
 
-      expect(subHook.prepare).toHaveBeenCalledWith(context);
+      expect(subHook.prepare).toHaveBeenCalledWith(context, false);
+    });
+
+    it('should forcefully prepare the hook', async() => {
+      await hook.prepare(context, true);
+
+      expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
+        cwd: context.cwd,
+        dockerFile: 'input/dockerfiles/Dockerfile-ldf-server',
+        auxiliaryFiles: [ 'input/config-ldf-server.json' ],
+        imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-server',
+        buildArgs: {
+          SERVER_CONFIG: 'input/config-ldf-server.json',
+          SERVER_WORKERS: '4',
+          MAX_MEMORY: '8192',
+        },
+        logger,
+      });
+
+      expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
+        cwd: context.cwd,
+        dockerFile: 'input/dockerfiles/Dockerfile-ldf-server-cache',
+        imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-cache',
+        logger,
+      });
+
+      expect(subHook.prepare).toHaveBeenCalledWith(context, true);
     });
   });
 

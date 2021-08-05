@@ -36,7 +36,7 @@ export class HookSparqlEndpointComunica implements Hook {
     return `jrb-experiment-${Path.basename(context.experimentPaths.root)}-sparql-endpoint-comunica`;
   }
 
-  public async prepare(context: ITaskContext): Promise<void> {
+  public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
     // Build client Dockerfile
     await context.docker.imageBuilder.build({
       cwd: context.experimentPaths.root,

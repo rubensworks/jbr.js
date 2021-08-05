@@ -50,7 +50,7 @@ describe('HookSparqlEndpointComunica', () => {
 
   describe('prepare', () => {
     it('should prepare the hook', async() => {
-      await hook.prepare(context);
+      await hook.prepare(context, false);
 
       expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
         cwd: context.cwd,

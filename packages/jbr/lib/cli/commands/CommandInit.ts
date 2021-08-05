@@ -11,7 +11,7 @@ export const builder = (yargs: Argv<any>): Argv<any> =>
     .options({
       target: { type: 'string', describe: 'Experiment directory to create', defaultDescription: 'experiment name' },
       type: { type: 'string', describe: 'The type of experiment' },
-      forceReInit: {
+      force: {
         type: 'boolean',
         alias: 'f',
         describe: 'If existing experiments must be overwritten',
@@ -36,7 +36,7 @@ export const handler = (argv: Record<string, any>): Promise<void> => wrapCommand
         argv.type,
         argv.name,
         target,
-        argv.forceReInit,
+        argv.force,
         argv.combinations,
         npmInstaller,
       ).init());

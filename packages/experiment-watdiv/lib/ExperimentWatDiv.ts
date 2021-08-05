@@ -41,60 +41,69 @@ export class ExperimentWatDiv implements Experiment {
     this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps;
   }
 
-  public async prepare(context: ITaskContext): Promise<void> {
+  public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
     // Prepare hook
-    await this.hookSparqlEndpoint.prepare(context);
+    await this.hookSparqlEndpoint.prepare(context, forceOverwriteGenerated);
 
     // Ensure logs directory exists
     await fs.ensureDir(Path.join(context.experimentPaths.output, 'logs'));
 
     // Prepare dataset
     context.logger.info(`Generating WatDiv dataset and queries`);
-    await context.docker.imagePuller.pull({ repoTag: ExperimentWatDiv.DOCKER_IMAGE_WATDIV });
-    await (await context.docker.containerCreator.start({
-      imageName: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
-      cmdArgs: [ '-s', String(this.datasetScale), '-q', String(this.queryCount), '-r', String(this.queryRecurrence) ],
-      hostConfig: {
-        Binds: [
-          `${context.experimentPaths.generated}:/output`,
-        ],
-      },
-      logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-generation.txt'),
-    })).join();
+    if (!forceOverwriteGenerated && await fs.pathExists(Path.join(context.experimentPaths.generated, 'dataset.nt'))) {
+      context.logger.info(`  Skipped`);
+    } else {
+      await context.docker.imagePuller.pull({ repoTag: ExperimentWatDiv.DOCKER_IMAGE_WATDIV });
+      await (await context.docker.containerCreator.start({
+        imageName: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
+        cmdArgs: [ '-s', String(this.datasetScale), '-q', String(this.queryCount), '-r', String(this.queryRecurrence) ],
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.generated}:/output`,
+          ],
+        },
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-generation.txt'),
+      })).join();
+    }
 
     if (this.generateHdt) {
       // Create HDT file
       context.logger.info(`Converting WatDiv dataset to HDT`);
 
-      // Pull HDT Docker image
-      await context.docker.imagePuller.pull({ repoTag: ExperimentWatDiv.DOCKER_IMAGE_HDT });
+      if (!forceOverwriteGenerated &&
+        await fs.pathExists(Path.join(context.experimentPaths.generated, 'dataset.hdt'))) {
+        context.logger.info(`  Skipped`);
+      } else {
+        // Pull HDT Docker image
+        await context.docker.imagePuller.pull({ repoTag: ExperimentWatDiv.DOCKER_IMAGE_HDT });
 
-      // Remove any existing index files
-      await fs.rm(Path.join(context.experimentPaths.generated, 'dataset.hdt.index.v1-1'), { force: true });
+        // Remove any existing index files
+        await fs.rm(Path.join(context.experimentPaths.generated, 'dataset.hdt.index.v1-1'), { force: true });
 
-      // Convert dataset to HDT
-      await (await context.docker.containerCreator.start({
-        imageName: ExperimentWatDiv.DOCKER_IMAGE_HDT,
-        cmdArgs: [ 'rdf2hdt', '/output/dataset.nt', '/output/dataset.hdt' ],
-        hostConfig: {
-          Binds: [
-            `${context.experimentPaths.generated}:/output`,
-          ],
-        },
-        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt.txt'),
-      })).join();
+        // Convert dataset to HDT
+        await (await context.docker.containerCreator.start({
+          imageName: ExperimentWatDiv.DOCKER_IMAGE_HDT,
+          cmdArgs: [ 'rdf2hdt', '/output/dataset.nt', '/output/dataset.hdt' ],
+          hostConfig: {
+            Binds: [
+              `${context.experimentPaths.generated}:/output`,
+            ],
+          },
+          logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt.txt'),
+        })).join();
 
-      // Generate HDT index file
-      await (await context.docker.containerCreator.start({
-        imageName: ExperimentWatDiv.DOCKER_IMAGE_HDT,
-        cmdArgs: [ 'hdtSearch', '/output/dataset.hdt', '-q', '0' ],
-        hostConfig: {
-          Binds: [
-            `${context.experimentPaths.generated}:/output`,
-          ],
-        },
-        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt-index.txt'),
-      })).join();
+        // Generate HDT index file
+        await (await context.docker.containerCreator.start({
+          imageName: ExperimentWatDiv.DOCKER_IMAGE_HDT,
+          cmdArgs: [ 'hdtSearch', '/output/dataset.hdt', '-q', '0' ],
+          hostConfig: {
+            Binds: [
+              `${context.experimentPaths.generated}:/output`,
+            ],
+          },
+          logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt-index.txt'),
+        })).join();
+      }
     }
   }
 

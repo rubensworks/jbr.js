@@ -7,11 +7,14 @@ import type { ITaskContext } from './ITaskContext';
  */
 export class TaskPrepare {
   private readonly context: ITaskContext;
+  private readonly forceOverwriteGenerated: boolean;
 
   public constructor(
     context: ITaskContext,
+    forceOverwriteGenerated: boolean,
   ) {
     this.context = context;
+    this.forceOverwriteGenerated = forceOverwriteGenerated;
   }
 
   public async prepare(): Promise<void> {
@@ -27,7 +30,10 @@ export class TaskPrepare {
     for (const [ i, experiment ] of experiments.entries()) {
       this.context.logger.info(`🧩 Preparing experiment combination ${i}`);
 
-      await experiment.prepare({ ...this.context, experimentPaths: experimentPathsArray[i] });
+      await experiment.prepare(
+        { ...this.context, experimentPaths: experimentPathsArray[i] },
+        this.forceOverwriteGenerated,
+      );
     }
 
     // Create a hidden marker file in generate/ to indicate that this experiment has been successfully prepared

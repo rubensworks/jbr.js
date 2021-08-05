@@ -92,9 +92,129 @@ describe('ExperimentWatDiv', () => {
 
   describe('prepare', () => {
     it('should prepare the experiment', async() => {
-      await experiment.prepare(context);
+      await experiment.prepare(context, false);
 
-      expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context);
+      expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context, false);
+
+      expect(context.docker.imagePuller.pull).toHaveBeenCalledTimes(2);
+      expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
+        repoTag: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
+      });
+      expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
+        repoTag: ExperimentWatDiv.DOCKER_IMAGE_HDT,
+      });
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(3);
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        imageName: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
+        cmdArgs: [ '-s', '1', '-q', '5', '-r', '1' ],
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.generated}:/output`,
+          ],
+        },
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-generation.txt'),
+      });
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        imageName: ExperimentWatDiv.DOCKER_IMAGE_HDT,
+        cmdArgs: [ 'rdf2hdt', '/output/dataset.nt', '/output/dataset.hdt' ],
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.generated}:/output`,
+          ],
+        },
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt.txt'),
+      });
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        imageName: ExperimentWatDiv.DOCKER_IMAGE_HDT,
+        cmdArgs: [ 'hdtSearch', '/output/dataset.hdt', '-q', '0' ],
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.generated}:/output`,
+          ],
+        },
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt-index.txt'),
+      });
+
+      expect(dirsOut).toEqual({
+        'CWD/output/logs': true,
+      });
+    });
+
+    it('should prepare the experiment if files already exist', async() => {
+      files[Path.join(context.experimentPaths.generated, 'dataset.nt')] = true;
+      files[Path.join(context.experimentPaths.generated, 'dataset.hdt')] = true;
+
+      await experiment.prepare(context, false);
+
+      expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context, false);
+
+      expect(context.docker.imagePuller.pull).toHaveBeenCalledTimes(0);
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(0);
+
+      expect(dirsOut).toEqual({
+        'CWD/output/logs': true,
+      });
+    });
+
+    it('should forcefully prepare the experiment', async() => {
+      await experiment.prepare(context, true);
+
+      expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context, true);
+
+      expect(context.docker.imagePuller.pull).toHaveBeenCalledTimes(2);
+      expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
+        repoTag: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
+      });
+      expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
+        repoTag: ExperimentWatDiv.DOCKER_IMAGE_HDT,
+      });
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(3);
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        imageName: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
+        cmdArgs: [ '-s', '1', '-q', '5', '-r', '1' ],
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.generated}:/output`,
+          ],
+        },
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-generation.txt'),
+      });
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        imageName: ExperimentWatDiv.DOCKER_IMAGE_HDT,
+        cmdArgs: [ 'rdf2hdt', '/output/dataset.nt', '/output/dataset.hdt' ],
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.generated}:/output`,
+          ],
+        },
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt.txt'),
+      });
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        imageName: ExperimentWatDiv.DOCKER_IMAGE_HDT,
+        cmdArgs: [ 'hdtSearch', '/output/dataset.hdt', '-q', '0' ],
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.generated}:/output`,
+          ],
+        },
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt-index.txt'),
+      });
+
+      expect(dirsOut).toEqual({
+        'CWD/output/logs': true,
+      });
+    });
+
+    it('should forcefully prepare the experiment if files already exist', async() => {
+      files[Path.join(context.experimentPaths.generated, 'dataset.nt')] = true;
+      files[Path.join(context.experimentPaths.generated, 'dataset.hdt')] = true;
+
+      await experiment.prepare(context, true);
+
+      expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context, true);
 
       expect(context.docker.imagePuller.pull).toHaveBeenCalledTimes(2);
       expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
@@ -154,9 +274,9 @@ describe('ExperimentWatDiv', () => {
         true,
       );
 
-      await experiment.prepare(context);
+      await experiment.prepare(context, false);
 
-      expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context);
+      expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context, false);
 
       expect(context.docker.imagePuller.pull).toHaveBeenCalledTimes(1);
       expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({

@@ -46,7 +46,7 @@ export class HookSparqlEndpointLdf implements Hook {
     return `jrb-experiment-${Path.basename(context.experimentPaths.root)}-sparql-endpoint-ldf-${type}`;
   }
 
-  public async prepare(context: ITaskContext): Promise<void> {
+  public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
     // Build server Dockerfile
     context.logger.info(`Building LDF server Docker image`);
     await context.docker.imageBuilder.build({
@@ -73,7 +73,7 @@ export class HookSparqlEndpointLdf implements Hook {
 
     // Prepare LDF engine
     context.logger.info(`Preparing LDF engine hook`);
-    await this.hookSparqlEndpointLdfEngine.prepare(context);
+    await this.hookSparqlEndpointLdfEngine.prepare(context, forceOverwriteGenerated);
   }
 
   public async start(context: ITaskContext, options?: IHookStartOptions): Promise<ProcessHandler> {

@@ -106,7 +106,6 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       'input/config-queries.json',
       'input/config-server.json',
       'input/templates/queries',
-      false,
       '4G',
       'input/dockerfiles/Dockerfile-server',
       hookSparqlEndpoint,
@@ -126,9 +125,27 @@ describe('ExperimentLdbcSnbDecentralized', () => {
 
   describe('prepare', () => {
     it('should prepare the experiment', async() => {
-      await experiment.prepare(context);
+      await experiment.prepare(context, false);
 
-      expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context);
+      expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context, false);
+      expect(generatorGenerate).toHaveBeenCalled();
+      expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
+        cwd: context.cwd,
+        dockerFile: 'input/dockerfiles/Dockerfile-server',
+        auxiliaryFiles: [ 'input/config-server.json' ],
+        imageName: 'jrb-experiment-CWD-server',
+        buildArgs: {
+          CONFIG_SERVER: 'input/config-server.json',
+          LOG_LEVEL: 'info',
+        },
+        logger,
+      });
+    });
+
+    it('should prepare the experiment with force overwrite', async() => {
+      await experiment.prepare(context, true);
+
+      expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context, true);
       expect(generatorGenerate).toHaveBeenCalled();
       expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
         cwd: context.cwd,

@@ -48,6 +48,7 @@ describe('TaskPrepare', () => {
     };
     task = new TaskPrepare(
       context,
+      false,
     );
 
     experiment = <any> {
@@ -69,7 +70,23 @@ describe('TaskPrepare', () => {
     it('prepares an experiment', async() => {
       await task.prepare();
       expect(experiment.prepare)
-        .toHaveBeenCalledWith(context);
+        .toHaveBeenCalledWith(context, false);
+
+      expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeFalsy();
+      expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
+
+      expect(context.logger.info).toHaveBeenCalledTimes(1);
+    });
+
+    it('prepares an experiment forcefully', async() => {
+      task = new TaskPrepare(
+        context,
+        true,
+      );
+
+      await task.prepare();
+      expect(experiment.prepare)
+        .toHaveBeenCalledWith(context, true);
 
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeFalsy();
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
@@ -82,7 +99,7 @@ describe('TaskPrepare', () => {
 
       await task.prepare();
       expect(experiment.prepare)
-        .toHaveBeenCalledWith(context);
+        .toHaveBeenCalledWith(context, false);
 
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeTruthy();
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
@@ -108,9 +125,9 @@ describe('TaskPrepare', () => {
 
       await task.prepare();
       expect(experiment1.prepare)
-        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths1 });
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths1 }, false);
       expect(experiment2.prepare)
-        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths2 });
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths2 }, false);
 
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeFalsy();
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
@@ -137,9 +154,9 @@ describe('TaskPrepare', () => {
 
       await task.prepare();
       expect(experiment1.prepare)
-        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths1 });
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths1 }, false);
       expect(experiment2.prepare)
-        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths2 });
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths2 }, false);
 
       expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeFalsy();
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');

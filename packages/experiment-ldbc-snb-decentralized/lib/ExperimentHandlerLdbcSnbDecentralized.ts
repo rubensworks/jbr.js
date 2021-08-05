@@ -22,7 +22,6 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
       configQueries: 'input/config-queries.json',
       configServer: 'input/config-server.json',
       directoryQueryTemplates: 'input/templates/queries',
-      overwriteFilesDuringPrepare: false,
       hadoopMemory: '4G',
       dockerfileServer: 'input/dockerfiles/Dockerfile-server',
 

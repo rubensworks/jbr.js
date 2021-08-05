@@ -17,7 +17,6 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
   public readonly configQueries: string;
   public readonly configServer: string;
   public readonly directoryQueryTemplates: string;
-  public readonly overwriteFilesDuringPrepare: boolean;
   public readonly hadoopMemory: string;
   public readonly dockerfileServer: string;
   public readonly hookSparqlEndpoint: Hook;
@@ -37,7 +36,6 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     configQueries: string,
     configServer: string,
     directoryQueryTemplates: string,
-    overwriteFilesDuringPrepare: boolean,
     hadoopMemory: string,
     dockerfileServer: string,
     hookSparqlEndpoint: Hook,
@@ -56,7 +54,6 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     this.configQueries = configQueries;
     this.configServer = configServer;
     this.directoryQueryTemplates = directoryQueryTemplates;
-    this.overwriteFilesDuringPrepare = overwriteFilesDuringPrepare;
     this.hadoopMemory = hadoopMemory;
     this.dockerfileServer = dockerfileServer;
     this.hookSparqlEndpoint = hookSparqlEndpoint;
@@ -73,15 +70,15 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     return `jrb-experiment-${Path.basename(Path.join(context.experimentPaths.generated, '..'))}-server`;
   }
 
-  public async prepare(context: ITaskContext): Promise<void> {
+  public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
     // Prepare hook
-    await this.hookSparqlEndpoint.prepare(context);
+    await this.hookSparqlEndpoint.prepare(context, forceOverwriteGenerated);
 
     // Prepare dataset
     await new Generator({
       verbose: context.verbose,
       cwd: context.experimentPaths.generated,
-      overwrite: this.overwriteFilesDuringPrepare,
+      overwrite: forceOverwriteGenerated,
       scale: this.scale,
       enhancementConfig: this.configGenerateAux,
       fragmentConfig: this.configFragment,

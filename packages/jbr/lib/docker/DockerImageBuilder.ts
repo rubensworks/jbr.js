@@ -31,7 +31,7 @@ export class DockerImageBuilder {
         (err: Error | null, res: any[]) => err ? reject(err) : resolve(res),
         (data: any) => {
           if (data.stream && data.stream.trim()) {
-            options.logger.info(data.stream.trim());
+            options.logger.verbose(data.stream.trim());
           }
         },
       );
