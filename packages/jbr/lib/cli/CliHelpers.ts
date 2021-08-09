@@ -14,12 +14,13 @@ import { DockerImagePuller } from '../docker/DockerImagePuller';
 import { DockerNetworkCreator } from '../docker/DockerNetworkCreator';
 import type { IExperimentPaths, ITaskContext } from '../task/ITaskContext';
 
-export function createExperimentPaths(basePath: string): IExperimentPaths {
+export function createExperimentPaths(basePath: string, combination?: number): IExperimentPaths {
   return {
     root: basePath,
     input: Path.join(basePath, 'input'),
     generated: Path.join(basePath, 'generated'),
     output: Path.join(basePath, 'output'),
+    combination,
   };
 }
 

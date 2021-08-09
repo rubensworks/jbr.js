@@ -71,6 +71,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       docker: <any> {
         imageBuilder: {
           build: jest.fn(),
+          getImageName: (ctx: any, suffix: string) => `IMG-${suffix}`,
         },
         containerCreator: <any> {
           start: jest.fn(async() => serverHandler),
@@ -133,7 +134,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
         cwd: context.cwd,
         dockerFile: 'input/dockerfiles/Dockerfile-server',
         auxiliaryFiles: [ 'input/config-server.json' ],
-        imageName: 'jrb-experiment-CWD-server',
+        imageName: 'IMG-ldbc-snb-d-server',
         buildArgs: {
           CONFIG_SERVER: 'input/config-server.json',
           LOG_LEVEL: 'info',
@@ -151,7 +152,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
         cwd: context.cwd,
         dockerFile: 'input/dockerfiles/Dockerfile-server',
         auxiliaryFiles: [ 'input/config-server.json' ],
-        imageName: 'jrb-experiment-CWD-server',
+        imageName: 'IMG-ldbc-snb-d-server',
         buildArgs: {
           CONFIG_SERVER: 'input/config-server.json',
           LOG_LEVEL: 'info',
@@ -167,7 +168,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         containerName: 'ldbc-snb-decentralized-server',
-        imageName: 'jrb-experiment-CWD-server',
+        imageName: 'IMG-ldbc-snb-d-server',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'server.txt'),
         statsFilePath: Path.join(context.cwd, 'output', 'stats-server.csv'),

@@ -33,7 +33,7 @@ export class HookSparqlEndpointComunica implements Hook {
   }
 
   public getDockerImageName(context: ITaskContext): string {
-    return `jrb-experiment-${Path.basename(context.experimentPaths.root)}-sparql-endpoint-comunica`;
+    return context.docker.imageBuilder.getImageName(context, `sparql-endpoint-comunica`);
   }
 
   public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {

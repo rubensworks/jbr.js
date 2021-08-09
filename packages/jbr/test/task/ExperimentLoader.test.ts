@@ -130,8 +130,8 @@ describe('ExperimentLoader', () => {
             { CONFIG: 'urn:jrb:experiment' },
           ],
           experimentPathsArray: [
-            createExperimentPaths(Path.join('path/to/experiment', 'combinations', 'combination_0')),
-            createExperimentPaths(Path.join('path/to/experiment', 'combinations', 'combination_1')),
+            createExperimentPaths(Path.join('path/to/experiment', 'combinations', 'combination_0'), 0),
+            createExperimentPaths(Path.join('path/to/experiment', 'combinations', 'combination_1'), 1),
           ],
           combinationProvider: expect.anything(),
         });
@@ -169,11 +169,11 @@ describe('ExperimentLoader', () => {
           ],
           experimentPathsArray: [
             {
-              ...createExperimentPaths(Path.join('path/to/experiment', 'combinations', 'combination_0')),
+              ...createExperimentPaths(Path.join('path/to/experiment', 'combinations', 'combination_0'), 0),
               generated: Path.join('path/to/experiment', 'generated'),
             },
             {
-              ...createExperimentPaths(Path.join('path/to/experiment', 'combinations', 'combination_1')),
+              ...createExperimentPaths(Path.join('path/to/experiment', 'combinations', 'combination_1'), 1),
               generated: Path.join('path/to/experiment', 'generated'),
             },
           ],

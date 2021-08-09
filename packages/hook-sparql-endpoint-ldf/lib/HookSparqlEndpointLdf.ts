@@ -43,7 +43,7 @@ export class HookSparqlEndpointLdf implements Hook {
   }
 
   public getDockerImageName(context: ITaskContext, type: string): string {
-    return `jrb-experiment-${Path.basename(context.experimentPaths.root)}-sparql-endpoint-ldf-${type}`;
+    return context.docker.imageBuilder.getImageName(context, `sparql-endpoint-ldf-${type}`);
   }
 
   public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {

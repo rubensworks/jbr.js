@@ -27,6 +27,7 @@ describe('HookSparqlEndpointLdf', () => {
       docker: <any> {
         imageBuilder: {
           build: jest.fn(),
+          getImageName: (ctx: any, suffix: string) => `IMG-${suffix}`,
         },
         containerCreator: <any> {
           start: jest.fn(async() => endpointHandler),
@@ -69,7 +70,7 @@ describe('HookSparqlEndpointLdf', () => {
         cwd: context.cwd,
         dockerFile: 'input/dockerfiles/Dockerfile-ldf-server',
         auxiliaryFiles: [ 'input/config-ldf-server.json' ],
-        imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-server',
+        imageName: 'IMG-sparql-endpoint-ldf-server',
         buildArgs: {
           SERVER_CONFIG: 'input/config-ldf-server.json',
           SERVER_WORKERS: '4',
@@ -81,7 +82,7 @@ describe('HookSparqlEndpointLdf', () => {
       expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
         cwd: context.cwd,
         dockerFile: 'input/dockerfiles/Dockerfile-ldf-server-cache',
-        imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-cache',
+        imageName: 'IMG-sparql-endpoint-ldf-cache',
         logger,
       });
 
@@ -95,7 +96,7 @@ describe('HookSparqlEndpointLdf', () => {
         cwd: context.cwd,
         dockerFile: 'input/dockerfiles/Dockerfile-ldf-server',
         auxiliaryFiles: [ 'input/config-ldf-server.json' ],
-        imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-server',
+        imageName: 'IMG-sparql-endpoint-ldf-server',
         buildArgs: {
           SERVER_CONFIG: 'input/config-ldf-server.json',
           SERVER_WORKERS: '4',
@@ -107,7 +108,7 @@ describe('HookSparqlEndpointLdf', () => {
       expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
         cwd: context.cwd,
         dockerFile: 'input/dockerfiles/Dockerfile-ldf-server-cache',
-        imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-cache',
+        imageName: 'IMG-sparql-endpoint-ldf-cache',
         logger,
       });
 
@@ -122,12 +123,12 @@ describe('HookSparqlEndpointLdf', () => {
       expect((<any> handler).processHandlers).toHaveLength(4);
 
       expect(context.docker.networkCreator.create).toHaveBeenCalledWith({
-        Name: 'jrb-experiment-CWD-sparql-endpoint-ldf-network',
+        Name: 'IMG-sparql-endpoint-ldf-network',
       });
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         containerName: 'ldfserver',
-        imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-server',
+        imageName: 'IMG-sparql-endpoint-ldf-server',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-ldf-server.txt'),
         statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-ldf-server.csv'),
@@ -147,7 +148,7 @@ describe('HookSparqlEndpointLdf', () => {
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         containerName: 'cache',
-        imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-cache',
+        imageName: 'IMG-sparql-endpoint-ldf-cache',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-ldf-cache.txt'),
         statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-ldf-cache.csv'),
@@ -177,7 +178,7 @@ describe('HookSparqlEndpointLdf', () => {
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         containerName: 'ldfserver',
-        imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-server',
+        imageName: 'IMG-sparql-endpoint-ldf-server',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-ldf-server.txt'),
         statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-ldf-server.csv'),
@@ -197,7 +198,7 @@ describe('HookSparqlEndpointLdf', () => {
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         containerName: 'cache',
-        imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-cache',
+        imageName: 'IMG-sparql-endpoint-ldf-cache',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-ldf-cache.txt'),
         statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-ldf-cache.csv'),
@@ -237,12 +238,12 @@ describe('HookSparqlEndpointLdf', () => {
       expect((<any> handler).processHandlers).toHaveLength(4);
 
       expect(context.docker.networkCreator.create).toHaveBeenCalledWith({
-        Name: 'jrb-experiment-CWD-sparql-endpoint-ldf-network',
+        Name: 'IMG-sparql-endpoint-ldf-network',
       });
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         containerName: 'ldfserver',
-        imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-server',
+        imageName: 'IMG-sparql-endpoint-ldf-server',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-ldf-server.txt'),
         statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-ldf-server.csv'),
@@ -262,7 +263,7 @@ describe('HookSparqlEndpointLdf', () => {
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         containerName: 'cache',
-        imageName: 'jrb-experiment-CWD-sparql-endpoint-ldf-cache',
+        imageName: 'IMG-sparql-endpoint-ldf-cache',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-ldf-cache.txt'),
         statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-ldf-cache.csv'),
@@ -299,7 +300,7 @@ describe('HookSparqlEndpointLdf', () => {
       expect(subHook.clean).toHaveBeenCalledWith(context, { docker: true });
 
       expect(context.docker.networkCreator.remove)
-        .toHaveBeenCalledWith('jrb-experiment-CWD-sparql-endpoint-ldf-network');
+        .toHaveBeenCalledWith('IMG-sparql-endpoint-ldf-network');
       expect(context.docker.containerCreator.remove).toHaveBeenCalledWith('ldfserver');
       expect(context.docker.containerCreator.remove).toHaveBeenCalledWith('cache');
     });

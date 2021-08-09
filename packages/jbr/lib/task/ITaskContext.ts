@@ -41,4 +41,5 @@ export interface IExperimentPaths {
   input: string;
   generated: string;
   output: string;
+  combination?: number;
 }

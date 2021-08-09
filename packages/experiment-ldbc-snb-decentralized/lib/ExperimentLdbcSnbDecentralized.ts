@@ -67,7 +67,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
   }
 
   public getServerDockerImageName(context: ITaskContext): string {
-    return `jrb-experiment-${Path.basename(Path.join(context.experimentPaths.generated, '..'))}-server`;
+    return context.docker.imageBuilder.getImageName(context, `ldbc-snb-d-server`);
   }
 
   public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {

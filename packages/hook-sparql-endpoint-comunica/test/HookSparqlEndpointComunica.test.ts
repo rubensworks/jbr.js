@@ -26,6 +26,7 @@ describe('HookSparqlEndpointComunica', () => {
       docker: <any> {
         imageBuilder: {
           build: jest.fn(),
+          getImageName: (ctx: any, suffix: string) => `IMG-${suffix}`,
         },
         containerCreator: <any> {
           start: jest.fn(async() => endpointHandler),
@@ -56,7 +57,7 @@ describe('HookSparqlEndpointComunica', () => {
         cwd: context.cwd,
         dockerFile: 'input/dockerfiles/Dockerfile-client',
         auxiliaryFiles: [ 'input/config-client.json' ],
-        imageName: 'jrb-experiment-CWD-sparql-endpoint-comunica',
+        imageName: 'IMG-sparql-endpoint-comunica',
         buildArgs: {
           CONFIG_CLIENT: 'input/config-client.json',
           LOG_LEVEL: 'info',
@@ -75,7 +76,7 @@ describe('HookSparqlEndpointComunica', () => {
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         containerName: 'comunica',
-        imageName: 'jrb-experiment-CWD-sparql-endpoint-comunica',
+        imageName: 'IMG-sparql-endpoint-comunica',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-comunica.txt'),
         statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'),
@@ -100,7 +101,7 @@ describe('HookSparqlEndpointComunica', () => {
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         containerName: 'comunica',
-        imageName: 'jrb-experiment-CWD-sparql-endpoint-comunica',
+        imageName: 'IMG-sparql-endpoint-comunica',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'sparql-endpoint-comunica.txt'),
         statsFilePath: Path.join(context.cwd, 'output', 'stats-sparql-endpoint-comunica.csv'),

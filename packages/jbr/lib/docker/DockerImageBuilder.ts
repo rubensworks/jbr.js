@@ -1,5 +1,7 @@
+import Path from 'path';
 import type Dockerode from 'dockerode';
 import type { Logger } from 'winston';
+import type { ITaskContext } from '../../lib/task/ITaskContext';
 
 /**
  * Conveniently build a Docker image.
@@ -39,6 +41,19 @@ export class DockerImageBuilder {
     if (output.length > 0 && output[output.length - 1].error) {
       throw new Error(output[output.length - 1].error);
     }
+  }
+
+  /**
+   * Obtain a proper image name within the current jbr experiment context with the given suffix.
+   * @param context A task context.
+   * @param suffix A suffix to add to the image name.
+   */
+  public getImageName(context: ITaskContext, suffix: string): string {
+    let pathContext: string = Path.basename(Path.join(context.experimentPaths.generated, '..'));
+    if ('combination' in context.experimentPaths) {
+      pathContext = `${pathContext}-combination_${context.experimentPaths.combination}`;
+    }
+    return `jbr-experiment-${pathContext}-${suffix}`;
   }
 }
 

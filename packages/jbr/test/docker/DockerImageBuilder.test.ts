@@ -1,6 +1,8 @@
+import * as Path from 'path';
 import type * as Dockerode from 'dockerode';
 import type { Logger } from 'winston';
 import { DockerImageBuilder } from '../../lib/docker/DockerImageBuilder';
+import type { ITaskContext } from '../../lib/task/ITaskContext';
 
 describe('DockerImageBuilder', () => {
   let dockerode: Dockerode;
@@ -127,6 +129,31 @@ describe('DockerImageBuilder', () => {
       expect(logger.verbose).toHaveBeenCalledTimes(2);
       expect(logger.verbose).toHaveBeenCalledWith('ABC');
       expect(logger.verbose).toHaveBeenCalledWith('DEF');
+    });
+  });
+
+  describe('getImageName', () => {
+    it('for a non-combination', async() => {
+      expect(builder.getImageName(<ITaskContext> {
+        experimentPaths: {
+          generated: Path.join('a', 'b', 'c'),
+        },
+      }, 'suffix')).toEqual('jbr-experiment-b-suffix');
+    });
+
+    it('for a combination', async() => {
+      expect(builder.getImageName(<ITaskContext> {
+        experimentPaths: {
+          generated: Path.join('a', 'b', 'c'),
+          combination: 0,
+        },
+      }, 'suffix')).toEqual('jbr-experiment-b-combination_0-suffix');
+      expect(builder.getImageName(<ITaskContext> {
+        experimentPaths: {
+          generated: Path.join('a', 'b', 'c'),
+          combination: 1,
+        },
+      }, 'suffix')).toEqual('jbr-experiment-b-combination_1-suffix');
     });
   });
 });
