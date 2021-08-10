@@ -9278,10 +9278,10 @@ source-map@^0.7.3:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.7.3.tgz#5302f8169031735226544092e64981f751750383"
   integrity sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==
 
-sparql-benchmark-runner@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/sparql-benchmark-runner/-/sparql-benchmark-runner-2.2.0.tgz#f8ce8db4a931df06c7a83474d1a98d3370714e4e"
-  integrity sha512-0kXxI+cxJv2+JNRXGyC4akq5DuGlWDxSDvKuaAcJWQCnL/4eAruzAAqSnxHCEEl2RsztQST9LbB+SBsMarvKrA==
+sparql-benchmark-runner@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/sparql-benchmark-runner/-/sparql-benchmark-runner-2.2.1.tgz#c33f715e5387d9f11fd1cb2f8a28852e62ab7342"
+  integrity sha512-aBH08xzR3UinvcWHg/KvzyVRkSLnt3U3oZeLt/UH1dzvs9rbducE8drXPSPtEfQrXsC9V82UFYfQk9g1Gpdchg==
   dependencies:
     "@types/yargs" "^16.0.1"
     fetch-sparql-endpoint "^2.0.1"
