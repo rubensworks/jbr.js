@@ -155,5 +155,13 @@ describe('DockerImageBuilder', () => {
         },
       }, 'suffix')).toEqual('jbr-experiment-b-combination_1-suffix');
     });
+
+    it('for a non-combination with uppercase characters', async() => {
+      expect(builder.getImageName(<ITaskContext> {
+        experimentPaths: {
+          generated: Path.join('a', 'BBB', 'c'),
+        },
+      }, 'suffix')).toEqual('jbr-experiment-bbb-suffix');
+    });
   });
 });

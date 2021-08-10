@@ -49,7 +49,7 @@ export class DockerImageBuilder {
    * @param suffix A suffix to add to the image name.
    */
   public getImageName(context: ITaskContext, suffix: string): string {
-    let pathContext: string = Path.basename(Path.join(context.experimentPaths.generated, '..'));
+    let pathContext: string = Path.basename(Path.join(context.experimentPaths.generated, '..')).toLowerCase();
     if ('combination' in context.experimentPaths) {
       pathContext = `${pathContext}-combination_${context.experimentPaths.combination}`;
     }
