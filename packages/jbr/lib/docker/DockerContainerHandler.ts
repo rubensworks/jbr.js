@@ -86,7 +86,12 @@ export class DockerContainerHandler implements ProcessHandler {
             continue;
           }
 
-          const data = JSON.parse(line);
+          let data;
+          try {
+            data = JSON.parse(line);
+          } catch {
+            continue;
+          }
 
           // Skip line if network hasn't been set yet, or has been shutdown already
           if (!data.networks) {
