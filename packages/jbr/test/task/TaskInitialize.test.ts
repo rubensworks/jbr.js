@@ -28,6 +28,9 @@ jest.mock('fs-extra', () => ({
   async copyFile(source: string, dest: string) {
     filesOut[dest] = source;
   },
+  async createFile(dest: string) {
+    filesOut[dest] = 'TRUE';
+  },
 }));
 
 let experimentLoader: ExperimentLoader;
@@ -123,6 +126,8 @@ describe('TaskInitialize', () => {
           Path.join(__dirname, '..', '..', 'lib', 'templates', '.gitignore'),
         [Path.join('CWD', 'TARGETDIR', 'README.md')]:
           Path.join(__dirname, '..', '..', 'lib', 'templates', 'README.md'),
+        [Path.join('CWD', 'TARGETDIR', 'generated', '.keep')]: 'TRUE',
+        [Path.join('CWD', 'TARGETDIR', 'output', '.keep')]: 'TRUE',
         [Path.join('CWD', 'TARGETDIR', 'jbr-experiment.json')]: `{
   "@context": [
     "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld",
@@ -240,6 +245,8 @@ describe('TaskInitialize', () => {
         Path.join(__dirname, '..', '..', 'lib', 'templates', '.gitignore'),
       [Path.join('CWD', 'TARGETDIR', 'README.md')]:
         Path.join(__dirname, '..', '..', 'lib', 'templates', 'README.md'),
+      [Path.join('CWD', 'TARGETDIR', 'generated', '.keep')]: 'TRUE',
+      [Path.join('CWD', 'TARGETDIR', 'output', '.keep')]: 'TRUE',
       [Path.join('CWD', 'TARGETDIR', 'jbr-combinations.json')]: `{
   "@context": [
     "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld"

@@ -141,6 +141,8 @@ export class TaskInitialize {
     for (const file of [ '.gitignore', 'README.md' ]) {
       await fs.copyFile(Path.join(__dirname, '..', 'templates', file), Path.join(this.targetDirectory, file));
     }
+    await fs.createFile(Path.join(this.targetDirectory, 'generated', '.keep'));
+    await fs.createFile(Path.join(this.targetDirectory, 'output', '.keep'));
 
     // Instantiate experiment for validation
     const { experiments } = await experimentLoader.instantiateExperiments(this.targetDirectory);
