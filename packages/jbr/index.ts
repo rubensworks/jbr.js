@@ -28,6 +28,7 @@ export * from './lib/task/ITaskContext';
 export * from './lib/task/TaskClean';
 export * from './lib/task/TaskGenerateCombinations';
 export * from './lib/task/TaskInitialize';
+export * from './lib/task/TaskPack';
 export * from './lib/task/TaskPrepare';
 export * from './lib/task/TaskRun';
 export * from './lib/task/TaskSetHook';

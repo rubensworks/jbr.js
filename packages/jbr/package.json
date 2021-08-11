@@ -68,6 +68,7 @@
     "@types/cross-spawn": "^6.0.2",
     "@types/dockerode": "^3.2.3",
     "@types/fs-extra": "^9.0.11",
+    "@types/tar": "^4.0.5",
     "@types/yargs": "^17.0.0",
     "cli-progress": "^3.9.0",
     "componentsjs": "^4.3.0",
@@ -75,6 +76,7 @@
     "dockerode": "^3.3.0",
     "fs-extra": "^10.0.0",
     "ora": "^5.4.0",
+    "tar": "^6.1.7",
     "winston": "^3.3.3",
     "yargs": "^17.0.0"
   },

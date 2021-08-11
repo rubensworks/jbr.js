@@ -50,6 +50,7 @@ Commands:
   jbr clean                      Cleans up an experiment
   jbr generate-combinations      Generate combinations of experiment templates
   jbr init <type> <name>         Initializes a new experiment
+  jbr pack                       Create an archive of the experiment output
   jbr prepare                    Prepare data for the current experiment
   jbr run                        Run the current experiment
   jbr set-hook <hook> <handler>  Provide a handler for a hook in an experiment
