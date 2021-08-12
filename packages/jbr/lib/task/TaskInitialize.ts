@@ -75,7 +75,7 @@ export class TaskInitialize {
 
     // Invoke npm install for jbr and experiment
     const experimentPackageName = `@jbr-experiment/${this.experimentTypeId}`;
-    await this.npmInstaller.install(this.targetDirectory, [ 'jbr', experimentPackageName ]);
+    await this.npmInstaller.install(this.targetDirectory, [ 'jbr', experimentPackageName ], 'jbr-experiment');
 
     // Resolve experiment type
     const experimentLoader = await ExperimentLoader.build(this.targetDirectory);

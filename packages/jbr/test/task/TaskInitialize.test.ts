@@ -210,7 +210,8 @@ describe('TaskInitialize', () => {
 
     expect(await task.init()).toBeTruthy();
 
-    expect(npmInstaller.install).toHaveBeenCalledWith('CWD/TARGETDIR', [ 'jbr', '@jbr-experiment/TYPE' ]);
+    expect(npmInstaller.install)
+      .toHaveBeenCalledWith('CWD/TARGETDIR', [ 'jbr', '@jbr-experiment/TYPE' ], 'jbr-experiment');
   });
 
   it('initializes a valid combinations-based experiment', async() => {

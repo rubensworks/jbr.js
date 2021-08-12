@@ -29,7 +29,7 @@ export const builder = (yargs: Argv<any>): Argv<any> =>
 export const handler = (argv: Record<string, any>): Promise<void> => wrapCommandHandler(argv,
   async(context: ITaskContext) => {
     const target = argv.target || argv.name;
-    const npmInstaller = await createNpmInstaller(argv.next);
+    const npmInstaller = await createNpmInstaller(context, argv.next);
     const output = await wrapVisualProgress(`Initializing new${argv.combinations ? ' combinations-based' : ''} experiment`,
       async() => new TaskInitialize(
         context,
@@ -43,7 +43,7 @@ export const handler = (argv: Record<string, any>): Promise<void> => wrapCommand
 
     context.logger.info(`Initialized new${argv.combinations ? ' combinations-based' : ''} experiment in ${output.experimentDirectory}`);
     if (output.hookNames.length > 0) {
-      context.logger.warn(`\nThis experiment requires the following hooks before it can be used:`);
+      context.logger.warn(`\nThis experiment requires handlers for the following hooks before it can be used:`);
       for (const hookName of output.hookNames) {
         context.logger.warn(`  - ${hookName}`);
       }

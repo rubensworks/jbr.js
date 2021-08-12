@@ -32,7 +32,7 @@ export class TaskSetHook {
   public async set(): Promise<ITaskSetHookOutput> {
     // Invoke npm install for hook
     const hookPackageName = `@jbr-hook/${this.handlerTypeId}`;
-    await this.npmInstaller.install(this.context.experimentPaths.root, [ hookPackageName ]);
+    await this.npmInstaller.install(this.context.experimentPaths.root, [ hookPackageName ], 'jbr-hook');
 
     // Resolve hook type
     const experimentLoader = await ExperimentLoader.build(this.context.mainModulePath);

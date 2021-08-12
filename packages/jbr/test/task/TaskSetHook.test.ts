@@ -242,7 +242,7 @@ describe('TaskSetHook', () => {
 
       await task.set();
 
-      expect(npmInstaller.install).toHaveBeenCalledWith('CWD', [ '@jbr-hook/TYPE' ]);
+      expect(npmInstaller.install).toHaveBeenCalledWith('CWD', [ '@jbr-hook/TYPE' ], 'jbr-hook');
     });
 
     it('sets a valid hook with sub-hooks', async() => {
