@@ -10,7 +10,7 @@ A simple tool to initialize benchmarking experiments, run them, and analyze thei
 
 ## Development Setup
 
-_(JSDoc: https://rubensworks.github.io/jbr/)_
+_(JSDoc: https://rubensworks.github.io/jbr.js/)_
 
 This repository should be used by jvr module **developers** as it contains multiple jbr modules that can be composed.
 This repository is managed as a [monorepo](https://github.com/babel/babel/blob/master/doc/design/monorepo.md)
