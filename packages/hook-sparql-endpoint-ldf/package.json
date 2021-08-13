@@ -1,6 +1,6 @@
 {
   "name": "@jbr-hook/sparql-endpoint-ldf",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "LDF Server SPARQL endpoint hook handler for JBR",
   "main": "index.js",
   "typings": "index",
@@ -59,7 +59,7 @@
     "validate": "npm ls"
   },
   "devDependencies": {
-    "jbr": "^0.0.1"
+    "jbr": "^1.0.0"
   },
   "peerDependencies": {
     "jbr": ">=1.0.0"

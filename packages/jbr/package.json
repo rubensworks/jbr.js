@@ -1,6 +1,6 @@
 {
   "name": "jbr",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Just a Benchmark Runner",
   "main": "index.js",
   "typings": "index",
