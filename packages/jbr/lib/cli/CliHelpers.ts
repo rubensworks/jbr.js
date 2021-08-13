@@ -49,7 +49,7 @@ export async function wrapCommandHandler(
   const context: ITaskContext = {
     cwd: argv.cwd,
     experimentPaths: createExperimentPaths(argv.cwd),
-    mainModulePath: argv.mainModulePath,
+    mainModulePath: argv.mainModulePath || argv.cwd,
     verbose: argv.verbose,
     logger: createCliLogger(argv.verbose ? 'verbose' : 'info'),
     docker: {
