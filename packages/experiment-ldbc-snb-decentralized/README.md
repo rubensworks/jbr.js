@@ -106,8 +106,8 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
 ```json
 {
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld",
-    "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/ldbc-snb-decentralized/^0.0.0/components/context.jsonld"
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/ldbc-snb-decentralized/^1.0.0/components/context.jsonld"
   ],
   "@id": "urn:jrb:my-experiment",
   "@type": "ExperimentLdbcSnbDecentralized",

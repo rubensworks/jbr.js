@@ -62,7 +62,7 @@
     "jbr": "^0.0.1"
   },
   "peerDependencies": {
-    "jbr": ">=0.0.0"
+    "jbr": ">=1.0.0"
   },
   "dependencies": {
     "@types/fs-extra": "^9.0.11",

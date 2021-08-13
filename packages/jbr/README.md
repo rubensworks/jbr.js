@@ -183,9 +183,9 @@ For example, `jbr-experiment.json.template` can look like:
 ```text
 {
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld",
-    "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/ldbc-snb-decentralized/^0.0.0/components/context.jsonld",
-    "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-hook/sparql-endpoint-comunica/^0.0.0/components/context.jsonld"
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/ldbc-snb-decentralized/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-hook/sparql-endpoint-comunica/^1.0.0/components/context.jsonld"
   ],
   "@id": "urn:jrb:experimentname",
   "@type": "MyExperiment",
@@ -197,7 +197,7 @@ Variable values can be assigned in `jbr-combinations.json`:
 ```json
 {
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld"
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/context.jsonld"
   ],
   "@id": "urn:jrb:experimentname-combinations",
   "@type": "FullFactorialCombinationProvider",
