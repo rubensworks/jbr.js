@@ -36,6 +36,7 @@
     "lib/**/*.js",
     "lib/**/*.json",
     "lib/templates",
+    "lib/templates/.gitignore",
     "index.d.ts",
     "index.ts",
     "components"
