@@ -52,7 +52,8 @@
     "clean": "rm -rf ./node_modules && rm -rf ./packages/*/node_modules",
     "postinstall": "yarn run build && lerna run prepare",
     "version": "manual-git-changelog onversion",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "doc": "typedoc"
   },
   "devDependencies": {
     "@rubensworks/eslint-config": "^1.0.1",
@@ -77,6 +78,8 @@
     "manual-git-changelog": "^1.0.1",
     "streamify-string": "^1.0.1",
     "ts-jest": "^27.0.3",
+    "typedoc": "^0.21.0",
+    "@strictsoftware/typedoc-plugin-monorepo": "^0.4.2",
     "typescript": "^4.0.5"
   },
   "pre-commit": [

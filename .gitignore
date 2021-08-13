@@ -6,6 +6,7 @@
 test_files/
 output/
 .eslintcache
+documentation
 
 **/lib/**/*.js
 **/lib/**/*.js.map
