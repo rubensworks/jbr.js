@@ -1,0 +1,296 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>experiment-watdiv | jbr</title>
+	<meta name="description" content="Documentation for jbr">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">jbr</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">jbr</a>
+				</li>
+				<li>
+					<a href="experiment_watdiv.html">experiment-watdiv</a>
+				</li>
+			</ul>
+			<h1>Module experiment-watdiv</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<a href="#jbr-experiment---ldbc-snb-decentralized" id="jbr-experiment---ldbc-snb-decentralized" style="color: inherit; text-decoration: none;">
+						<h1>JBR Experiment - LDBC SNB Decentralized</h1>
+					</a>
+					<p><a href="https://github.com/rubensworks/jbr.js/actions?query=workflow%3ACI"><img src="https://github.com/rubensworks/jbr.js/workflows/CI/badge.svg" alt="Build status"></a>
+						<a href="https://coveralls.io/github/rubensworks/jbr.js?branch=master"><img src="https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master" alt="Coverage Status"></a>
+					<a href="https://www.npmjs.com/package/@jbr-experiment/watdiv"><img src="https://badge.fury.io/js/%40jbr-experiment%2Fwatdiv.svg" alt="npm version"></a></p>
+					<p>A <a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> experiment type for the <a href="https://dsg.uwaterloo.ca/watdiv/">Waterloo SPARQL Diversity Test Suite (WatDiv)</a>.</p>
+					<a href="#requirements" id="requirements" style="color: inherit; text-decoration: none;">
+						<h2>Requirements</h2>
+					</a>
+					<ul>
+						<li><a href="https://nodejs.org/en/">Node.js</a> <em>(1.12 or higher)</em></li>
+						<li><a href="https://www.docker.com/">Docker</a> <em>(required for invoking <a href="https://github.com/comunica/watdiv-docker">WatDiv Docker</a>)</em></li>
+						<li><a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> <em>(required for initializing, preparing, and running experiments on the command line)</em></li>
+					</ul>
+					<a href="#quick-start" id="quick-start" style="color: inherit; text-decoration: none;">
+						<h2>Quick start</h2>
+					</a>
+					<a href="#1-install-jbr" id="1-install-jbr" style="color: inherit; text-decoration: none;">
+						<h3>1. Install jbr</h3>
+					</a>
+					<p><a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> is a command line tool that enables experiments to be initialized, prepared, and started.
+					It can be installed from the npm registry:</p>
+					<pre><code class="language-bash"><span style="color: #000000">$ npm install -g jbr</span>
+</code></pre>
+					<p>or</p>
+					<pre><code class="language-bash"><span style="color: #000000">$ yarn global add jbr</span>
+</code></pre>
+					<a href="#2-initialize-a-new-experiment" id="2-initialize-a-new-experiment" style="color: inherit; text-decoration: none;">
+						<h3>2. Initialize a new experiment</h3>
+					</a>
+					<p>Using the <code>jbr</code> CLI tool, initialize a new experiment:</p>
+					<pre><code class="language-bash"><span style="color: #000000">$ jbr init watdiv my-experiment</span>
+<span style="color: #000000">$ </span><span style="color: #795E26">cd</span><span style="color: #000000"> my-experiment</span>
+</code></pre>
+					<p>This will create a new <code>my-experiment</code> directory with default configs for this experiment type.</p>
+					<a href="#3-configure-the-required-hooks" id="3-configure-the-required-hooks" style="color: inherit; text-decoration: none;">
+						<h3>3. Configure the required hooks</h3>
+					</a>
+					<p>This experiment type requires you to configure a certain SPARQL endpoint to send queries to for the <code>hookSparqlEndpoint</code>.
+					A value for this hook can be set as follows, such as <a href="https://github.com/rubensworks/jbr.js/tree/master/packages/hook-sparql-endpoint-comunica"><code>sparql-endpoint-comunica</code></a>:</p>
+					<pre><code class="language-bash"><span style="color: #000000">$ jbr set-hook hookSparqlEndpoint sparql-endpoint-comunica</span>
+</code></pre>
+					<a href="#4-prepare-the-experiment" id="4-prepare-the-experiment" style="color: inherit; text-decoration: none;">
+						<h3>4. Prepare the experiment</h3>
+					</a>
+					<p>In order to run all preprocessing steps, such as creating all required datasets, invoke the prepare step:</p>
+					<pre><code class="language-bash"><span style="color: #000000">$ jbr prepare</span>
+</code></pre>
+					<p>All prepared files will be contained in the <code>generated/</code> directory:</p>
+					<pre><code class="language-text">generated/
+  dataset.hdt
+  dataset.hdt.index.v1-1
+  dataset.nt
+  queries/
+</code></pre>
+					<a href="#5-run-the-experiment" id="5-run-the-experiment" style="color: inherit; text-decoration: none;">
+						<h3>5. Run the experiment</h3>
+					</a>
+					<p>Once the experiment has been fully configured and prepared, you can run it:</p>
+					<pre><code class="language-bash"><span style="color: #000000">$ jbr run</span>
+</code></pre>
+					<p>Once the run step completes, results will be present in the <code>output/</code> directory.</p>
+					<a href="#output" id="output" style="color: inherit; text-decoration: none;">
+						<h2>Output</h2>
+					</a>
+					<p>The following output is generated after an experiment has run.</p>
+					<p><code>output/query-times.csv</code>:</p>
+					<pre><code class="language-csv">name;id;results;time;timestamps
+interactive-short-4;0;0;7;
+interactive-short-4;1;0;5;
+interactive-short-4;2;0;6;
+interactive-short-4;3;0;3;
+interactive-short-4;4;0;3;
+interactive-short-5;0;0;0;
+interactive-short-5;1;0;0;
+interactive-short-5;2;0;0;
+interactive-short-5;3;0;0;
+interactive-short-5;4;0;0;
+</code></pre>
+					<a href="#configuration" id="configuration" style="color: inherit; text-decoration: none;">
+						<h2>Configuration</h2>
+					</a>
+					<p>The default generated configuration file (<code>jbr-experiment.json</code>) for this experiment looks as follows:</p>
+					<pre><code class="language-json"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@context&quot;</span><span style="color: #000000">: [</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/watdiv/^0.0.0/components/context.jsonld&quot;</span>
+<span style="color: #000000">  ],</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@id&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;urn:jrb:test-watdiv2&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;ExperimentWatDiv&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;datasetScale&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryCount&quot;</span><span style="color: #000000">: </span><span style="color: #098658">5</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRecurrence&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;generateHdt&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">true</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;endpointUrl&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;http://localhost:3001/sparql&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerReplication&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerWarmupRounds&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerRecordTimestamps&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">true</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;hookSparqlEndpoint&quot;</span><span style="color: #000000">: {</span>
+<span style="color: #000000">    </span><span style="color: #0451A5">&quot;@id&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;urn:jrb:test-watdiv2:hookSparqlEndpoint&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;HookNonConfigured&quot;</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">}</span>
+</code></pre>
+					<p>Any config changes require re-running the prepare step.</p>
+					<p>More background information on these config options can be found in the README of <a href="https://github.com/comunica/watdiv-docker">WatDiv Docker</a>.</p>
+					<a href="#configuration-fields" id="configuration-fields" style="color: inherit; text-decoration: none;">
+						<h3>Configuration fields</h3>
+					</a>
+					<ul>
+						<li><code>datasetScale</code>: Scale factor (1 ~= 100K triples), defaults to 1.</li>
+						<li><code>queryCount</code>: Query count per type.</li>
+						<li><code>queryRecurrence</code>: Query recurrence factor.</li>
+						<li><code>generateHdt</code>: If a <code>dataset.hdt</code> should also be generated.</li>
+						<li><code>endpointUrl</code>: URL through which the SPARQL endpoint of the <code>hookSparqlEndpoint</code> hook will be exposed.</li>
+						<li><code>queryRunnerReplication</code>: Number of replication runs for <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
+						<li><code>queryRunnerWarmupRounds</code>: Number of warmup runs for <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
+						<li><code>queryRunnerRecordTimestamps</code>: Flag to indicate if result arrival timestamps must be recorded <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
+					</ul>
+					<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+						<h2>License</h2>
+					</a>
+					<p>jbr.js is written by <a href="http://www.rubensworks.net/">Ruben Taelman</a>.</p>
+					<p>This code is copyrighted by <a href="http://idlab.ugent.be/">Ghent University – imec</a>
+					and released under the <a href="http://opensource.org/licenses/MIT">MIT license</a>.</p>
+				</div>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/experiment_watdiv.ExperimentHandlerWatDiv.html" class="tsd-kind-icon">Experiment<wbr>Handler<wbr>Wat<wbr>Div</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/experiment_watdiv.ExperimentWatDiv.html" class="tsd-kind-icon">Experiment<wbr>Wat<wbr>Div</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="../modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="experiment_ldbc_snb_decentralized.html">experiment-<wbr>ldbc-<wbr>snb-<wbr>decentralized</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="experiment_watdiv.html">experiment-<wbr>watdiv</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="hook_sparql_endpoint_comunica.html">hook-<wbr>sparql-<wbr>endpoint-<wbr>comunica</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="hook_sparql_endpoint_ldf.html">hook-<wbr>sparql-<wbr>endpoint-<wbr>ldf</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="jbr.html">jbr</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-module">
+						<a href="experiment_ldbc_snb_decentralized.html" class="tsd-kind-icon">experiment-<wbr>ldbc-<wbr>snb-<wbr>decentralized</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
+						<a href="experiment_watdiv.html" class="tsd-kind-icon">experiment-<wbr>watdiv</a>
+						<ul>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/experiment_watdiv.ExperimentHandlerWatDiv.html" class="tsd-kind-icon">Experiment<wbr>Handler<wbr>Wat<wbr>Div</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/experiment_watdiv.ExperimentWatDiv.html" class="tsd-kind-icon">Experiment<wbr>Wat<wbr>Div</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-module">
+						<a href="hook_sparql_endpoint_comunica.html" class="tsd-kind-icon">hook-<wbr>sparql-<wbr>endpoint-<wbr>comunica</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="hook_sparql_endpoint_ldf.html" class="tsd-kind-icon">hook-<wbr>sparql-<wbr>endpoint-<wbr>ldf</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="jbr.html" class="tsd-kind-icon">jbr</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

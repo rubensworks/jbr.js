@@ -1,0 +1,1613 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>jbr</title>
+	<meta name="description" content="Documentation for jbr">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">jbr</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">jbr</a>
+				</li>
+				<li>
+					<a href="jbr.html">jbr</a>
+				</li>
+			</ul>
+			<h1>Module jbr</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<a href="#jbrjs--just-a-benchmark-runner" id="jbrjs--just-a-benchmark-runner" style="color: inherit; text-decoration: none;">
+						<h1>jbr.js – Just a Benchmark Runner</h1>
+					</a>
+					<p><a href="https://github.com/rubensworks/jbr.js/actions?query=workflow%3ACI"><img src="https://github.com/rubensworks/jbr.js/workflows/CI/badge.svg" alt="Build status"></a>
+						<a href="https://coveralls.io/github/rubensworks/jbr.js?branch=master"><img src="https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master" alt="Coverage Status"></a>
+					<a href="https://www.npmjs.com/package/jbr"><img src="https://badge.fury.io/js/jbr.svg" alt="npm version"></a></p>
+					<p>A simple tool to initialize benchmarking experiments, run them, and analyze their results.</p>
+					<p>Experiments that are created and executed with this tool are <a href="https://linkedsoftwaredependencies.org/articles/reproducibility/">fully reproducible</a>,
+						as experiments are fully <em>deterministic</em>,
+					and metadata on all exact installed dependency versions is emitted together with the results.</p>
+					<a href="#guides" id="guides" style="color: inherit; text-decoration: none;">
+						<h2>Guides</h2>
+					</a>
+					<ul>
+						<li><a href="https://github.com/rubensworks/jbr.js/wiki/Example:-setting-up-a-Linked-Data-Fragments-experiment">Setting up a single Linked Data Fragments experiment</a></li>
+						<li><a href="https://github.com/rubensworks/jbr.js/wiki/Example:-setting-up-a-combinations-based-Linked-Data-Fragments-experiment">Setting up a factorial Linked Data Fragments experiment</a></li>
+					</ul>
+					<a href="#requirements" id="requirements" style="color: inherit; text-decoration: none;">
+						<h2>Requirements</h2>
+					</a>
+					<ul>
+						<li><a href="https://nodejs.org/en/">Node.js</a> <em>(1.12 or higher)</em></li>
+					</ul>
+					<p>For certain experiment types, you may also require <a href="https://www.docker.com/">Docker</a>.</p>
+					<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+						<h2>Installation</h2>
+					</a>
+					<pre><code class="language-bash"><span style="color: #000000">$ npm install -g jbr</span>
+</code></pre>
+					<p>or</p>
+					<pre><code class="language-bash"><span style="color: #000000">$ yarn global add jbr</span>
+</code></pre>
+					<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+						<h2>Usage</h2>
+					</a>
+					<p>This tool offers commands for executing the whole experimentation chain:</p>
+					<ol>
+						<li><a href="#1-initialization"><strong>Initialization</strong></a>: Create a new experiment. This should be done only once.</li>
+						<li><a href="#2-data-preparation"><strong>Data Preparation</strong></a>: Generating a dataset and query set. This should be done only once.</li>
+						<li><a href="#3-running-experiments"><strong>Running Experiments</strong></a>: Starting the required machines and running the benchmark.</li>
+					</ol>
+					<p><strong>Full usage</strong>:</p>
+					<pre><code class="language-text">jbr &lt;command&gt;
+
+Commands:
+  jbr clean                      Cleans up an experiment
+  jbr generate-combinations      Generate combinations of experiment templates
+  jbr init &lt;type&gt; &lt;name&gt;         Initializes a new experiment
+  jbr pack                       Create an archive of the experiment output
+  jbr prepare                    Prepare data for the current experiment
+  jbr run                        Run the current experiment
+  jbr set-hook &lt;hook&gt; &lt;handler&gt;  Provide a handler for a hook in an experiment
+  jbr validate                   Validate the current experiment
+
+Options:
+      --version         Show version number                            [boolean]
+      --cwd             The current working directory      [string] [default: .]
+  -m, --mainModulePath  Path from which modules should be loaded        [string]
+  -v, --verbose         If more logging output should be generated     [boolean]
+  -d, --dockerOptions   Path to a file with custom Docker options       [string]
+  -b, --breakpoints     If experiment breakpoints are enabled          [boolean]
+      --help            Show help
+</code></pre>
+					<a href="#1-initialization" id="1-initialization" style="color: inherit; text-decoration: none;">
+						<h3>1. Initialization</h3>
+					</a>
+					<pre><code class="language-bash"><span style="color: #000000">$ jbr init experiment-type my-experiment</span>
+<span style="color: #000000">$ </span><span style="color: #795E26">cd</span><span style="color: #000000"> my-experiment</span>
+</code></pre>
+					<p>Running this command will initialize a new experiment of the given type (<code>experiment-type</code>)
+					in a new directory of the provided experiment name (<code>my-experiment</code>).</p>
+					<p>The experiment type must exist on npm under the <code>@jbr-experiment/*</code> scope.
+						<a href="https://www.npmjs.com/search?q=jbr-experiment">Click here for a full list of available experiment types.</a>
+					For example, the <code>watdiv</code> experiment can be used because the <code>@jbr-experiment/watdiv</code> package exists on npm.</p>
+					<p>The created directory will contain all default required files for running an experiment.
+					You can initialize this directory as a <a href="https://git-scm.com/">git</a> repository.</p>
+					<p>In most cases, you will have to configure at least one <a href="#hooks">hook handler</a> for your experiment,
+						such as defining the SPARQL query engine you want to evaluate for a given benchmark experiment.
+					Furthermore, you will usually need to edit the <code>jbr-experiment.json</code> file to <a href="#configurability">configure your experiment</a>.</p>
+					<a href="#2-data-preparation" id="2-data-preparation" style="color: inherit; text-decoration: none;">
+						<h3>2. Data Preparation</h3>
+					</a>
+					<p>In order to run all preprocessing steps, such as creating all required datasets, invoke the prepare step:</p>
+					<pre><code class="language-bash"><span style="color: #000000">$ jbr prepare</span>
+</code></pre>
+					<p>All prepared files will be contained in the <code>generated/</code> directory.</p>
+					<p>When running this command, existing files within <code>generated/</code> will not be overwritten by default.
+					These can be forcefully overwritten by passing the <code>-f</code> option.</p>
+					<a href="#3-running-experiments" id="3-running-experiments" style="color: inherit; text-decoration: none;">
+						<h3>3. Running Experiments</h3>
+					</a>
+					<p>Once the experiment has been fully configured and prepared, you can run it:</p>
+					<pre><code class="language-bash"><span style="color: #000000">$ jbr run</span>
+</code></pre>
+					<p>Once the run step completes, results will be present in the <code>output/</code> directory.</p>
+					<a href="#configurability" id="configurability" style="color: inherit; text-decoration: none;">
+						<h2>Configurability</h2>
+					</a>
+					<p>All experiments will have a <code>jbr-experiment.json</code> in which the properties of an experiment can be set.
+					The parameters of such a config file are dependent on the type of experiment that is being initialized.</p>
+					<p>Depending on the experiment type, you may also need to change certain files within the <code>input/</code> directory.</p>
+					<a href="#hooks" id="hooks" style="color: inherit; text-decoration: none;">
+						<h2>Hooks</h2>
+					</a>
+					<p>Most experiment types expose certain <em>hooks</em>, which allow you to plug in certain hook handlers.
+						For example, the <a href="https://www.npmjs.com/package/@jbr-experiment/watdiv">WatDiv</a> experiment type exposes the <code>hookSparqlEndpoint</code> hook.
+					This hook is used to plug in a certain SPARQL query engine, which is what WatDiv will use to run its benchmark over.</p>
+					<p>Hook handler types must exist on npm under the <code>@jbr-hook/*</code> scope.
+						<a href="https://www.npmjs.com/search?q=jbr-hook">Click here for a full list of available hook handler types.</a>
+					For example, the <code>sparql-endpoint-comunica</code> hook handler can be used because the <code>@jbr-hook/sparql-endpoint-comunica</code> package exists on npm.</p>
+					<a href="#directory-structure" id="directory-structure" style="color: inherit; text-decoration: none;">
+						<h2>Directory structure</h2>
+					</a>
+					<p>A jbr experiment typically has the following directory structure:</p>
+					<pre><code class="language-text">my-experiment/
+  .gitignore
+  jbr-experiment.json  # Main config of your experiment
+  package.json
+  generated/           # Prepared data files
+  input/               # More indirect configuration
+  output/              # Raw output of the experiment
+  node_modules/
+</code></pre>
+					<p>To enable reproducibility, it is highly recommended to place these experiments under version control, e.g. via a <a href="https://git-scm.com/">git</a> repository.</p>
+					<p>The following files and directories do <strong>not have to be added</strong> to this repository,
+					as they are derived and can be reproduced:</p>
+					<pre><code class="language-text">my-experiment/
+  generated/
+  output/
+  node_modules/
+</code></pre>
+					<a href="#advanced" id="advanced" style="color: inherit; text-decoration: none;">
+						<h2>Advanced</h2>
+					</a>
+					<a href="#combinations-based-experiments" id="combinations-based-experiments" style="color: inherit; text-decoration: none;">
+						<h3>Combinations-based Experiments</h3>
+					</a>
+					<p>Certain experiments may be designed to <em>compare</em> the effect different <em>factors</em> to each other,
+						such as full factorial experiments, or fractional experiments.
+						For instance, this may be used to compare the effect of running a certain system once with algorithm A and once with B,
+					and measuring the effects.</p>
+					<p>Using jbr, you can easily setup and handle such combination-based experiments as follows:</p>
+					<p><strong>1. Initialize experiment</strong></p>
+					<p>Experiments that should be combinations-based must be initialized using the <code>-c</code> flag:</p>
+					<pre><code class="language-bash"><span style="color: #000000">$ jbr init -c experiment-type my-experiment</span>
+<span style="color: #000000">$ </span><span style="color: #795E26">cd</span><span style="color: #000000"> my-experiment</span>
+</code></pre>
+					<p>Instead of creating a <code>jbr-experiment.json</code> file,
+						this will create a <code>jbr-experiment.json.template</code> file,
+					together with an accompanying <code>jbr-combinations.json</code> file.</p>
+					<p><strong>2. Define combinations</strong></p>
+					<p>Inside the <code>jbr-experiment.json.template</code> file (and input text files), you may define any number of variables using the <code>%FACTOR-variableName%</code> syntax.
+					Inside the <code>jbr-combinations.json</code> file, you can define corresponding values for the given variables.</p>
+					<p>For example, <code>jbr-experiment.json.template</code> can look like:</p>
+					<pre><code class="language-text">{
+  &quot;@context&quot;: [
+    &quot;https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld&quot;,
+    &quot;https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/ldbc-snb-decentralized/^0.0.0/components/context.jsonld&quot;,
+    &quot;https://linkedsoftwaredependencies.org/bundles/npm/@jbr-hook/sparql-endpoint-comunica/^0.0.0/components/context.jsonld&quot;
+  ],
+  &quot;@id&quot;: &quot;urn:jrb:experimentname&quot;,
+  &quot;@type&quot;: &quot;MyExperiment&quot;,
+  &quot;cpu_percentage&quot;: %FACTOR-cpu%,
+  &quot;memory_percentage&quot;: %FACTOR-memory%
+}
+</code></pre>
+					<p>Variable values can be assigned in <code>jbr-combinations.json</code>:</p>
+					<pre><code class="language-json"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@context&quot;</span><span style="color: #000000">: [</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;https://linkedsoftwaredependencies.org/bundles/npm/jbr/^0.0.0/components/context.jsonld&quot;</span>
+<span style="color: #000000">  ],</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@id&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;urn:jrb:experimentname-combinations&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;FullFactorialCombinationProvider&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;commonGenerated&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">false</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;factors&quot;</span><span style="color: #000000">: {</span>
+<span style="color: #000000">    </span><span style="color: #0451A5">&quot;cpu&quot;</span><span style="color: #000000">: [ </span><span style="color: #098658">50</span><span style="color: #000000">, </span><span style="color: #098658">100</span><span style="color: #000000"> ],</span>
+<span style="color: #000000">    </span><span style="color: #0451A5">&quot;memory&quot;</span><span style="color: #000000">: [ </span><span style="color: #098658">50</span><span style="color: #000000">, </span><span style="color: #098658">100</span><span style="color: #000000"> ]</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">}</span>
+</code></pre>
+					<p>Because <code>FullFactorialCombinationProvider</code> is used in <code>jbr-combinations.json</code>, all combinations (4) of the <code>cpu</code> and <code>memory</code> variable will apply to this experiment.</p>
+					<p><em>If the generated directory can be reused across combinations, then <code>commonGenerated</code> can be set to true.</em></p>
+					<p><em><code>FractionalCombinationProvider</code> may also be used if only select combinations should apply.</em></p>
+					<p><strong>3. Regenerate combinations</strong></p>
+					<p>Each time you make a change inside your input files, <code>jbr-combinations.json</code>, or <code>jbr-experiment.json.template</code>,
+					you should (re)generate the instantiated combinations by running the following command:</p>
+					<pre><code class="language-bash"><span style="color: #000000">$ jbr generate-combinations</span>
+</code></pre>
+					<p>This will create a new <code>combinations/</code> directory, containing sub-directories for all experiment combinations.
+					Files in this directory should not be modified manually, but should only be managed via the template files and <code>jbr generate-combinations</code>.</p>
+					<p><strong>4. Handle like any other experiment</strong></p>
+					<p>From this point on, you can manage this combinations-based experiment like any other jbr experiment.</p>
+					<p>Concretely, <code>jbr prepare</code> will prepare <em>all</em> combinations,
+					and <code>jbr run</code> will also run <em>all</em> combinations.</p>
+					<a href="#docker-resource-constraint" id="docker-resource-constraint" style="color: inherit; text-decoration: none;">
+						<h3>Docker Resource Constraint</h3>
+					</a>
+					<p>Some experiments or hooks may be executed in Docker containers.
+					For these cases, jbr exposes a reusable helper component for defining Docker resource constraints.</p>
+					<p>For example, the following experiment is configured to use at most 90% of the CPU, and 10MB of memory.</p>
+					<pre><code class="language-json"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;SomeExperiment&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;resourceConstraints&quot;</span><span style="color: #000000">: {</span>
+<span style="color: #000000">    </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;StaticDockerResourceConstraints&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #0451A5">&quot;cpu_percentage&quot;</span><span style="color: #000000">: </span><span style="color: #098658">90</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #0451A5">&quot;memory_limit&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;10m&quot;</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">}</span>
+</code></pre>
+					<p>All possible parameters (all are optional):</p>
+					<ul>
+						<li><code>cpu_percentage</code>: Percentage (0-100) of the total CPU power that can be used. E.g. when fully consuming 4 cores, this value must be set to 100.</li>
+						<li><code>memory_limit</code>: Memory usage limit, e.g. &#39;10m&#39;, &#39;1g&#39;.</li>
+					</ul>
+					<a href="#running-against-a-different-docker-instance" id="running-against-a-different-docker-instance" style="color: inherit; text-decoration: none;">
+						<h3>Running against a different Docker instance</h3>
+					</a>
+					<p>By default, Docker-based experiment will look for and use the Docker installation on your local machine.
+						In some cases, you may want to run experiments within remote Docker instances.
+					In such cases, you can use the <code>-d</code> or <code>--dockerOptions</code> option to pass a custom Docker options file.</p>
+					<p>For example, Docker options can be set when running an experiment as follows:</p>
+					<pre><code class="language-bash"><span style="color: #000000">$ jbr run -d docker-options.json</span>
+</code></pre>
+					<p><code>docker-options.json</code> for the default socket:</p>
+					<pre><code class="language-json"><span style="color: #000000">{</span>
+<span style="color: #000000">    </span><span style="color: #0451A5">&quot;socketPath&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;/var/run/docker.sock&quot;</span>
+<span style="color: #000000">}</span>
+</code></pre>
+					<p><code>docker-options.json</code> for running against a different host:</p>
+					<pre><code class="language-json"><span style="color: #000000">{</span>
+<span style="color: #000000">    </span><span style="color: #0451A5">&quot;host&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;http://192.168.1.10&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #0451A5">&quot;port&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3000</span>
+<span style="color: #000000">}</span>
+</code></pre>
+					<p>More configuration options can be found at <a href="https://github.com/apocas/dockerode#getting-started">https://github.com/apocas/dockerode#getting-started</a></p>
+					<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+						<h2>License</h2>
+					</a>
+					<p>jbr.js is written by <a href="http://www.rubensworks.net/">Ruben Taelman</a>.</p>
+					<p>This code is copyrighted by <a href="http://idlab.ugent.be/">Ghent University – imec</a>
+					and released under the <a href="http://opensource.org/licenses/MIT">MIT license</a>.</p>
+				</div>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.CliNpmInstaller.html" class="tsd-kind-icon">Cli<wbr>Npm<wbr>Installer</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.DockerContainerCreator.html" class="tsd-kind-icon">Docker<wbr>Container<wbr>Creator</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.DockerContainerHandler.html" class="tsd-kind-icon">Docker<wbr>Container<wbr>Handler</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.DockerImageBuilder.html" class="tsd-kind-icon">Docker<wbr>Image<wbr>Builder</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.DockerImagePuller.html" class="tsd-kind-icon">Docker<wbr>Image<wbr>Puller</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.DockerNetworkCreator.html" class="tsd-kind-icon">Docker<wbr>Network<wbr>Creator</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.DockerNetworkHandler.html" class="tsd-kind-icon">Docker<wbr>Network<wbr>Handler</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.ErrorHandled.html" class="tsd-kind-icon">Error<wbr>Handled</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter"><a href="../classes/jbr.ExperimentHandler.html" class="tsd-kind-icon">Experiment<wbr>Handler</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.ExperimentLoader.html" class="tsd-kind-icon">Experiment<wbr>Loader</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.FractionalCombinationProvider.html" class="tsd-kind-icon">Fractional<wbr>Combination<wbr>Provider</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.FullFactorialCombinationProvider.html" class="tsd-kind-icon">Full<wbr>Factorial<wbr>Combination<wbr>Provider</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter"><a href="../classes/jbr.HookHandler.html" class="tsd-kind-icon">Hook<wbr>Handler</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.HookNonConfigured.html" class="tsd-kind-icon">Hook<wbr>Non<wbr>Configured</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.ProcessHandlerComposite.html" class="tsd-kind-icon">Process<wbr>Handler<wbr>Composite</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.StaticDockerResourceConstraints.html" class="tsd-kind-icon">Static<wbr>Docker<wbr>Resource<wbr>Constraints</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskClean.html" class="tsd-kind-icon">Task<wbr>Clean</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskGenerateCombinations.html" class="tsd-kind-icon">Task<wbr>Generate<wbr>Combinations</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskInitialize.html" class="tsd-kind-icon">Task<wbr>Initialize</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskPack.html" class="tsd-kind-icon">Task<wbr>Pack</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskPrepare.html" class="tsd-kind-icon">Task<wbr>Prepare</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskRun.html" class="tsd-kind-icon">Task<wbr>Run</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskSetHook.html" class="tsd-kind-icon">Task<wbr>Set<wbr>Hook</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskValidate.html" class="tsd-kind-icon">Task<wbr>Validate</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.VoidNpmInstaller.html" class="tsd-kind-icon">Void<wbr>Npm<wbr>Installer</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="../interfaces/jbr.Argv.html" class="tsd-kind-icon">Argv</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.CombinationProvider.html" class="tsd-kind-icon">Combination<wbr>Provider</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="../interfaces/jbr.CommandModule.html" class="tsd-kind-icon">Command<wbr>Module</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.DockerResourceConstraints.html" class="tsd-kind-icon">Docker<wbr>Resource<wbr>Constraints</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.Experiment.html" class="tsd-kind-icon">Experiment</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.Hook.html" class="tsd-kind-icon">Hook</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.ICleanTargets.html" class="tsd-kind-icon">IClean<wbr>Targets</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.IDockerContainerCreatorArgs.html" class="tsd-kind-icon">IDocker<wbr>Container<wbr>Creator<wbr>Args</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.IDockerCpuConstraints.html" class="tsd-kind-icon">IDocker<wbr>Cpu<wbr>Constraints</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.IDockerImageBuilderArgs.html" class="tsd-kind-icon">IDocker<wbr>Image<wbr>Builder<wbr>Args</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.IDockerImagePullerArgs.html" class="tsd-kind-icon">IDocker<wbr>Image<wbr>Puller<wbr>Args</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.IDockerMemoryConstraints.html" class="tsd-kind-icon">IDocker<wbr>Memory<wbr>Constraints</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.IExperimentPaths.html" class="tsd-kind-icon">IExperiment<wbr>Paths</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.IHookStartOptions.html" class="tsd-kind-icon">IHook<wbr>Start<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.ITaskContext.html" class="tsd-kind-icon">ITask<wbr>Context</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.ITaskInitializeOutput.html" class="tsd-kind-icon">ITask<wbr>Initialize<wbr>Output</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.ITaskSetHookOutput.html" class="tsd-kind-icon">ITask<wbr>Set<wbr>Hook<wbr>Output</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.NpmInstaller.html" class="tsd-kind-icon">Npm<wbr>Installer</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-external"><a href="../interfaces/jbr.Options.html" class="tsd-kind-icon">Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-external"><a href="../interfaces/jbr.PositionalOptions.html" class="tsd-kind-icon">Positional<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.ProcessHandler.html" class="tsd-kind-icon">Process<wbr>Handler</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module tsd-is-external"><a href="../interfaces/jbr.RequireDirectoryOptions.html" class="tsd-kind-icon">Require<wbr>Directory<wbr>Options</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="jbr.html#Arguments" class="tsd-kind-icon">Arguments</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external"><a href="jbr.html#AsyncCompletionFunction" class="tsd-kind-icon">Async<wbr>Completion<wbr>Function</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="jbr.html#BuilderCallback" class="tsd-kind-icon">Builder<wbr>Callback</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external"><a href="jbr.html#Choices" class="tsd-kind-icon">Choices</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="jbr.html#CommandBuilder" class="tsd-kind-icon">Command<wbr>Builder</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="jbr.html#Defined" class="tsd-kind-icon">Defined</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="jbr.html#FactorCombination" class="tsd-kind-icon">Factor<wbr>Combination</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="jbr.html#InferredOptionType" class="tsd-kind-icon">Inferred<wbr>Option<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="jbr.html#InferredOptionTypeInner" class="tsd-kind-icon">Inferred<wbr>Option<wbr>Type<wbr>Inner</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="jbr.html#InferredOptionTypes" class="tsd-kind-icon">Inferred<wbr>Option<wbr>Types</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="jbr.html#MiddlewareFunction" class="tsd-kind-icon">Middleware<wbr>Function</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="jbr.html#Omit" class="tsd-kind-icon">Omit</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="jbr.html#ParseCallback" class="tsd-kind-icon">Parse<wbr>Callback</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external"><a href="jbr.html#ParserConfigurationOptions" class="tsd-kind-icon">Parser<wbr>Configuration<wbr>Options</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external"><a href="jbr.html#PositionalOptionsType" class="tsd-kind-icon">Positional<wbr>Options<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external"><a href="jbr.html#PromiseCompletionFunction" class="tsd-kind-icon">Promise<wbr>Completion<wbr>Function</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="jbr.html#RequiredOptionType" class="tsd-kind-icon">Required<wbr>Option<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external"><a href="jbr.html#SyncCompletionFunction" class="tsd-kind-icon">Sync<wbr>Completion<wbr>Function</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="jbr.html#ToArray" class="tsd-kind-icon">To<wbr>Array</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="jbr.html#ToNumber" class="tsd-kind-icon">To<wbr>Number</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external"><a href="jbr.html#ToString" class="tsd-kind-icon">To<wbr>String</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Variables</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-module tsd-is-external"><a href="jbr.html#Parser" class="tsd-kind-icon">Parser</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="jbr.html#command" class="tsd-kind-icon">command</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="jbr.html#desc" class="tsd-kind-icon">desc</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module tsd-is-external"><a href="jbr.html#export_" class="tsd-kind-icon">export&#61;</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-external"><a href="jbr.html#applyExtends" class="tsd-kind-icon">apply<wbr>Extends</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#breakpointBarrier" class="tsd-kind-icon">breakpoint<wbr>Barrier</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#builder" class="tsd-kind-icon">builder</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#createCliLogger" class="tsd-kind-icon">create<wbr>Cli<wbr>Logger</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#createExperimentPaths" class="tsd-kind-icon">create<wbr>Experiment<wbr>Paths</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#createNpmInstaller" class="tsd-kind-icon">create<wbr>Npm<wbr>Installer</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#handler" class="tsd-kind-icon">handler</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-external"><a href="jbr.html#hideBin" class="tsd-kind-icon">hide<wbr>Bin</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#runCli" class="tsd-kind-icon">run<wbr>Cli</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#wrapCommandHandler" class="tsd-kind-icon">wrap<wbr>Command<wbr>Handler</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="jbr.html#wrapVisualProgress" class="tsd-kind-icon">wrap<wbr>Visual<wbr>Progress</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+					<a name="Arguments" class="tsd-anchor"></a>
+					<h3>Arguments</h3>
+					<div class="tsd-signature tsd-kind-icon">Arguments&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>$0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>_<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:646</li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T = <span class="tsd-signature-symbol">{}</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external">
+					<a name="AsyncCompletionFunction" class="tsd-anchor"></a>
+					<h3>Async<wbr>Completion<wbr>Function</h3>
+					<div class="tsd-signature tsd-kind-icon">Async<wbr>Completion<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>current<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, argv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, done<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>completion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:847</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-external">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>current<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, argv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, done<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>completion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>current: <span class="tsd-signature-type">string</span></h5>
+											</li>
+											<li>
+												<h5>argv: <span class="tsd-signature-type">any</span></h5>
+											</li>
+											<li>
+												<h5>done: <span class="tsd-signature-symbol">(</span>completion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+												<ul class="tsd-parameters">
+													<li class="tsd-parameter-signature">
+														<ul class="tsd-signatures tsd-kind-type-literal tsd-is-external">
+															<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>completion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+														</ul>
+														<ul class="tsd-descriptions">
+															<li class="tsd-description">
+																<h4 class="tsd-parameters-title">Parameters</h4>
+																<ul class="tsd-parameters">
+																	<li>
+																		<h5>completion: <span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+																	</li>
+																</ul>
+																<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+					<a name="BuilderCallback" class="tsd-anchor"></a>
+					<h3>Builder<wbr>Callback</h3>
+					<div class="tsd-signature tsd-kind-icon">Builder<wbr>Callback&lt;T, R&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Argv</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">PromiseLike</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Argv</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Argv</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Argv</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Argv</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:32</li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T</h4>
+						</li>
+						<li>
+							<h4>R</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external">
+					<a name="Choices" class="tsd-anchor"></a>
+					<h3>Choices</h3>
+					<div class="tsd-signature tsd-kind-icon">Choices<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:850</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+					<a name="CommandBuilder" class="tsd-anchor"></a>
+					<h3>Command<wbr>Builder</h3>
+					<div class="tsd-signature tsd-kind-icon">Command<wbr>Builder&lt;T, U&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Argv</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Argv</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Argv</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">PromiseLike</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Argv</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:845</li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T = <span class="tsd-signature-symbol">{}</span></h4>
+						</li>
+						<li>
+							<h4>U = <span class="tsd-signature-symbol">{}</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+					<a name="Defined" class="tsd-anchor"></a>
+					<h3>Defined</h3>
+					<div class="tsd-signature tsd-kind-icon">Defined&lt;T, K&gt;<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">Omit</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{</span><span class="tsd-signature-symbol">[ </span><span class="tsd-signature-type">key</span><span class="tsd-signature-symbol"> in </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Exclude</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">key</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:777</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Remove undefined as a possible value for keys K in T</p>
+						</div>
+					</div>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T</h4>
+						</li>
+						<li>
+							<h4>K<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="FactorCombination" class="tsd-anchor"></a>
+					<h3>Factor<wbr>Combination</h3>
+					<div class="tsd-signature tsd-kind-icon">Factor<wbr>Combination<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/factor/CombinationProvider.ts#L12">packages/jbr/lib/factor/CombinationProvider.ts:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+					<a name="InferredOptionType" class="tsd-anchor"></a>
+					<h3>Inferred<wbr>Option<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Inferred<wbr>Option<wbr>Type&lt;O&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>required<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>require<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>demand<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>demandOption<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">Exclude</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">InferredOptionTypeInner</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">InferredOptionTypeInner</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:788</li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>O<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Options</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">PositionalOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+					<a name="InferredOptionTypeInner" class="tsd-anchor"></a>
+					<h3>Inferred<wbr>Option<wbr>Type<wbr>Inner</h3>
+					<div class="tsd-signature tsd-kind-icon">Inferred<wbr>Option<wbr>Type<wbr>Inner&lt;O&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>default<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>coerce<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>default<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> D<span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">D</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;count&quot;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>count<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> : </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">RequiredOptionType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:798</li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>O<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Options</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">PositionalOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+					<a name="InferredOptionTypes" class="tsd-anchor"></a>
+					<h3>Inferred<wbr>Option<wbr>Types</h3>
+					<div class="tsd-signature tsd-kind-icon">Inferred<wbr>Option<wbr>Types&lt;O&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{</span><span class="tsd-signature-symbol">[ </span><span class="tsd-signature-type">key</span><span class="tsd-signature-symbol"> in </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">InferredOptionType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">key</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:827</li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>O<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+					<a name="MiddlewareFunction" class="tsd-anchor"></a>
+					<h3>Middleware<wbr>Function</h3>
+					<div class="tsd-signature tsd-kind-icon">Middleware<wbr>Function&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">Arguments</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:849</li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T = <span class="tsd-signature-symbol">{}</span></h4>
+						</li>
+					</ul>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-external">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">Arguments</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>args: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">Arguments</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+					<a name="Omit" class="tsd-anchor"></a>
+					<h3>Omit</h3>
+					<div class="tsd-signature tsd-kind-icon">Omit&lt;T, K&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{</span><span class="tsd-signature-symbol">[ </span><span class="tsd-signature-type">key</span><span class="tsd-signature-symbol"> in </span><span class="tsd-signature-type">Exclude</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">key</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:774</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Remove keys K in T</p>
+						</div>
+					</div>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T</h4>
+						</li>
+						<li>
+							<h4>K</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+					<a name="ParseCallback" class="tsd-anchor"></a>
+					<h3>Parse<wbr>Callback</h3>
+					<div class="tsd-signature tsd-kind-icon">Parse<wbr>Callback&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, argv<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">Arguments</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">Arguments</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>, output<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:844</li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T = <span class="tsd-signature-symbol">{}</span></h4>
+						</li>
+					</ul>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-external">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, argv<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">Arguments</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">Arguments</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>, output<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>err: <span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+											</li>
+											<li>
+												<h5>argv: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">Arguments</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">Arguments</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+											</li>
+											<li>
+												<h5>output: <span class="tsd-signature-type">string</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external">
+					<a name="ParserConfigurationOptions" class="tsd-anchor"></a>
+					<h3>Parser<wbr>Configuration<wbr>Options</h3>
+					<div class="tsd-signature tsd-kind-icon">Parser<wbr>Configuration<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="jbr.html#Parser.__type-5.default.Configuration" class="tsd-signature-type" data-tsd-kind="Interface">Configuration</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>sort-commands<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:34</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external">
+					<a name="PositionalOptionsType" class="tsd-anchor"></a>
+					<h3>Positional<wbr>Options<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Positional<wbr>Options<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;boolean&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;number&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;string&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:851</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external">
+					<a name="PromiseCompletionFunction" class="tsd-anchor"></a>
+					<h3>Promise<wbr>Completion<wbr>Function</h3>
+					<div class="tsd-signature tsd-kind-icon">Promise<wbr>Completion<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>current<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, argv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:848</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-external">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>current<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, argv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>current: <span class="tsd-signature-type">string</span></h5>
+											</li>
+											<li>
+												<h5>argv: <span class="tsd-signature-type">any</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+					<a name="RequiredOptionType" class="tsd-anchor"></a>
+					<h3>Required<wbr>Option<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Required<wbr>Option<wbr>Type&lt;O&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>string<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;array&quot;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>number<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;array&quot;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>normalize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;array&quot;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;string&quot;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;number&quot;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>string<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>number<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>normalize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;array&quot;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;boolean&quot;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;number&quot;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;string&quot;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>boolean<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>number<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>string<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>normalize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>choices<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">infer </span> C<span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">C</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>coerce<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">unknown</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:805</li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>O<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Options</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">PositionalOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external">
+					<a name="SyncCompletionFunction" class="tsd-anchor"></a>
+					<h3>Sync<wbr>Completion<wbr>Function</h3>
+					<div class="tsd-signature tsd-kind-icon">Sync<wbr>Completion<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>current<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, argv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:846</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-external">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>current<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, argv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>current: <span class="tsd-signature-type">string</span></h5>
+											</li>
+											<li>
+												<h5>argv: <span class="tsd-signature-type">any</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+					<a name="ToArray" class="tsd-anchor"></a>
+					<h3>To<wbr>Array</h3>
+					<div class="tsd-signature tsd-kind-icon">To<wbr>Array&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Exclude</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Extract</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:780</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Convert T to T[] and T | undefined to T[] | undefined</p>
+						</div>
+					</div>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+					<a name="ToNumber" class="tsd-anchor"></a>
+					<h3>To<wbr>Number</h3>
+					<div class="tsd-signature tsd-kind-icon">To<wbr>Number&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">Exclude</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Extract</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:786</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Gives number[] if T is an array type, otherwise number. Preserves | undefined.</p>
+						</div>
+					</div>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+					<a name="ToString" class="tsd-anchor"></a>
+					<h3>To<wbr>String</h3>
+					<div class="tsd-signature tsd-kind-icon">To<wbr>String&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">Exclude</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Extract</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:783</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Gives string[] if T is an array type, otherwise string. Preserves | undefined.</p>
+						</div>
+					</div>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T</h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module tsd-is-external">
+					<a name="Parser" class="tsd-anchor"></a>
+					<h3>Parser</h3>
+					<div class="tsd-signature tsd-kind-icon">Parser<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>default<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>default<span class="tsd-signature-symbol">: </span><a href="jbr.html#Parser.__type-5.default.Parser-1" class="tsd-signature-type" data-tsd-kind="Interface">Parser</a><span class="tsd-signature-symbol">; </span>detailed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/yargs-parser/index.d.ts:111</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>default<span class="tsd-signature-symbol">: </span><a href="jbr.html#Parser.__type-5.default.Parser-1" class="tsd-signature-type" data-tsd-kind="Interface">Parser</a></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>detailed<span class="tsd-signature-symbol">: </span>function</h5>
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-type-literal tsd-is-external">
+									<li class="tsd-signature tsd-kind-icon">detailed<span class="tsd-signature-symbol">(</span>argv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, opts<span class="tsd-signature-symbol">?: </span><a href="jbr.html#Parser.__type-5.default.Options-1" class="tsd-signature-type" data-tsd-kind="Interface">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jbr.html#Parser.__type-5.default.DetailedArguments" class="tsd-signature-type" data-tsd-kind="Interface">DetailedArguments</a></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in node_modules/@types/yargs-parser/index.d.ts:107</li>
+											</ul>
+										</aside>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>argv: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+											</li>
+											<li>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> opts: <a href="jbr.html#Parser.__type-5.default.Options-1" class="tsd-signature-type" data-tsd-kind="Interface">Options</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="jbr.html#Parser.__type-5.default.DetailedArguments" class="tsd-signature-type" data-tsd-kind="Interface">DetailedArguments</a></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
+					<a name="command" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> command</h3>
+					<div class="tsd-signature tsd-kind-icon">command<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;clean&quot;</span><span class="tsd-signature-symbol"> = &#x27;clean&#x27;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/cli/commands/CommandClean.ts#L6">packages/jbr/lib/cli/commands/CommandClean.ts:6</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
+					<a name="desc" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> desc</h3>
+					<div class="tsd-signature tsd-kind-icon">desc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;Cleans up an experiment&quot;</span><span class="tsd-signature-symbol"> = &#x27;Cleans up an experiment&#x27;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/cli/commands/CommandClean.ts#L7">packages/jbr/lib/cli/commands/CommandClean.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module tsd-is-external">
+					<a name="export_" class="tsd-anchor"></a>
+					<h3>export&#61;</h3>
+					<div class="tsd-signature tsd-kind-icon">export&#61;<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Interface">Argv</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in packages/jbr/node_modules/@types/yargs/index.d.ts:854</li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-is-external">
+					<a name="applyExtends" class="tsd-anchor"></a>
+					<h3>apply<wbr>Extends</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">apply<wbr>Extends<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, cwd<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, mergeExtends<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in packages/jbr/node_modules/@types/yargs/helpers.d.ts:3</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>config: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>cwd: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>mergeExtends: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="breakpointBarrier" class="tsd-anchor"></a>
+					<h3>breakpoint<wbr>Barrier</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">breakpoint<wbr>Barrier<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/cli/CliHelpers.ts#L27">packages/jbr/lib/cli/CliHelpers.ts:27</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="builder" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> builder</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">builder<span class="tsd-signature-symbol">(</span>yargs<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Argv</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Argv</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/cli/commands/CommandClean.ts#L8">packages/jbr/lib/cli/commands/CommandClean.ts:8</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>yargs: <a href="" class="tsd-signature-type" data-tsd-kind="Interface">Argv</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Interface">Argv</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="createCliLogger" class="tsd-anchor"></a>
+					<h3>create<wbr>Cli<wbr>Logger</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Cli<wbr>Logger<span class="tsd-signature-symbol">(</span>logLevel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Logger</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/cli/CliHelpers.ts#L127">packages/jbr/lib/cli/CliHelpers.ts:127</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>logLevel: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Logger</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="createExperimentPaths" class="tsd-anchor"></a>
+					<h3>create<wbr>Experiment<wbr>Paths</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Experiment<wbr>Paths<span class="tsd-signature-symbol">(</span>basePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, combination<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.IExperimentPaths.html" class="tsd-signature-type" data-tsd-kind="Interface">IExperimentPaths</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/cli/CliHelpers.ts#L17">packages/jbr/lib/cli/CliHelpers.ts:17</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>basePath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> combination: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/jbr.IExperimentPaths.html" class="tsd-signature-type" data-tsd-kind="Interface">IExperimentPaths</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="createNpmInstaller" class="tsd-anchor"></a>
+					<h3>create<wbr>Npm<wbr>Installer</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Npm<wbr>Installer<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a>, nextVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jbr.NpmInstaller.html" class="tsd-signature-type" data-tsd-kind="Interface">NpmInstaller</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/cli/CliHelpers.ts#L141">packages/jbr/lib/cli/CliHelpers.ts:141</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>context: <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a></h5>
+								</li>
+								<li>
+									<h5>nextVersion: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jbr.NpmInstaller.html" class="tsd-signature-type" data-tsd-kind="Interface">NpmInstaller</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="handler" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> handler</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">handler<span class="tsd-signature-symbol">(</span>argv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/cli/commands/CommandClean.ts#L19">packages/jbr/lib/cli/commands/CommandClean.ts:19</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>argv: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-is-external">
+					<a name="hideBin" class="tsd-anchor"></a>
+					<h3>hide<wbr>Bin</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">hide<wbr>Bin<span class="tsd-signature-symbol">(</span>argv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in packages/jbr/node_modules/@types/yargs/helpers.d.ts:4</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>argv: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="runCli" class="tsd-anchor"></a>
+					<h3>run<wbr>Cli</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">run<wbr>Cli<span class="tsd-signature-symbol">(</span>cwd<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, argv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/cli/CliRunner.ts#L4">packages/jbr/lib/cli/CliRunner.ts:4</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>cwd: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>argv: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="wrapCommandHandler" class="tsd-anchor"></a>
+					<h3>wrap<wbr>Command<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">wrap<wbr>Command<wbr>Handler<span class="tsd-signature-symbol">(</span>argv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/cli/CliHelpers.ts#L38">packages/jbr/lib/cli/CliHelpers.ts:38</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>argv: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>context: <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="wrapVisualProgress" class="tsd-anchor"></a>
+					<h3>wrap<wbr>Visual<wbr>Progress</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">wrap<wbr>Visual<wbr>Progress&lt;T&gt;<span class="tsd-signature-symbol">(</span>label<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/cli/CliHelpers.ts#L118">packages/jbr/lib/cli/CliHelpers.ts:118</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>label: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="../modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="experiment_ldbc_snb_decentralized.html">experiment-<wbr>ldbc-<wbr>snb-<wbr>decentralized</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="experiment_watdiv.html">experiment-<wbr>watdiv</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="hook_sparql_endpoint_comunica.html">hook-<wbr>sparql-<wbr>endpoint-<wbr>comunica</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="hook_sparql_endpoint_ldf.html">hook-<wbr>sparql-<wbr>endpoint-<wbr>ldf</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="jbr.html">jbr</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-module">
+						<a href="experiment_ldbc_snb_decentralized.html" class="tsd-kind-icon">experiment-<wbr>ldbc-<wbr>snb-<wbr>decentralized</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="experiment_watdiv.html" class="tsd-kind-icon">experiment-<wbr>watdiv</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="hook_sparql_endpoint_comunica.html" class="tsd-kind-icon">hook-<wbr>sparql-<wbr>endpoint-<wbr>comunica</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="hook_sparql_endpoint_ldf.html" class="tsd-kind-icon">hook-<wbr>sparql-<wbr>endpoint-<wbr>ldf</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
+						<a href="jbr.html" class="tsd-kind-icon">jbr</a>
+						<ul>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.CliNpmInstaller.html" class="tsd-kind-icon">Cli<wbr>Npm<wbr>Installer</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.DockerContainerCreator.html" class="tsd-kind-icon">Docker<wbr>Container<wbr>Creator</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.DockerContainerHandler.html" class="tsd-kind-icon">Docker<wbr>Container<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.DockerImageBuilder.html" class="tsd-kind-icon">Docker<wbr>Image<wbr>Builder</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.DockerImagePuller.html" class="tsd-kind-icon">Docker<wbr>Image<wbr>Puller</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.DockerNetworkCreator.html" class="tsd-kind-icon">Docker<wbr>Network<wbr>Creator</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.DockerNetworkHandler.html" class="tsd-kind-icon">Docker<wbr>Network<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.ErrorHandled.html" class="tsd-kind-icon">Error<wbr>Handled</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
+								<a href="../classes/jbr.ExperimentHandler.html" class="tsd-kind-icon">Experiment<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.ExperimentLoader.html" class="tsd-kind-icon">Experiment<wbr>Loader</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.FractionalCombinationProvider.html" class="tsd-kind-icon">Fractional<wbr>Combination<wbr>Provider</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.FullFactorialCombinationProvider.html" class="tsd-kind-icon">Full<wbr>Factorial<wbr>Combination<wbr>Provider</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
+								<a href="../classes/jbr.HookHandler.html" class="tsd-kind-icon">Hook<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.HookNonConfigured.html" class="tsd-kind-icon">Hook<wbr>Non<wbr>Configured</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.ProcessHandlerComposite.html" class="tsd-kind-icon">Process<wbr>Handler<wbr>Composite</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.StaticDockerResourceConstraints.html" class="tsd-kind-icon">Static<wbr>Docker<wbr>Resource<wbr>Constraints</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.TaskClean.html" class="tsd-kind-icon">Task<wbr>Clean</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.TaskGenerateCombinations.html" class="tsd-kind-icon">Task<wbr>Generate<wbr>Combinations</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.TaskInitialize.html" class="tsd-kind-icon">Task<wbr>Initialize</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.TaskPack.html" class="tsd-kind-icon">Task<wbr>Pack</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.TaskPrepare.html" class="tsd-kind-icon">Task<wbr>Prepare</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.TaskRun.html" class="tsd-kind-icon">Task<wbr>Run</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.TaskSetHook.html" class="tsd-kind-icon">Task<wbr>Set<wbr>Hook</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.TaskValidate.html" class="tsd-kind-icon">Task<wbr>Validate</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/jbr.VoidNpmInstaller.html" class="tsd-kind-icon">Void<wbr>Npm<wbr>Installer</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="../interfaces/jbr.Argv.html" class="tsd-kind-icon">Argv</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.CombinationProvider.html" class="tsd-kind-icon">Combination<wbr>Provider</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="../interfaces/jbr.CommandModule.html" class="tsd-kind-icon">Command<wbr>Module</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.DockerResourceConstraints.html" class="tsd-kind-icon">Docker<wbr>Resource<wbr>Constraints</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.Experiment.html" class="tsd-kind-icon">Experiment</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.Hook.html" class="tsd-kind-icon">Hook</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.ICleanTargets.html" class="tsd-kind-icon">IClean<wbr>Targets</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.IDockerContainerCreatorArgs.html" class="tsd-kind-icon">IDocker<wbr>Container<wbr>Creator<wbr>Args</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.IDockerCpuConstraints.html" class="tsd-kind-icon">IDocker<wbr>Cpu<wbr>Constraints</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.IDockerImageBuilderArgs.html" class="tsd-kind-icon">IDocker<wbr>Image<wbr>Builder<wbr>Args</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.IDockerImagePullerArgs.html" class="tsd-kind-icon">IDocker<wbr>Image<wbr>Puller<wbr>Args</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.IDockerMemoryConstraints.html" class="tsd-kind-icon">IDocker<wbr>Memory<wbr>Constraints</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.IExperimentPaths.html" class="tsd-kind-icon">IExperiment<wbr>Paths</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.IHookStartOptions.html" class="tsd-kind-icon">IHook<wbr>Start<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.ITaskContext.html" class="tsd-kind-icon">ITask<wbr>Context</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.ITaskInitializeOutput.html" class="tsd-kind-icon">ITask<wbr>Initialize<wbr>Output</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.ITaskSetHookOutput.html" class="tsd-kind-icon">ITask<wbr>Set<wbr>Hook<wbr>Output</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.NpmInstaller.html" class="tsd-kind-icon">Npm<wbr>Installer</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
+								<a href="../interfaces/jbr.Options.html" class="tsd-kind-icon">Options</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
+								<a href="../interfaces/jbr.PositionalOptions.html" class="tsd-kind-icon">Positional<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/jbr.ProcessHandler.html" class="tsd-kind-icon">Process<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-external">
+								<a href="../interfaces/jbr.RequireDirectoryOptions.html" class="tsd-kind-icon">Require<wbr>Directory<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="jbr.html#Arguments" class="tsd-kind-icon">Arguments</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external">
+								<a href="jbr.html#AsyncCompletionFunction" class="tsd-kind-icon">Async<wbr>Completion<wbr>Function</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="jbr.html#BuilderCallback" class="tsd-kind-icon">Builder<wbr>Callback</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external">
+								<a href="jbr.html#Choices" class="tsd-kind-icon">Choices</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="jbr.html#CommandBuilder" class="tsd-kind-icon">Command<wbr>Builder</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="jbr.html#Defined" class="tsd-kind-icon">Defined</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="jbr.html#FactorCombination" class="tsd-kind-icon">Factor<wbr>Combination</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="jbr.html#InferredOptionType" class="tsd-kind-icon">Inferred<wbr>Option<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="jbr.html#InferredOptionTypeInner" class="tsd-kind-icon">Inferred<wbr>Option<wbr>Type<wbr>Inner</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="jbr.html#InferredOptionTypes" class="tsd-kind-icon">Inferred<wbr>Option<wbr>Types</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="jbr.html#MiddlewareFunction" class="tsd-kind-icon">Middleware<wbr>Function</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="jbr.html#Omit" class="tsd-kind-icon">Omit</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="jbr.html#ParseCallback" class="tsd-kind-icon">Parse<wbr>Callback</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external">
+								<a href="jbr.html#ParserConfigurationOptions" class="tsd-kind-icon">Parser<wbr>Configuration<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external">
+								<a href="jbr.html#PositionalOptionsType" class="tsd-kind-icon">Positional<wbr>Options<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external">
+								<a href="jbr.html#PromiseCompletionFunction" class="tsd-kind-icon">Promise<wbr>Completion<wbr>Function</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="jbr.html#RequiredOptionType" class="tsd-kind-icon">Required<wbr>Option<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external">
+								<a href="jbr.html#SyncCompletionFunction" class="tsd-kind-icon">Sync<wbr>Completion<wbr>Function</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="jbr.html#ToArray" class="tsd-kind-icon">To<wbr>Array</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="jbr.html#ToNumber" class="tsd-kind-icon">To<wbr>Number</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-external">
+								<a href="jbr.html#ToString" class="tsd-kind-icon">To<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-external">
+								<a href="jbr.html#Parser" class="tsd-kind-icon">Parser</a>
+							</li>
+							<li class=" tsd-kind-variable tsd-parent-kind-module">
+								<a href="jbr.html#command" class="tsd-kind-icon">command</a>
+							</li>
+							<li class=" tsd-kind-variable tsd-parent-kind-module">
+								<a href="jbr.html#desc" class="tsd-kind-icon">desc</a>
+							</li>
+							<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-external">
+								<a href="jbr.html#export_" class="tsd-kind-icon">export&#61;</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-external">
+								<a href="jbr.html#applyExtends" class="tsd-kind-icon">apply<wbr>Extends</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="jbr.html#breakpointBarrier" class="tsd-kind-icon">breakpoint<wbr>Barrier</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="jbr.html#builder" class="tsd-kind-icon">builder</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="jbr.html#createCliLogger" class="tsd-kind-icon">create<wbr>Cli<wbr>Logger</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="jbr.html#createExperimentPaths" class="tsd-kind-icon">create<wbr>Experiment<wbr>Paths</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="jbr.html#createNpmInstaller" class="tsd-kind-icon">create<wbr>Npm<wbr>Installer</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="jbr.html#handler" class="tsd-kind-icon">handler</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-external">
+								<a href="jbr.html#hideBin" class="tsd-kind-icon">hide<wbr>Bin</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="jbr.html#runCli" class="tsd-kind-icon">run<wbr>Cli</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="jbr.html#wrapCommandHandler" class="tsd-kind-icon">wrap<wbr>Command<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+								<a href="jbr.html#wrapVisualProgress" class="tsd-kind-icon">wrap<wbr>Visual<wbr>Progress</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>StaticDockerResourceConstraints | jbr</title>
+	<meta name="description" content="Documentation for jbr">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">jbr</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">jbr</a>
+				</li>
+				<li>
+					<a href="../modules/jbr.html">jbr</a>
+				</li>
+				<li>
+					<a href="jbr.StaticDockerResourceConstraints.html">StaticDockerResourceConstraints</a>
+				</li>
+			</ul>
+			<h1>Class StaticDockerResourceConstraints</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Allows constraints to be placed on Docker container resources.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">StaticDockerResourceConstraints</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/jbr.DockerResourceConstraints.html" class="tsd-signature-type" data-tsd-kind="Interface">DockerResourceConstraints</a></li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="jbr.StaticDockerResourceConstraints.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jbr.StaticDockerResourceConstraints.html#cpu" class="tsd-kind-icon">cpu</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jbr.StaticDockerResourceConstraints.html#memory" class="tsd-kind-icon">memory</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="jbr.StaticDockerResourceConstraints.html#QUANTITY_UNITS" class="tsd-kind-icon">QUANTITY_<wbr>UNITS</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.StaticDockerResourceConstraints.html#toHostConfig" class="tsd-kind-icon">to<wbr>Host<wbr>Config</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="jbr.StaticDockerResourceConstraints.html#quantityStringToBytes" class="tsd-kind-icon">quantity<wbr>String<wbr>ToBytes</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Static<wbr>Docker<wbr>Resource<wbr>Constraints<span class="tsd-signature-symbol">(</span>cpu<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.IDockerCpuConstraints.html" class="tsd-signature-type" data-tsd-kind="Interface">IDockerCpuConstraints</a>, memory<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.IDockerMemoryConstraints.html" class="tsd-signature-type" data-tsd-kind="Interface">IDockerMemoryConstraints</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jbr.StaticDockerResourceConstraints.html" class="tsd-signature-type" data-tsd-kind="Class">StaticDockerResourceConstraints</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/docker/StaticDockerResourceConstraints.ts#L19">packages/jbr/lib/docker/StaticDockerResourceConstraints.ts:19</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>cpu: <a href="../interfaces/jbr.IDockerCpuConstraints.html" class="tsd-signature-type" data-tsd-kind="Interface">IDockerCpuConstraints</a></h5>
+								</li>
+								<li>
+									<h5>memory: <a href="../interfaces/jbr.IDockerMemoryConstraints.html" class="tsd-signature-type" data-tsd-kind="Interface">IDockerMemoryConstraints</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="jbr.StaticDockerResourceConstraints.html" class="tsd-signature-type" data-tsd-kind="Class">StaticDockerResourceConstraints</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="cpu" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> cpu</h3>
+					<div class="tsd-signature tsd-kind-icon">cpu<span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.IDockerCpuConstraints.html" class="tsd-signature-type" data-tsd-kind="Interface">IDockerCpuConstraints</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/docker/StaticDockerResourceConstraints.ts#L16">packages/jbr/lib/docker/StaticDockerResourceConstraints.ts:16</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="memory" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> memory</h3>
+					<div class="tsd-signature tsd-kind-icon">memory<span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.IDockerMemoryConstraints.html" class="tsd-signature-type" data-tsd-kind="Interface">IDockerMemoryConstraints</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/docker/StaticDockerResourceConstraints.ts#L17">packages/jbr/lib/docker/StaticDockerResourceConstraints.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="QUANTITY_UNITS" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> QUANTITY_<wbr>UNITS</h3>
+					<div class="tsd-signature tsd-kind-icon">QUANTITY_<wbr>UNITS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/docker/StaticDockerResourceConstraints.ts#L9">packages/jbr/lib/docker/StaticDockerResourceConstraints.ts:9</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="toHostConfig" class="tsd-anchor"></a>
+					<h3>to<wbr>Host<wbr>Config</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">to<wbr>Host<wbr>Config<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HostConfig</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/jbr.DockerResourceConstraints.html">DockerResourceConstraints</a>.<a href="../interfaces/jbr.DockerResourceConstraints.html#toHostConfig">toHostConfig</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/docker/StaticDockerResourceConstraints.ts#L46">packages/jbr/lib/docker/StaticDockerResourceConstraints.ts:46</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Obtain a Docker HostConfig object from the current constraints.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HostConfig</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="quantityStringToBytes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> quantity<wbr>String<wbr>ToBytes</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">quantity<wbr>String<wbr>ToBytes<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0115128/packages/jbr/lib/docker/StaticDockerResourceConstraints.ts#L29">packages/jbr/lib/docker/StaticDockerResourceConstraints.ts:29</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Convert a given quantity string (with optional unit) to an absolute number.
+									For example, &#39;10&#39; will be converted to 10, &#39;10k&#39; to &#39;10240&#39;, &#39;1m&#39; to 1048576, and so on.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>amount: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A quantity string.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="../modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/experiment_ldbc_snb_decentralized.html">experiment-<wbr>ldbc-<wbr>snb-<wbr>decentralized</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/experiment_watdiv.html">experiment-<wbr>watdiv</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/hook_sparql_endpoint_comunica.html">hook-<wbr>sparql-<wbr>endpoint-<wbr>comunica</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/hook_sparql_endpoint_ldf.html">hook-<wbr>sparql-<wbr>endpoint-<wbr>ldf</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/jbr.html">jbr</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-module">
+						<a href="../modules/experiment_ldbc_snb_decentralized.html" class="tsd-kind-icon">experiment-<wbr>ldbc-<wbr>snb-<wbr>decentralized</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/experiment_watdiv.html" class="tsd-kind-icon">experiment-<wbr>watdiv</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/hook_sparql_endpoint_comunica.html" class="tsd-kind-icon">hook-<wbr>sparql-<wbr>endpoint-<wbr>comunica</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/hook_sparql_endpoint_ldf.html" class="tsd-kind-icon">hook-<wbr>sparql-<wbr>endpoint-<wbr>ldf</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
+						<a href="../modules/jbr.html" class="tsd-kind-icon">jbr</a>
+						<ul>
+							<li class="current tsd-kind-class tsd-parent-kind-module">
+								<a href="jbr.StaticDockerResourceConstraints.html" class="tsd-kind-icon">Static<wbr>Docker<wbr>Resource<wbr>Constraints</a>
+								<ul>
+									<li class=" tsd-kind-constructor tsd-parent-kind-class">
+										<a href="jbr.StaticDockerResourceConstraints.html#constructor" class="tsd-kind-icon">constructor</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="jbr.StaticDockerResourceConstraints.html#cpu" class="tsd-kind-icon">cpu</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="jbr.StaticDockerResourceConstraints.html#memory" class="tsd-kind-icon">memory</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+										<a href="jbr.StaticDockerResourceConstraints.html#QUANTITY_UNITS" class="tsd-kind-icon">QUANTITY_<wbr>UNITS</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="jbr.StaticDockerResourceConstraints.html#toHostConfig" class="tsd-kind-icon">to<wbr>Host<wbr>Config</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+										<a href="jbr.StaticDockerResourceConstraints.html#quantityStringToBytes" class="tsd-kind-icon">quantity<wbr>String<wbr>ToBytes</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
