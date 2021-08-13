@@ -42,6 +42,7 @@ describe('HookSparqlEndpointComunica', () => {
       'input/dockerfiles/Dockerfile-client',
       resourceConstraints,
       'input/config-client.json',
+      'input/context-client.json',
       3_001,
       'info',
       300,

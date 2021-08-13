@@ -9,6 +9,7 @@ export class HookSparqlEndpointComunica implements Hook {
   public readonly dockerfileClient: string;
   public readonly resourceConstraints: DockerResourceConstraints;
   public readonly configClient: string;
+  public readonly contextClient: string;
   public readonly clientPort: number;
   public readonly clientLogLevel: string;
   public readonly queryTimeout: number;
@@ -18,6 +19,7 @@ export class HookSparqlEndpointComunica implements Hook {
     dockerfileClient: string,
     resourceConstraints: DockerResourceConstraints,
     configClient: string,
+    contextClient: string,
     clientPort: number,
     clientLogLevel: string,
     queryTimeout: number,
@@ -26,6 +28,7 @@ export class HookSparqlEndpointComunica implements Hook {
     this.dockerfileClient = dockerfileClient;
     this.resourceConstraints = resourceConstraints;
     this.configClient = configClient;
+    this.contextClient = contextClient;
     this.clientPort = clientPort;
     this.clientLogLevel = clientLogLevel;
     this.queryTimeout = queryTimeout;
@@ -60,7 +63,7 @@ export class HookSparqlEndpointComunica implements Hook {
       resourceConstraints: this.resourceConstraints,
       hostConfig: {
         Binds: [
-          `${Path.join(context.experimentPaths.input, 'context-client.json')}:/tmp/context.json`,
+          `${Path.join(context.experimentPaths.root, this.contextClient)}:/tmp/context.json`,
         ],
         PortBindings: {
           '3000/tcp': [
