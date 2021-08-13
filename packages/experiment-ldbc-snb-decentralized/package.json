@@ -1,6 +1,6 @@
 {
   "name": "@jbr-experiment/ldbc-snb-decentralized",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "LDBC SNB Decentralized experiment handler for JBR",
   "main": "index.js",
   "typings": "index",
@@ -57,7 +57,7 @@
     "validate": "npm ls"
   },
   "devDependencies": {
-    "jbr": "^1.0.0"
+    "jbr": "^1.0.1"
   },
   "peerDependencies": {
     "jbr": ">=1.0.0"
