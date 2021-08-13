@@ -41,6 +41,26 @@ Furthermore, this will add [pre-commit hooks](https://www.npmjs.com/package/pre-
 to build, lint and test.
 These hooks can temporarily be disabled at your own risk by adding the `-n` flag to the commit command.
 
+## Adding a new experiment or hook handler
+
+If you want to add a new experiment, you can create one at `packages/experiment-<name>`.
+Similarly, hook handlers can be created at `packages/hook-<name>`.
+Other experiment and hook handlers can serve as inspiration for implementation.
+
+In order to test your implementation locally, you can make use of globally linked packages.
+For this, you can first link `jbr` as follows:
+```bash
+$ cd packages/jbr
+$ yarn link
+```
+
+Within the root of the monorepo directory, you can now execute `jbr` commands,
+and refer to locally available experiments and hook handlers that are not available on npm (yet).
+
+If you want these experiments or hook handlers to become available on npm (so others can use them as well),
+you can contribute them to this repository via a pull requests,
+and a maintainer can publish them.
+
 ## License
 
 jbr.js is written by [Ruben Taelman](http://www.rubensworks.net/).

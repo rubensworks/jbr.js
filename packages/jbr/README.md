@@ -10,18 +10,16 @@ Experiments that are created and executed with this tool are [fully reproducible
 as experiments are fully _deterministic_,
 and metadata on all exact installed dependency versions is emitted together with the results.
 
-This tool completes the whole provenance chain of experimental results:
+## Guides
 
-* **Setup** of sofware based on configuration
-* **Generating** experiment input data
-* **Execution** of experiments based on parameters
-* Description of environment **dependencies** during experiments
-* **Reporting** of results
-* **Archiving** results into a single file for easy exchange
+* [Setting up a single Linked Data Fragments experiment](https://github.com/rubensworks/jbr.js/wiki/Example:-setting-up-a-Linked-Data-Fragments-experiment)
+* [Setting up a factorial Linked Data Fragments experiment](https://github.com/rubensworks/jbr.js/wiki/Example:-setting-up-a-combinations-based-Linked-Data-Fragments-experiment)
 
 ## Requirements
 
 * [Node.js](https://nodejs.org/en/) _(1.12 or higher)_
+
+For certain experiment types, you may also require [Docker](https://www.docker.com/).
 
 ## Installation
 
@@ -40,7 +38,6 @@ This tool offers commands for executing the whole experimentation chain:
 1. [**Initialization**](#1-initialization): Create a new experiment. This should be done only once.
 2. [**Data Preparation**](#2-data-preparation): Generating a dataset and query set. This should be done only once.
 3. [**Running Experiments**](#3-running-experiments): Starting the required machines and running the benchmark.
-4. [**Results Analysis**](#4-results-analysis): Generating plots and outputting data for result analysis. (TODO: WIP)
 
 **Full usage**:
 ```text
@@ -76,12 +73,16 @@ $ cd my-experiment
 Running this command will initialize a new experiment of the given type (`experiment-type`)
 in a new directory of the provided experiment name (`my-experiment`).
 
-The experiment type must exist in the [list of available experiment types](https://github.com/rubensworks/jbr.js/tree/master/packages) (directories prefixed with `experiment-`, such as `ldbc-snb-decentralized`).
+The experiment type must exist on npm under the `@jbr-experiment/*` scope.
+[Click here for a full list of available experiment types.](https://www.npmjs.com/search?q=jbr-experiment)
+For example, the `watdiv` experiment can be used because the `@jbr-experiment/watdiv` package exists on npm.
 
 The created directory will contain all default required files for running an experiment.
 You can initialize this directory as a [git](https://git-scm.com/) repository.
 
-In most cases, you will only need to edit the `jbr-experiment.json` file to [configure your experiment](#configurability).
+In most cases, you will have to configure at least one [hook handler](#hooks) for your experiment,
+such as defining the SPARQL query engine you want to evaluate for a given benchmark experiment.
+Furthermore, you will usually need to edit the `jbr-experiment.json` file to [configure your experiment](#configurability).
 
 ### 2. Data Preparation
 
@@ -106,16 +107,22 @@ $ jbr run
 
 Once the run step completes, results will be present in the `output/` directory.
 
-### 4. Results Analysis
-
-TODO: WIP
-
 ## Configurability
 
 All experiments will have a `jbr-experiment.json` in which the properties of an experiment can be set.
 The parameters of such a config file are dependent on the type of experiment that is being initialized.
 
 Depending on the experiment type, you may also need to change certain files within the `input/` directory.
+
+## Hooks
+
+Most experiment types expose certain _hooks_, which allow you to plug in certain hook handlers.
+For example, the [WatDiv](https://www.npmjs.com/package/@jbr-experiment/watdiv) experiment type exposes the `hookSparqlEndpoint` hook.
+This hook is used to plug in a certain SPARQL query engine, which is what WatDiv will use to run its benchmark over.
+
+Hook handler types must exist on npm under the `@jbr-hook/*` scope.
+[Click here for a full list of available hook handler types.](https://www.npmjs.com/search?q=jbr-hook)
+For example, the `sparql-endpoint-comunica` hook handler can be used because the `@jbr-hook/sparql-endpoint-comunica` package exists on npm.
 
 ## Directory structure
 
