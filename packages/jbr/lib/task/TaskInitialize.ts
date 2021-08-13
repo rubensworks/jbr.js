@@ -124,7 +124,7 @@ export class TaskInitialize {
         ],
         '@id': `${experimentIri}-combinations`,
         '@type': 'FullFactorialCombinationProvider',
-        commonPrepare: false,
+        commonGenerated: false,
         factors: {},
       };
       const combinationsPath = Path.join(this.targetDirectory, ExperimentLoader.COMBINATIONS_NAME);

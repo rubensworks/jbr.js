@@ -254,7 +254,7 @@ describe('TaskInitialize', () => {
   ],
   "@id": "IRI-combinations",
   "@type": "FullFactorialCombinationProvider",
-  "commonPrepare": false,
+  "commonGenerated": false,
   "factors": {}
 }`,
       [Path.join('CWD', 'TARGETDIR', 'jbr-experiment.json.template')]: `{
