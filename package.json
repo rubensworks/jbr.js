@@ -73,7 +73,7 @@
     "fs-extra": "^10.0.0",
     "husky": "^7.0.0",
     "jest": "^27.0.4",
-    "jest-extended": "^1.0.0",
+    "jest-extended": "^2.0.0",
     "lerna": "^4.0.0",
     "manual-git-changelog": "^1.0.1",
     "streamify-string": "^1.0.1",
