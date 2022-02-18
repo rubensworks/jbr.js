@@ -63,7 +63,7 @@
     "@typescript-eslint/parser": "^5.0.0",
     "componentsjs-generator": "^2.4.0",
     "coveralls": "^3.0.0",
-    "eslint": "^7.9.0",
+    "eslint": "^8.0.0",
     "eslint-config-es": "3.23.0",
     "eslint-import-resolver-typescript": "^2.3.0",
     "eslint-plugin-import": "^2.22.0",
