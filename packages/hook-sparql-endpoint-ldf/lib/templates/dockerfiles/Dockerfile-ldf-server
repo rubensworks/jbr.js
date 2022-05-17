@@ -1,4 +1,4 @@
-FROM linkeddatafragments/server:3.0.6
+FROM linkeddatafragments/server:v3.3.0
 
 ARG SERVER_CONFIG
 ARG SERVER_WORKERS
