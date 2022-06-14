@@ -1,4 +1,4 @@
-import Path from 'path';
+import * as Path from 'path';
 import type { Hook, ITaskContext,
   DockerContainerHandler,
   DockerResourceConstraints, ProcessHandler } from 'jbr';
@@ -29,7 +29,8 @@ let files: Record<string, boolean | string> = {};
 let filesOut: Record<string, boolean | string> = {};
 let dirsOut: Record<string, boolean | string> = {};
 jest.mock('fs-extra', () => ({
-  ...jest.requireActual('fs-extra'),
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+  ...<any>jest.requireActual('fs-extra'),
   async pathExists(path: string) {
     return path in files;
   },
@@ -107,6 +108,8 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       'input/config-queries.json',
       'input/config-server.json',
       'input/templates/queries',
+      'input/config-validation-params.json',
+      'input/config-validation-config.json',
       '4G',
       'input/dockerfiles/Dockerfile-server',
       hookSparqlEndpoint,

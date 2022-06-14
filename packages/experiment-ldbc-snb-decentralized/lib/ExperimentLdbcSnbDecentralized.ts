@@ -17,6 +17,8 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
   public readonly configQueries: string;
   public readonly configServer: string;
   public readonly directoryQueryTemplates: string;
+  public readonly validationParamsUrl: string;
+  public readonly configValidation: string;
   public readonly hadoopMemory: string;
   public readonly dockerfileServer: string;
   public readonly hookSparqlEndpoint: Hook;
@@ -36,6 +38,8 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     configQueries: string,
     configServer: string,
     directoryQueryTemplates: string,
+    validationParamsUrl: string,
+    configValidation: string,
     hadoopMemory: string,
     dockerfileServer: string,
     hookSparqlEndpoint: Hook,
@@ -54,6 +58,8 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     this.configQueries = configQueries;
     this.configServer = configServer;
     this.directoryQueryTemplates = directoryQueryTemplates;
+    this.validationParamsUrl = validationParamsUrl;
+    this.configValidation = configValidation;
     this.hadoopMemory = hadoopMemory;
     this.dockerfileServer = dockerfileServer;
     this.hookSparqlEndpoint = hookSparqlEndpoint;
@@ -84,6 +90,8 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
       fragmentConfig: this.configFragment,
       enhancementFragmentConfig: this.configFragmentAux,
       queryConfig: this.configQueries,
+      validationParams: this.validationParamsUrl,
+      validationConfig: this.configValidation,
       hadoopMemory: this.hadoopMemory,
     }).generate();
 

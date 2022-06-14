@@ -43,7 +43,7 @@ describe('ExperimentHandlerLdbcSnbDecentralized', () => {
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
       expect(handler.getDefaultParams(experimentPaths)).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(16);
+      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(18);
     });
   });
 
@@ -61,6 +61,7 @@ describe('ExperimentHandlerLdbcSnbDecentralized', () => {
         configFragmentAux: 'configFragmentAux.json',
         configQueries: 'configQueries.json',
         configServer: 'configServer.json',
+        configValidation: 'configValidation.json',
         directoryQueryTemplates: 'queryTemplates',
       });
 
@@ -74,6 +75,7 @@ describe('ExperimentHandlerLdbcSnbDecentralized', () => {
         [Path.join('dir', 'configFragmentAux.json')]: expect.any(String),
         [Path.join('dir', 'configQueries.json')]: expect.any(String),
         [Path.join('dir', 'configServer.json')]: expect.any(String),
+        [Path.join('dir', 'configValidation.json')]: expect.any(String),
         [Path.join('dir', 'input', 'dockerfiles', 'Dockerfile-server')]: expect.any(String),
       });
     });

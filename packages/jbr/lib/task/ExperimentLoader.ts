@@ -1,5 +1,9 @@
 import * as Path from 'path';
 import { ComponentsManager } from 'componentsjs';
+import { GenericsContext } from 'componentsjs/lib/preprocess/GenericsContext';
+import {
+  ParameterPropertyHandlerRange,
+} from 'componentsjs/lib/preprocess/parameterproperty/ParameterPropertyHandlerRange';
 import * as fs from 'fs-extra';
 import type { CombinationProvider } from '../..';
 import { createExperimentPaths } from '../cli/CliHelpers';
@@ -18,8 +22,8 @@ export class ExperimentLoader {
   public static readonly COMBINATIONS_NAME = 'jbr-combinations.json';
   public static readonly PACKAGEJSON_NAME = 'package.json';
   public static readonly PREPAREDMARKER_PATH = [ 'generated', '.prepared' ];
-  public static readonly IRI_EXPERIMENT_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/lib/experiment/ExperimentHandler#ExperimentHandler`;
-  public static readonly IRI_HOOK_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/lib/hook/HookHandler#HookHandler`;
+  public static readonly IRI_EXPERIMENT_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/experiment/ExperimentHandler.jsonld#ExperimentHandler`;
+  public static readonly IRI_HOOK_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/hook/HookHandler.jsonld#HookHandler`;
 
   private readonly componentsManager: ComponentsManager<any>;
 
@@ -143,10 +147,21 @@ export class ExperimentLoader {
       packageJsons[packageJson.name] = { contents: packageJson, path };
     }
 
+    const rangeHandler = new ParameterPropertyHandlerRange(this.componentsManager.objectLoader, false);
+
     // Collect and instantiate all available experiment handlers
     const handlers: Record<string, { handler: C; contexts: string[] }> = {};
     for (const component of Object.values(this.componentsManager.componentResources)) {
-      if (component.isA(componentType) && component.value !== componentType) {
+      const hasTypeError = rangeHandler.hasType(
+        component,
+        this.componentsManager.objectLoader.createCompactedResource(componentType),
+        new GenericsContext(this.componentsManager.objectLoader, []),
+        undefined,
+        [],
+        {},
+      );
+
+      if (!hasTypeError && component.value !== componentType) {
         const handler = await this.componentsManager.configConstructorPool
           .instantiate(this.componentsManager.objectLoader.createCompactedResource({
             types: component,

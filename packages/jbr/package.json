@@ -61,7 +61,6 @@
     "test": "node \"../../node_modules/jest/bin/jest.js\" ${1}",
     "test-watch": "node \"../../node_modules/jest/bin/jest.js\" ${1} --watch",
     "build": "node \"../../node_modules/typescript/bin/tsc\"",
-    "build:components-core": "componentsjs-generator -s lib --typeScopedContexts -i ../../.componentsignore",
     "validate": "npm ls"
   },
   "dependencies": {
@@ -72,7 +71,7 @@
     "@types/tar": "^4.0.5",
     "@types/yargs": "^17.0.0",
     "cli-progress": "^3.9.0",
-    "componentsjs": "^4.5.0",
+    "componentsjs": "^5.2.0",
     "cross-spawn": "^7.0.3",
     "dockerode": "^3.3.0",
     "fs-extra": "^10.0.0",

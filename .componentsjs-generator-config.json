@@ -1,0 +1,14 @@
+{
+  "source": "lib",
+  "ignoreComponents": [
+    "Error",
+    "ExperimentLoader",
+    "DockerContainerCreator",
+    "DockerContainerHandler",
+    "DockerNetworkCreator",
+    "DockerNetworkHandler",
+    "DockerImageBuilder",
+    "DockerImagePuller",
+    "ITaskContext"
+  ]
+}

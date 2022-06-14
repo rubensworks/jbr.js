@@ -2,7 +2,7 @@ import * as Path from 'path';
 import * as fs from 'fs-extra';
 import type { IExperimentPaths } from 'jbr';
 import { ExperimentHandler } from 'jbr';
-import { Templates } from 'ldbc-snb-decentralized/lib/Templates';
+import { Templates } from 'ldbc-snb-decentralized';
 import { ExperimentLdbcSnbDecentralized } from './ExperimentLdbcSnbDecentralized';
 
 /**
@@ -22,6 +22,8 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
       configQueries: 'input/config-queries.json',
       configServer: 'input/config-server.json',
       directoryQueryTemplates: 'input/templates/queries',
+      validationParamsUrl: Templates.VALIDATION_PARAMS_URL,
+      configValidation: 'input/config-validation.json',
       hadoopMemory: '4G',
       dockerfileServer: 'input/dockerfiles/Dockerfile-server',
 
@@ -57,6 +59,8 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
         Path.join(experimentPaths.root, experiment.configServer)),
       fs.copy(Templates.QUERIES_DIRECTORY,
         Path.join(experimentPaths.root, experiment.directoryQueryTemplates)),
+      fs.copyFile(Templates.VALIDATION_CONFIG,
+        Path.join(experimentPaths.root, experiment.configValidation)),
     ]);
 
     // Create Dockerfile for server
