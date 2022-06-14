@@ -1,4 +1,4 @@
-FROM comunica/actor-init-sparql:dev
+FROM comunica/query-sparql:v2.2.1
 
 ARG CONFIG_CLIENT
 ARG QUERY_TIMEOUT

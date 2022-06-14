@@ -1,4 +1,4 @@
-FROM css:latest
+FROM solidproject/community-server:5.0.0-alpha.0
 
 ARG CONFIG_SERVER
 ARG LOG_LEVEL
