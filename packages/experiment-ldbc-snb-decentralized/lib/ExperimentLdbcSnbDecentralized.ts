@@ -86,12 +86,12 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
       cwd: context.experimentPaths.generated,
       overwrite: forceOverwriteGenerated,
       scale: this.scale,
-      enhancementConfig: this.configGenerateAux,
-      fragmentConfig: this.configFragment,
-      enhancementFragmentConfig: this.configFragmentAux,
-      queryConfig: this.configQueries,
+      enhancementConfig: Path.resolve(context.cwd, this.configGenerateAux),
+      fragmentConfig: Path.resolve(context.cwd, this.configFragment),
+      enhancementFragmentConfig: Path.resolve(context.cwd, this.configFragmentAux),
+      queryConfig: Path.resolve(context.cwd, this.configQueries),
       validationParams: this.validationParamsUrl,
-      validationConfig: this.configValidation,
+      validationConfig: Path.resolve(context.cwd, this.configValidation),
       hadoopMemory: this.hadoopMemory,
     }).generate();
 
