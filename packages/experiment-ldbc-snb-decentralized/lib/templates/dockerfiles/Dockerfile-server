@@ -5,5 +5,7 @@ ARG LOG_LEVEL
 
 ADD $CONFIG_SERVER /tmp/config.json
 
+ENV LOG_LEVEL=$LOG_LEVEL
+
 ENTRYPOINT []
-CMD [ "/bin/sh", "-c", "node bin/server.js -c /tmp/config.json -l $LOG_LEVEL -f /data" ]
+CMD [ "/bin/sh", "-c", "node bin/server.js -c /tmp/config.json -l ${LOG_LEVEL} -f /data" ]
