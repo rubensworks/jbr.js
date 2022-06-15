@@ -2,7 +2,8 @@ import * as Path from 'path';
 import * as v8 from 'v8';
 import * as fs from 'fs-extra';
 import type { Experiment, Hook, ITaskContext,
-  DockerResourceConstraints, DockerContainerHandler, ICleanTargets } from 'jbr';
+  DockerResourceConstraints, ICleanTargets, DockerContainerHandler, DockerNetworkHandler } from 'jbr';
+import { ProcessHandlerComposite } from 'jbr';
 import { Generator } from 'ldbc-snb-decentralized/lib/Generator';
 import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
 
@@ -72,8 +73,8 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps;
   }
 
-  public getServerDockerImageName(context: ITaskContext): string {
-    return context.docker.imageBuilder.getImageName(context, `ldbc-snb-d-server`);
+  public getDockerImageName(context: ITaskContext, type: string): string {
+    return context.docker.imageBuilder.getImageName(context, `ldbc-snb-d-${type}`);
   }
 
   public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
@@ -108,7 +109,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
       cwd: context.experimentPaths.root,
       dockerFile: this.dockerfileServer,
       auxiliaryFiles: [ this.configServer ],
-      imageName: this.getServerDockerImageName(context),
+      imageName: this.getDockerImageName(context, 'server'),
       buildArgs: {
         CONFIG_SERVER: this.configServer,
         LOG_LEVEL: this.serverLogLevel,
@@ -119,23 +120,26 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
 
   public async run(context: ITaskContext): Promise<void> {
     // Start server
-    const serverHandler = await this.startServer(context);
+    const [ serverHandler, networkHandler ] = await this.startServer(context);
 
     // Setup SPARQL endpoint
-    const endpointProcessHandler = await this.hookSparqlEndpoint.start(context);
+    const network = networkHandler.network.id;
+    const endpointProcessHandler = await this.hookSparqlEndpoint.start(context, { docker: { network }});
+
+    const processHandler = new ProcessHandlerComposite([
+      serverHandler,
+      networkHandler,
+      endpointProcessHandler,
+    ]);
 
     // Register cleanup handler
     async function cleanupHandler(): Promise<void> {
-      await Promise.all([
-        serverHandler.close(),
-        endpointProcessHandler.close(),
-      ]);
+      await processHandler.close();
     }
     context.cleanupHandlers.push(cleanupHandler);
 
     // Initiate SPARQL benchmark runner
-    let stopServerStats: () => void;
-    let stopEndpointStats: () => void;
+    let stopStats: () => void;
     const results = await new SparqlBenchmarkRunner({
       endpoint: this.endpointUrl,
       querySets: await readQueries(Path.join(context.experimentPaths.generated, 'out-queries')),
@@ -146,8 +150,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     }).run({
       async onStart() {
         // Collect stats
-        stopServerStats = await serverHandler.startCollectingStats();
-        stopEndpointStats = await endpointProcessHandler.startCollectingStats();
+        stopStats = await processHandler.startCollectingStats();
 
         // Breakpoint right before starting queries.
         if (context.breakpointBarrier) {
@@ -155,8 +158,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
         }
       },
       async onStop() {
-        stopServerStats();
-        stopEndpointStats();
+        stopStats();
       },
     });
 
@@ -172,33 +174,42 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     await cleanupHandler();
   }
 
-  public async startServer(context: ITaskContext): Promise<DockerContainerHandler> {
+  public async startServer(context: ITaskContext): Promise<[ DockerContainerHandler, DockerNetworkHandler ] > {
+    // Create shared network
+    const networkHandler = await context.docker.networkCreator
+      .create({ Name: this.getDockerImageName(context, 'network') });
+    const network = networkHandler.network.id;
+
     // Ensure logs directory exists
     await fs.ensureDir(Path.join(context.experimentPaths.output, 'logs'));
 
-    return await context.docker.containerCreator.start({
+    const serverHandler = await context.docker.containerCreator.start({
       containerName: 'ldbc-snb-decentralized-server',
-      imageName: this.getServerDockerImageName(context),
+      imageName: this.getDockerImageName(context, 'server'),
       resourceConstraints: this.serverResourceConstraints,
       hostConfig: {
         Binds: [
-          `${Path.join(context.experimentPaths.generated, 'out-fragments')}/:/data`,
+          `${Path.join(context.experimentPaths.generated, 'out-fragments/http/localhost_3000')}/:/data`,
         ],
         PortBindings: {
           '3000/tcp': [
             { HostPort: `${this.serverPort}` },
           ],
         },
+        NetworkMode: network,
       },
       logFilePath: Path.join(context.experimentPaths.output, 'logs', 'server.txt'),
       statsFilePath: Path.join(context.experimentPaths.output, 'stats-server.csv'),
     });
+
+    return [ serverHandler, networkHandler ];
   }
 
   public async clean(context: ITaskContext, cleanTargets: ICleanTargets): Promise<void> {
     await this.hookSparqlEndpoint.clean(context, cleanTargets);
 
     if (cleanTargets.docker) {
+      await context.docker.networkCreator.remove(this.getDockerImageName(context, 'network'));
       await context.docker.containerCreator.remove('ldbc-snb-decentralized-server');
     }
   }

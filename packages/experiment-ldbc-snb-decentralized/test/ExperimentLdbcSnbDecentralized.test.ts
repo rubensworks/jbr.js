@@ -82,6 +82,14 @@ describe('ExperimentLdbcSnbDecentralized', () => {
         statsCollector: {
           collect: jest.fn(),
         },
+        networkCreator: {
+          create: jest.fn(() => ({
+            network: { id: 'NETWORK' },
+            startCollectingStats: jest.fn(() => jest.fn()),
+            close: jest.fn(),
+          })),
+          remove: jest.fn(),
+        },
       },
     };
     endpointHandlerStopCollectingStats = jest.fn();
@@ -181,6 +189,9 @@ This can be configured using Node's --max_old_space_size option.`);
     it('should run the experiment', async() => {
       await experiment.run(context);
 
+      expect(context.docker.networkCreator.create).toHaveBeenCalledWith({
+        Name: 'IMG-ldbc-snb-d-network',
+      });
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         containerName: 'ldbc-snb-decentralized-server',
         imageName: 'IMG-ldbc-snb-d-server',
@@ -189,8 +200,9 @@ This can be configured using Node's --max_old_space_size option.`);
         statsFilePath: Path.join(context.cwd, 'output', 'stats-server.csv'),
         hostConfig: {
           Binds: [
-            `${context.experimentPaths.root}/generated/out-fragments/:/data`,
+            `${context.experimentPaths.root}/generated/out-fragments/http/localhost_3000/:/data`,
           ],
+          NetworkMode: 'NETWORK',
           PortBindings: {
             '3000/tcp': [
               { HostPort: `3000` },
@@ -198,7 +210,7 @@ This can be configured using Node's --max_old_space_size option.`);
           },
         },
       });
-      expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
+      expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context, { docker: { network: 'NETWORK' }});
       expect(serverHandler.startCollectingStats).toHaveBeenCalled();
       expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
       expect(sparqlBenchmarkRun).toHaveBeenCalled();
@@ -231,8 +243,10 @@ This can be configured using Node's --max_old_space_size option.`);
 
       await experiment.run(context);
 
+      expect(context.docker.networkCreator.create).toHaveBeenCalled();
+      expect(context.docker.networkCreator.create).toHaveBeenCalled();
       expect(context.docker.containerCreator.start).toHaveBeenCalled();
-      expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
+      expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context, { docker: { network: 'NETWORK' }});
       expect(serverHandler.close).toHaveBeenCalled();
       expect(endpointHandler.close).toHaveBeenCalled();
     });
@@ -246,6 +260,7 @@ This can be configured using Node's --max_old_space_size option.`);
 
       await new Promise(setImmediate);
 
+      expect(context.docker.networkCreator.create).toHaveBeenCalled();
       expect(hookSparqlEndpoint.start).toHaveBeenCalled();
       expect(serverHandler.startCollectingStats).toHaveBeenCalled();
       expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
@@ -279,6 +294,8 @@ This can be configured using Node's --max_old_space_size option.`);
 
       expect(hookSparqlEndpoint.clean).toHaveBeenCalledWith(context, { docker: true });
 
+      expect(context.docker.networkCreator.remove)
+        .toHaveBeenCalledWith('IMG-ldbc-snb-d-network');
       expect(context.docker.containerCreator.remove).toHaveBeenCalledWith('ldbc-snb-decentralized-server');
     });
   });
