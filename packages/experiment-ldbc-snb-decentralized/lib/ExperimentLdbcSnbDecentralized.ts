@@ -1,8 +1,8 @@
 import * as Path from 'path';
+import * as v8 from 'v8';
 import * as fs from 'fs-extra';
 import type { Experiment, Hook, ITaskContext,
   DockerResourceConstraints, DockerContainerHandler, ICleanTargets } from 'jbr';
-
 import { Generator } from 'ldbc-snb-decentralized/lib/Generator';
 import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
 
@@ -77,6 +77,14 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
   }
 
   public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
+    // Validate memory limit
+    const minimumMemory = 8192;
+    // eslint-disable-next-line no-bitwise
+    const currentMemory = v8.getHeapStatistics().heap_size_limit / 1024 / 1024;
+    if (currentMemory < minimumMemory) {
+      context.logger.warn(`LDBC SNB Decentralized recommends allocating at least ${minimumMemory} MB of memory, while only ${currentMemory} was allocated.\nThis can be configured using Node's --max_old_space_size option.`);
+    }
+
     // Prepare hook
     await this.hookSparqlEndpoint.prepare(context, forceOverwriteGenerated);
 

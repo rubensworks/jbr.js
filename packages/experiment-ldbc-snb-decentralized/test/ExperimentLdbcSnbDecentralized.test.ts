@@ -1,4 +1,5 @@
 import * as Path from 'path';
+import v8 from 'v8';
 import type { Hook, ITaskContext,
   DockerContainerHandler,
   DockerResourceConstraints, ProcessHandler } from 'jbr';
@@ -125,12 +126,14 @@ describe('ExperimentLdbcSnbDecentralized', () => {
     dirsOut = {};
     filesOut = {};
     (<any> process).on = jest.fn();
+    jest.spyOn(v8, 'getHeapStatistics').mockImplementation(() => (<any>{ heap_size_limit: 8192 * 1024 * 1024 }));
   });
 
   describe('prepare', () => {
     it('should prepare the experiment', async() => {
       await experiment.prepare(context, false);
 
+      expect(context.logger.warn).not.toHaveBeenCalled();
       expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context, false);
       expect(generatorGenerate).toHaveBeenCalled();
       expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
@@ -144,6 +147,15 @@ describe('ExperimentLdbcSnbDecentralized', () => {
         },
         logger,
       });
+    });
+
+    it('should warn when not enough memory for preparing', async() => {
+      jest.spyOn(v8, 'getHeapStatistics').mockImplementation(() => (<any>{ heap_size_limit: 4096 * 1024 * 1024 }));
+
+      await experiment.prepare(context, false);
+
+      expect(context.logger.warn).toHaveBeenCalledWith(`LDBC SNB Decentralized recommends allocating at least 8192 MB of memory, while only 4096 was allocated.
+This can be configured using Node's --max_old_space_size option.`);
     });
 
     it('should prepare the experiment with force overwrite', async() => {
