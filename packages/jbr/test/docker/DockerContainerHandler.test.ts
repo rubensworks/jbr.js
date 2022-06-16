@@ -114,7 +114,7 @@ describe('DockerContainerHandler', () => {
       await new Promise(resolve => statsStream.on('end', resolve));
       expect(write).toHaveBeenCalledTimes(3);
       expect(write).toHaveBeenCalledWith(`cpu_percentage,memory,memory_percentage,received,transmitted\n`);
-      expect(write).toHaveBeenCalledWith(`9.13850684073107,9924608,0.4753534251735246,562,0\n`);
+      expect(write).toHaveBeenCalledWith(`2.2846267101827675,9924608,0.4753534251735246,562,0\n`);
       expect(write).toHaveBeenCalledWith(`0,52772864,2.5276324927510077,382,96\n`);
 
       expect(statsStream.removeAllListeners).not.toHaveBeenCalled();

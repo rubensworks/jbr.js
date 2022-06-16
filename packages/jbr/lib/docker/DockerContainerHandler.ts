@@ -102,8 +102,8 @@ export class DockerContainerHandler implements ProcessHandler {
           let cpuPercentage = 0;
           const cpuDelta = data.cpu_stats.cpu_usage.total_usage - data.precpu_stats.cpu_usage.total_usage;
           const systemDelta = data.cpu_stats.system_cpu_usage - data.precpu_stats.system_cpu_usage;
-          if (systemDelta > 0 && systemDelta > 0) {
-            cpuPercentage = cpuDelta / systemDelta * data.cpu_stats.cpu_usage.percpu_usage.length * 100;
+          if (systemDelta > 0) {
+            cpuPercentage = cpuDelta / systemDelta * 100;
           }
 
           // Calculate memory usage
