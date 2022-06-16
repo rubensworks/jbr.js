@@ -12,7 +12,7 @@ export class DockerNetworkHandler implements ProcessHandler {
   }
 
   public async close(): Promise<void> {
-    await this.network.remove();
+    await this.network.remove({ force: true });
   }
 
   public async join(): Promise<void> {

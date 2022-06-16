@@ -132,8 +132,8 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
 
     const processHandler = new ProcessHandlerComposite([
       serverHandler,
-      networkHandler,
       endpointProcessHandler,
+      networkHandler,
     ]);
 
     // Register cleanup handler
