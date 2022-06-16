@@ -17,6 +17,34 @@ jest.mock('fs-extra', () => ({
   async mkdir(dirPath: string) {
     dirsOut[dirPath] = true;
   },
+  async readdir(dir: string) {
+    const ret: any[] = [];
+    for (const path of Object.keys(filesOut)) {
+      if (path.startsWith(dir)) {
+        let name = path.slice(dir.length + 1);
+        const slashPos = name.indexOf('/');
+        const isFile = slashPos < 0;
+        if (!isFile) {
+          name = name.slice(0, slashPos);
+        }
+        ret.push({
+          name,
+          isFile: () => isFile,
+          isDirectory: () => !isFile,
+        });
+      }
+    }
+    return ret;
+  },
+  async readFile(path: string) {
+    if (!(path in filesOut)) {
+      throw new Error(`Could not find file at ${path}`);
+    }
+    return filesOut[path];
+  },
+  async writeFile(path: string, contents: string) {
+    return filesOut[path] = contents;
+  },
 }));
 
 describe('ExperimentHandlerLdbcSnbDecentralized', () => {
@@ -43,7 +71,7 @@ describe('ExperimentHandlerLdbcSnbDecentralized', () => {
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
       expect(handler.getDefaultParams(experimentPaths)).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(18);
+      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(19);
     });
   });
 

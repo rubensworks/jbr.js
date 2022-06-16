@@ -124,6 +124,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       hookSparqlEndpoint,
       3_000,
       'info',
+      'http://localhost:3000',
       resourceConstraints,
       'http://localhost:3001/sparql',
       3,
@@ -151,6 +152,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
         imageName: 'IMG-ldbc-snb-d-server',
         buildArgs: {
           CONFIG_SERVER: 'input/config-server.json',
+          BASE_URL: 'http://localhost:3000',
           LOG_LEVEL: 'info',
         },
         logger,
@@ -178,6 +180,7 @@ This can be configured using Node's --max_old_space_size option.`);
         imageName: 'IMG-ldbc-snb-d-server',
         buildArgs: {
           CONFIG_SERVER: 'input/config-server.json',
+          BASE_URL: 'http://localhost:3000',
           LOG_LEVEL: 'info',
         },
         logger,

@@ -25,6 +25,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
   public readonly hookSparqlEndpoint: Hook;
   public readonly serverPort: number;
   public readonly serverLogLevel: string;
+  public readonly serverBaseUrl: string;
   public readonly serverResourceConstraints: DockerResourceConstraints;
   public readonly endpointUrl: string;
   public readonly queryRunnerReplication: number;
@@ -46,6 +47,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     hookSparqlEndpoint: Hook,
     serverPort: number,
     serverLogLevel: string,
+    serverBaseUrl: string,
     serverResourceConstraints: DockerResourceConstraints,
     endpointUrl: string,
     queryRunnerReplication: number,
@@ -67,6 +69,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     this.endpointUrl = endpointUrl;
     this.serverPort = serverPort;
     this.serverLogLevel = serverLogLevel;
+    this.serverBaseUrl = serverBaseUrl;
     this.serverResourceConstraints = serverResourceConstraints;
     this.queryRunnerReplication = queryRunnerReplication;
     this.queryRunnerWarmupRounds = queryRunnerWarmupRounds;
@@ -113,6 +116,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
       buildArgs: {
         CONFIG_SERVER: this.configServer,
         LOG_LEVEL: this.serverLogLevel,
+        BASE_URL: this.serverBaseUrl,
       },
       logger: context.logger,
     });
@@ -183,13 +187,14 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     // Ensure logs directory exists
     await fs.ensureDir(Path.join(context.experimentPaths.output, 'logs'));
 
+    const filePath = this.serverBaseUrl.replace('://', '/').replace(':', '_');
     const serverHandler = await context.docker.containerCreator.start({
       containerName: 'ldbc-snb-decentralized-server',
       imageName: this.getDockerImageName(context, 'server'),
       resourceConstraints: this.serverResourceConstraints,
       hostConfig: {
         Binds: [
-          `${Path.join(context.experimentPaths.generated, 'out-fragments/http/localhost_3000')}/:/data`,
+          `${Path.join(context.experimentPaths.generated, `out-fragments/${filePath}`)}/:/data`,
         ],
         PortBindings: {
           '3000/tcp': [

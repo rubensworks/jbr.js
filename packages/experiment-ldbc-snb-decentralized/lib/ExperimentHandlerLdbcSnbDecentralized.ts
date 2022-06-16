@@ -30,6 +30,7 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
       endpointUrl: 'http://localhost:3001/sparql',
       serverPort: 3_000,
       serverLogLevel: 'info',
+      serverBaseUrl: 'http://ldbc-snb-decentralized-server:3000/',
       serverResourceConstraints: {
         '@type': 'StaticDockerResourceConstraints',
         cpu_percentage: 100,
@@ -67,5 +68,19 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
     await fs.mkdir(Path.join(experimentPaths.input, 'dockerfiles'));
     await fs.copyFile(Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-server'),
       Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-server'));
+
+    await this.replaceBaseUrlInDir(experimentPaths.root);
+  }
+
+  protected async replaceBaseUrlInDir(path: string): Promise<void> {
+    for (const entry of await fs.readdir(path, { withFileTypes: true })) {
+      if (entry.isFile()) {
+        const file = Path.join(path, entry.name);
+        await fs.writeFile(file, (await fs.readFile(file, 'utf8'))
+          .replace(/localhost:3000/ug, 'ldbc-snb-decentralized-server:3000'));
+      } else if (entry.isDirectory()) {
+        await this.replaceBaseUrlInDir(Path.join(path, entry.name));
+      }
+    }
   }
 }
