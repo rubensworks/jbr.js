@@ -31,6 +31,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
   public readonly queryRunnerReplication: number;
   public readonly queryRunnerWarmupRounds: number;
   public readonly queryRunnerRecordTimestamps: boolean;
+  public readonly queryRunnerUpQuery: string;
 
   public constructor(
     scale: string,
@@ -53,6 +54,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     queryRunnerReplication: number,
     queryRunnerWarmupRounds: number,
     queryRunnerRecordTimestamps: boolean,
+    queryRunnerUpQuery: string,
   ) {
     this.scale = scale;
     this.configGenerateAux = configGenerateAux;
@@ -74,6 +76,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     this.queryRunnerReplication = queryRunnerReplication;
     this.queryRunnerWarmupRounds = queryRunnerWarmupRounds;
     this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps;
+    this.queryRunnerUpQuery = queryRunnerUpQuery;
   }
 
   public getDockerImageName(context: ITaskContext, type: string): string {
@@ -151,6 +154,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
       warmup: this.queryRunnerWarmupRounds,
       timestampsRecording: this.queryRunnerRecordTimestamps,
       logger: (message: string) => process.stderr.write(message),
+      upQuery: this.queryRunnerUpQuery,
     }).run({
       async onStart() {
         // Collect stats
