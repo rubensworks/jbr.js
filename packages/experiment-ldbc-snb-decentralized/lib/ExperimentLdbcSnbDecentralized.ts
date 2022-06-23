@@ -17,7 +17,6 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
   public readonly configFragmentAux: string;
   public readonly configQueries: string;
   public readonly configServer: string;
-  public readonly directoryQueryTemplates: string;
   public readonly validationParamsUrl: string;
   public readonly configValidation: string;
   public readonly hadoopMemory: string;
@@ -40,7 +39,6 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     configFragmentAux: string,
     configQueries: string,
     configServer: string,
-    directoryQueryTemplates: string,
     validationParamsUrl: string,
     configValidation: string,
     hadoopMemory: string,
@@ -62,7 +60,6 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     this.configFragmentAux = configFragmentAux;
     this.configQueries = configQueries;
     this.configServer = configServer;
-    this.directoryQueryTemplates = directoryQueryTemplates;
     this.validationParamsUrl = validationParamsUrl;
     this.configValidation = configValidation;
     this.hadoopMemory = hadoopMemory;
@@ -81,6 +78,18 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
 
   public getDockerImageName(context: ITaskContext, type: string): string {
     return context.docker.imageBuilder.getImageName(context, `ldbc-snb-d-${type}`);
+  }
+
+  public async replaceBaseUrlInDir(path: string): Promise<void> {
+    for (const entry of await fs.readdir(path, { withFileTypes: true })) {
+      if (entry.isFile()) {
+        const file = Path.join(path, entry.name);
+        await fs.writeFile(file, (await fs.readFile(file, 'utf8'))
+          .replace(/localhost:3000/ug, 'ldbc-snb-decentralized-server:3000'));
+      } else if (entry.isDirectory()) {
+        await this.replaceBaseUrlInDir(Path.join(path, entry.name));
+      }
+    }
   }
 
   public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
@@ -109,6 +118,9 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
       validationConfig: Path.resolve(context.cwd, this.configValidation),
       hadoopMemory: this.hadoopMemory,
     }).generate();
+
+    // Replace prefix URLs to correct base URL in queries directory
+    await this.replaceBaseUrlInDir(Path.resolve(context.experimentPaths.generated, 'out-queries'));
 
     // Build server Dockerfile
     await context.docker.imageBuilder.build({

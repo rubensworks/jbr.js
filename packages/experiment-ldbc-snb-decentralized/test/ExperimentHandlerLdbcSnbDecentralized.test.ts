@@ -1,7 +1,6 @@
 import * as Path from 'path';
 import type { IExperimentPaths } from 'jbr';
 import { createExperimentPaths } from 'jbr';
-import { Templates } from 'ldbc-snb-decentralized/lib/Templates';
 import { ExperimentHandlerLdbcSnbDecentralized } from '../lib/ExperimentHandlerLdbcSnbDecentralized';
 
 let filesOut: Record<string, string> = {};
@@ -71,7 +70,7 @@ describe('ExperimentHandlerLdbcSnbDecentralized', () => {
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
       expect(handler.getDefaultParams(experimentPaths)).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(20);
+      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(19);
     });
   });
 
@@ -91,11 +90,11 @@ describe('ExperimentHandlerLdbcSnbDecentralized', () => {
         configServer: 'configServer.json',
         configValidation: 'configValidation.json',
         directoryQueryTemplates: 'queryTemplates',
+        replaceBaseUrlInDir: jest.fn(),
       });
 
       expect(dirsOut).toEqual({
         [Path.join('dir', 'input', 'dockerfiles')]: true,
-        [Path.join('dir', 'queryTemplates')]: Templates.QUERIES_DIRECTORY,
       });
       expect(filesOut).toEqual({
         [Path.join('dir', 'configGenerateAux.json')]: expect.any(String),

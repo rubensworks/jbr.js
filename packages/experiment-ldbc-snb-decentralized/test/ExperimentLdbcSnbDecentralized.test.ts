@@ -44,6 +44,34 @@ jest.mock('fs-extra', () => ({
   async ensureDir(dirPath: string) {
     dirsOut[dirPath] = true;
   },
+  async readdir(dir: string) {
+    const ret: any[] = [];
+    for (const path of Object.keys(filesOut)) {
+      if (path.startsWith(dir)) {
+        let name = path.slice(dir.length + 1);
+        const slashPos = name.indexOf('/');
+        const isFile = slashPos < 0;
+        if (!isFile) {
+          name = name.slice(0, slashPos);
+        }
+        ret.push({
+          name,
+          isFile: () => isFile,
+          isDirectory: () => !isFile,
+        });
+      }
+    }
+    return ret;
+  },
+  async readFile(path: string) {
+    if (!(path in filesOut)) {
+      throw new Error(`Could not find file at ${path}`);
+    }
+    return filesOut[path];
+  },
+  async writeFile(path: string, contents: string) {
+    return filesOut[path] = contents;
+  },
 }));
 
 describe('ExperimentLdbcSnbDecentralized', () => {
@@ -116,7 +144,6 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       'input/config-fragmenter-auxiliary.json',
       'input/config-queries.json',
       'input/config-server.json',
-      'input/templates/queries',
       'input/config-validation-params.json',
       'input/config-validation-config.json',
       '4G',
@@ -137,6 +164,22 @@ describe('ExperimentLdbcSnbDecentralized', () => {
     filesOut = {};
     (<any> process).on = jest.fn();
     jest.spyOn(v8, 'getHeapStatistics').mockImplementation(() => (<any>{ heap_size_limit: 8192 * 1024 * 1024 }));
+  });
+
+  describe('replaceBaseUrlInDir', () => {
+    it('should handle nested directories', async() => {
+      filesOut['dir/a.ttl'] = ``;
+      filesOut['dir/b.ttl'] = `localhost:3000`;
+      filesOut['dir/c/c.ttl'] = ``;
+      filesOut['dir/c/d.ttl'] = ``;
+
+      await experiment.replaceBaseUrlInDir('dir');
+
+      expect(filesOut['dir/a.ttl']).toEqual('');
+      expect(filesOut['dir/b.ttl']).toEqual('ldbc-snb-decentralized-server:3000');
+      expect(filesOut['dir/c/c.ttl']).toEqual('');
+      expect(filesOut['dir/c/d.ttl']).toEqual('');
+    });
   });
 
   describe('prepare', () => {

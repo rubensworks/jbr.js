@@ -21,7 +21,6 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
       configFragmentAux: 'input/config-fragmenter-auxiliary.json',
       configQueries: 'input/config-queries.json',
       configServer: 'input/config-server.json',
-      directoryQueryTemplates: 'input/templates/queries',
       validationParamsUrl: Templates.VALIDATION_PARAMS_URL,
       configValidation: 'input/config-validation.json',
       hadoopMemory: '4G',
@@ -59,8 +58,6 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
         Path.join(experimentPaths.root, experiment.configQueries)),
       fs.copyFile(Templates.SERVER_CONFIG,
         Path.join(experimentPaths.root, experiment.configServer)),
-      fs.copy(Templates.QUERIES_DIRECTORY,
-        Path.join(experimentPaths.root, experiment.directoryQueryTemplates)),
       fs.copyFile(Templates.VALIDATION_CONFIG,
         Path.join(experimentPaths.root, experiment.configValidation)),
     ]);
@@ -70,18 +67,6 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
     await fs.copyFile(Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-server'),
       Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-server'));
 
-    await this.replaceBaseUrlInDir(experimentPaths.root);
-  }
-
-  protected async replaceBaseUrlInDir(path: string): Promise<void> {
-    for (const entry of await fs.readdir(path, { withFileTypes: true })) {
-      if (entry.isFile()) {
-        const file = Path.join(path, entry.name);
-        await fs.writeFile(file, (await fs.readFile(file, 'utf8'))
-          .replace(/localhost:3000/ug, 'ldbc-snb-decentralized-server:3000'));
-      } else if (entry.isDirectory()) {
-        await this.replaceBaseUrlInDir(Path.join(path, entry.name));
-      }
-    }
+    await experiment.replaceBaseUrlInDir(experimentPaths.root);
   }
 }
