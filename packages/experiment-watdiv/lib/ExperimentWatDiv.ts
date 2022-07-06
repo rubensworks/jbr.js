@@ -111,11 +111,21 @@ export class ExperimentWatDiv implements Experiment {
     // Setup SPARQL endpoint
     const endpointProcessHandler = await this.hookSparqlEndpoint.start(context);
 
+    // Register termination listener
+    function terminationHandler(processName: string): void {
+      context.logger.error(`A process (${processName}) exited prematurely.\nThis may be caused by a software error or insufficient memory being allocated to the system or Docker.\nPlease inspect the output logs for more details.`);
+      context.closeExperiment();
+    }
+    endpointProcessHandler.addTerminationHandler(terminationHandler);
+
     // Register cleanup handler
     async function cleanupHandler(): Promise<void> {
-      await Promise.all([
-        endpointProcessHandler.close(),
-      ]);
+      // Before closing the actual processes, remove the termination listener
+      // Otherwise, we may run into infinite loops
+      endpointProcessHandler.removeTerminationHandler(terminationHandler);
+
+      // Close the processes
+      await endpointProcessHandler.close();
     }
     context.cleanupHandlers.push(cleanupHandler);
 
@@ -142,6 +152,9 @@ export class ExperimentWatDiv implements Experiment {
         stopEndpointStats();
       },
     });
+
+    // Remove termination listener
+    endpointProcessHandler.removeTerminationHandler(terminationHandler);
 
     // Write results
     const resultsOutput = context.experimentPaths.output;

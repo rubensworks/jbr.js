@@ -9,6 +9,7 @@ export class DockerContainerHandler implements ProcessHandler {
   public readonly container: Dockerode.Container;
   public readonly outputStream: NodeJS.ReadableStream;
   public readonly statsFilePath?: string;
+  public readonly terminationHandlers: Set<(processName: string, error?: Error) => void>;
 
   public ended: boolean;
   public errored?: Error;
@@ -18,12 +19,21 @@ export class DockerContainerHandler implements ProcessHandler {
     this.outputStream = outputStream;
     this.ended = false;
     this.outputStream.on('end', () => {
+      if (!this.ended && !this.errored) {
+        this.onTerminated();
+      }
+
       this.ended = true;
     });
     this.outputStream.on('error', (error: Error) => {
+      if (!this.ended && !this.errored) {
+        this.onTerminated(error);
+      }
+
       this.errored = error;
     });
     this.statsFilePath = statsFilePath;
+    this.terminationHandlers = new Set<() => void>();
   }
 
   /**
@@ -127,5 +137,19 @@ export class DockerContainerHandler implements ProcessHandler {
       statsStream.removeAllListeners('data');
       out.end();
     };
+  }
+
+  public addTerminationHandler(handler: (processName: string, error?: Error) => void): void {
+    this.terminationHandlers.add(handler);
+  }
+
+  public removeTerminationHandler(handler: (processName: string, error?: Error) => void): void {
+    this.terminationHandlers.delete(handler);
+  }
+
+  protected onTerminated(error?: Error): void {
+    for (const terminationListener of this.terminationHandlers) {
+      terminationListener(`Docker container ${this.container.id}`, error);
+    }
   }
 }

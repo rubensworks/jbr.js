@@ -18,6 +18,7 @@ describe('DockerContainerHandler', () => {
   let statsStream: NodeJS.ReadableStream;
   beforeEach(() => {
     container = {
+      id: 'ID',
       kill: jest.fn(),
       remove: jest.fn(),
       stats: async() => statsStream,
@@ -138,6 +139,67 @@ describe('DockerContainerHandler', () => {
       stop();
       expect(statsStream.removeAllListeners).toHaveBeenCalled();
       expect(streamEnd).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('with termination listeners', () => {
+    it('calls a termination listener on end', () => {
+      const termHandler = jest.fn();
+
+      handler.addTerminationHandler(termHandler);
+
+      out.emit('end');
+
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(termHandler).toHaveBeenCalledWith(`Docker container ID`, undefined);
+    });
+
+    it('calls a termination listener on error', () => {
+      const termHandler = jest.fn();
+
+      handler.addTerminationHandler(termHandler);
+
+      out.emit('error', new Error('my error'));
+
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(termHandler).toHaveBeenCalledWith(`Docker container ID`, new Error('my error'));
+    });
+
+    it('calls a termination listener after end and error', () => {
+      const termHandler = jest.fn();
+
+      handler.addTerminationHandler(termHandler);
+
+      out.emit('end');
+      out.emit('error', new Error('my error'));
+
+      expect(termHandler).toHaveBeenCalledTimes(1);
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(termHandler).toHaveBeenCalledWith(`Docker container ID`, undefined);
+    });
+
+    it('calls a termination listener after error and end', () => {
+      const termHandler = jest.fn();
+
+      handler.addTerminationHandler(termHandler);
+
+      out.emit('error', new Error('my error'));
+      out.emit('end');
+
+      expect(termHandler).toHaveBeenCalledTimes(1);
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(termHandler).toHaveBeenCalledWith(`Docker container ID`, new Error('my error'));
+    });
+
+    it('does not call a termination listener on end if it has been removed', () => {
+      const termHandler = jest.fn();
+
+      handler.addTerminationHandler(termHandler);
+      handler.removeTerminationHandler(termHandler);
+
+      out.emit('end');
+
+      expect(termHandler).not.toHaveBeenCalled();
     });
   });
 });

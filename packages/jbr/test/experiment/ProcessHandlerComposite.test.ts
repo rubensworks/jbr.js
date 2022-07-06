@@ -17,16 +17,22 @@ describe('ProcessHandlerComposite', () => {
       close: jest.fn(),
       join: jest.fn(),
       startCollectingStats: jest.fn(async() => stopCollecting1),
+      addTerminationHandler: jest.fn(),
+      removeTerminationHandler: jest.fn(),
     };
     subHandler2 = {
       close: jest.fn(),
       join: jest.fn(),
       startCollectingStats: jest.fn(async() => stopCollecting2),
+      addTerminationHandler: jest.fn(),
+      removeTerminationHandler: jest.fn(),
     };
     subHandler3 = {
       close: jest.fn(),
       join: jest.fn(),
       startCollectingStats: jest.fn(async() => stopCollecting3),
+      addTerminationHandler: jest.fn(),
+      removeTerminationHandler: jest.fn(),
     };
     handler = new ProcessHandlerComposite([
       subHandler1,
@@ -89,6 +95,26 @@ describe('ProcessHandlerComposite', () => {
       expect(stopCollecting1).toHaveBeenCalledTimes(1);
       expect(stopCollecting2).toHaveBeenCalledTimes(1);
       expect(stopCollecting3).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('addTerminationHandler', () => {
+    it('addTerminationHandler all sub handlers', async() => {
+      const terminationHander = jest.fn();
+      handler.addTerminationHandler(terminationHander);
+      expect(subHandler1.addTerminationHandler).toHaveBeenCalledWith(terminationHander);
+      expect(subHandler2.addTerminationHandler).toHaveBeenCalledWith(terminationHander);
+      expect(subHandler3.addTerminationHandler).toHaveBeenCalledWith(terminationHander);
+    });
+  });
+
+  describe('removeTerminationHandler', () => {
+    it('removeTerminationHandler all sub handlers', async() => {
+      const terminationHander = jest.fn();
+      handler.removeTerminationHandler(terminationHander);
+      expect(subHandler1.removeTerminationHandler).toHaveBeenCalledWith(terminationHander);
+      expect(subHandler2.removeTerminationHandler).toHaveBeenCalledWith(terminationHander);
+      expect(subHandler3.removeTerminationHandler).toHaveBeenCalledWith(terminationHander);
     });
   });
 });

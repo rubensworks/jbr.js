@@ -47,6 +47,7 @@ describe('ExperimentWatDiv', () => {
       experimentPaths: createExperimentPaths('CWD'),
       mainModulePath: 'MMP',
       verbose: true,
+      closeExperiment: jest.fn(),
       cleanupHandlers: [],
       logger: <any> new TestLogger(),
       docker: <any> {
@@ -63,6 +64,8 @@ describe('ExperimentWatDiv', () => {
       close: jest.fn(),
       startCollectingStats: jest.fn(() => endpointHandlerStopCollectingStats),
       join: jest.fn(),
+      addTerminationHandler: jest.fn(),
+      removeTerminationHandler: jest.fn(),
     };
     hookSparqlEndpoint = <any> {
       prepare: jest.fn(),
@@ -349,6 +352,36 @@ describe('ExperimentWatDiv', () => {
       expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
       expect(sparqlBenchmarkRun).toHaveBeenCalled();
       expect(endpointHandler.close).not.toHaveBeenCalled();
+
+      breakpointBarrierResolver();
+      await experimentEnd;
+
+      expect(endpointHandler.close).toHaveBeenCalled();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
+
+      expect(dirsOut).toEqual({
+        'CWD/output': true,
+      });
+    });
+
+    it('should run the experiment with breakpoint and termination handler', async() => {
+      let breakpointBarrierResolver: any;
+      const breakpointBarrier: any = () => new Promise(resolve => {
+        breakpointBarrierResolver = resolve;
+      });
+      const experimentEnd = experiment.run({ ...context, breakpointBarrier });
+
+      await new Promise(setImmediate);
+
+      expect(hookSparqlEndpoint.start).toHaveBeenCalled();
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
+      expect(sparqlBenchmarkRun).toHaveBeenCalled();
+      expect(endpointHandler.close).not.toHaveBeenCalled();
+
+      const termHandler = jest.mocked(endpointHandler.addTerminationHandler).mock.calls[0][0];
+      termHandler('myProcess');
+
+      expect(context.closeExperiment).toHaveBeenCalledTimes(1);
 
       breakpointBarrierResolver();
       await experimentEnd;

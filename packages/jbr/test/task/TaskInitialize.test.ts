@@ -61,6 +61,7 @@ describe('TaskInitialize', () => {
       experimentPaths: createExperimentPaths('CWD'),
       mainModulePath: 'MMP',
       verbose: true,
+      closeExperiment: jest.fn(),
       cleanupHandlers: [],
       logger: <any> new TestLogger(),
       docker: <any> {},

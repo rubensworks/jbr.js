@@ -21,6 +21,7 @@ describe('HookSparqlEndpointComunica', () => {
       experimentPaths: createExperimentPaths('CWD'),
       mainModulePath: 'MMP',
       verbose: true,
+      closeExperiment: jest.fn(),
       cleanupHandlers: [],
       logger,
       docker: <any> {

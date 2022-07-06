@@ -39,4 +39,16 @@ export class ProcessHandlerComposite implements ProcessHandler {
       }
     };
   }
+
+  public addTerminationHandler(handler: (processName: string, error?: Error) => void): void {
+    for (const processHandler of this.processHandlers) {
+      processHandler.addTerminationHandler(handler);
+    }
+  }
+
+  public removeTerminationHandler(handler: (processName: string, error?: Error) => void): void {
+    for (const processHandler of this.processHandlers) {
+      processHandler.removeTerminationHandler(handler);
+    }
+  }
 }

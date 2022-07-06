@@ -24,4 +24,12 @@ export class DockerNetworkHandler implements ProcessHandler {
       // Do nothing
     };
   }
+
+  public addTerminationHandler(handler: (processName: string, error?: Error) => void): void {
+    // Do nothing
+  }
+
+  public removeTerminationHandler(handler: (processName: string, error?: Error) => void): void {
+    // Do nothing
+  }
 }

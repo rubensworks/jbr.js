@@ -20,6 +20,11 @@ export interface ITaskContext {
     networkCreator: DockerNetworkCreator;
   };
   /**
+   * Function that will cleanly close the experiment.
+   * This may be used in case an error occurs that requires the experiment to be closed earlier.
+   */
+  closeExperiment: () => void;
+  /**
    * Listeners can be appended to this array
    * to make sure that they are invoked when the process ends abnormally.
    */

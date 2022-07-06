@@ -58,6 +58,8 @@ export async function wrapCommandHandler(
       imagePuller: new DockerImagePuller(dockerode),
       networkCreator: new DockerNetworkCreator(dockerode),
     },
+    // eslint-disable-next-line unicorn/no-process-exit
+    closeExperiment: () => process.emit(<any>'SIGTERM'),
     cleanupHandlers: [],
     ...argv.breakpoints ? { breakpointBarrier } : {},
   };
@@ -85,6 +87,7 @@ export async function wrapCommandHandler(
     process.exit(1);
   };
   process.on('SIGINT', globalCleanupHandler);
+  process.on('SIGTERM', globalCleanupHandler);
   process.on('uncaughtException', globalCleanupHandler);
 
   // Run handler

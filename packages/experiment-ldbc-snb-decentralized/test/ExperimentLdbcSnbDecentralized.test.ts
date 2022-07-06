@@ -89,6 +89,8 @@ describe('ExperimentLdbcSnbDecentralized', () => {
     serverHandler = <any> {
       close: jest.fn(),
       startCollectingStats: jest.fn(() => serverHandlerStopCollectingStats),
+      addTerminationHandler: jest.fn(),
+      removeTerminationHandler: jest.fn(),
     };
     logger = new TestLogger();
     context = {
@@ -96,6 +98,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       experimentPaths: createExperimentPaths('CWD'),
       mainModulePath: 'MMP',
       verbose: true,
+      closeExperiment: jest.fn(),
       cleanupHandlers: [],
       logger,
       docker: <any> {
@@ -115,6 +118,8 @@ describe('ExperimentLdbcSnbDecentralized', () => {
             network: { id: 'NETWORK' },
             startCollectingStats: jest.fn(() => jest.fn()),
             close: jest.fn(),
+            addTerminationHandler: jest.fn(),
+            removeTerminationHandler: jest.fn(),
           })),
           remove: jest.fn(),
         },
@@ -125,6 +130,8 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       close: jest.fn(),
       join: jest.fn(),
       startCollectingStats: jest.fn(() => endpointHandlerStopCollectingStats),
+      addTerminationHandler: jest.fn(),
+      removeTerminationHandler: jest.fn(),
     };
     hookSparqlEndpoint = <any> {
       prepare: jest.fn(),
@@ -313,6 +320,41 @@ This can be configured using Node's --max_old_space_size option.`);
       expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
       expect(sparqlBenchmarkRun).toHaveBeenCalled();
       expect(serverHandler.close).not.toHaveBeenCalled();
+
+      breakpointBarrierResolver();
+      await experimentEnd;
+
+      expect(serverHandler.close).toHaveBeenCalled();
+      expect(endpointHandler.close).toHaveBeenCalled();
+      expect(serverHandlerStopCollectingStats).toHaveBeenCalled();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
+
+      expect(dirsOut).toEqual({
+        'CWD/output': true,
+        'CWD/output/logs': true,
+      });
+    });
+
+    it('should run the experiment with breakpoint and termination handler', async() => {
+      let breakpointBarrierResolver: any;
+      const breakpointBarrier: any = () => new Promise(resolve => {
+        breakpointBarrierResolver = resolve;
+      });
+      const experimentEnd = experiment.run({ ...context, breakpointBarrier });
+
+      await new Promise(setImmediate);
+
+      expect(context.docker.networkCreator.create).toHaveBeenCalled();
+      expect(hookSparqlEndpoint.start).toHaveBeenCalled();
+      expect(serverHandler.startCollectingStats).toHaveBeenCalled();
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
+      expect(sparqlBenchmarkRun).toHaveBeenCalled();
+      expect(serverHandler.close).not.toHaveBeenCalled();
+
+      const termHandler = jest.mocked(serverHandler.addTerminationHandler).mock.calls[0][0];
+      termHandler('myProcess');
+
+      expect(context.closeExperiment).toHaveBeenCalledTimes(1);
 
       breakpointBarrierResolver();
       await experimentEnd;

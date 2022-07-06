@@ -39,4 +39,16 @@ describe('DockerNetworkHandler', () => {
       cb();
     });
   });
+
+  describe('addTerminationHandler', () => {
+    it('does nothing', () => {
+      handler.addTerminationHandler(jest.fn());
+    });
+  });
+
+  describe('removeTerminationHandler', () => {
+    it('does nothing', () => {
+      handler.removeTerminationHandler(jest.fn());
+    });
+  });
 });
