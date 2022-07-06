@@ -1,5 +1,6 @@
 import * as Path from 'path';
 import * as fs from 'fs-extra';
+import { secureProcessHandler } from 'jbr';
 import type { Experiment, Hook, ICleanTargets, ITaskContext } from 'jbr';
 import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
 
@@ -110,24 +111,7 @@ export class ExperimentWatDiv implements Experiment {
   public async run(context: ITaskContext): Promise<void> {
     // Setup SPARQL endpoint
     const endpointProcessHandler = await this.hookSparqlEndpoint.start(context);
-
-    // Register termination listener
-    function terminationHandler(processName: string): void {
-      context.logger.error(`A process (${processName}) exited prematurely.\nThis may be caused by a software error or insufficient memory being allocated to the system or Docker.\nPlease inspect the output logs for more details.`);
-      context.closeExperiment();
-    }
-    endpointProcessHandler.addTerminationHandler(terminationHandler);
-
-    // Register cleanup handler
-    async function cleanupHandler(): Promise<void> {
-      // Before closing the actual processes, remove the termination listener
-      // Otherwise, we may run into infinite loops
-      endpointProcessHandler.removeTerminationHandler(terminationHandler);
-
-      // Close the processes
-      await endpointProcessHandler.close();
-    }
-    context.cleanupHandlers.push(cleanupHandler);
+    const closeProcess = secureProcessHandler(endpointProcessHandler, context);
 
     // Initiate SPARQL benchmark runner
     let stopEndpointStats: () => void;
@@ -153,9 +137,6 @@ export class ExperimentWatDiv implements Experiment {
       },
     });
 
-    // Remove termination listener
-    endpointProcessHandler.removeTerminationHandler(terminationHandler);
-
     // Write results
     const resultsOutput = context.experimentPaths.output;
     if (!await fs.pathExists(resultsOutput)) {
@@ -164,8 +145,8 @@ export class ExperimentWatDiv implements Experiment {
     context.logger.info(`Writing results to ${resultsOutput}\n`);
     await writeBenchmarkResults(results, Path.join(resultsOutput, 'query-times.csv'), this.queryRunnerRecordTimestamps);
 
-    // Close endpoint and server
-    await cleanupHandler();
+    // Close process safely
+    await closeProcess();
   }
 
   public async clean(context: ITaskContext, cleanTargets: ICleanTargets): Promise<void> {

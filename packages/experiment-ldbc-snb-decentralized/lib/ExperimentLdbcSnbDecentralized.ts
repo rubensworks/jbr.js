@@ -3,7 +3,7 @@ import * as v8 from 'v8';
 import * as fs from 'fs-extra';
 import type { Experiment, Hook, ITaskContext,
   DockerResourceConstraints, ICleanTargets, DockerContainerHandler, DockerNetworkHandler } from 'jbr';
-import { ProcessHandlerComposite } from 'jbr';
+import { ProcessHandlerComposite, secureProcessHandler } from 'jbr';
 import { Generator } from 'ldbc-snb-decentralized/lib/Generator';
 import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
 
@@ -150,24 +150,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
       endpointProcessHandler,
       networkHandler,
     ]);
-
-    // Register termination listener
-    function terminationHandler(processName: string): void {
-      context.logger.error(`A process (${processName}) exited prematurely.\nThis may be caused by a software error or insufficient memory being allocated to the system or Docker.\nPlease inspect the output logs for more details.`);
-      context.closeExperiment();
-    }
-    processHandler.addTerminationHandler(terminationHandler);
-
-    // Register cleanup handler
-    async function cleanupHandler(): Promise<void> {
-      // Before closing the actual processes, remove the termination listener
-      // Otherwise, we may run into infinite loops
-      processHandler.removeTerminationHandler(terminationHandler);
-
-      // Close the processes
-      await processHandler.close();
-    }
-    context.cleanupHandlers.push(cleanupHandler);
+    const closeProcess = secureProcessHandler(processHandler, context);
 
     // Initiate SPARQL benchmark runner
     let stopStats: () => void;
@@ -194,9 +177,6 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
       },
     });
 
-    // Remove termination listener
-    processHandler.removeTerminationHandler(terminationHandler);
-
     // Write results
     const resultsOutput = context.experimentPaths.output;
     if (!await fs.pathExists(resultsOutput)) {
@@ -206,7 +186,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     await writeBenchmarkResults(results, Path.join(resultsOutput, 'query-times.csv'), this.queryRunnerRecordTimestamps);
 
     // Close endpoint and server
-    await cleanupHandler();
+    await closeProcess();
   }
 
   public async startServer(context: ITaskContext): Promise<[ DockerContainerHandler, DockerNetworkHandler ] > {

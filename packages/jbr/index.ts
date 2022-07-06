@@ -13,6 +13,7 @@ export * from './lib/experiment/ExperimentHandler';
 export * from './lib/experiment/Experiment';
 export * from './lib/experiment/ProcessHandler';
 export * from './lib/experiment/ProcessHandlerComposite';
+export * from './lib/experiment/ProcessHandlerUtil';
 export * from './lib/factor/CombinationProvider';
 export * from './lib/factor/FractionalCombinationProvider';
 export * from './lib/factor/FullFactorialCombinationProvider';
