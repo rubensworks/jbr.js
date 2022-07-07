@@ -107,13 +107,17 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jbr.DockerContainerHandler.html#errored" class="tsd-kind-icon">errored</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jbr.DockerContainerHandler.html#outputStream" class="tsd-kind-icon">output<wbr>Stream</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jbr.DockerContainerHandler.html#statsFilePath" class="tsd-kind-icon">stats<wbr>File<wbr>Path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jbr.DockerContainerHandler.html#terminationHandlers" class="tsd-kind-icon">termination<wbr>Handlers</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.DockerContainerHandler.html#addTerminationHandler" class="tsd-kind-icon">add<wbr>Termination<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.DockerContainerHandler.html#close" class="tsd-kind-icon">close</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.DockerContainerHandler.html#join" class="tsd-kind-icon">join</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="jbr.DockerContainerHandler.html#onTerminated" class="tsd-kind-icon">on<wbr>Terminated</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.DockerContainerHandler.html#removeTerminationHandler" class="tsd-kind-icon">remove<wbr>Termination<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.DockerContainerHandler.html#startCollectingStats" class="tsd-kind-icon">start<wbr>Collecting<wbr>Stats</a></li>
 							</ul>
 						</section>
@@ -132,7 +136,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/6f78f42/packages/jbr/lib/docker/DockerContainerHandler.ts#L16">packages/jbr/lib/docker/DockerContainerHandler.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/cee5ece/packages/jbr/lib/docker/DockerContainerHandler.ts#L17">packages/jbr/lib/docker/DockerContainerHandler.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -160,7 +164,7 @@
 					<div class="tsd-signature tsd-kind-icon">container<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Container</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/6f78f42/packages/jbr/lib/docker/DockerContainerHandler.ts#L9">packages/jbr/lib/docker/DockerContainerHandler.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/cee5ece/packages/jbr/lib/docker/DockerContainerHandler.ts#L9">packages/jbr/lib/docker/DockerContainerHandler.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -170,7 +174,7 @@
 					<div class="tsd-signature tsd-kind-icon">ended<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/6f78f42/packages/jbr/lib/docker/DockerContainerHandler.ts#L13">packages/jbr/lib/docker/DockerContainerHandler.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/cee5ece/packages/jbr/lib/docker/DockerContainerHandler.ts#L14">packages/jbr/lib/docker/DockerContainerHandler.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -180,7 +184,7 @@
 					<div class="tsd-signature tsd-kind-icon">errored<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Error</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/6f78f42/packages/jbr/lib/docker/DockerContainerHandler.ts#L14">packages/jbr/lib/docker/DockerContainerHandler.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/cee5ece/packages/jbr/lib/docker/DockerContainerHandler.ts#L15">packages/jbr/lib/docker/DockerContainerHandler.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -190,7 +194,7 @@
 					<div class="tsd-signature tsd-kind-icon">output<wbr>Stream<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ReadableStream</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/6f78f42/packages/jbr/lib/docker/DockerContainerHandler.ts#L10">packages/jbr/lib/docker/DockerContainerHandler.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/cee5ece/packages/jbr/lib/docker/DockerContainerHandler.ts#L10">packages/jbr/lib/docker/DockerContainerHandler.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -200,13 +204,73 @@
 					<div class="tsd-signature tsd-kind-icon">stats<wbr>File<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/6f78f42/packages/jbr/lib/docker/DockerContainerHandler.ts#L11">packages/jbr/lib/docker/DockerContainerHandler.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/cee5ece/packages/jbr/lib/docker/DockerContainerHandler.ts#L11">packages/jbr/lib/docker/DockerContainerHandler.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="terminationHandlers" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> termination<wbr>Handlers</h3>
+					<div class="tsd-signature tsd-kind-icon">termination<wbr>Handlers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/cee5ece/packages/jbr/lib/docker/DockerContainerHandler.ts#L12">packages/jbr/lib/docker/DockerContainerHandler.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="addTerminationHandler" class="tsd-anchor"></a>
+					<h3>add<wbr>Termination<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Termination<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/jbr.ProcessHandler.html">ProcessHandler</a>.<a href="../interfaces/jbr.ProcessHandler.html#addTerminationHandler">addTerminationHandler</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/cee5ece/packages/jbr/lib/docker/DockerContainerHandler.ts#L142">packages/jbr/lib/docker/DockerContainerHandler.ts:142</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Register a termination handler.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>handler: <span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>processName: <span class="tsd-signature-type">string</span></h5>
+														</li>
+														<li>
+															<h5><span class="tsd-flag ts-flagOptional">Optional</span> error: <span class="tsd-signature-type">Error</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="close" class="tsd-anchor"></a>
 					<h3>close</h3>
@@ -218,7 +282,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/jbr.ProcessHandler.html">ProcessHandler</a>.<a href="../interfaces/jbr.ProcessHandler.html#close">close</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/6f78f42/packages/jbr/lib/docker/DockerContainerHandler.ts#L32">packages/jbr/lib/docker/DockerContainerHandler.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/cee5ece/packages/jbr/lib/docker/DockerContainerHandler.ts#L42">packages/jbr/lib/docker/DockerContainerHandler.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -241,7 +305,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/jbr.ProcessHandler.html">ProcessHandler</a>.<a href="../interfaces/jbr.ProcessHandler.html#join">join</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/6f78f42/packages/jbr/lib/docker/DockerContainerHandler.ts#L48">packages/jbr/lib/docker/DockerContainerHandler.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/cee5ece/packages/jbr/lib/docker/DockerContainerHandler.ts#L58">packages/jbr/lib/docker/DockerContainerHandler.ts:58</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -250,6 +314,79 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="onTerminated" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Terminated</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Terminated<span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/cee5ece/packages/jbr/lib/docker/DockerContainerHandler.ts#L150">packages/jbr/lib/docker/DockerContainerHandler.ts:150</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> error: <span class="tsd-signature-type">Error</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="removeTerminationHandler" class="tsd-anchor"></a>
+					<h3>remove<wbr>Termination<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Termination<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/jbr.ProcessHandler.html">ProcessHandler</a>.<a href="../interfaces/jbr.ProcessHandler.html#removeTerminationHandler">removeTerminationHandler</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/cee5ece/packages/jbr/lib/docker/DockerContainerHandler.ts#L146">packages/jbr/lib/docker/DockerContainerHandler.ts:146</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remove a termination listener.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>handler: <span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>processName: <span class="tsd-signature-type">string</span></h5>
+														</li>
+														<li>
+															<h5><span class="tsd-flag ts-flagOptional">Optional</span> error: <span class="tsd-signature-type">Error</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -264,7 +401,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/jbr.ProcessHandler.html">ProcessHandler</a>.<a href="../interfaces/jbr.ProcessHandler.html#startCollectingStats">startCollectingStats</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/6f78f42/packages/jbr/lib/docker/DockerContainerHandler.ts#L61">packages/jbr/lib/docker/DockerContainerHandler.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/cee5ece/packages/jbr/lib/docker/DockerContainerHandler.ts#L71">packages/jbr/lib/docker/DockerContainerHandler.ts:71</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -342,11 +479,23 @@
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="jbr.DockerContainerHandler.html#statsFilePath" class="tsd-kind-icon">stats<wbr>File<wbr>Path</a>
 									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="jbr.DockerContainerHandler.html#terminationHandlers" class="tsd-kind-icon">termination<wbr>Handlers</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="jbr.DockerContainerHandler.html#addTerminationHandler" class="tsd-kind-icon">add<wbr>Termination<wbr>Handler</a>
+									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="jbr.DockerContainerHandler.html#close" class="tsd-kind-icon">close</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="jbr.DockerContainerHandler.html#join" class="tsd-kind-icon">join</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+										<a href="jbr.DockerContainerHandler.html#onTerminated" class="tsd-kind-icon">on<wbr>Terminated</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="jbr.DockerContainerHandler.html#removeTerminationHandler" class="tsd-kind-icon">remove<wbr>Termination<wbr>Handler</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="jbr.DockerContainerHandler.html#startCollectingStats" class="tsd-kind-icon">start<wbr>Collecting<wbr>Stats</a>
@@ -381,6 +530,9 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
 			</ul>
 		</div>
 	</div>
