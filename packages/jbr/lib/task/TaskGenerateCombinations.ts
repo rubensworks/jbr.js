@@ -26,6 +26,10 @@ export class TaskGenerateCombinations {
       .instantiateCombinationProvider(this.context.experimentPaths.root);
     const combinations = combinationsProvider.getFactorCombinations();
 
+    // Determine experiment id
+    const experimentName = Path.basename(this.context.experimentPaths.root);
+    const experimentId = ExperimentLoader.getDefaultExperimentIri(experimentName);
+
     // Load config template
     const configTemplatePath = Path.join(this.context.experimentPaths.root, ExperimentLoader.CONFIG_TEMPLATE_NAME);
     const configTemplateContents = await fs.readFile(configTemplatePath, 'utf8');
@@ -49,7 +53,7 @@ export class TaskGenerateCombinations {
       // Create config file
       const combinationInstanceConfigPath = Path.join(combinationInstancePath, ExperimentLoader.CONFIG_NAME);
       const combinationInstanceConfigContents = TaskGenerateCombinations
-        .applyFactorCombination(combination, configTemplateContents);
+        .applyFactorCombination(combination, experimentId, combinationIdString, configTemplateContents);
       await fs.writeFile(combinationInstanceConfigPath, combinationInstanceConfigContents);
 
       // Copy inputs
@@ -58,7 +62,8 @@ export class TaskGenerateCombinations {
       await TaskGenerateCombinations.copyFiles(
         templateInputPath,
         combinationInputPath,
-        (contents: string) => TaskGenerateCombinations.applyFactorCombination(combination, contents),
+        (contents: string) => TaskGenerateCombinations
+          .applyFactorCombination(combination, experimentId, combinationIdString, contents),
       );
 
       // Create output softlink from root to combinations
@@ -80,9 +85,20 @@ export class TaskGenerateCombinations {
   /**
    * Instantiate all variables in the form of %FACTOR-variablename% based on the given factor combination.
    * @param combination A factor combination that maps variable names to values.
+   * @param experimentId The experiment id.
+   * @param combinationId The combination id.
    * @param content The string content in which variable names should be replaced.
    */
-  public static applyFactorCombination(combination: FactorCombination, content: string): string {
+  public static applyFactorCombination(
+    combination: FactorCombination,
+    experimentId: string,
+    combinationId: string,
+    content: string,
+  ): string {
+    content = content.replace(
+      new RegExp(experimentId, 'gu'),
+      ExperimentLoader.getCombinationExperimentIri(experimentId, combinationId),
+    );
     for (const [ key, value ] of Object.entries(combination)) {
       content = content.replace(new RegExp(`%FACTOR-${key}%`, 'gu'), value);
     }

@@ -15,6 +15,10 @@ jest.mock('../../lib/task/ExperimentLoader', () => ({
       .ExperimentLoader.requireCombinationsExperiment,
     getCombinationIdString: jest.requireActual('../../lib/task/ExperimentLoader')
       .ExperimentLoader.getCombinationIdString,
+    getDefaultExperimentIri: jest.requireActual('../../lib/task/ExperimentLoader')
+      .ExperimentLoader.getDefaultExperimentIri,
+    getCombinationExperimentIri: jest.requireActual('../../lib/task/ExperimentLoader')
+      .ExperimentLoader.getCombinationExperimentIri,
   },
 }));
 
@@ -184,18 +188,23 @@ describe('TaskGenerateCombinations', () => {
   });
 
   describe('applyFactorCombination', () => {
+    it('should handle the experiment id', () => {
+      expect(TaskGenerateCombinations.applyFactorCombination({}, 'EXP', 'COMB', `ABC urn:jrb:EXP  urn:jrb:EXP`))
+        .toEqual(`ABC urn:jrb:EXP:COMB  urn:jrb:EXP:COMB`);
+    });
+
     it('should handle an empty combination', () => {
-      expect(TaskGenerateCombinations.applyFactorCombination({}, `ABC`))
+      expect(TaskGenerateCombinations.applyFactorCombination({}, 'EXP', 'COMB', `ABC`))
         .toEqual(`ABC`);
     });
 
     it('should handle a single combination entry', () => {
-      expect(TaskGenerateCombinations.applyFactorCombination({ key1: 'a' }, `ABC: %FACTOR-key1%`))
+      expect(TaskGenerateCombinations.applyFactorCombination({ key1: 'a' }, 'EXP', 'COMB', `ABC: %FACTOR-key1%`))
         .toEqual(`ABC: a`);
     });
 
     it('should handle multiple occurrences of a single combination entry', () => {
-      expect(TaskGenerateCombinations.applyFactorCombination({ key1: 'a' }, `ABC: %FACTOR-key1% %FACTOR-key1% %FACTOR-key1%`))
+      expect(TaskGenerateCombinations.applyFactorCombination({ key1: 'a' }, 'EXP', 'COMB', `ABC: %FACTOR-key1% %FACTOR-key1% %FACTOR-key1%`))
         .toEqual(`ABC: a a a`);
     });
 
@@ -205,7 +214,7 @@ describe('TaskGenerateCombinations', () => {
         key2: 'b',
         key3: 'c',
       };
-      expect(TaskGenerateCombinations.applyFactorCombination(combination, `
+      expect(TaskGenerateCombinations.applyFactorCombination(combination, 'EXP', 'COMB', `
 A: %FACTOR-key1% %FACTOR-key1%
 B: %FACTOR-key2% %FACTOR-key2%
 C: %FACTOR-key3% %FACTOR-key3%

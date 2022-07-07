@@ -68,7 +68,7 @@ export class ExperimentLoader {
     const experimentIri = ExperimentLoader.getDefaultExperimentIri(experimentName);
 
     // Check if combinations file exists
-    const configPaths: string[] = [];
+    const configs: { path: string; iri: string }[] = [];
     const experimentPathsArray: IExperimentPaths[] = [];
     let combinationProvider: CombinationProvider | undefined;
     if (await ExperimentLoader.isCombinationsExperiment(experimentPath)) {
@@ -87,7 +87,10 @@ export class ExperimentLoader {
 
         // Determine config file
         const combinationInstanceConfigPath = Path.join(combinationInstancePath, ExperimentLoader.CONFIG_NAME);
-        configPaths.push(combinationInstanceConfigPath);
+        configs.push({
+          iri: ExperimentLoader.getCombinationExperimentIri(experimentIri, combinationIdString),
+          path: combinationInstanceConfigPath,
+        });
         const experimentPaths = createExperimentPaths(combinationInstancePath, combinationId);
         if (combinationProvider.commonGenerated) {
           experimentPaths.generated = Path.join(experimentPath, 'generated');
@@ -96,21 +99,24 @@ export class ExperimentLoader {
       }
     } else {
       // Determine config file
-      configPaths.push(Path.join(experimentPath, ExperimentLoader.CONFIG_NAME));
+      configs.push({
+        iri: experimentIri,
+        path: Path.join(experimentPath, ExperimentLoader.CONFIG_NAME),
+      });
       experimentPathsArray.push(createExperimentPaths(experimentPath));
     }
 
     // Check if config exists
-    for (const configPath of configPaths) {
-      if (!await fs.pathExists(configPath)) {
-        throw new Error(`Experiment config file could not be found at '${configPath}'`);
+    for (const config of configs) {
+      if (!await fs.pathExists(config.path)) {
+        throw new Error(`Experiment config file could not be found at '${config.path}'`);
       }
     }
 
     // Instantiate valid config
     return {
-      experiments: await Promise.all(configPaths
-        .map(configPath => this.instantiateFromConfig<Experiment>(configPath, experimentIri))),
+      experiments: await Promise.all(configs
+        .map(config => this.instantiateFromConfig<Experiment>(config.path, config.iri))),
       experimentPathsArray,
       combinationProvider,
     };
@@ -256,5 +262,14 @@ export class ExperimentLoader {
    */
   public static getCombinationIdString(combinationId: number): string {
     return `combination_${combinationId}`;
+  }
+
+  /**
+   * Determine the IRI of a combination
+   * @param experimentIri An experiment IRI.
+   * @param combinationIdString A combination id.
+   */
+  public static getCombinationExperimentIri(experimentIri: string, combinationIdString: string): string {
+    return `${experimentIri}:${combinationIdString}`;
   }
 }

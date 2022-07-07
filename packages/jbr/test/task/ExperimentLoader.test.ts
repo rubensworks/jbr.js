@@ -126,8 +126,8 @@ describe('ExperimentLoader', () => {
       expect(await loader.instantiateExperiments('path/to/experiment'))
         .toEqual({
           experiments: [
-            { CONFIG: 'urn:jrb:experiment' },
-            { CONFIG: 'urn:jrb:experiment' },
+            { CONFIG: 'urn:jrb:experiment:combination_0' },
+            { CONFIG: 'urn:jrb:experiment:combination_1' },
           ],
           experimentPathsArray: [
             createExperimentPaths(Path.join('path/to/experiment', 'combinations', 'combination_0'), 0),
@@ -141,7 +141,8 @@ describe('ExperimentLoader', () => {
         Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json'));
       expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(3,
         Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json'));
-      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment');
+      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment:combination_0');
+      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment:combination_1');
     });
 
     it('instantiates a combinations-based config with common generated', async() => {
@@ -164,8 +165,8 @@ describe('ExperimentLoader', () => {
       expect(await loader.instantiateExperiments('path/to/experiment'))
         .toEqual({
           experiments: [
-            { CONFIG: 'urn:jrb:experiment' },
-            { CONFIG: 'urn:jrb:experiment' },
+            { CONFIG: 'urn:jrb:experiment:combination_0' },
+            { CONFIG: 'urn:jrb:experiment:combination_1' },
           ],
           experimentPathsArray: [
             {
@@ -185,7 +186,8 @@ describe('ExperimentLoader', () => {
         Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json'));
       expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(3,
         Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json'));
-      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment');
+      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment:combination_0');
+      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment:combination_1');
     });
 
     it('throws when a combinations-based experiment is not generated', async() => {
