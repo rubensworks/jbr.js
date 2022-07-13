@@ -261,6 +261,9 @@ Options:
 					<p>From this point on, you can manage this combinations-based experiment like any other jbr experiment.</p>
 					<p>Concretely, <code>jbr prepare</code> will prepare <em>all</em> combinations,
 					and <code>jbr run</code> will also run <em>all</em> combinations.</p>
+					<p>If you just want to run a single combination, you can specify its combination id via the <code>-c</code> option:</p>
+					<pre><code class="language-bash"><span style="color: #000000">$ jbr run -c 3</span>
+</code></pre>
 					<a href="#docker-resource-constraint" id="docker-resource-constraint" style="color: inherit; text-decoration: none;">
 						<h3>Docker Resource Constraint</h3>
 					</a>
@@ -405,7 +408,7 @@ Options:
 					<div class="tsd-signature tsd-kind-icon">Factor<wbr>Combination<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/011709d/packages/jbr/lib/factor/CombinationProvider.ts#L12">packages/jbr/lib/factor/CombinationProvider.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/61f9389/packages/jbr/lib/factor/CombinationProvider.ts#L12">packages/jbr/lib/factor/CombinationProvider.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -418,7 +421,7 @@ Options:
 					<div class="tsd-signature tsd-kind-icon">command<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;clean&quot;</span><span class="tsd-signature-symbol"> = &#x27;clean&#x27;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/011709d/packages/jbr/lib/cli/commands/CommandClean.ts#L6">packages/jbr/lib/cli/commands/CommandClean.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/61f9389/packages/jbr/lib/cli/commands/CommandClean.ts#L6">packages/jbr/lib/cli/commands/CommandClean.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -428,7 +431,7 @@ Options:
 					<div class="tsd-signature tsd-kind-icon">desc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;Cleans up an experiment&quot;</span><span class="tsd-signature-symbol"> = &#x27;Cleans up an experiment&#x27;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/011709d/packages/jbr/lib/cli/commands/CommandClean.ts#L7">packages/jbr/lib/cli/commands/CommandClean.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/61f9389/packages/jbr/lib/cli/commands/CommandClean.ts#L7">packages/jbr/lib/cli/commands/CommandClean.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -445,7 +448,7 @@ Options:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/011709d/packages/jbr/lib/cli/CliHelpers.ts#L27">packages/jbr/lib/cli/CliHelpers.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/61f9389/packages/jbr/lib/cli/CliHelpers.ts#L27">packages/jbr/lib/cli/CliHelpers.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -462,7 +465,7 @@ Options:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/011709d/packages/jbr/lib/cli/commands/CommandClean.ts#L8">packages/jbr/lib/cli/commands/CommandClean.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/61f9389/packages/jbr/lib/cli/commands/CommandClean.ts#L8">packages/jbr/lib/cli/commands/CommandClean.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -485,7 +488,7 @@ Options:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/011709d/packages/jbr/lib/cli/CliHelpers.ts#L130">packages/jbr/lib/cli/CliHelpers.ts:130</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/61f9389/packages/jbr/lib/cli/CliHelpers.ts#L130">packages/jbr/lib/cli/CliHelpers.ts:130</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -508,7 +511,7 @@ Options:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/011709d/packages/jbr/lib/cli/CliHelpers.ts#L17">packages/jbr/lib/cli/CliHelpers.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/61f9389/packages/jbr/lib/cli/CliHelpers.ts#L17">packages/jbr/lib/cli/CliHelpers.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -534,7 +537,7 @@ Options:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/011709d/packages/jbr/lib/cli/CliHelpers.ts#L144">packages/jbr/lib/cli/CliHelpers.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/61f9389/packages/jbr/lib/cli/CliHelpers.ts#L144">packages/jbr/lib/cli/CliHelpers.ts:144</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -560,7 +563,7 @@ Options:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/011709d/packages/jbr/lib/cli/commands/CommandClean.ts#L19">packages/jbr/lib/cli/commands/CommandClean.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/61f9389/packages/jbr/lib/cli/commands/CommandClean.ts#L19">packages/jbr/lib/cli/commands/CommandClean.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -583,7 +586,7 @@ Options:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/011709d/packages/jbr/lib/cli/CliRunner.ts#L4">packages/jbr/lib/cli/CliRunner.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/61f9389/packages/jbr/lib/cli/CliRunner.ts#L4">packages/jbr/lib/cli/CliRunner.ts:4</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -609,7 +612,7 @@ Options:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/011709d/packages/jbr/lib/experiment/ProcessHandlerUtil.ts#L11">packages/jbr/lib/experiment/ProcessHandlerUtil.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/61f9389/packages/jbr/lib/experiment/ProcessHandlerUtil.ts#L11">packages/jbr/lib/experiment/ProcessHandlerUtil.ts:11</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -667,7 +670,7 @@ Options:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/011709d/packages/jbr/lib/cli/CliHelpers.ts#L38">packages/jbr/lib/cli/CliHelpers.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/61f9389/packages/jbr/lib/cli/CliHelpers.ts#L38">packages/jbr/lib/cli/CliHelpers.ts:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -711,7 +714,7 @@ Options:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/011709d/packages/jbr/lib/cli/CliHelpers.ts#L121">packages/jbr/lib/cli/CliHelpers.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/61f9389/packages/jbr/lib/cli/CliHelpers.ts#L121">packages/jbr/lib/cli/CliHelpers.ts:121</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
