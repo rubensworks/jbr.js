@@ -233,6 +233,11 @@ From this point on, you can manage this combinations-based experiment like any o
 Concretely, `jbr prepare` will prepare _all_ combinations,
 and `jbr run` will also run _all_ combinations.
 
+If you just want to run a single combination, you can specify its combination id via the `-c` option:
+```bash
+$ jbr run -c 3
+```
+
 ### Docker Resource Constraint
 
 Some experiments or hooks may be executed in Docker containers.

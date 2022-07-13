@@ -40,7 +40,7 @@ describe('TaskRun', () => {
       logger: <any> new TestLogger(),
       docker: <any> {},
     };
-    task = new TaskRun(context);
+    task = new TaskRun(context, undefined);
 
     experiment = <any> {
       run: jest.fn(),
@@ -91,6 +91,32 @@ describe('TaskRun', () => {
       expect(experiment2.run).toHaveBeenCalledWith({ ...context, experimentPaths: expPaths2 });
 
       expect(context.logger.info).toHaveBeenCalledTimes(2);
+    });
+
+    it('runs a single combination in multiple experiments when combination is set', async() => {
+      task = new TaskRun(context, 1);
+
+      const experiment1 = <any> {
+        run: jest.fn(),
+      };
+      const experiment2 = <any> {
+        run: jest.fn(),
+      };
+      const expPaths1 = createExperimentPaths('CWD/1');
+      const expPaths2 = createExperimentPaths('CWD/2');
+      (<any> experimentLoader).instantiateExperiments = jest.fn(() => {
+        return {
+          experimentPathsArray: [ expPaths1, expPaths2 ],
+          experiments: [ experiment1, experiment2 ],
+        };
+      });
+
+      files[Path.join('CWD', 'generated', '.prepared')] = true;
+      await task.run();
+      expect(experiment1.run).not.toHaveBeenCalled();
+      expect(experiment2.run).toHaveBeenCalledWith({ ...context, experimentPaths: expPaths2 });
+
+      expect(context.logger.info).toHaveBeenCalledTimes(1);
     });
   });
 });

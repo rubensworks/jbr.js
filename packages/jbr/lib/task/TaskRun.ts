@@ -6,11 +6,14 @@ import type { ITaskContext } from './ITaskContext';
  */
 export class TaskRun {
   private readonly context: ITaskContext;
+  private readonly combination: number | undefined;
 
   public constructor(
     context: ITaskContext,
+    combination: number | undefined,
   ) {
     this.context = context;
+    this.combination = combination;
   }
 
   public async run(): Promise<void> {
@@ -18,12 +21,14 @@ export class TaskRun {
     const { experiments, experimentPathsArray } = await (await ExperimentLoader.build(this.context.mainModulePath))
       .instantiateExperiments(this.context.experimentPaths.root);
     for (const [ i, experiment ] of experiments.entries()) {
-      // Log status
-      if (experiments.length > 1) {
-        this.context.logger.info(`🧩 Running experiment combination ${i}`);
-      }
+      if (this.combination === undefined || this.combination === i) {
+        // Log status
+        if (experiments.length > 1) {
+          this.context.logger.info(`🧩 Running experiment combination ${i}`);
+        }
 
-      await experiment.run({ ...this.context, experimentPaths: experimentPathsArray[i] });
+        await experiment.run({ ...this.context, experimentPaths: experimentPathsArray[i] });
+      }
     }
   }
 }

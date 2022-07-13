@@ -6,6 +6,13 @@ import { wrapCommandHandler } from '../CliHelpers';
 export const command = 'run';
 export const desc = 'Run the current experiment';
 export const builder = (yargs: Argv<any>): Argv<any> =>
-  yargs;
+  yargs
+    .options({
+      combination: {
+        type: 'number',
+        alias: 'c',
+        describe: 'The combination id to run. If undefined, all combinations will be run.',
+      },
+    });
 export const handler = (argv: Record<string, any>): Promise<void> => wrapCommandHandler(argv,
-  async(context: ITaskContext) => new TaskRun(context).run());
+  async(context: ITaskContext) => new TaskRun(context, argv.combination).run());
