@@ -19,7 +19,22 @@ export class ExperimentWatDiv implements Experiment {
   public readonly queryRunnerReplication: number;
   public readonly queryRunnerWarmupRounds: number;
   public readonly queryRunnerRecordTimestamps: boolean;
+  public readonly queryRunnerUrlParamsInit: Record<string, any>;
+  public readonly queryRunnerUrlParamsRun: Record<string, any>;
 
+  /**
+   * @param datasetScale
+   * @param queryCount
+   * @param queryRecurrence
+   * @param generateHdt
+   * @param hookSparqlEndpoint
+   * @param endpointUrl
+   * @param queryRunnerReplication
+   * @param queryRunnerWarmupRounds
+   * @param queryRunnerRecordTimestamps
+   * @param queryRunnerUrlParamsInit - @range {json}
+   * @param queryRunnerUrlParamsRun - @range {json}
+   */
   public constructor(
     datasetScale: number,
     queryCount: number,
@@ -30,6 +45,8 @@ export class ExperimentWatDiv implements Experiment {
     queryRunnerReplication: number,
     queryRunnerWarmupRounds: number,
     queryRunnerRecordTimestamps: boolean,
+    queryRunnerUrlParamsInit: Record<string, any>,
+    queryRunnerUrlParamsRun: Record<string, any>,
   ) {
     this.datasetScale = datasetScale;
     this.queryCount = queryCount;
@@ -40,6 +57,8 @@ export class ExperimentWatDiv implements Experiment {
     this.queryRunnerReplication = queryRunnerReplication;
     this.queryRunnerWarmupRounds = queryRunnerWarmupRounds;
     this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps;
+    this.queryRunnerUrlParamsInit = queryRunnerUrlParamsInit;
+    this.queryRunnerUrlParamsRun = queryRunnerUrlParamsRun;
   }
 
   public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
@@ -122,6 +141,8 @@ export class ExperimentWatDiv implements Experiment {
       warmup: this.queryRunnerWarmupRounds,
       timestampsRecording: this.queryRunnerRecordTimestamps,
       logger: (message: string) => process.stderr.write(message),
+      additionalUrlParamsInit: new URLSearchParams(this.queryRunnerUrlParamsInit),
+      additionalUrlParamsRun: new URLSearchParams(this.queryRunnerUrlParamsRun),
     }).run({
       async onStart() {
         // Collect stats

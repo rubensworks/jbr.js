@@ -38,6 +38,8 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
       queryRunnerWarmupRounds: 1,
       queryRunnerRecordTimestamps: true,
       queryRunnerUpQuery: `SELECT * WHERE { <http://ldbc-snb-decentralized-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1`,
+      queryRunnerUrlParamsInit: {},
+      queryRunnerUrlParamsRun: {},
     };
   }
 

@@ -31,7 +31,33 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
   public readonly queryRunnerWarmupRounds: number;
   public readonly queryRunnerRecordTimestamps: boolean;
   public readonly queryRunnerUpQuery: string;
+  public readonly queryRunnerUrlParamsInit: Record<string, any>;
+  public readonly queryRunnerUrlParamsRun: Record<string, any>;
 
+  /**
+   * @param scale
+   * @param configGenerateAux
+   * @param configFragment
+   * @param configFragmentAux
+   * @param configQueries
+   * @param configServer
+   * @param validationParamsUrl
+   * @param configValidation
+   * @param hadoopMemory
+   * @param dockerfileServer
+   * @param hookSparqlEndpoint
+   * @param serverPort
+   * @param serverLogLevel
+   * @param serverBaseUrl
+   * @param serverResourceConstraints
+   * @param endpointUrl
+   * @param queryRunnerReplication
+   * @param queryRunnerWarmupRounds
+   * @param queryRunnerRecordTimestamps
+   * @param queryRunnerUpQuery
+   * @param queryRunnerUrlParamsInit - @range {json}
+   * @param queryRunnerUrlParamsRun - @range {json}
+   */
   public constructor(
     scale: string,
     configGenerateAux: string,
@@ -53,6 +79,8 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     queryRunnerWarmupRounds: number,
     queryRunnerRecordTimestamps: boolean,
     queryRunnerUpQuery: string,
+    queryRunnerUrlParamsInit: Record<string, any>,
+    queryRunnerUrlParamsRun: Record<string, any>,
   ) {
     this.scale = scale;
     this.configGenerateAux = configGenerateAux;
@@ -74,6 +102,8 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     this.queryRunnerWarmupRounds = queryRunnerWarmupRounds;
     this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps;
     this.queryRunnerUpQuery = queryRunnerUpQuery;
+    this.queryRunnerUrlParamsInit = queryRunnerUrlParamsInit;
+    this.queryRunnerUrlParamsRun = queryRunnerUrlParamsRun;
   }
 
   public getDockerImageName(context: ITaskContext, type: string): string {
@@ -162,6 +192,8 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
       timestampsRecording: this.queryRunnerRecordTimestamps,
       logger: (message: string) => process.stderr.write(message),
       upQuery: this.queryRunnerUpQuery,
+      additionalUrlParamsInit: new URLSearchParams(this.queryRunnerUrlParamsInit),
+      additionalUrlParamsRun: new URLSearchParams(this.queryRunnerUrlParamsRun),
     }).run({
       async onStart() {
         // Collect stats

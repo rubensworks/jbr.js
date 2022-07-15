@@ -165,6 +165,8 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       1,
       true,
       `SELECT * WHERE { <http://ldbc-snb-decentralized-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1`,
+      {},
+      {},
     );
     files = {};
     dirsOut = {};

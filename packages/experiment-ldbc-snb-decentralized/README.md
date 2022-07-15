@@ -131,6 +131,9 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
   "queryRunnerReplication": 3,
   "queryRunnerWarmupRounds": 1,
   "queryRunnerRecordTimestamps": true,
+  "queryRunnerUpQuery": "SELECT * WHERE { <http://ldbc-snb-decentralized-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1",
+  "queryRunnerUrlParamsInit": {},
+  "queryRunnerUrlParamsRun": {},
   "hookSparqlEndpoint": {
     "@id": "urn:jrb:cc:hookSparqlEndpoint",
     "@type": "HookNonConfigured"
@@ -161,6 +164,9 @@ More background information on these config options can be found in the README o
 * `queryRunnerReplication`: Number of replication runs for [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
 * `queryRunnerWarmupRounds`: Number of warmup runs for [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
 * `queryRunnerRecordTimestamps`: Flag to indicate if result arrival timestamps must be recorded [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
+* `queryRunnerUpQuery`: Query that is sent to the SPARQL endpoint to check if it is up.
+* `queryRunnerUrlParamsInit`: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during initialization to check if the endpoint is up.
+* `queryRunnerUrlParamsRun`: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during query executions.
 
 ## License
 

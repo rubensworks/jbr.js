@@ -22,6 +22,8 @@ export class ExperimentHandlerWatDiv extends ExperimentHandler<ExperimentWatDiv>
       queryRunnerReplication: 3,
       queryRunnerWarmupRounds: 1,
       queryRunnerRecordTimestamps: true,
+      queryRunnerUrlParamsInit: {},
+      queryRunnerUrlParamsRun: {},
     };
   }
 

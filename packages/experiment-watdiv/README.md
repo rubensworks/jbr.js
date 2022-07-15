@@ -113,6 +113,8 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
   "queryRunnerReplication": 3,
   "queryRunnerWarmupRounds": 1,
   "queryRunnerRecordTimestamps": true,
+  "queryRunnerUrlParamsInit": {},
+  "queryRunnerUrlParamsRun": {},
   "hookSparqlEndpoint": {
     "@id": "urn:jrb:test-watdiv2:hookSparqlEndpoint",
     "@type": "HookNonConfigured"
@@ -134,6 +136,8 @@ More background information on these config options can be found in the README o
 * `queryRunnerReplication`: Number of replication runs for [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
 * `queryRunnerWarmupRounds`: Number of warmup runs for [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
 * `queryRunnerRecordTimestamps`: Flag to indicate if result arrival timestamps must be recorded [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
+* `queryRunnerUrlParamsInit`: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during initialization to check if the endpoint is up.
+* `queryRunnerUrlParamsRun`: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during query executions.
 
 ## License
 

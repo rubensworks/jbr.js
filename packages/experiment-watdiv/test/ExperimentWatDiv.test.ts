@@ -86,6 +86,8 @@ describe('ExperimentWatDiv', () => {
       3,
       1,
       true,
+      {},
+      {},
     );
     files = {};
     dirsOut = {};
@@ -275,6 +277,8 @@ describe('ExperimentWatDiv', () => {
         3,
         1,
         true,
+        {},
+        {},
       );
 
       await experiment.prepare(context, false);
