@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>experiment-ldbc-snb-decentralized | jbr</title>
+	<title>experiment-solidbench | jbr</title>
 	<meta name="description" content="Documentation for jbr">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,10 +55,10 @@
 					<a href="../modules.html">jbr</a>
 				</li>
 				<li>
-					<a href="experiment_ldbc_snb_decentralized.html">experiment-ldbc-snb-decentralized</a>
+					<a href="experiment_solidbench.html">experiment-solidbench</a>
 				</li>
 			</ul>
-			<h1>Module experiment-ldbc-snb-decentralized</h1>
+			<h1>Module experiment-solidbench</h1>
 		</div>
 	</div>
 </header>
@@ -67,19 +67,19 @@
 		<div class="col-8 col-content">
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
-					<a href="#jbr-experiment---ldbc-snb-decentralized" id="jbr-experiment---ldbc-snb-decentralized" style="color: inherit; text-decoration: none;">
-						<h1>JBR Experiment - LDBC SNB Decentralized</h1>
+					<a href="#jbr-experiment---solidbench" id="jbr-experiment---solidbench" style="color: inherit; text-decoration: none;">
+						<h1>JBR Experiment - SolidBench</h1>
 					</a>
 					<p><a href="https://github.com/rubensworks/jbr.js/actions?query=workflow%3ACI"><img src="https://github.com/rubensworks/jbr.js/workflows/CI/badge.svg" alt="Build status"></a>
 						<a href="https://coveralls.io/github/rubensworks/jbr.js?branch=master"><img src="https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master" alt="Coverage Status"></a>
-					<a href="https://www.npmjs.com/package/@jbr-experiment/ldbc-snb-decentralized"><img src="https://badge.fury.io/js/%40jbr-experiment%2Fldbc-snb-decentralized.svg" alt="npm version"></a></p>
-					<p>A <a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> experiment type for the <a href="https://github.com/rubensworks/ldbc-snb-decentralized.js">decentralized LDBC SNB social network benchmark</a>.</p>
+					<a href="https://www.npmjs.com/package/@jbr-experiment/solidbench"><img src="https://badge.fury.io/js/%40jbr-experiment%2Fsolidbench.svg" alt="npm version"></a></p>
+					<p>A <a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> experiment type for the <a href="https://github.com/SolidBench/SolidBench.js">SolidBench social network benchmark</a>.</p>
 					<a href="#requirements" id="requirements" style="color: inherit; text-decoration: none;">
 						<h2>Requirements</h2>
 					</a>
 					<ul>
 						<li><a href="https://nodejs.org/en/">Node.js</a> <em>(1.12 or higher)</em></li>
-						<li><a href="https://www.docker.com/">Docker</a> <em>(required for invoking <a href="https://github.com/ldbc/ldbc_snb_datagen">LDBC SNB generator</a>)</em></li>
+						<li><a href="https://www.docker.com/">Docker</a> <em>(required for invoking <a href="https://github.com/ldbc/ldbc_snb_datagen_hadoop">LDBC SNB generator</a>)</em></li>
 						<li><a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> <em>(required for initializing, preparing, and running experiments on the command line)</em></li>
 					</ul>
 					<a href="#quick-start" id="quick-start" style="color: inherit; text-decoration: none;">
@@ -99,7 +99,7 @@
 						<h3>2. Initialize a new experiment</h3>
 					</a>
 					<p>Using the <code>jbr</code> CLI tool, initialize a new experiment:</p>
-					<pre><code class="language-bash"><span style="color: #000000">$ jbr init ldbc-snb-decentralized my-experiment</span>
+					<pre><code class="language-bash"><span style="color: #000000">$ jbr init solidbench my-experiment</span>
 <span style="color: #000000">$ </span><span style="color: #795E26">cd</span><span style="color: #000000"> my-experiment</span>
 </code></pre>
 					<p>This will create a new <code>my-experiment</code> directory with default configs for this experiment type.</p>
@@ -158,10 +158,10 @@ interactive-short-5;4;0;0;
 					<pre><code class="language-json"><span style="color: #000000">{</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;@context&quot;</span><span style="color: #000000">: [</span>
 <span style="color: #000000">    </span><span style="color: #A31515">&quot;https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/context.jsonld&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #A31515">&quot;https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/ldbc-snb-decentralized/^1.0.0/components/context.jsonld&quot;</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/solidbench/^1.0.0/components/context.jsonld&quot;</span>
 <span style="color: #000000">  ],</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;@id&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;urn:jrb:my-experiment&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;ExperimentLdbcSnbDecentralized&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;ExperimentSolidBench&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;scale&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0.1&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;configGenerateAux&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;input/config-enhancer.json&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;configFragment&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;input/config-fragmenter.json&quot;</span><span style="color: #000000">,</span>
@@ -182,7 +182,7 @@ interactive-short-5;4;0;0;
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerReplication&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerWarmupRounds&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerRecordTimestamps&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">true</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerUpQuery&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;SELECT * WHERE { &lt;http://ldbc-snb-decentralized-server:3000/pods/00000000000000000933/profile/card#me&gt; a ?o } LIMIT 1&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerUpQuery&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;SELECT * WHERE { &lt;http://solidbench-server:3000/pods/00000000000000000933/profile/card#me&gt; a ?o } LIMIT 1&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerUrlParamsInit&quot;</span><span style="color: #000000">: {},</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerUrlParamsRun&quot;</span><span style="color: #000000">: {},</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;hookSparqlEndpoint&quot;</span><span style="color: #000000">: {</span>
@@ -192,24 +192,24 @@ interactive-short-5;4;0;0;
 <span style="color: #000000">}</span>
 </code></pre>
 					<p>Any config changes require re-running the prepare step.</p>
-					<p>More background information on these config options can be found in the README of the <a href="https://github.com/rubensworks/ldbc-snb-decentralized.js">decentralized LDBC SNB social network benchmark</a>.</p>
+					<p>More background information on these config options can be found in the README of the <a href="https://github.com/SolidBench/SolidBench.js">SolidBench social network benchmark</a>.</p>
 					<a href="#configuration-fields" id="configuration-fields" style="color: inherit; text-decoration: none;">
 						<h3>Configuration fields</h3>
 					</a>
 					<ul>
 						<li><code>scale</code>: The SNB scale factor</li>
-						<li><code>configGenerateAux</code>: Path to enhancement config for <a href="https://github.com/rubensworks/ldbc-snb-enhancer.js/"><code>ldbc-snb-enhancer</code></a>.</li>
-						<li><code>configFragment</code>: Path to fragmentation config for <a href="https://github.com/rubensworks/rdf-dataset-fragmenter.js"><code>rdf-dataset-fragmenter</code></a>.</li>
-						<li><code>configFragmentAux</code>: Path to enhancement&#39;s fragmentation config for <a href="https://github.com/rubensworks/rdf-dataset-fragmenter.js"><code>rdf-dataset-fragmenter</code></a>.</li>
-						<li><code>configQueries</code>: Path to query instantiation config for <a href="https://github.com/rubensworks/sparql-query-parameter-instantiator.js"><code>sparql-query-parameter-instantiator</code></a>.</li>
+						<li><code>configGenerateAux</code>: Path to enhancement config for <a href="https://github.com/SolidBench/ldbc-snb-enhancer.js/"><code>ldbc-snb-enhancer</code></a>.</li>
+						<li><code>configFragment</code>: Path to fragmentation config for <a href="https://github.com/SolidBench/rdf-dataset-fragmenter.js"><code>rdf-dataset-fragmenter</code></a>.</li>
+						<li><code>configFragmentAux</code>: Path to enhancement&#39;s fragmentation config for <a href="https://github.com/SolidBench/rdf-dataset-fragmenter.js"><code>rdf-dataset-fragmenter</code></a>.</li>
+						<li><code>configQueries</code>: Path to query instantiation config for <a href="https://github.com/SolidBench/sparql-query-parameter-instantiator.js"><code>sparql-query-parameter-instantiator</code></a>.</li>
 						<li><code>configServer</code>: Path to server config for <a href="https://github.com/solid/community-server/">Solid Community Server</a>.</li>
-						<li><code>directoryQueryTemplates</code>: Path to the directory containing SPARQL query templates for <a href="https://github.com/rubensworks/sparql-query-parameter-instantiator.js"><code>sparql-query-parameter-instantiator</code></a>.</li>
+						<li><code>directoryQueryTemplates</code>: Path to the directory containing SPARQL query templates for <a href="https://github.com/SolidBench/sparql-query-parameter-instantiator.js"><code>sparql-query-parameter-instantiator</code></a>.</li>
 						<li><code>overwriteFilesDuringPrepare</code> A flag to indicate whether or not the fragmentations should always be fully recreated during the prepare step. Otherwise they will be cached until deleted manually.</li>
-						<li><code>hadoopMemory</code>: Memory limit for Hadoop for <a href="https://github.com/ldbc/ldbc_snb_datagen">LDBC SNB</a>.</li>
-						<li><code>dockerfileServer</code>: Path to a Dockerfile for <a href="https://github.com/solid/community-server/">Solid Community Server</a>.</li>
-						<li><code>serverPort</code>: HTTP Port for <a href="https://github.com/solid/community-server/">Solid Community Server</a>.</li>
-						<li><code>serverLogLevel</code>: Logging level for <a href="https://github.com/solid/community-server/">Solid Community Server</a>.</li>
-						<li><code>serverResourceConstraints</code>: Resource constraints for the <a href="https://github.com/solid/community-server/">Solid Community Server</a> Docker container.</li>
+						<li><code>hadoopMemory</code>: Memory limit for Hadoop for <a href="https://github.com/ldbc/ldbc_snb_datagen_hadoop">LDBC SNB</a>.</li>
+						<li><code>dockerfileServer</code>: Path to a Dockerfile for <a href="https://github.com/CommunitySolidServer/CommunitySolidServer">Solid Community Server</a>.</li>
+						<li><code>serverPort</code>: HTTP Port for <a href="https://github.com/CommunitySolidServer/CommunitySolidServer">Solid Community Server</a>.</li>
+						<li><code>serverLogLevel</code>: Logging level for <a href="https://github.com/CommunitySolidServer/CommunitySolidServer">Solid Community Server</a>.</li>
+						<li><code>serverResourceConstraints</code>: Resource constraints for the <a href="https://github.com/CommunitySolidServer/CommunitySolidServer">Solid Community Server</a> Docker container.</li>
 						<li><code>endpointUrl</code>: URL through which the SPARQL endpoint of the <code>hookSparqlEndpoint</code> hook will be exposed.</li>
 						<li><code>queryRunnerReplication</code>: Number of replication runs for <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
 						<li><code>queryRunnerWarmupRounds</code>: Number of warmup runs for <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
@@ -233,8 +233,8 @@ interactive-short-5;4;0;0;
 						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/experiment_ldbc_snb_decentralized.ExperimentHandlerLdbcSnbDecentralized.html" class="tsd-kind-icon">Experiment<wbr>Handler<wbr>Ldbc<wbr>Snb<wbr>Decentralized</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/experiment_ldbc_snb_decentralized.ExperimentLdbcSnbDecentralized.html" class="tsd-kind-icon">Experiment<wbr>Ldbc<wbr>Snb<wbr>Decentralized</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/experiment_solidbench.ExperimentHandlerSolidBench.html" class="tsd-kind-icon">Experiment<wbr>Handler<wbr>Solid<wbr>Bench</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/experiment_solidbench.ExperimentSolidBench.html" class="tsd-kind-icon">Experiment<wbr>Solid<wbr>Bench</a></li>
 							</ul>
 						</section>
 					</div>
@@ -248,7 +248,7 @@ interactive-short-5;4;0;0;
 						<a href="../modules.html">Modules</a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="experiment_ldbc_snb_decentralized.html">experiment-<wbr>ldbc-<wbr>snb-<wbr>decentralized</a>
+						<a href="experiment_solidbench.html">experiment-<wbr>solidbench</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="experiment_watdiv.html">experiment-<wbr>watdiv</a>
@@ -269,13 +269,13 @@ interactive-short-5;4;0;0;
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-module">
-						<a href="experiment_ldbc_snb_decentralized.html" class="tsd-kind-icon">experiment-<wbr>ldbc-<wbr>snb-<wbr>decentralized</a>
+						<a href="experiment_solidbench.html" class="tsd-kind-icon">experiment-<wbr>solidbench</a>
 						<ul>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/experiment_ldbc_snb_decentralized.ExperimentHandlerLdbcSnbDecentralized.html" class="tsd-kind-icon">Experiment<wbr>Handler<wbr>Ldbc<wbr>Snb<wbr>Decentralized</a>
+								<a href="../classes/experiment_solidbench.ExperimentHandlerSolidBench.html" class="tsd-kind-icon">Experiment<wbr>Handler<wbr>Solid<wbr>Bench</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/experiment_ldbc_snb_decentralized.ExperimentLdbcSnbDecentralized.html" class="tsd-kind-icon">Experiment<wbr>Ldbc<wbr>Snb<wbr>Decentralized</a>
+								<a href="../classes/experiment_solidbench.ExperimentSolidBench.html" class="tsd-kind-icon">Experiment<wbr>Solid<wbr>Bench</a>
 							</li>
 						</ul>
 					</li>
