@@ -4,13 +4,13 @@ import * as fs from 'fs-extra';
 import type { Experiment, Hook, ITaskContext,
   DockerResourceConstraints, ICleanTargets, DockerContainerHandler, DockerNetworkHandler } from 'jbr';
 import { ProcessHandlerComposite, secureProcessHandler } from 'jbr';
-import { Generator } from 'ldbc-snb-decentralized/lib/Generator';
+import { Generator } from 'solidbench/lib/Generator';
 import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
 
 /**
- * An experiment instance for the LDBC SNB Decentralized benchmark.
+ * An experiment instance for the SolidBench social network benchmark.
  */
-export class ExperimentLdbcSnbDecentralized implements Experiment {
+export class ExperimentSolidBench implements Experiment {
   public readonly scale: string;
   public readonly configGenerateAux: string;
   public readonly configFragment: string;
@@ -107,7 +107,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
   }
 
   public getDockerImageName(context: ITaskContext, type: string): string {
-    return context.docker.imageBuilder.getImageName(context, `ldbc-snb-d-${type}`);
+    return context.docker.imageBuilder.getImageName(context, `solidbench-${type}`);
   }
 
   public async replaceBaseUrlInDir(path: string): Promise<void> {
@@ -115,7 +115,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
       if (entry.isFile()) {
         const file = Path.join(path, entry.name);
         await fs.writeFile(file, (await fs.readFile(file, 'utf8'))
-          .replace(/localhost:3000/ug, 'ldbc-snb-decentralized-server:3000'));
+          .replace(/localhost:3000/ug, 'solidbench-server:3000'));
       } else if (entry.isDirectory()) {
         await this.replaceBaseUrlInDir(Path.join(path, entry.name));
       }
@@ -128,7 +128,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
     // eslint-disable-next-line no-bitwise
     const currentMemory = v8.getHeapStatistics().heap_size_limit / 1024 / 1024;
     if (currentMemory < minimumMemory) {
-      context.logger.warn(`LDBC SNB Decentralized recommends allocating at least ${minimumMemory} MB of memory, while only ${currentMemory} was allocated.\nThis can be configured using Node's --max_old_space_size option.`);
+      context.logger.warn(`SolidBench recommends allocating at least ${minimumMemory} MB of memory, while only ${currentMemory} was allocated.\nThis can be configured using Node's --max_old_space_size option.`);
     }
 
     // Prepare hook
@@ -232,7 +232,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
 
     const filePath = this.serverBaseUrl.replace('://', '/').replace(':', '_');
     const serverHandler = await context.docker.containerCreator.start({
-      containerName: 'ldbc-snb-decentralized-server',
+      containerName: 'solidbench-server',
       imageName: this.getDockerImageName(context, 'server'),
       resourceConstraints: this.serverResourceConstraints,
       hostConfig: {
@@ -258,7 +258,7 @@ export class ExperimentLdbcSnbDecentralized implements Experiment {
 
     if (cleanTargets.docker) {
       await context.docker.networkCreator.remove(this.getDockerImageName(context, 'network'));
-      await context.docker.containerCreator.remove('ldbc-snb-decentralized-server');
+      await context.docker.containerCreator.remove('solidbench-server');
     }
   }
 }

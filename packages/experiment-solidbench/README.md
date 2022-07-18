@@ -1,15 +1,15 @@
-# JBR Experiment - LDBC SNB Decentralized
+# JBR Experiment - SolidBench
 
 [![Build status](https://github.com/rubensworks/jbr.js/workflows/CI/badge.svg)](https://github.com/rubensworks/jbr.js/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master)](https://coveralls.io/github/rubensworks/jbr.js?branch=master)
-[![npm version](https://badge.fury.io/js/%40jbr-experiment%2Fldbc-snb-decentralized.svg)](https://www.npmjs.com/package/@jbr-experiment/ldbc-snb-decentralized)
+[![npm version](https://badge.fury.io/js/%40jbr-experiment%2Fsolidbench.svg)](https://www.npmjs.com/package/@jbr-experiment/solidbench)
 
-A [jbr](https://github.com/rubensworks/jbr.js/tree/master/packages/jbr) experiment type for the [decentralized LDBC SNB social network benchmark](https://github.com/rubensworks/ldbc-snb-decentralized.js).
+A [jbr](https://github.com/rubensworks/jbr.js/tree/master/packages/jbr) experiment type for the [SolidBench social network benchmark](https://github.com/SolidBench/SolidBench.js).
 
 ## Requirements
 
 * [Node.js](https://nodejs.org/en/) _(1.12 or higher)_
-* [Docker](https://www.docker.com/) _(required for invoking [LDBC SNB generator](https://github.com/ldbc/ldbc_snb_datagen))_
+* [Docker](https://www.docker.com/) _(required for invoking [LDBC SNB generator](https://github.com/ldbc/ldbc_snb_datagen_hadoop))_
 * [jbr](https://github.com/rubensworks/jbr.js/tree/master/packages/jbr) _(required for initializing, preparing, and running experiments on the command line)_
 
 ## Quick start
@@ -32,7 +32,7 @@ $ yarn global add jbr
 Using the `jbr` CLI tool, initialize a new experiment:
 
 ```bash
-$ jbr init ldbc-snb-decentralized my-experiment
+$ jbr init solidbench my-experiment
 $ cd my-experiment
 ```
 
@@ -107,10 +107,10 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
 {
   "@context": [
     "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/context.jsonld",
-    "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/ldbc-snb-decentralized/^1.0.0/components/context.jsonld"
+    "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/solidbench/^1.0.0/components/context.jsonld"
   ],
   "@id": "urn:jrb:my-experiment",
-  "@type": "ExperimentLdbcSnbDecentralized",
+  "@type": "ExperimentSolidBench",
   "scale": "0.1",
   "configGenerateAux": "input/config-enhancer.json",
   "configFragment": "input/config-fragmenter.json",
@@ -131,7 +131,7 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
   "queryRunnerReplication": 3,
   "queryRunnerWarmupRounds": 1,
   "queryRunnerRecordTimestamps": true,
-  "queryRunnerUpQuery": "SELECT * WHERE { <http://ldbc-snb-decentralized-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1",
+  "queryRunnerUpQuery": "SELECT * WHERE { <http://solidbench-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1",
   "queryRunnerUrlParamsInit": {},
   "queryRunnerUrlParamsRun": {},
   "hookSparqlEndpoint": {
@@ -143,23 +143,23 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
 
 Any config changes require re-running the prepare step.
 
-More background information on these config options can be found in the README of the [decentralized LDBC SNB social network benchmark](https://github.com/rubensworks/ldbc-snb-decentralized.js).
+More background information on these config options can be found in the README of the [SolidBench social network benchmark](https://github.com/SolidBench/SolidBench.js).
 
 ### Configuration fields
 
 * `scale`: The SNB scale factor
-* `configGenerateAux`: Path to enhancement config for [`ldbc-snb-enhancer`](https://github.com/rubensworks/ldbc-snb-enhancer.js/).
-* `configFragment`: Path to fragmentation config for [`rdf-dataset-fragmenter`](https://github.com/rubensworks/rdf-dataset-fragmenter.js).
-* `configFragmentAux`: Path to enhancement's fragmentation config for [`rdf-dataset-fragmenter`](https://github.com/rubensworks/rdf-dataset-fragmenter.js).
-* `configQueries`: Path to query instantiation config for [`sparql-query-parameter-instantiator`](https://github.com/rubensworks/sparql-query-parameter-instantiator.js).
+* `configGenerateAux`: Path to enhancement config for [`ldbc-snb-enhancer`](https://github.com/SolidBench/ldbc-snb-enhancer.js/).
+* `configFragment`: Path to fragmentation config for [`rdf-dataset-fragmenter`](https://github.com/SolidBench/rdf-dataset-fragmenter.js).
+* `configFragmentAux`: Path to enhancement's fragmentation config for [`rdf-dataset-fragmenter`](https://github.com/SolidBench/rdf-dataset-fragmenter.js).
+* `configQueries`: Path to query instantiation config for [`sparql-query-parameter-instantiator`](https://github.com/SolidBench/sparql-query-parameter-instantiator.js).
 * `configServer`: Path to server config for [Solid Community Server](https://github.com/solid/community-server/).
-* `directoryQueryTemplates`: Path to the directory containing SPARQL query templates for [`sparql-query-parameter-instantiator`](https://github.com/rubensworks/sparql-query-parameter-instantiator.js).
+* `directoryQueryTemplates`: Path to the directory containing SPARQL query templates for [`sparql-query-parameter-instantiator`](https://github.com/SolidBench/sparql-query-parameter-instantiator.js).
 * `overwriteFilesDuringPrepare` A flag to indicate whether or not the fragmentations should always be fully recreated during the prepare step. Otherwise they will be cached until deleted manually.
-* `hadoopMemory`: Memory limit for Hadoop for [LDBC SNB](https://github.com/ldbc/ldbc_snb_datagen).
-* `dockerfileServer`: Path to a Dockerfile for [Solid Community Server](https://github.com/solid/community-server/).
-* `serverPort`: HTTP Port for [Solid Community Server](https://github.com/solid/community-server/).
-* `serverLogLevel`: Logging level for [Solid Community Server](https://github.com/solid/community-server/).
-* `serverResourceConstraints`: Resource constraints for the [Solid Community Server](https://github.com/solid/community-server/) Docker container.
+* `hadoopMemory`: Memory limit for Hadoop for [LDBC SNB](https://github.com/ldbc/ldbc_snb_datagen_hadoop).
+* `dockerfileServer`: Path to a Dockerfile for [Solid Community Server](https://github.com/CommunitySolidServer/CommunitySolidServer).
+* `serverPort`: HTTP Port for [Solid Community Server](https://github.com/CommunitySolidServer/CommunitySolidServer).
+* `serverLogLevel`: Logging level for [Solid Community Server](https://github.com/CommunitySolidServer/CommunitySolidServer).
+* `serverResourceConstraints`: Resource constraints for the [Solid Community Server](https://github.com/CommunitySolidServer/CommunitySolidServer) Docker container.
 * `endpointUrl`: URL through which the SPARQL endpoint of the `hookSparqlEndpoint` hook will be exposed.
 * `queryRunnerReplication`: Number of replication runs for [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
 * `queryRunnerWarmupRounds`: Number of warmup runs for [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).

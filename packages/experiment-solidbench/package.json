@@ -1,7 +1,7 @@
 {
-  "name": "@jbr-experiment/ldbc-snb-decentralized",
+  "name": "@jbr-experiment/solidbench",
   "version": "1.0.2",
-  "description": "LDBC SNB Decentralized experiment handler for JBR",
+  "description": "SolidBench experiment handler for JBR",
   "main": "index.js",
   "typings": "index",
   "lsd:module": true,
@@ -9,7 +9,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/rubensworks/jbr.js.git",
-    "directory": "packages/experiment-ldbc-snb-decentralized"
+    "directory": "packages/experiment-solidbench"
   },
   "publishConfig": {
     "access": "public"
@@ -21,7 +21,10 @@
   "license": "MIT",
   "keywords": [
     "experiment",
-    "LDBC SNB Decentralized",
+    "solid",
+    "benchmark",
+    "solidbench",
+    "social network",
     "jbr",
     "benchmarking"
   ],
@@ -65,7 +68,7 @@
     "@types/fs-extra": "^9.0.11",
     "@types/yargs": "^17.0.0",
     "fs-extra": "^10.0.0",
-    "ldbc-snb-decentralized": "^1.1.1",
+    "solidbench": "^1.2.0",
     "sparql-benchmark-runner": "^2.6.0"
   }
 }

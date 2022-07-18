@@ -5,10 +5,10 @@ import type { Hook, ITaskContext,
   DockerResourceConstraints, ProcessHandler } from 'jbr';
 import { StaticDockerResourceConstraints, createExperimentPaths } from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';
-import { ExperimentLdbcSnbDecentralized } from '../lib/ExperimentLdbcSnbDecentralized';
+import { ExperimentSolidBench } from '../lib/ExperimentSolidBench';
 
 let generatorGenerate: any;
-jest.mock('ldbc-snb-decentralized/lib/Generator', () => ({
+jest.mock('solidbench/lib/Generator', () => ({
   Generator: jest.fn().mockImplementation(() => ({
     generate: generatorGenerate,
   })),
@@ -74,7 +74,7 @@ jest.mock('fs-extra', () => ({
   },
 }));
 
-describe('ExperimentLdbcSnbDecentralized', () => {
+describe('ExperimentSolidBench', () => {
   let serverHandlerStopCollectingStats: any;
   let serverHandler: DockerContainerHandler;
   let logger: any;
@@ -83,7 +83,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
   let endpointHandlerStopCollectingStats: any;
   let endpointHandler: ProcessHandler;
   let resourceConstraints: DockerResourceConstraints;
-  let experiment: ExperimentLdbcSnbDecentralized;
+  let experiment: ExperimentSolidBench;
   beforeEach(() => {
     serverHandlerStopCollectingStats = jest.fn();
     serverHandler = <any> {
@@ -144,7 +144,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       await onStop();
     });
     resourceConstraints = new StaticDockerResourceConstraints({}, {});
-    experiment = new ExperimentLdbcSnbDecentralized(
+    experiment = new ExperimentSolidBench(
       '0.1',
       'input/config-enhancer.json',
       'input/config-fragmenter.json',
@@ -164,7 +164,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       3,
       1,
       true,
-      `SELECT * WHERE { <http://ldbc-snb-decentralized-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1`,
+      `SELECT * WHERE { <http://solidbench-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1`,
       {},
       {},
     );
@@ -185,7 +185,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
       await experiment.replaceBaseUrlInDir('dir');
 
       expect(filesOut['dir/a.ttl']).toEqual('');
-      expect(filesOut['dir/b.ttl']).toEqual('ldbc-snb-decentralized-server:3000');
+      expect(filesOut['dir/b.ttl']).toEqual('solidbench-server:3000');
       expect(filesOut['dir/c/c.ttl']).toEqual('');
       expect(filesOut['dir/c/d.ttl']).toEqual('');
     });
@@ -202,7 +202,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
         cwd: context.cwd,
         dockerFile: 'input/dockerfiles/Dockerfile-server',
         auxiliaryFiles: [ 'input/config-server.json' ],
-        imageName: 'IMG-ldbc-snb-d-server',
+        imageName: 'IMG-solidbench-server',
         buildArgs: {
           CONFIG_SERVER: 'input/config-server.json',
           BASE_URL: 'http://localhost:3000',
@@ -217,7 +217,7 @@ describe('ExperimentLdbcSnbDecentralized', () => {
 
       await experiment.prepare(context, false);
 
-      expect(context.logger.warn).toHaveBeenCalledWith(`LDBC SNB Decentralized recommends allocating at least 8192 MB of memory, while only 4096 was allocated.
+      expect(context.logger.warn).toHaveBeenCalledWith(`SolidBench recommends allocating at least 8192 MB of memory, while only 4096 was allocated.
 This can be configured using Node's --max_old_space_size option.`);
     });
 
@@ -230,7 +230,7 @@ This can be configured using Node's --max_old_space_size option.`);
         cwd: context.cwd,
         dockerFile: 'input/dockerfiles/Dockerfile-server',
         auxiliaryFiles: [ 'input/config-server.json' ],
-        imageName: 'IMG-ldbc-snb-d-server',
+        imageName: 'IMG-solidbench-server',
         buildArgs: {
           CONFIG_SERVER: 'input/config-server.json',
           BASE_URL: 'http://localhost:3000',
@@ -246,11 +246,11 @@ This can be configured using Node's --max_old_space_size option.`);
       await experiment.run(context);
 
       expect(context.docker.networkCreator.create).toHaveBeenCalledWith({
-        Name: 'IMG-ldbc-snb-d-network',
+        Name: 'IMG-solidbench-network',
       });
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
-        containerName: 'ldbc-snb-decentralized-server',
-        imageName: 'IMG-ldbc-snb-d-server',
+        containerName: 'solidbench-server',
+        imageName: 'IMG-solidbench-server',
         resourceConstraints,
         logFilePath: Path.join('CWD', 'output', 'logs', 'server.txt'),
         statsFilePath: Path.join(context.cwd, 'output', 'stats-server.csv'),
@@ -386,8 +386,8 @@ This can be configured using Node's --max_old_space_size option.`);
       expect(hookSparqlEndpoint.clean).toHaveBeenCalledWith(context, { docker: true });
 
       expect(context.docker.networkCreator.remove)
-        .toHaveBeenCalledWith('IMG-ldbc-snb-d-network');
-      expect(context.docker.containerCreator.remove).toHaveBeenCalledWith('ldbc-snb-decentralized-server');
+        .toHaveBeenCalledWith('IMG-solidbench-network');
+      expect(context.docker.containerCreator.remove).toHaveBeenCalledWith('solidbench-server');
     });
   });
 });

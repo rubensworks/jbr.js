@@ -7886,27 +7886,10 @@ kuler@^2.0.0:
   resolved "https://registry.yarnpkg.com/kuler/-/kuler-2.0.0.tgz#e2c570a3800388fb44407e851531c1d670b061b3"
   integrity sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==
 
-ldbc-snb-decentralized@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/ldbc-snb-decentralized/-/ldbc-snb-decentralized-1.1.1.tgz#ce00f3704c7afe9e62bb4461542ff36a1892f254"
-  integrity sha512-ceUEQoncJS6GK75/OQzsybzV+QCtMN/P9YZe/E8S3uHvau39Ta52yBqYbVBDGk0KMv9Ea68hhIPqI6USWcDXTw==
-  dependencies:
-    "@solid/community-server" "^5.0.0-alpha.0"
-    "@types/dockerode" "^3.2.3"
-    "@types/unzipper" "^0.10.5"
-    "@types/yargs" "^16.0.1"
-    dockerode "^3.2.1"
-    ldbc-snb-enhancer "^2.1.1"
-    ldbc-snb-validation-generator "^1.1.0"
-    rdf-dataset-fragmenter "^2.2.1"
-    sparql-query-parameter-instantiator "^2.5.1"
-    unzipper "^0.10.11"
-    yargs "^16.2.0"
-
-ldbc-snb-enhancer@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/ldbc-snb-enhancer/-/ldbc-snb-enhancer-2.1.1.tgz#47cbf66938ee8ccb02dd081ff7769cb19624c5e6"
-  integrity sha512-Y7QGaW59muFaPUVKEua8T1wlOtFPjKtt0kj61y6foIgN+fOGRchEpahxmlx4mKTF9ZoAGRI5vz6TWzE8+UHH6Q==
+ldbc-snb-enhancer@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/ldbc-snb-enhancer/-/ldbc-snb-enhancer-2.2.0.tgz#acf2eccd8111249e6aeb6aeecbca57bb13f9f514"
+  integrity sha512-kntEoZYojO+Tl85+cEe6dLBHvDGEvkqi4Mp7k4yzF+fNO7wZkXXbn5YL28MPYW4BTUrGurg7w0y2Y8+kyGVPNg==
   dependencies:
     "@rdfjs/types" "*"
     componentsjs "^5.0.1"
@@ -10124,6 +10107,23 @@ socks@^2.3.3, socks@^2.6.2:
   dependencies:
     ip "^1.1.5"
     smart-buffer "^4.2.0"
+
+solidbench@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/solidbench/-/solidbench-1.2.0.tgz#9b231fe564646e13d9415aea4dad9141a4a2fdb2"
+  integrity sha512-7UKjA9U7ilE61tV5U6GxsnAr7djXouKl4YyaQ+NuQ0Xg93KT2dMdCriYfXWn1J4ngYAaaQlyUPsMTKMvS98L6A==
+  dependencies:
+    "@solid/community-server" "^5.0.0-alpha.0"
+    "@types/dockerode" "^3.2.3"
+    "@types/unzipper" "^0.10.5"
+    "@types/yargs" "^16.0.1"
+    dockerode "^3.2.1"
+    ldbc-snb-enhancer "^2.2.0"
+    ldbc-snb-validation-generator "^1.1.0"
+    rdf-dataset-fragmenter "^2.2.1"
+    sparql-query-parameter-instantiator "^2.5.1"
+    unzipper "^0.10.11"
+    yargs "^16.2.0"
 
 sort-keys@^2.0.0:
   version "2.0.0"

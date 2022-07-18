@@ -2,15 +2,15 @@ import * as Path from 'path';
 import * as fs from 'fs-extra';
 import type { IExperimentPaths } from 'jbr';
 import { ExperimentHandler } from 'jbr';
-import { Templates } from 'ldbc-snb-decentralized';
-import { ExperimentLdbcSnbDecentralized } from './ExperimentLdbcSnbDecentralized';
+import { Templates } from 'solidbench';
+import { ExperimentSolidBench } from './ExperimentSolidBench';
 
 /**
- * An experiment handler for the LDBC SNB Decentralized benchmark.
+ * An experiment handler for the SolidBench social network benchmark.
  */
-export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<ExperimentLdbcSnbDecentralized> {
+export class ExperimentHandlerSolidBench extends ExperimentHandler<ExperimentSolidBench> {
   public constructor() {
-    super('ldbc-snb-decentralized', ExperimentLdbcSnbDecentralized.name);
+    super('solidbench', ExperimentSolidBench.name);
   }
 
   public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
@@ -29,7 +29,7 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
       endpointUrl: 'http://localhost:3001/sparql',
       serverPort: 3_000,
       serverLogLevel: 'info',
-      serverBaseUrl: 'http://ldbc-snb-decentralized-server:3000/',
+      serverBaseUrl: 'http://solidbench-server:3000/',
       serverResourceConstraints: {
         '@type': 'StaticDockerResourceConstraints',
         cpu_percentage: 100,
@@ -37,7 +37,7 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
       queryRunnerReplication: 3,
       queryRunnerWarmupRounds: 1,
       queryRunnerRecordTimestamps: true,
-      queryRunnerUpQuery: `SELECT * WHERE { <http://ldbc-snb-decentralized-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1`,
+      queryRunnerUpQuery: `SELECT * WHERE { <http://solidbench-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1`,
       queryRunnerUrlParamsInit: {},
       queryRunnerUrlParamsRun: {},
     };
@@ -47,7 +47,7 @@ export class ExperimentHandlerLdbcSnbDecentralized extends ExperimentHandler<Exp
     return [ 'hookSparqlEndpoint' ];
   }
 
-  public async init(experimentPaths: IExperimentPaths, experiment: ExperimentLdbcSnbDecentralized): Promise<void> {
+  public async init(experimentPaths: IExperimentPaths, experiment: ExperimentSolidBench): Promise<void> {
     // Copy config templates
     await Promise.all([
       fs.copyFile(Templates.ENHANCEMENT_CONFIG,

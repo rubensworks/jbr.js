@@ -1,7 +1,7 @@
 import * as Path from 'path';
 import type { IExperimentPaths } from 'jbr';
 import { createExperimentPaths } from 'jbr';
-import { ExperimentHandlerLdbcSnbDecentralized } from '../lib/ExperimentHandlerLdbcSnbDecentralized';
+import { ExperimentHandlerSolidBench } from '../lib/ExperimentHandlerSolidBench';
 
 let filesOut: Record<string, string> = {};
 let dirsOut: Record<string, boolean | string> = {};
@@ -46,11 +46,11 @@ jest.mock('fs-extra', () => ({
   },
 }));
 
-describe('ExperimentHandlerLdbcSnbDecentralized', () => {
-  let handler: ExperimentHandlerLdbcSnbDecentralized;
+describe('ExperimentHandlerSolidBench', () => {
+  let handler: ExperimentHandlerSolidBench;
   let experimentPaths: IExperimentPaths;
   beforeEach(() => {
-    handler = new ExperimentHandlerLdbcSnbDecentralized();
+    handler = new ExperimentHandlerSolidBench();
     experimentPaths = createExperimentPaths('dir');
 
     filesOut = {};
@@ -59,11 +59,11 @@ describe('ExperimentHandlerLdbcSnbDecentralized', () => {
 
   describe('exposes public fields', () => {
     it('should expose an id', () => {
-      expect(handler.id).toEqual('ldbc-snb-decentralized');
+      expect(handler.id).toEqual('solidbench');
     });
 
     it('should expose an experimentClassName', () => {
-      expect(handler.experimentClassName).toEqual('ExperimentLdbcSnbDecentralized');
+      expect(handler.experimentClassName).toEqual('ExperimentSolidBench');
     });
   });
 
