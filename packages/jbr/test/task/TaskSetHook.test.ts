@@ -107,7 +107,7 @@ describe('TaskSetHook', () => {
     files = {
       [Path.join('CWD', 'jbr-experiment.json')]: `{
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld",
     "context1",
     "context2"
   ],
@@ -120,7 +120,7 @@ describe('TaskSetHook', () => {
 }`,
       [Path.join('CWD', 'jbr-experiment.json.template')]: `{
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld",
     "context1",
     "context2"
   ],
@@ -144,7 +144,7 @@ describe('TaskSetHook', () => {
       expect(filesOut).toEqual({
         [Path.join('CWD', 'jbr-experiment.json')]: `{
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld",
     "context1",
     "context2",
     "context3"
@@ -169,7 +169,7 @@ describe('TaskSetHook', () => {
       expect(filesOut).toEqual({
         [Path.join('CWD', 'jbr-experiment.json')]: `{
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld",
     "context1",
     "context2",
     "context3"
@@ -194,7 +194,7 @@ describe('TaskSetHook', () => {
       expect(filesOut).toEqual({
         [Path.join('CWD', 'jbr-experiment.json.template')]: `{
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld",
     "context1",
     "context2",
     "context3"
@@ -254,7 +254,7 @@ describe('TaskSetHook', () => {
       expect(filesOut).toEqual({
         [Path.join('CWD', 'jbr-experiment.json')]: `{
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld",
     "context1",
     "context2",
     "context3"
@@ -289,7 +289,7 @@ describe('TaskSetHook', () => {
 
       files[Path.join('CWD', 'jbr-experiment.json')] = `{
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld",
     "context1",
     "context2"
   ],
@@ -310,7 +310,7 @@ describe('TaskSetHook', () => {
       expect(filesOut).toEqual({
         [Path.join('CWD', 'jbr-experiment.json')]: `{
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld",
     "context1",
     "context2",
     "context3"

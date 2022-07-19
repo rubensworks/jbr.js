@@ -22,8 +22,8 @@ export class ExperimentLoader {
   public static readonly COMBINATIONS_NAME = 'jbr-combinations.json';
   public static readonly PACKAGEJSON_NAME = 'package.json';
   public static readonly PREPAREDMARKER_PATH = [ 'generated', '.prepared' ];
-  public static readonly IRI_EXPERIMENT_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/experiment/ExperimentHandler.jsonld#ExperimentHandler`;
-  public static readonly IRI_HOOK_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/^1.0.0/components/hook/HookHandler.jsonld#HookHandler`;
+  public static readonly IRI_EXPERIMENT_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/experiment/ExperimentHandler.jsonld#ExperimentHandler`;
+  public static readonly IRI_HOOK_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/hook/HookHandler.jsonld#HookHandler`;
 
   private readonly componentsManager: ComponentsManager<any>;
 
