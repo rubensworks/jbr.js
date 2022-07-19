@@ -57,10 +57,10 @@
     "validate": "npm ls"
   },
   "devDependencies": {
-    "jbr": "^1.0.2"
+    "jbr": "^2.0.0"
   },
   "peerDependencies": {
-    "jbr": ">=1.0.0"
+    "jbr": ">=2.0.0"
   },
   "dependencies": {
     "@types/fs-extra": "^9.0.11",
