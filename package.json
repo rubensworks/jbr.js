@@ -1,6 +1,6 @@
 {
   "private": true,
-  "repository": "https://github.com/rubensworks/jbr/",
+  "repository": "https://github.com/rubensworks/jbr.js/",
   "workspaces": [
     "packages/*"
   ],
