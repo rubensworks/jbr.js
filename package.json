@@ -1,5 +1,6 @@
 {
   "private": true,
+  "name": "jbr-monorepo",
   "repository": "https://github.com/rubensworks/jbr.js/",
   "workspaces": [
     "packages/*"
