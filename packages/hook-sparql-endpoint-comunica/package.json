@@ -1,6 +1,6 @@
 {
   "name": "@jbr-hook/sparql-endpoint-comunica",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Comunica SPARQL endpoint hook handler for JBR",
   "main": "index.js",
   "typings": "index",
