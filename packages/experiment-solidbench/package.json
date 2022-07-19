@@ -69,6 +69,6 @@
     "@types/yargs": "^17.0.0",
     "fs-extra": "^10.0.0",
     "solidbench": "^1.2.0",
-    "sparql-benchmark-runner": "^2.6.0"
+    "sparql-benchmark-runner": "^2.7.0"
   }
 }
