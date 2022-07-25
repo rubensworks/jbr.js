@@ -42,7 +42,7 @@ describe('ExperimentLoader', () => {
         }),
       },
       instantiate: jest.fn(iri => {
-        if (iri === 'urn:jrb:experiment-combinations') {
+        if (iri === 'urn:jbr:experiment-combinations') {
           return {
             getFactorCombinations: () => [{}, {}],
           };
@@ -81,7 +81,7 @@ describe('ExperimentLoader', () => {
   describe('getDefaultExperimentIri', () => {
     it('returns an IRI', () => {
       expect(ExperimentLoader.getDefaultExperimentIri('experiment'))
-        .toEqual('urn:jrb:experiment');
+        .toEqual('urn:jbr:experiment');
     });
   });
 
@@ -100,7 +100,7 @@ describe('ExperimentLoader', () => {
       expect(await loader.instantiateExperiments('path/to/experiment'))
         .toEqual({
           experiments: [
-            { CONFIG: 'urn:jrb:experiment' },
+            { CONFIG: 'urn:jbr:experiment' },
           ],
           experimentPathsArray: [
             createExperimentPaths('path/to/experiment'),
@@ -108,7 +108,7 @@ describe('ExperimentLoader', () => {
           combinationProvider: undefined,
         });
       expect(componentsManager.configRegistry.register).toHaveBeenCalledWith('path/to/experiment/jbr-experiment.json');
-      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment');
+      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jbr:experiment');
     });
 
     it('throws when config file does not exist', async() => {
@@ -126,8 +126,8 @@ describe('ExperimentLoader', () => {
       expect(await loader.instantiateExperiments('path/to/experiment'))
         .toEqual({
           experiments: [
-            { CONFIG: 'urn:jrb:experiment:combination_0' },
-            { CONFIG: 'urn:jrb:experiment:combination_1' },
+            { CONFIG: 'urn:jbr:experiment:combination_0' },
+            { CONFIG: 'urn:jbr:experiment:combination_1' },
           ],
           experimentPathsArray: [
             createExperimentPaths(Path.join('path/to/experiment', 'combinations', 'combination_0'), 0),
@@ -141,13 +141,13 @@ describe('ExperimentLoader', () => {
         Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json'));
       expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(3,
         Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json'));
-      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment:combination_0');
-      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment:combination_1');
+      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jbr:experiment:combination_0');
+      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jbr:experiment:combination_1');
     });
 
     it('instantiates a combinations-based config with common generated', async() => {
       (componentsManager).instantiate = jest.fn(iri => {
-        if (iri === 'urn:jrb:experiment-combinations') {
+        if (iri === 'urn:jbr:experiment-combinations') {
           return {
             commonGenerated: true,
             getFactorCombinations: () => [{}, {}],
@@ -165,8 +165,8 @@ describe('ExperimentLoader', () => {
       expect(await loader.instantiateExperiments('path/to/experiment'))
         .toEqual({
           experiments: [
-            { CONFIG: 'urn:jrb:experiment:combination_0' },
-            { CONFIG: 'urn:jrb:experiment:combination_1' },
+            { CONFIG: 'urn:jbr:experiment:combination_0' },
+            { CONFIG: 'urn:jbr:experiment:combination_1' },
           ],
           experimentPathsArray: [
             {
@@ -186,8 +186,8 @@ describe('ExperimentLoader', () => {
         Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json'));
       expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(3,
         Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json'));
-      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment:combination_0');
-      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jrb:experiment:combination_1');
+      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jbr:experiment:combination_0');
+      expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jbr:experiment:combination_1');
     });
 
     it('throws when a combinations-based experiment is not generated', async() => {

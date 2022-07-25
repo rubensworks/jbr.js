@@ -51,7 +51,7 @@ export class ExperimentLoader {
   }
 
   public static getDefaultExperimentIri(experimentName: string): string {
-    return `urn:jrb:${experimentName}`;
+    return `urn:jbr:${experimentName}`;
   }
 
   /**
