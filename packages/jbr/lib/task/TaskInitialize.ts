@@ -133,6 +133,7 @@ export class TaskInitialize {
       // Generate initial combinations
       await new TaskGenerateCombinations({
         ...this.context,
+        mainModulePath: this.targetDirectory,
         experimentPaths: createExperimentPaths(this.targetDirectory, 0),
       }).generate();
     }
