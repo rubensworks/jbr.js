@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.0.2"></a>
+## [v2.0.2](https://github.com/rubensworks/jbr.js/compare/v2.0.1...v2.0.2) - 2022-07-25
+
+### Fixed
+* [Fix combinations-based init failing in standalone experiments](https://github.com/rubensworks/jbr.js/commit/796609ca2f347496196f04839424f6e3bc2f712a)
+* [Fix incorrect default experiment iri](https://github.com/rubensworks/jbr.js/commit/54ec13fb2b889651b9b39e42ed0dd13c81de30e8)
+
 <a name="v2.0.1"></a>
 ## [v2.0.1](https://github.com/rubensworks/jbr.js/compare/v2.0.0...v2.0.1) - 2022-07-19
 

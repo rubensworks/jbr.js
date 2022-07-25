@@ -50,7 +50,7 @@
     "lint": "eslint . --ext .ts --cache",
     "clean": "rm -rf ./node_modules && rm -rf ./packages/*/node_modules",
     "postinstall": "yarn run build && lerna run prepare",
-    "version": "echo 'ONVERSION' && manual-git-changelog onversion",
+    "version": "manual-git-changelog onversion",
     "prepare": "husky install",
     "doc": "typedoc"
   },
