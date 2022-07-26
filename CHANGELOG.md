@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.0.4"></a>
+## [v2.0.4](https://github.com/rubensworks/jbr.js/compare/v2.0.2...v2.0.4) - 2022-07-26
+
+### Fixed
+* [Fix SolidBench not pulling ldbc-snb-generator Docker image](https://github.com/rubensworks/jbr.js/commit/099a4d2f1c6fda41f14d74338ebad56180f8362a)
+* [Fix bin script hanging on some systems](https://github.com/rubensworks/jbr.js/commit/a1f5668584e8e16d53f1a963ae4b017b991cb602)
+
 <a name="v2.0.3"></a>
 ## [v2.0.3](https://github.com/rubensworks/jbr.js/compare/v2.0.2...v2.0.3) - 2022-07-26
 
