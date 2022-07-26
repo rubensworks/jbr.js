@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.0.3"></a>
+## [v2.0.3](https://github.com/rubensworks/jbr.js/compare/v2.0.2...v2.0.3) - 2022-07-26
+
+### Fixed
+* [Fix experiments becoming invalid upon directory renaming](https://github.com/rubensworks/jbr.js/commit/346658d5e803df808eef2929d316517d10745866)
+
 <a name="v2.0.2"></a>
 ## [v2.0.2](https://github.com/rubensworks/jbr.js/compare/v2.0.1...v2.0.2) - 2022-07-25
 

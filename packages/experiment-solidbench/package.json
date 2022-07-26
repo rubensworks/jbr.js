@@ -1,6 +1,6 @@
 {
   "name": "@jbr-experiment/solidbench",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "SolidBench experiment handler for JBR",
   "main": "index.js",
   "typings": "index",
@@ -59,7 +59,7 @@
     "validate": "npm ls"
   },
   "devDependencies": {
-    "jbr": "^2.0.2"
+    "jbr": "^2.0.3"
   },
   "peerDependencies": {
     "jbr": ">=2.0.0"
