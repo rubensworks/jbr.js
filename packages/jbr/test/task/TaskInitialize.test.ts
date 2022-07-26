@@ -152,9 +152,11 @@ describe('TaskInitialize', () => {
         [Path.join('CWD', 'TARGETDIR', 'package.json')]: `{
   "private": true,
   "name": "NAME",
-  "dependencies": {},
+  "dependencies": {
+    "cross-env": "^7.0.3"
+  },
   "scripts": {
-    "jbr": "jbr",
+    "jbr": "cross-env NODE_OPTIONS=--max-old-space-size=8192 jbr",
     "validate": "jbr validate"
   }
 }`,
@@ -281,9 +283,11 @@ describe('TaskInitialize', () => {
       [Path.join('CWD', 'TARGETDIR', 'package.json')]: `{
   "private": true,
   "name": "NAME",
-  "dependencies": {},
+  "dependencies": {
+    "cross-env": "^7.0.3"
+  },
   "scripts": {
-    "jbr": "jbr",
+    "jbr": "cross-env NODE_OPTIONS=--max-old-space-size=8192 jbr",
     "validate": "jbr validate"
   }
 }`,

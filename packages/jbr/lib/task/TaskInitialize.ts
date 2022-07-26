@@ -64,9 +64,11 @@ export class TaskInitialize {
     const experimentPackageJson = {
       private: true,
       name: this.experimentName,
-      dependencies: {},
+      dependencies: {
+        'cross-env': '^7.0.3',
+      },
       scripts: {
-        jbr: 'jbr',
+        jbr: 'cross-env NODE_OPTIONS=--max-old-space-size=8192 jbr',
         validate: 'jbr validate',
       },
     };
