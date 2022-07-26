@@ -23,12 +23,11 @@ export class TaskGenerateCombinations {
     // Determine combinations
     const experimentLoader = await ExperimentLoader.build(this.context.mainModulePath);
     const combinationsProvider = await experimentLoader
-      .instantiateCombinationProvider(this.context.experimentPaths.root);
+      .instantiateCombinationProvider(this.context.experimentName, this.context.experimentPaths.root);
     const combinations = combinationsProvider.getFactorCombinations();
 
     // Determine experiment id
-    const experimentName = Path.basename(this.context.experimentPaths.root);
-    const experimentId = ExperimentLoader.getDefaultExperimentIri(experimentName);
+    const experimentId = ExperimentLoader.getDefaultExperimentIri(this.context.experimentName);
 
     // Load config template
     const configTemplatePath = Path.join(this.context.experimentPaths.root, ExperimentLoader.CONFIG_TEMPLATE_NAME);
@@ -77,7 +76,7 @@ export class TaskGenerateCombinations {
 
     // Instantiate experiments for validation
     await (await ExperimentLoader.build(this.context.mainModulePath))
-      .instantiateExperiments(this.context.experimentPaths.root);
+      .instantiateExperiments(this.context.experimentName, this.context.experimentPaths.root);
 
     return combinations;
   }

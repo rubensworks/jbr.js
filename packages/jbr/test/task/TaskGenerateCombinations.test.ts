@@ -72,6 +72,7 @@ describe('TaskGenerateCombinations', () => {
     context = {
       cwd: 'CWD',
       experimentPaths: createExperimentPaths('CWD'),
+      experimentName: 'EXP',
       mainModulePath: 'MMP',
       verbose: true,
       closeExperiment: jest.fn(),
@@ -131,7 +132,7 @@ describe('TaskGenerateCombinations', () => {
       expect(symlinks[Path.join('CWD', 'combinations', 'combination_1', 'output')])
         .toEqual(Path.join('CWD', 'output', 'combination_1'));
 
-      expect(experimentLoader.instantiateExperiments).toHaveBeenCalledWith('CWD');
+      expect(experimentLoader.instantiateExperiments).toHaveBeenCalledWith('EXP', 'CWD');
     });
 
     it('throws on an invalid combinations experiment', async() => {
@@ -183,7 +184,7 @@ describe('TaskGenerateCombinations', () => {
       expect(symlinks[Path.join('CWD', 'combinations', 'combination_1', 'output')])
         .toEqual(Path.join('CWD', 'output', 'combination_1'));
 
-      expect(experimentLoader.instantiateExperiments).toHaveBeenCalledWith('CWD');
+      expect(experimentLoader.instantiateExperiments).toHaveBeenCalledWith('EXP', 'CWD');
     });
   });
 

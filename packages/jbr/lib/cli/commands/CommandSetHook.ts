@@ -1,4 +1,3 @@
-import * as Path from 'path';
 import type { Argv } from 'yargs';
 import type { ITaskContext } from '../../task/ITaskContext';
 import { TaskSetHook } from '../../task/TaskSetHook';
@@ -18,7 +17,7 @@ export const handler = (argv: Record<string, any>): Promise<void> => wrapCommand
     const npmInstaller = await createNpmInstaller(context, argv.next);
     const output = await wrapVisualProgress('Setting hook in experiment',
       async() => new TaskSetHook(context, argv.hook.split('/'), argv.handler, npmInstaller).set());
-    context.logger.info(`Handler '${argv.handler}' has been set for hook '${argv.hook}' in experiment '${Path.basename(context.experimentPaths.root)}'`);
+    context.logger.info(`Handler '${argv.handler}' has been set for hook '${argv.hook}' in experiment '${context.experimentName}'`);
 
     if (output.subHookNames.length > 0) {
       context.logger.warn(`\nThis hook requires the following sub-hooks before it can be used:`);

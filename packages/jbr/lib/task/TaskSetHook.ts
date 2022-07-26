@@ -90,7 +90,7 @@ export class TaskSetHook {
 
     // Instantiate experiment for validation
     const { experiments } = await experimentLoader
-      .instantiateExperiments(this.context.experimentPaths.root);
+      .instantiateExperiments(this.context.experimentName, this.context.experimentPaths.root);
 
     // Invoke the handler type's init logic
     for (const experiment of experiments) {

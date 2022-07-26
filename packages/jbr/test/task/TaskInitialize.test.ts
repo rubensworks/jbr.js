@@ -40,6 +40,7 @@ jest.mock('../../lib/task/ExperimentLoader', () => ({
     build: jest.fn(() => experimentLoader),
     getDefaultExperimentIri: () => 'IRI',
     requireCombinationsExperiment: () => true,
+    getExperimentName: () => 'EXP-NAME',
   },
 }));
 
@@ -59,6 +60,7 @@ describe('TaskInitialize', () => {
     context = {
       cwd: 'CWD',
       experimentPaths: createExperimentPaths('CWD'),
+      experimentName: 'EXP',
       mainModulePath: 'MMP',
       verbose: true,
       closeExperiment: jest.fn(),
@@ -114,7 +116,7 @@ describe('TaskInitialize', () => {
       });
 
       expect(handler.init)
-        .toHaveBeenCalledWith(createExperimentPaths(Path.join('CWD', 'TARGETDIR')), { CONFIG: 'CWD/TARGETDIR' });
+        .toHaveBeenCalledWith(createExperimentPaths(Path.join('CWD', 'TARGETDIR')), { CONFIG: 'EXP-NAME' });
 
       expect(dirsOut).toEqual({
         [Path.join('CWD', 'TARGETDIR')]: true,
@@ -234,7 +236,7 @@ describe('TaskInitialize', () => {
     expect(taskGenerateCombinations).toHaveBeenCalled();
 
     expect(handler.init)
-      .toHaveBeenCalledWith(createExperimentPaths(Path.join('CWD', 'TARGETDIR')), { CONFIG: 'CWD/TARGETDIR' });
+      .toHaveBeenCalledWith(createExperimentPaths(Path.join('CWD', 'TARGETDIR')), { CONFIG: 'EXP-NAME' });
 
     expect(dirsOut).toEqual({
       [Path.join('CWD', 'TARGETDIR')]: true,

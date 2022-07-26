@@ -21,6 +21,12 @@ jest.mock('fs-extra', () => ({
   async pathExists(filePath: string) {
     return filePath in files;
   },
+  async readFile(filePath: string, encoding: string) {
+    if (filePath in files) {
+      return files[filePath];
+    }
+    return jest.requireActual('fs-extra').readFile(filePath, encoding);
+  },
 }));
 
 describe('ExperimentLoader', () => {
@@ -71,6 +77,17 @@ describe('ExperimentLoader', () => {
     });
   });
 
+  describe('getExperimentName', () => {
+    it('handles an experiment with valid package.json', async() => {
+      files[Path.join('path', 'package.json')] = `{"name":"exp-name"}`;
+      expect(await ExperimentLoader.getExperimentName('path')).toEqual('exp-name');
+    });
+
+    it('handles an experiment with invalid package.json', async() => {
+      expect(await ExperimentLoader.getExperimentName('path')).toEqual('dummy');
+    });
+  });
+
   describe('buildComponentsManager', () => {
     it('returns a new ComponentsManager', async() => {
       expect(await ExperimentLoader.buildComponentsManager('path'))
@@ -97,7 +114,7 @@ describe('ExperimentLoader', () => {
   describe('instantiateExperiments', () => {
     it('instantiates a config', async() => {
       files['path/to/experiment/jbr-experiment.json'] = `TRUE`;
-      expect(await loader.instantiateExperiments('path/to/experiment'))
+      expect(await loader.instantiateExperiments('experiment', 'path/to/experiment'))
         .toEqual({
           experiments: [
             { CONFIG: 'urn:jbr:experiment' },
@@ -112,7 +129,7 @@ describe('ExperimentLoader', () => {
     });
 
     it('throws when config file does not exist', async() => {
-      await expect(loader.instantiateExperiments('path/to/experiment'))
+      await expect(loader.instantiateExperiments('experiment', 'path/to/experiment'))
         .rejects.toThrowError(`Experiment config file could not be found at 'path/to/experiment/jbr-experiment.json'`);
     });
 
@@ -123,7 +140,7 @@ describe('ExperimentLoader', () => {
       files[Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json')] = true;
       files[Path.join('path/to/experiment', 'combinations', 'combination_1')] = true;
       files[Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json')] = true;
-      expect(await loader.instantiateExperiments('path/to/experiment'))
+      expect(await loader.instantiateExperiments('experiment', 'path/to/experiment'))
         .toEqual({
           experiments: [
             { CONFIG: 'urn:jbr:experiment:combination_0' },
@@ -162,7 +179,7 @@ describe('ExperimentLoader', () => {
       files[Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json')] = true;
       files[Path.join('path/to/experiment', 'combinations', 'combination_1')] = true;
       files[Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json')] = true;
-      expect(await loader.instantiateExperiments('path/to/experiment'))
+      expect(await loader.instantiateExperiments('experiment', 'path/to/experiment'))
         .toEqual({
           experiments: [
             { CONFIG: 'urn:jbr:experiment:combination_0' },
@@ -193,7 +210,7 @@ describe('ExperimentLoader', () => {
     it('throws when a combinations-based experiment is not generated', async() => {
       files['path/to/experiment/jbr-experiment.json.template'] = `TRUE`;
       files['path/to/experiment/jbr-combinations.json'] = `TRUE`;
-      await expect(loader.instantiateExperiments('path/to/experiment'))
+      await expect(loader.instantiateExperiments('experiment', 'path/to/experiment'))
         .rejects.toThrowError(`Detected invalid combination-based experiment. It is required to (re-)run 'jbr generate-combinations' first.`);
     });
   });

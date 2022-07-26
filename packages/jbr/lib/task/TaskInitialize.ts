@@ -146,7 +146,8 @@ export class TaskInitialize {
     await fs.createFile(Path.join(this.targetDirectory, 'output', '.keep'));
 
     // Instantiate experiment for validation
-    const { experiments } = await experimentLoader.instantiateExperiments(this.targetDirectory);
+    const { experiments } = await experimentLoader
+      .instantiateExperiments(await ExperimentLoader.getExperimentName(this.targetDirectory), this.targetDirectory);
 
     // Invoke the experiment type's init logic
     for (const experiment of experiments) {

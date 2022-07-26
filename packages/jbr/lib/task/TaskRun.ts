@@ -19,7 +19,7 @@ export class TaskRun {
   public async run(): Promise<void> {
     await ExperimentLoader.requireExperimentPrepared(this.context.experimentPaths.root);
     const { experiments, experimentPathsArray } = await (await ExperimentLoader.build(this.context.mainModulePath))
-      .instantiateExperiments(this.context.experimentPaths.root);
+      .instantiateExperiments(this.context.experimentName, this.context.experimentPaths.root);
     for (const [ i, experiment ] of experiments.entries()) {
       if (this.combination === undefined || this.combination === i) {
         // Log status

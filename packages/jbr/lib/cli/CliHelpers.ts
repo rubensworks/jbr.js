@@ -12,6 +12,7 @@ import { DockerContainerCreator } from '../docker/DockerContainerCreator';
 import { DockerImageBuilder } from '../docker/DockerImageBuilder';
 import { DockerImagePuller } from '../docker/DockerImagePuller';
 import { DockerNetworkCreator } from '../docker/DockerNetworkCreator';
+import { ExperimentLoader } from '../task/ExperimentLoader';
 import type { IExperimentPaths, ITaskContext } from '../task/ITaskContext';
 
 export function createExperimentPaths(basePath: string, combination?: number): IExperimentPaths {
@@ -49,6 +50,7 @@ export async function wrapCommandHandler(
   const context: ITaskContext = {
     cwd: argv.cwd,
     experimentPaths: createExperimentPaths(argv.cwd),
+    experimentName: await ExperimentLoader.getExperimentName(argv.cwd),
     mainModulePath: argv.mainModulePath || argv.cwd,
     verbose: argv.verbose,
     logger: createCliLogger(argv.verbose ? 'verbose' : 'info'),

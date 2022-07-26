@@ -1,4 +1,3 @@
-import * as Path from 'path';
 import * as tar from 'tar';
 import { ExperimentLoader } from './ExperimentLoader';
 import type { ITaskContext } from './ITaskContext';
@@ -20,13 +19,13 @@ export class TaskPack {
 
   public async pack(): Promise<void> {
     const { experimentPathsArray } = await (await ExperimentLoader.build(this.context.mainModulePath))
-      .instantiateExperiments(this.context.experimentPaths.root);
+      .instantiateExperiments(this.context.experimentName, this.context.experimentPaths.root);
 
     await tar.create(
       {
         cwd: this.context.cwd,
         gzip: true,
-        file: this.outputName ?? `jbr-${Path.basename(this.context.cwd)}-output.tar.gz`,
+        file: this.outputName ?? `jbr-${this.context.experimentName}-output.tar.gz`,
       },
       experimentPathsArray.map(experimentPaths => {
         if (!experimentPaths.output.startsWith(this.context.cwd)) {

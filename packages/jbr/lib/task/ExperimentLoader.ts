@@ -42,6 +42,15 @@ export class ExperimentLoader {
     return new ExperimentLoader(await ExperimentLoader.buildComponentsManager<T>(mainModulePath));
   }
 
+  public static async getExperimentName(experimentRoot: string): Promise<string> {
+    try {
+      const data = JSON.parse(await fs.readFile(Path.join(experimentRoot, 'package.json'), 'utf8'));
+      return data.name;
+    } catch {
+      return 'dummy';
+    }
+  }
+
   public static async buildComponentsManager<T>(mainModulePath: string): Promise<ComponentsManager<T>> {
     return await ComponentsManager.build({
       mainModulePath,
@@ -56,15 +65,15 @@ export class ExperimentLoader {
 
   /**
    * Instantiate experiments from the given experiment path.
+   * @param experimentName The name of the experiment.
    * @param experimentPath Path to an experiment directory.
    */
-  public async instantiateExperiments(experimentPath: string): Promise<{
+  public async instantiateExperiments(experimentName: string, experimentPath: string): Promise<{
     experiments: Experiment[];
     experimentPathsArray: IExperimentPaths[];
     combinationProvider?: CombinationProvider;
   }> {
     // Determine experiment name and IRI
-    const experimentName = Path.basename(experimentPath);
     const experimentIri = ExperimentLoader.getDefaultExperimentIri(experimentName);
 
     // Check if combinations file exists
@@ -73,7 +82,7 @@ export class ExperimentLoader {
     let combinationProvider: CombinationProvider | undefined;
     if (await ExperimentLoader.isCombinationsExperiment(experimentPath)) {
       // Determine combinations
-      combinationProvider = await this.instantiateCombinationProvider(experimentPath);
+      combinationProvider = await this.instantiateCombinationProvider(experimentName, experimentPath);
       const combinations = combinationProvider.getFactorCombinations();
 
       const combinationsPath = Path.join(experimentPath, 'combinations');
@@ -124,11 +133,14 @@ export class ExperimentLoader {
 
   /**
    * Instantiate an experiment combinations provider from the given experiment path.
+   * @param experimentName The name of the experiment.
    * @param experimentPath Path to an experiment directory.
    */
-  public async instantiateCombinationProvider(experimentPath: string): Promise<CombinationProvider> {
+  public async instantiateCombinationProvider(
+    experimentName: string,
+    experimentPath: string,
+  ): Promise<CombinationProvider> {
     // Determine combinations name and IRI
-    const experimentName = Path.basename(experimentPath);
     const experimentIri = ExperimentLoader.getDefaultExperimentIri(experimentName);
     const combinationsPath = Path.join(experimentPath, ExperimentLoader.COMBINATIONS_NAME);
     const combinationsIri = `${experimentIri}-combinations`;

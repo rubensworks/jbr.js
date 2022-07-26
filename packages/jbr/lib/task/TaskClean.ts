@@ -19,7 +19,8 @@ export class TaskClean {
 
   public async clean(): Promise<void> {
     const { experiments, experimentPathsArray } = await (await ExperimentLoader
-      .build(this.context.mainModulePath)).instantiateExperiments(this.context.experimentPaths.root);
+      .build(this.context.mainModulePath))
+      .instantiateExperiments(this.context.experimentName, this.context.experimentPaths.root);
     for (const [ i, experiment ] of experiments.entries()) {
       await experiment.clean({ ...this.context, experimentPaths: experimentPathsArray[i] }, this.cleanTargets);
     }

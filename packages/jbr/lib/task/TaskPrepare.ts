@@ -26,7 +26,8 @@ export class TaskPrepare {
 
     // Run experiment's prepare logic
     const { experiments, experimentPathsArray, combinationProvider } = await (await ExperimentLoader
-      .build(this.context.mainModulePath)).instantiateExperiments(this.context.experimentPaths.root);
+      .build(this.context.mainModulePath))
+      .instantiateExperiments(this.context.experimentName, this.context.experimentPaths.root);
     for (const [ i, experiment ] of experiments.entries()) {
       this.context.logger.info(`🧩 Preparing experiment combination ${i}`);
 

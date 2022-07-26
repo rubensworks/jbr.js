@@ -138,7 +138,8 @@ describe('DockerImageBuilder', () => {
         experimentPaths: {
           generated: Path.join('a', 'b', 'c'),
         },
-      }, 'suffix')).toEqual('jbr-experiment-b-suffix');
+        experimentName: 'EXP',
+      }, 'suffix')).toEqual('jbr-experiment-EXP-suffix');
     });
 
     it('for a combination', async() => {
@@ -147,13 +148,15 @@ describe('DockerImageBuilder', () => {
           generated: Path.join('a', 'b', 'c'),
           combination: 0,
         },
-      }, 'suffix')).toEqual('jbr-experiment-b-combination_0-suffix');
+        experimentName: 'EXP',
+      }, 'suffix')).toEqual('jbr-experiment-EXP-combination_0-suffix');
       expect(builder.getImageName(<ITaskContext> {
         experimentPaths: {
           generated: Path.join('a', 'b', 'c'),
           combination: 1,
         },
-      }, 'suffix')).toEqual('jbr-experiment-b-combination_1-suffix');
+        experimentName: 'EXP',
+      }, 'suffix')).toEqual('jbr-experiment-EXP-combination_1-suffix');
     });
 
     it('for a non-combination with uppercase characters', async() => {
@@ -161,7 +164,8 @@ describe('DockerImageBuilder', () => {
         experimentPaths: {
           generated: Path.join('a', 'BBB', 'c'),
         },
-      }, 'suffix')).toEqual('jbr-experiment-bbb-suffix');
+        experimentName: 'EXP',
+      }, 'suffix')).toEqual('jbr-experiment-EXP-suffix');
     });
   });
 });

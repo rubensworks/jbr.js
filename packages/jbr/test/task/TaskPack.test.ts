@@ -23,6 +23,7 @@ describe('TaskPack', () => {
       {
         cwd: 'CWD',
         experimentPaths: createExperimentPaths('CWD'),
+        experimentName: 'EXP',
         mainModulePath: 'MMP',
         verbose: true,
         closeExperiment: jest.fn(),
@@ -65,6 +66,7 @@ describe('TaskPack', () => {
           {
             cwd: 'CWD',
             experimentPaths: createExperimentPaths('CWD'),
+            experimentName: 'EXP',
             mainModulePath: 'MMP',
             verbose: true,
             closeExperiment: jest.fn(),
@@ -77,7 +79,7 @@ describe('TaskPack', () => {
         await task.pack();
         expect(tar.create).toHaveBeenCalledWith({
           cwd: 'CWD',
-          file: 'jbr-CWD-output.tar.gz',
+          file: 'jbr-EXP-output.tar.gz',
           gzip: true,
         }, [
           'output',

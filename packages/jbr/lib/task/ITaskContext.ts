@@ -10,6 +10,7 @@ import type { DockerNetworkCreator } from '../docker/DockerNetworkCreator';
 export interface ITaskContext {
   cwd: string;
   experimentPaths: IExperimentPaths;
+  experimentName: string;
   mainModulePath: string;
   verbose: boolean;
   logger: Logger;

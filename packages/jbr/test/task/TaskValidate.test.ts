@@ -30,6 +30,7 @@ describe('TaskValidate', () => {
       {
         cwd: 'CWD',
         experimentPaths: createExperimentPaths('CWD'),
+        experimentName: 'EXP',
         mainModulePath: 'MMP',
         verbose: true,
         closeExperiment: jest.fn(),

@@ -1,4 +1,3 @@
-import Path from 'path';
 import type Dockerode from 'dockerode';
 import type { Logger } from 'winston';
 import type { ITaskContext } from '../../lib/task/ITaskContext';
@@ -49,7 +48,7 @@ export class DockerImageBuilder {
    * @param suffix A suffix to add to the image name.
    */
   public getImageName(context: ITaskContext, suffix: string): string {
-    let pathContext: string = Path.basename(Path.join(context.experimentPaths.generated, '..')).toLowerCase();
+    let pathContext: string = context.experimentName;
     if ('combination' in context.experimentPaths) {
       pathContext = `${pathContext}-combination_${context.experimentPaths.combination}`;
     }
