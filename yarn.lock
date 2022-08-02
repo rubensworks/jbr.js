@@ -9412,10 +9412,10 @@ rdf-data-factory@^1.0.1, rdf-data-factory@^1.0.3, rdf-data-factory@^1.0.4, rdf-d
   dependencies:
     "@rdfjs/types" "*"
 
-rdf-dataset-fragmenter@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/rdf-dataset-fragmenter/-/rdf-dataset-fragmenter-2.2.1.tgz#c25ef2b0fe26dc43df2b3d69a01cdc63a28a1441"
-  integrity sha512-4CRrzDeFsuSZ1/Tc14fCvZKEcWqlHrH4n/ECFO5wrEMqVluRMtqn3kWvmyk2/zhMeK6mwPxJ1kWR/rQkpxaXQA==
+rdf-dataset-fragmenter@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/rdf-dataset-fragmenter/-/rdf-dataset-fragmenter-2.3.0.tgz#f538b016ae352df876b580190c5a288af2e4a64c"
+  integrity sha512-x/gVAXDLCXJbOuJdLob0koMbkcUtb5H5w1wBjBjFNG0EWDkoYncbGaQvwmHlj/dbGISYwqPRs5jKA/0qnrHVeA==
   dependencies:
     "@rdfjs/types" "*"
     "@types/async-lock" "^1.1.2"
@@ -10108,10 +10108,10 @@ socks@^2.3.3, socks@^2.6.2:
     ip "^1.1.5"
     smart-buffer "^4.2.0"
 
-solidbench@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/solidbench/-/solidbench-1.2.1.tgz#e4f56313b2fcbf92b32f6afed2a4b57b05395b13"
-  integrity sha512-O28mNCD1GtU+AfaHxUUlMedqWvKPOw5ZiKkf7gRgD59m2BYdHJYkjBZKp0WjzdmERKM3rvXp19kJ38YfWvhr+g==
+solidbench@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/solidbench/-/solidbench-1.3.0.tgz#272dbec7770fec2dc65ef45a0ea86be5cb1e2702"
+  integrity sha512-3tXNRpxTZj8DWfDiNwMYuFV1IgriE5e5d6Sgrl7KhL1z7aktdPzaOhXxUxg/yV4n+rh6fa2EqDUU9CmL92rvTA==
   dependencies:
     "@solid/community-server" "^5.0.0-alpha.0"
     "@types/dockerode" "^3.2.3"
@@ -10120,7 +10120,7 @@ solidbench@^1.2.1:
     dockerode "^3.2.1"
     ldbc-snb-enhancer "^2.2.0"
     ldbc-snb-validation-generator "^1.1.0"
-    rdf-dataset-fragmenter "^2.2.1"
+    rdf-dataset-fragmenter "^2.3.0"
     sparql-query-parameter-instantiator "^2.5.1"
     unzipper "^0.10.11"
     yargs "^16.2.0"
