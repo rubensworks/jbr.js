@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.2.0"></a>
+## [v2.2.0](https://github.com/rubensworks/jbr.js/compare/v2.1.0...v2.2.0) - 2022-08-04
+
+### Added
+* [Record number of HTTP requests in experiments](https://github.com/rubensworks/jbr.js/commit/339c0885d216619164789f286a962247c69acf1b)
+
 <a name="v2.1.0"></a>
 ## [v2.1.0](https://github.com/rubensworks/jbr.js/compare/v2.0.4...v2.1.0) - 2022-08-02
 
