@@ -1,8 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.1.0"></a>
+## [v2.1.0](https://github.com/rubensworks/jbr.js/compare/v2.0.4...v2.1.0) - 2022-08-02
+
+### Changed
+* [Bump solidbench with dataset backlink between forum and post](https://github.com/rubensworks/jbr.js/commit/44f92ae58c6f19944a9516664342c38979de5ab1)
+
 <a name="v2.0.4"></a>
-## [v2.0.4](https://github.com/rubensworks/jbr.js/compare/v2.0.2...v2.0.4) - 2022-07-26
+## [v2.0.4](https://github.com/rubensworks/jbr.js/compare/v2.0.3...v2.0.4) - 2022-07-26
 
 ### Fixed
 * [Fix SolidBench not pulling ldbc-snb-generator Docker image](https://github.com/rubensworks/jbr.js/commit/099a4d2f1c6fda41f14d74338ebad56180f8362a)

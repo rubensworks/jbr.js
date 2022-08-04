@@ -37,6 +37,7 @@ export class ExperimentHandlerSolidBench extends ExperimentHandler<ExperimentSol
       queryRunnerReplication: 3,
       queryRunnerWarmupRounds: 1,
       queryRunnerRecordTimestamps: true,
+      queryRunnerRecordHttpRequests: true,
       queryRunnerUpQuery: `SELECT * WHERE { <http://solidbench-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1`,
       queryRunnerUrlParamsInit: {},
       queryRunnerUrlParamsRun: {},

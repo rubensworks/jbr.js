@@ -30,6 +30,7 @@ export class ExperimentSolidBench implements Experiment {
   public readonly queryRunnerReplication: number;
   public readonly queryRunnerWarmupRounds: number;
   public readonly queryRunnerRecordTimestamps: boolean;
+  public readonly queryRunnerRecordHttpRequests: boolean;
   public readonly queryRunnerUpQuery: string;
   public readonly queryRunnerUrlParamsInit: Record<string, any>;
   public readonly queryRunnerUrlParamsRun: Record<string, any>;
@@ -54,6 +55,7 @@ export class ExperimentSolidBench implements Experiment {
    * @param queryRunnerReplication
    * @param queryRunnerWarmupRounds
    * @param queryRunnerRecordTimestamps
+   * @param queryRunnerRecordHttpRequests
    * @param queryRunnerUpQuery
    * @param queryRunnerUrlParamsInit - @range {json}
    * @param queryRunnerUrlParamsRun - @range {json}
@@ -78,6 +80,7 @@ export class ExperimentSolidBench implements Experiment {
     queryRunnerReplication: number,
     queryRunnerWarmupRounds: number,
     queryRunnerRecordTimestamps: boolean,
+    queryRunnerRecordHttpRequests: boolean,
     queryRunnerUpQuery: string,
     queryRunnerUrlParamsInit: Record<string, any>,
     queryRunnerUrlParamsRun: Record<string, any>,
@@ -101,6 +104,7 @@ export class ExperimentSolidBench implements Experiment {
     this.queryRunnerReplication = queryRunnerReplication;
     this.queryRunnerWarmupRounds = queryRunnerWarmupRounds;
     this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps;
+    this.queryRunnerRecordHttpRequests = queryRunnerRecordHttpRequests;
     this.queryRunnerUpQuery = queryRunnerUpQuery;
     this.queryRunnerUrlParamsInit = queryRunnerUrlParamsInit;
     this.queryRunnerUrlParamsRun = queryRunnerUrlParamsRun;
@@ -215,7 +219,14 @@ export class ExperimentSolidBench implements Experiment {
       await fs.mkdir(resultsOutput);
     }
     context.logger.info(`Writing results to ${resultsOutput}\n`);
-    await writeBenchmarkResults(results, Path.join(resultsOutput, 'query-times.csv'), this.queryRunnerRecordTimestamps);
+    await writeBenchmarkResults(
+      results,
+      Path.join(resultsOutput, 'query-times.csv'),
+      this.queryRunnerRecordTimestamps,
+      [
+        ...this.queryRunnerRecordHttpRequests ? [ 'httpRequests' ] : [],
+      ],
+    );
 
     // Close endpoint and server
     await closeProcess();

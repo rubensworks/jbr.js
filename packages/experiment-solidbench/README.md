@@ -163,7 +163,8 @@ More background information on these config options can be found in the README o
 * `endpointUrl`: URL through which the SPARQL endpoint of the `hookSparqlEndpoint` hook will be exposed.
 * `queryRunnerReplication`: Number of replication runs for [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
 * `queryRunnerWarmupRounds`: Number of warmup runs for [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
-* `queryRunnerRecordTimestamps`: Flag to indicate if result arrival timestamps must be recorded [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
+* `queryRunnerRecordTimestamps`: Flag to indicate if result arrival timestamps must be recorded by [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
+* `queryRunnerRecordHttpRequests`: Flag to indicate if the number of http requests must be reported by [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
 * `queryRunnerUpQuery`: Query that is sent to the SPARQL endpoint to check if it is up.
 * `queryRunnerUrlParamsInit`: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during initialization to check if the endpoint is up.
 * `queryRunnerUrlParamsRun`: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during query executions.

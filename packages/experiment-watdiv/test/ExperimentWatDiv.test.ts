@@ -1,6 +1,7 @@
 import Path from 'path';
 import type { Hook, ITaskContext, ProcessHandler } from 'jbr';
 import { createExperimentPaths } from 'jbr';
+import { writeBenchmarkResults } from 'sparql-benchmark-runner';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { ExperimentWatDiv } from '../lib/ExperimentWatDiv';
 
@@ -86,6 +87,7 @@ describe('ExperimentWatDiv', () => {
       'http://localhost:3001/sparql',
       3,
       1,
+      true,
       true,
       {},
       {},
@@ -278,6 +280,7 @@ describe('ExperimentWatDiv', () => {
         3,
         1,
         true,
+        true,
         {},
         {},
       );
@@ -318,10 +321,42 @@ describe('ExperimentWatDiv', () => {
       expect(sparqlBenchmarkRun).toHaveBeenCalled();
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
+      expect(writeBenchmarkResults).toHaveBeenCalledWith(
+        undefined,
+        Path.normalize('CWD/output/query-times.csv'),
+        true,
+        [ 'httpRequests' ],
+      );
 
       expect(dirsOut).toEqual({
         'CWD/output': true,
       });
+    });
+
+    it('should run the experiment without recording http requests', async() => {
+      experiment = new ExperimentWatDiv(
+        1,
+        5,
+        1,
+        true,
+        hookSparqlEndpoint,
+        'http://localhost:3001/sparql',
+        3,
+        1,
+        true,
+        false,
+        {},
+        {},
+      );
+
+      await experiment.run(context);
+
+      expect(writeBenchmarkResults).toHaveBeenCalledWith(
+        undefined,
+        Path.normalize('CWD/output/query-times.csv'),
+        true,
+        [],
+      );
     });
 
     it('should not create an output dir if it already exists', async() => {

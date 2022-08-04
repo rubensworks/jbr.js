@@ -19,6 +19,7 @@ export class ExperimentWatDiv implements Experiment {
   public readonly queryRunnerReplication: number;
   public readonly queryRunnerWarmupRounds: number;
   public readonly queryRunnerRecordTimestamps: boolean;
+  public readonly queryRunnerRecordHttpRequests: boolean;
   public readonly queryRunnerUrlParamsInit: Record<string, any>;
   public readonly queryRunnerUrlParamsRun: Record<string, any>;
 
@@ -32,6 +33,7 @@ export class ExperimentWatDiv implements Experiment {
    * @param queryRunnerReplication
    * @param queryRunnerWarmupRounds
    * @param queryRunnerRecordTimestamps
+   * @param queryRunnerRecordHttpRequests
    * @param queryRunnerUrlParamsInit - @range {json}
    * @param queryRunnerUrlParamsRun - @range {json}
    */
@@ -45,6 +47,7 @@ export class ExperimentWatDiv implements Experiment {
     queryRunnerReplication: number,
     queryRunnerWarmupRounds: number,
     queryRunnerRecordTimestamps: boolean,
+    queryRunnerRecordHttpRequests: boolean,
     queryRunnerUrlParamsInit: Record<string, any>,
     queryRunnerUrlParamsRun: Record<string, any>,
   ) {
@@ -57,6 +60,7 @@ export class ExperimentWatDiv implements Experiment {
     this.queryRunnerReplication = queryRunnerReplication;
     this.queryRunnerWarmupRounds = queryRunnerWarmupRounds;
     this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps;
+    this.queryRunnerRecordHttpRequests = queryRunnerRecordHttpRequests;
     this.queryRunnerUrlParamsInit = queryRunnerUrlParamsInit;
     this.queryRunnerUrlParamsRun = queryRunnerUrlParamsRun;
   }
@@ -164,7 +168,14 @@ export class ExperimentWatDiv implements Experiment {
       await fs.mkdir(resultsOutput);
     }
     context.logger.info(`Writing results to ${resultsOutput}\n`);
-    await writeBenchmarkResults(results, Path.join(resultsOutput, 'query-times.csv'), this.queryRunnerRecordTimestamps);
+    await writeBenchmarkResults(
+      results,
+      Path.join(resultsOutput, 'query-times.csv'),
+      this.queryRunnerRecordTimestamps,
+      [
+        ...this.queryRunnerRecordHttpRequests ? [ 'httpRequests' ] : [],
+      ],
+    );
 
     // Close process safely
     await closeProcess();

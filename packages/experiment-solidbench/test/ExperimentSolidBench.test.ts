@@ -4,6 +4,7 @@ import type { Hook, ITaskContext,
   DockerContainerHandler,
   DockerResourceConstraints, ProcessHandler } from 'jbr';
 import { StaticDockerResourceConstraints, createExperimentPaths } from 'jbr';
+import { writeBenchmarkResults } from 'sparql-benchmark-runner';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { ExperimentSolidBench } from '../lib/ExperimentSolidBench';
 
@@ -165,6 +166,7 @@ describe('ExperimentSolidBench', () => {
       3,
       1,
       true,
+      true,
       `SELECT * WHERE { <http://solidbench-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1`,
       {},
       {},
@@ -275,11 +277,54 @@ This can be configured using Node's --max_old_space_size option.`);
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(serverHandlerStopCollectingStats).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
+      expect(writeBenchmarkResults).toHaveBeenCalledWith(
+        undefined,
+        Path.normalize('CWD/output/query-times.csv'),
+        true,
+        [ 'httpRequests' ],
+      );
 
       expect(dirsOut).toEqual({
         'CWD/output': true,
         'CWD/output/logs': true,
       });
+    });
+
+    it('should run the experiment without recording http requests', async() => {
+      experiment = new ExperimentSolidBench(
+        '0.1',
+        'input/config-enhancer.json',
+        'input/config-fragmenter.json',
+        'input/config-fragmenter-auxiliary.json',
+        'input/config-queries.json',
+        'input/config-server.json',
+        'input/config-validation-params.json',
+        'input/config-validation-config.json',
+        '4G',
+        'input/dockerfiles/Dockerfile-server',
+        hookSparqlEndpoint,
+        3_000,
+        'info',
+        'http://localhost:3000',
+        resourceConstraints,
+        'http://localhost:3001/sparql',
+        3,
+        1,
+        true,
+        false,
+        `SELECT * WHERE { <http://solidbench-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1`,
+        {},
+        {},
+      );
+
+      await experiment.run(context);
+
+      expect(writeBenchmarkResults).toHaveBeenCalledWith(
+        undefined,
+        Path.normalize('CWD/output/query-times.csv'),
+        true,
+        [],
+      );
     });
 
     it('should not create an output dir if it already exists', async() => {
