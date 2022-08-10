@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.2.2"></a>
+## [v2.2.2](https://github.com/rubensworks/jbr.js/compare/v2.2.1...v2.2.2) - 2022-08-10
+
+### TODO: categorize commits, choose titles from: Added, Changed, Deprecated, Removed, Fixed, Security.
+* [Bump to solidbench 1.3.1](https://github.com/rubensworks/jbr.js/commit/7843ec0fcd671d64baf41cb90f9486088f70bf97)
+* [Update changelog](https://github.com/rubensworks/jbr.js/commit/f41aa5161d85be368a5fc0b6d0f266961b4eadb3)
+
 <a name="v2.2.1"></a>
 ## [v2.2.1](https://github.com/rubensworks/jbr.js/compare/v2.2.0...v2.2.1) - 2022-08-04
 
