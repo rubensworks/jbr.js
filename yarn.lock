@@ -10138,10 +10138,10 @@ socks@^2.3.3, socks@^2.6.2:
     ip "^1.1.5"
     smart-buffer "^4.2.0"
 
-solidbench@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/solidbench/-/solidbench-1.3.1.tgz#199cc6813e050afde28326766593798d21eab87a"
-  integrity sha512-UQI970km35OWlDow5IBiER42RPMyCZWPQHg0czUDH79wuDWtLA/ojloDsaexX5wdPi+oQAttVFNIZwC3WcdF6Q==
+solidbench@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/solidbench/-/solidbench-1.4.0.tgz#e6b9fb3ad3924dbfdf0a992d83c5441d291305d1"
+  integrity sha512-BFZctjNSCAQ2YUtBHkpCCbWNvoUs9Zd5YtYOZFa9O5nhH5lXLxZ32DR6BDuFjGhJIHDaOhBOtH/LXB7uvHCZNA==
   dependencies:
     "@solid/community-server" "^5.0.0-alpha.0"
     "@types/dockerode" "^3.2.3"
