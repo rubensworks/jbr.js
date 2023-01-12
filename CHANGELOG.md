@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.3.1"></a>
+## [v2.3.1](https://github.com/rubensworks/jbr.js/compare/v2.3.0...v2.3.1) - 2023-01-12
+
+### Fixed
+* [Fix invalid experiment name during combinations-based init](https://github.com/rubensworks/jbr.js/commit/58255d1874a73ba6c449bc7d2fbc621a37b960d6)
+
 <a name="v2.3.0"></a>
 ## [v2.3.0](https://github.com/rubensworks/jbr.js/compare/v2.2.2...v2.3.0) - 2022-08-15
 
