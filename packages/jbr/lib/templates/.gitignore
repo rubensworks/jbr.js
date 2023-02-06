@@ -5,4 +5,6 @@
 /output/*
 !/output/.keep
 /combinations/*/generated
+!/combinations/*/generated/.keep
 /combinations/*/output
+!/combinations/*/output/.keep

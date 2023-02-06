@@ -45,7 +45,9 @@ export class TaskGenerateCombinations {
       if (!await fs.pathExists(combinationInstancePath)) {
         await fs.mkdir(combinationInstancePath);
         for (const initDir of TaskInitialize.INIT_DIRS) {
-          await fs.mkdir(Path.join(combinationInstancePath, initDir));
+          const dir = Path.join(combinationInstancePath, initDir);
+          await fs.mkdir(dir);
+          await fs.createFile(Path.join(dir, '.keep'));
         }
       }
 
