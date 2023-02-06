@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.4.3"></a>
+## [v2.4.3](https://github.com/rubensworks/jbr.js/compare/v2.4.2...v2.4.3) - 2023-02-06
+
+### Fixed
+* [Update sparql-benchmark-runner to 2.9.2 with isUp hanging fix](https://github.com/rubensworks/jbr.js/commit/cfaa3d02e7e2d15db9b5a5e9e4095d2ef2b47763)
+
 <a name="v2.4.2"></a>
 ## [v2.4.2](https://github.com/rubensworks/jbr.js/compare/v2.4.1...v2.4.2) - 2023-02-06
 
