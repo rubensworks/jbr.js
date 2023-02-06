@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.4.1"></a>
+## [v2.4.1](https://github.com/rubensworks/jbr.js/compare/v2.4.0...v2.4.1) - 2023-02-06
+
+### Fixed
+* [Update to sparql-benchmark-runner 2.9.1](https://github.com/rubensworks/jbr.js/commit/f987ebfbdfe5eb472837a640ea7df5ae8824836d)
+
 <a name="v2.4.0"></a>
 ## [v2.4.0](https://github.com/rubensworks/jbr.js/compare/v2.3.1...v2.4.0) - 2023-02-06
 
