@@ -22,6 +22,7 @@ export class ExperimentWatDiv implements Experiment {
   public readonly queryRunnerRecordHttpRequests: boolean;
   public readonly queryRunnerUrlParamsInit: Record<string, any>;
   public readonly queryRunnerUrlParamsRun: Record<string, any>;
+  public readonly queryTimeoutFallback: number | undefined;
 
   /**
    * @param datasetScale
@@ -36,6 +37,7 @@ export class ExperimentWatDiv implements Experiment {
    * @param queryRunnerRecordHttpRequests
    * @param queryRunnerUrlParamsInit - @range {json}
    * @param queryRunnerUrlParamsRun - @range {json}
+   * @param queryTimeoutFallback
    */
   public constructor(
     datasetScale: number,
@@ -50,6 +52,7 @@ export class ExperimentWatDiv implements Experiment {
     queryRunnerRecordHttpRequests: boolean,
     queryRunnerUrlParamsInit: Record<string, any>,
     queryRunnerUrlParamsRun: Record<string, any>,
+    queryTimeoutFallback: number | undefined,
   ) {
     this.datasetScale = datasetScale;
     this.queryCount = queryCount;
@@ -63,6 +66,7 @@ export class ExperimentWatDiv implements Experiment {
     this.queryRunnerRecordHttpRequests = queryRunnerRecordHttpRequests;
     this.queryRunnerUrlParamsInit = queryRunnerUrlParamsInit;
     this.queryRunnerUrlParamsRun = queryRunnerUrlParamsRun;
+    this.queryTimeoutFallback = queryTimeoutFallback;
   }
 
   public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
@@ -147,6 +151,7 @@ export class ExperimentWatDiv implements Experiment {
       logger: (message: string) => process.stderr.write(message),
       additionalUrlParamsInit: new URLSearchParams(this.queryRunnerUrlParamsInit),
       additionalUrlParamsRun: new URLSearchParams(this.queryRunnerUrlParamsRun),
+      timeout: this.queryTimeoutFallback,
     }).run({
       async onStart() {
         // Collect stats

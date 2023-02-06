@@ -34,6 +34,7 @@ export class ExperimentSolidBench implements Experiment {
   public readonly queryRunnerUpQuery: string;
   public readonly queryRunnerUrlParamsInit: Record<string, any>;
   public readonly queryRunnerUrlParamsRun: Record<string, any>;
+  public readonly queryTimeoutFallback: number | undefined;
 
   /**
    * @param scale
@@ -59,6 +60,7 @@ export class ExperimentSolidBench implements Experiment {
    * @param queryRunnerUpQuery
    * @param queryRunnerUrlParamsInit - @range {json}
    * @param queryRunnerUrlParamsRun - @range {json}
+   * @param queryTimeoutFallback
    */
   public constructor(
     scale: string,
@@ -84,6 +86,7 @@ export class ExperimentSolidBench implements Experiment {
     queryRunnerUpQuery: string,
     queryRunnerUrlParamsInit: Record<string, any>,
     queryRunnerUrlParamsRun: Record<string, any>,
+    queryTimeoutFallback: number | undefined,
   ) {
     this.scale = scale;
     this.configGenerateAux = configGenerateAux;
@@ -108,6 +111,7 @@ export class ExperimentSolidBench implements Experiment {
     this.queryRunnerUpQuery = queryRunnerUpQuery;
     this.queryRunnerUrlParamsInit = queryRunnerUrlParamsInit;
     this.queryRunnerUrlParamsRun = queryRunnerUrlParamsRun;
+    this.queryTimeoutFallback = queryTimeoutFallback;
   }
 
   public getDockerImageName(context: ITaskContext, type: string): string {
@@ -198,6 +202,7 @@ export class ExperimentSolidBench implements Experiment {
       upQuery: this.queryRunnerUpQuery,
       additionalUrlParamsInit: new URLSearchParams(this.queryRunnerUrlParamsInit),
       additionalUrlParamsRun: new URLSearchParams(this.queryRunnerUrlParamsRun),
+      timeout: this.queryTimeoutFallback,
     }).run({
       async onStart() {
         // Collect stats

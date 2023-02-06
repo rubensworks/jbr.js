@@ -170,6 +170,7 @@ describe('ExperimentSolidBench', () => {
       `SELECT * WHERE { <http://solidbench-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1`,
       {},
       {},
+      600,
     );
     files = {};
     dirsOut = {};
@@ -315,6 +316,7 @@ This can be configured using Node's --max_old_space_size option.`);
         `SELECT * WHERE { <http://solidbench-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1`,
         {},
         {},
+        600,
       );
 
       await experiment.run(context);

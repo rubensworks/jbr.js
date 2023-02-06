@@ -91,6 +91,7 @@ describe('ExperimentWatDiv', () => {
       true,
       {},
       {},
+      600,
     );
     files = {};
     dirsOut = {};
@@ -283,6 +284,7 @@ describe('ExperimentWatDiv', () => {
         true,
         {},
         {},
+        600,
       );
 
       await experiment.prepare(context, false);
@@ -347,6 +349,7 @@ describe('ExperimentWatDiv', () => {
         false,
         {},
         {},
+        600,
       );
 
       await experiment.run(context);
