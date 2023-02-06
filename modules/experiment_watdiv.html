@@ -191,6 +191,7 @@ interactive-short-5;4;0;0;
 						<li><code>queryRunnerRecordHttpRequests</code>: Flag to indicate if the number of http requests must be reported by <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
 						<li><code>queryRunnerUrlParamsInit</code>: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during initialization to check if the endpoint is up.</li>
 						<li><code>queryRunnerUrlParamsRun</code>: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during query executions.</li>
+						<li><code>queryTimeoutFallback</code>: An optional timeout value for a single query in milliseconds, to be used as fallback in case the SPARQL endpoint hook&#39;s timeout fails. This should always be higher than the timeout value configured in the SPARQL endpoint hook.</li>
 					</ul>
 					<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 						<h2>License</h2>
