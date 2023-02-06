@@ -10522,10 +10522,10 @@ spark-md5@^3.0.1:
   resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-3.0.2.tgz#7952c4a30784347abcee73268e473b9c0167e3fc"
   integrity sha512-wcFzz9cDfbuqe0FZzfi2or1sgyIrsDwmPwfZC4hiNidPdPINjeUwNfv5kldczoEAcjl9Y1L3SM7Uz2PUEQzxQw==
 
-sparql-benchmark-runner@^2.9.1:
-  version "2.9.1"
-  resolved "https://registry.yarnpkg.com/sparql-benchmark-runner/-/sparql-benchmark-runner-2.9.1.tgz#111da4afd1aaa4249eef4894b346105883c061f4"
-  integrity sha512-C6S6LCjyZuUzuNA697FzF/dNqOSh318CFpL9QmvxV3IqDThRuqpjyGtQpSwwK2u3xj57X0sEKR/Du1XyNsMRkA==
+sparql-benchmark-runner@^2.9.2:
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/sparql-benchmark-runner/-/sparql-benchmark-runner-2.9.2.tgz#9fa62350aa6ee1f2d2b8a64b66d6c508a8c6b719"
+  integrity sha512-/0k0KglJsv6RC5c9SeA5aUmfQIA5O1sUWkcOljiy1L7VsUw1C9rIGPnXkQGtaHG0oyVUtJi8gCAnHcxZaJezDg==
   dependencies:
     "@types/yargs" "^16.0.1"
     fetch-sparql-endpoint "^3.1.0"
