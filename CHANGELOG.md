@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.4.2"></a>
+## [v2.4.2](https://github.com/rubensworks/jbr.js/compare/v2.4.1...v2.4.2) - 2023-02-06
+
+### Fixed
+* [Add .keep files in combinations init directories](https://github.com/rubensworks/jbr.js/commit/03dfed45a975dd6033690b95205e1d04bcb1994a)
+
 <a name="v2.4.1"></a>
 ## [v2.4.1](https://github.com/rubensworks/jbr.js/compare/v2.4.0...v2.4.1) - 2023-02-06
 
