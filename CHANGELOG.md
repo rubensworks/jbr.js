@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.4.0"></a>
+## [v2.4.0](https://github.com/rubensworks/jbr.js/compare/v2.3.1...v2.4.0) - 2023-02-06
+
+### Added
+* [Add queryTimeoutFallback to experiments](https://github.com/rubensworks/jbr.js/commit/39e9b3a49d35726cdfd1f9118b372701d1d0a227)
+
 <a name="v2.3.1"></a>
 ## [v2.3.1](https://github.com/rubensworks/jbr.js/compare/v2.3.0...v2.3.1) - 2023-01-12
 
