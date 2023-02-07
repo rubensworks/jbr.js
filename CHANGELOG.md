@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.5.0"></a>
+## [v2.5.0](https://github.com/rubensworks/jbr.js/compare/v2.4.3...v2.5.0) - 2023-02-07
+
+### Added
+* [Update to SolidBench 1.6 with post multiplication support](https://github.com/rubensworks/jbr.js/commit/5056826d35d95c3a93e1c43ca088138177d2eee1)
+
 <a name="v2.4.3"></a>
 ## [v2.4.3](https://github.com/rubensworks/jbr.js/compare/v2.4.2...v2.4.3) - 2023-02-06
 

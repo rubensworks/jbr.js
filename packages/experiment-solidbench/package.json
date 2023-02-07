@@ -1,6 +1,6 @@
 {
   "name": "@jbr-experiment/solidbench",
-  "version": "2.4.3",
+  "version": "2.5.0",
   "description": "SolidBench experiment handler for JBR",
   "main": "index.js",
   "typings": "index",
