@@ -4,7 +4,7 @@
 !/generated/.keep
 /output/*
 !/output/.keep
-/combinations/*/generated
+/combinations/*/generated/*
 !/combinations/*/generated/.keep
-/combinations/*/output
+/combinations/*/output/*
 !/combinations/*/output/.keep
