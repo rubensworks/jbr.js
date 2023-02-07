@@ -8153,10 +8153,10 @@ kuler@^2.0.0:
   resolved "https://registry.yarnpkg.com/kuler/-/kuler-2.0.0.tgz#e2c570a3800388fb44407e851531c1d670b061b3"
   integrity sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==
 
-ldbc-snb-enhancer@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/ldbc-snb-enhancer/-/ldbc-snb-enhancer-2.2.0.tgz#acf2eccd8111249e6aeb6aeecbca57bb13f9f514"
-  integrity sha512-kntEoZYojO+Tl85+cEe6dLBHvDGEvkqi4Mp7k4yzF+fNO7wZkXXbn5YL28MPYW4BTUrGurg7w0y2Y8+kyGVPNg==
+ldbc-snb-enhancer@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/ldbc-snb-enhancer/-/ldbc-snb-enhancer-2.5.0.tgz#fbf2246cbe4b3d71fe9ed3c019e6bde8d04d97c4"
+  integrity sha512-MeNVREt4y1i5ex0zMvmskDZrKhJoxI7gNEq27ioIDSeDQihC1FKiRP1wVE/K06381ozOcnz2FMxIdsuCwJc5gQ==
   dependencies:
     "@rdfjs/types" "*"
     componentsjs "^5.0.1"
@@ -10473,17 +10473,17 @@ socks@^2.6.2:
     ip "^1.1.5"
     smart-buffer "^4.2.0"
 
-solidbench@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/solidbench/-/solidbench-1.4.0.tgz#e6b9fb3ad3924dbfdf0a992d83c5441d291305d1"
-  integrity sha512-BFZctjNSCAQ2YUtBHkpCCbWNvoUs9Zd5YtYOZFa9O5nhH5lXLxZ32DR6BDuFjGhJIHDaOhBOtH/LXB7uvHCZNA==
+solidbench@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/solidbench/-/solidbench-1.6.0.tgz#b0ce85fd7a405d4a12d7adb174f9aac1dfc421f7"
+  integrity sha512-AZ3LG+hJ4t3g+awy2VcHXvx5FCMzP+LjkIio88dmYZBs2ndWl/0Jdrl/q8kjQpjfuTjmwVrlYEvaGWeGRvqUGQ==
   dependencies:
     "@solid/community-server" "^5.0.0-alpha.0"
     "@types/dockerode" "^3.2.3"
     "@types/unzipper" "^0.10.5"
     "@types/yargs" "^16.0.1"
     dockerode "^3.2.1"
-    ldbc-snb-enhancer "^2.2.0"
+    ldbc-snb-enhancer "^2.5.0"
     ldbc-snb-validation-generator "^1.1.0"
     rdf-dataset-fragmenter "^2.3.5"
     sparql-query-parameter-instantiator "^2.5.1"
