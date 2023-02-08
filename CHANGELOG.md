@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.5.1"></a>
+## [v2.5.1](https://github.com/rubensworks/jbr.js/compare/v2.5.0...v2.5.1) - 2023-02-08
+
+### Fixed
+* [Update solidbench with generation backpressure fix](https://github.com/rubensworks/jbr.js/commit/d02215ae19c7ab69bf95a110d4b7494babf955e4)
+* [Fix .keep files not being included in combinations generated and output dirs](https://github.com/rubensworks/jbr.js/commit/e2e863c7247e06d6b5b15528ec76f9a01b6cf95e)
+
 <a name="v2.5.0"></a>
 ## [v2.5.0](https://github.com/rubensworks/jbr.js/compare/v2.4.3...v2.5.0) - 2023-02-07
 
