@@ -51,6 +51,7 @@ describe('TaskPrepare', () => {
     task = new TaskPrepare(
       context,
       false,
+      undefined,
     );
 
     experiment = <any> {
@@ -84,6 +85,7 @@ describe('TaskPrepare', () => {
       task = new TaskPrepare(
         context,
         true,
+        undefined,
       );
 
       await task.prepare();
@@ -135,6 +137,36 @@ describe('TaskPrepare', () => {
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
 
       expect(context.logger.info).toHaveBeenCalledTimes(2);
+    });
+
+    it('prepares a single combination in multiple experiments when combination is set', async() => {
+      task = new TaskPrepare(context, false, 1);
+
+      const experiment1 = <any> {
+        prepare: jest.fn(),
+      };
+      const experiment2 = <any> {
+        prepare: jest.fn(),
+      };
+      const expPaths1 = createExperimentPaths('CWD/1');
+      const expPaths2 = createExperimentPaths('CWD/2');
+      (<any> experimentLoader).instantiateExperiments = jest.fn(() => {
+        return {
+          experimentPathsArray: [ expPaths1, expPaths2 ],
+          experiments: [ experiment1, experiment2 ],
+        };
+      });
+
+      await task.prepare();
+      expect(experiment1.prepare)
+        .not.toHaveBeenCalled();
+      expect(experiment2.prepare)
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths2 }, false);
+
+      expect(filesUnlinked[Path.join('CWD', 'generated', '.prepared')]).toBeFalsy();
+      expect(files[Path.join('CWD', 'generated', '.prepared')]).toEqual('');
+
+      expect(context.logger.info).toHaveBeenCalledTimes(1);
     });
 
     it('prepares multiple experiments with common prepare', async() => {

@@ -14,6 +14,11 @@ export const builder = (yargs: Argv<any>): Argv<any> =>
         alias: 'f',
         describe: 'If generated/ must be overwritten',
       },
+      combination: {
+        type: 'number',
+        alias: 'c',
+        describe: 'The combination id to run. If undefined, all combinations will be run.',
+      },
     });
 export const handler = (argv: Record<string, any>): Promise<void> => wrapCommandHandler(argv,
-  async(context: ITaskContext) => new TaskPrepare(context, argv.force).prepare());
+  async(context: ITaskContext) => new TaskPrepare(context, argv.force, argv.combination).prepare());
