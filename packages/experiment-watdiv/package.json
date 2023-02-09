@@ -1,6 +1,6 @@
 {
   "name": "@jbr-experiment/watdiv",
-  "version": "2.5.1",
+  "version": "2.6.0",
   "description": "WatDiv experiment handler for JBR",
   "main": "index.js",
   "typings": "index",
@@ -56,7 +56,7 @@
     "validate": "npm ls"
   },
   "devDependencies": {
-    "jbr": "^2.5.1"
+    "jbr": "^2.6.0"
   },
   "peerDependencies": {
     "jbr": ">=2.0.0"

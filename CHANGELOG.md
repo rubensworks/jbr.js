@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.6.0"></a>
+## [v2.6.0](https://github.com/rubensworks/jbr.js/compare/v2.5.1...v2.6.0) - 2023-02-09
+
+### Added
+* [Allow prepare task to be run for single combination](https://github.com/rubensworks/jbr.js/commit/9b8764f29caea47382c91bcccea50e58cdf74be1)
+
+### Fixed
+* [Fix user aborted request errors](https://github.com/rubensworks/jbr.js/commit/a9da2959d56142f260a5a8eb05cb3e4d3c8a8753)
+
 <a name="v2.5.1"></a>
 ## [v2.5.1](https://github.com/rubensworks/jbr.js/compare/v2.5.0...v2.5.1) - 2023-02-08
 
