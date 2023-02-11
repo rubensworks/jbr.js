@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.6.1"></a>
+## [v2.6.1](https://github.com/rubensworks/jbr.js/compare/v2.6.0...v2.6.1) - 2023-02-11
+
+### Fixed
+* [Fix rare freeze when waiting for endpoint](https://github.com/rubensworks/jbr.js/commit/61eba521a90f0bd8e214d9ba0adde586c0e7140a)
+
 <a name="v2.6.0"></a>
 ## [v2.6.0](https://github.com/rubensworks/jbr.js/compare/v2.5.1...v2.6.0) - 2023-02-09
 
