@@ -27,7 +27,7 @@ This project can be setup by cloning and installing it as follows:
 
 ```bash
 $ git clone https://github.com/rubensworks/jbr.js.git
-$ cd comunica
+$ cd jbr.js
 $ yarn install
 ```
 
