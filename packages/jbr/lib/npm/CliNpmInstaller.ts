@@ -1,3 +1,4 @@
+import { fetch } from 'cross-fetch';
 import * as spawn from 'cross-spawn';
 import type { ITaskContext } from '../../lib/task/ITaskContext';
 import { ErrorHandled } from '../cli/ErrorHandled';
@@ -20,7 +21,6 @@ export class CliNpmInstaller implements NpmInstaller {
     if (this.nextVersion) {
       packages = packages.map(pckg => `${pckg}@next`);
     }
-
     const { error, status, stderr } = spawn.sync('npm', [
       'install',
       ...packages,

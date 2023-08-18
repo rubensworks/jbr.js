@@ -9460,6 +9460,7 @@ __metadata:
     "@types/yargs": ^17.0.0
     cli-progress: ^3.9.0
     componentsjs: ^5.2.0
+    cross-fetch: ^4.0.0
     cross-spawn: ^7.0.3
     dockerode: ^3.3.0
     fs-extra: ^10.0.0
