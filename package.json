@@ -84,5 +84,8 @@
     "build",
     "lint",
     "test"
-  ]
+  ],
+  "dependencies": {
+    "@lerna/project": "^6.4.1"
+  }
 }
