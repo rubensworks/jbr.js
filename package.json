@@ -55,6 +55,7 @@
     "doc": "typedoc"
   },
   "devDependencies": {
+    "@lerna/project": "^6.4.1",
     "@rubensworks/eslint-config": "1.0.1",
     "@strictsoftware/typedoc-plugin-monorepo": "^0.4.2",
     "@types/jest": "^29.0.0",
@@ -84,8 +85,5 @@
     "build",
     "lint",
     "test"
-  ],
-  "dependencies": {
-    "@lerna/project": "^6.4.1"
-  }
+  ]
 }
