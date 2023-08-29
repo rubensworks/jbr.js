@@ -28,7 +28,7 @@ This project can be setup by cloning and installing it as follows:
 ```bash
 $ git clone https://github.com/rubensworks/jbr.js.git
 $ cd jbr.js
-$ yarn install
+$ yarn install --ignore-engines
 ```
 
 **Note: `npm install` is not supported at the moment, as this project makes use of Yarn's [workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) functionality**
