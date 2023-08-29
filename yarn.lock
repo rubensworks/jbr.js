@@ -2931,6 +2931,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@jbr-hook/sparql-endpoint-comunica-file@workspace:packages/hook-sparql-endpoint-comunica-file":
+  version: 0.0.0-use.local
+  resolution: "@jbr-hook/sparql-endpoint-comunica-file@workspace:packages/hook-sparql-endpoint-comunica-file"
+  dependencies:
+    "@types/fs-extra": ^9.0.11
+    fs-extra: ^10.0.0
+    jbr: ^2.6.0
+  peerDependencies:
+    jbr: ">=2.0.0"
+  languageName: unknown
+  linkType: soft
+
 "@jbr-hook/sparql-endpoint-comunica@workspace:packages/hook-sparql-endpoint-comunica":
   version: 0.0.0-use.local
   resolution: "@jbr-hook/sparql-endpoint-comunica@workspace:packages/hook-sparql-endpoint-comunica"
