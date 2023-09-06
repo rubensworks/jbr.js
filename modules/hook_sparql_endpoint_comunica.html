@@ -117,6 +117,7 @@
       &quot;cpu_percentage&quot;: 90
     },
     &quot;configClient&quot;: &quot;input/config-client.json&quot;,
+    &quot;additionalBinds&quot;: [ ],
     &quot;clientPort&quot;: 3001,
     &quot;clientLogLevel&quot;: &quot;info&quot;,
     &quot;queryTimeout&quot;: 300,
@@ -137,7 +138,67 @@
 						<li><code>clientLogLevel</code>: Logging level for Comunica engine.</li>
 						<li><code>queryTimeout</code>: Timeout in seconds for a single SPARQL query execution.</li>
 						<li><code>maxMemory</code>: Maximum amount of Memory for the Comunica Node.js process in MB.</li>
+						<li><code>additionalBinds</code>: The Local file bindings to the client dockerfile.</li>
 					</ul>
+					<a href="#querying-local-files" id="querying-local-files" style="color: inherit; text-decoration: none;">
+						<h2>Querying local files</h2>
+					</a>
+					<p>By default, the hook handler sparql-endpoint-comunica expects the dataset to be served through http.
+						If you want to use a local file as source for the comunica endpoint you can bind a local dataset to comunica docker container.
+					To do so, follow these steps:</p>
+					<p>First, use <a href="https://github.com/rubensworks/lerna-docker">lerna-docker</a> to create a docker image of <a href="https://github.com/comunica/comunica/tree/master/engines/query-sparql-file">engines/query-sparql-file</a>. For this use the dockerfile in <a href="https://github.com/comunica/comunica/blob/master/engines/query-sparql/Dockerfile">engines/query-sparql</a>.
+						Then generate an experiment and add the sparql-endpoint-comunica hook like explained above.
+					In the generated experiment, you should change the client dockerfile:</p>
+					<pre><code class="language-text">my-experiment/
+  input/
+    dockerfiles
+      Dockerfile-client
+</code></pre>
+					<p>Change the default docker image to your newly created docker image. For example:</p>
+					<pre><code><span style="color: #0070C1">FROM</span><span style="color: #000000"> </span><span style="color: #001080">comunica</span><span style="color: #000000">/</span><span style="color: #001080">query</span><span style="color: #000000">-sparql:</span><span style="color: #001080">v2</span><span style="color: #000000">.</span><span style="color: #098658">5.0</span><span style="color: #000000"> -&gt; </span><span style="color: #0070C1">FROM</span><span style="color: #000000"> </span><span style="color: #001080">comunica</span><span style="color: #000000">/</span><span style="color: #001080">query</span><span style="color: #000000">-</span><span style="color: #001080">sparql</span><span style="color: #000000">-file:</span><span style="color: #001080">v2</span><span style="color: #000000">.</span><span style="color: #098658">5.0</span>
+</code></pre>
+					<p>Furthermore, change the config-client.json and context-client.json</p>
+					<pre><code class="language-text">my-experiment/
+  input/
+    config-client.json
+    context-client.json
+</code></pre>
+					<p>In the config-client.json change the import of </p>
+					<pre><code><span style="color: #000000">ccqs:</span><span style="color: #001080">config</span><span style="color: #000000">/</span><span style="color: #001080">config</span><span style="color: #000000">-</span><span style="color: #001080">default</span><span style="color: #000000">.</span><span style="color: #001080">json</span>
+</code></pre>
+					<p>to</p>
+					<pre><code><span style="color: #000000">ccqs:</span><span style="color: #001080">config</span><span style="color: #000000">/</span><span style="color: #001080">config</span><span style="color: #000000">-</span><span style="color: #001080">file</span><span style="color: #000000">.</span><span style="color: #001080">json</span>
+</code></pre>
+					<p>Then in the context-client.json set sources to</p>
+					<pre><code><span style="color: #A31515">&quot;sources&quot;</span><span style="color: #000000">: [ </span><span style="color: #A31515">&quot;/tmp/dataset.nt&quot;</span><span style="color: #000000"> ]</span>
+</code></pre>
+					<p>This path should point to where you want your dataset to be available in the Docker image.</p>
+					<p>Finally, we want to bind our dataset to the sources path we&#39;ve specified above. This is done in the jbr-experiment.json</p>
+					<pre><code><span style="color: #000000">  </span><span style="color: #001080">my</span><span style="color: #000000">-</span><span style="color: #001080">experiment</span><span style="color: #000000">/</span>
+<span style="color: #000000">    </span><span style="color: #001080">jbr</span><span style="color: #000000">-</span><span style="color: #001080">experiment</span><span style="color: #000000">.</span><span style="color: #001080">json</span>
+</code></pre>
+					<p>By default the entry for the hookSparqlEndpoint should look like this</p>
+					<pre><code><span style="color: #000000">  </span><span style="color: #A31515">&quot;hookSparqlEndpoint&quot;</span><span style="color: #000000">: {</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;@id&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;urn:jbr:testerdetest:hookSparqlEndpoint&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;@type&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;HookSparqlEndpointComunica&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;dockerfileClient&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;input/dockerfiles/Dockerfile-client&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;resourceConstraints&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">      </span><span style="color: #A31515">&quot;@type&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;StaticDockerResourceConstraints&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">      </span><span style="color: #A31515">&quot;cpu_percentage&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #098658">100</span>
+<span style="color: #000000">    },</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;configClient&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;input/config-client.json&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;contextClient&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;input/context-client.json&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;additionalBinds&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> [],</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;clientPort&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #098658">3001</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;clientLogLevel&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;info&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;queryTimeout&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #098658">300</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;maxMemory&quot;</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #098658">8192</span>
+<span style="color: #000000">  }</span>
+</code></pre>
+					<p>In this, we set </p>
+					<pre><code><span style="color: #000000">  </span><span style="color: #A31515">&quot;additionalBinds&quot;</span><span style="color: #000000">: [</span><span style="color: #A31515">&quot;/generated/dataset.nt:/tmp/dataset.nt&quot;</span><span style="color: #000000">] </span>
+</code></pre>
+					<p>The first part before the <code>:</code> denotes where our dataset is found locally, while the second part shows where the dataset will be available in the Docker image.</p>
 					<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 						<h2>License</h2>
 					</a>
