@@ -78,7 +78,7 @@ More background information on these config options can be found on https://comu
 * `additionalBinds`: The Local file bindings to the client dockerfile.
 
 
-## Querying local files in Comunica experiment
+## Querying local files
 
 By default, the hook handler sparql-endpoint-comunica expects the dataset to be served through http. 
 If you want to use a local file as source for the comunica endpoint you can bind a local dataset to comunica docker container.
