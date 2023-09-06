@@ -49,7 +49,6 @@ describe('HookSparqlEndpointComunica', () => {
       'info',
       300,
       8_192,
-      [],
     );
   });
 

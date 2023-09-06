@@ -7,6 +7,7 @@ test_files/
 output/
 .eslintcache
 documentation
+.yarn/
 exp-*
 
 **/lib/**/*.js

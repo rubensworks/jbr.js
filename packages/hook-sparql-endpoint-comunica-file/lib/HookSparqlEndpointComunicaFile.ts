@@ -5,7 +5,7 @@ import type { ITaskContext, DockerResourceConstraints,
 /**
  * A hook instance for a Comunica-based SPARQL endpoint.
  */
-export class HookSparqlEndpointComunica implements Hook {
+export class HookSparqlEndpointComunicaFile implements Hook {
   public readonly dockerfileClient: string;
   public readonly resourceConstraints: DockerResourceConstraints;
   public readonly configClient: string;
@@ -39,7 +39,7 @@ export class HookSparqlEndpointComunica implements Hook {
   }
 
   public getDockerImageName(context: ITaskContext): string {
-    return context.docker.imageBuilder.getImageName(context, `sparql-endpoint-comunica`);
+    return context.docker.imageBuilder.getImageName(context, `sparql-endpoint-comunica-file`);
   }
 
   public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {

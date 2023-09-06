@@ -2,14 +2,14 @@ import Path from 'path';
 import * as fs from 'fs-extra';
 import type { IExperimentPaths } from 'jbr';
 import { HookHandler } from 'jbr';
-import { HookSparqlEndpointComunica } from './HookSparqlEndpointComunica';
+import { HookSparqlEndpointComunicaFile } from './HookSparqlEndpointComunicaFile';
 
 /**
  * Hook handler for a Comunica-based SPARQL endpoint.
  */
-export class HookHandlerSparqlEndpointComunica extends HookHandler<HookSparqlEndpointComunica> {
+export class HookHandlerSparqlEndpointComunicaFile extends HookHandler<HookSparqlEndpointComunicaFile> {
   public constructor() {
-    super('sparql-endpoint-comunica', HookSparqlEndpointComunica.name);
+    super('sparql-endpoint-comunica-file', HookSparqlEndpointComunicaFile.name);
   }
 
   public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
@@ -21,7 +21,7 @@ export class HookHandlerSparqlEndpointComunica extends HookHandler<HookSparqlEnd
       },
       configClient: 'input/config-client.json',
       contextClient: 'input/context-client.json',
-      additionalBinds: [ ],
+      additionalBinds: [ '/generated/dataset.nt:/tmp/dataset.nt' ],
       clientPort: 3_001,
       clientLogLevel: 'info',
       queryTimeout: 300,
@@ -33,7 +33,7 @@ export class HookHandlerSparqlEndpointComunica extends HookHandler<HookSparqlEnd
     return [];
   }
 
-  public async init(experimentPaths: IExperimentPaths, hookHandler: HookSparqlEndpointComunica): Promise<void> {
+  public async init(experimentPaths: IExperimentPaths, hookHandler: HookSparqlEndpointComunicaFile): Promise<void> {
     // Create Dockerfile for client
     if (!await fs.pathExists(Path.join(experimentPaths.input, 'dockerfiles'))) {
       await fs.mkdir(Path.join(experimentPaths.input, 'dockerfiles'));
