@@ -10,6 +10,7 @@ export class HookSparqlEndpointComunica implements Hook {
   public readonly resourceConstraints: DockerResourceConstraints;
   public readonly configClient: string;
   public readonly contextClient: string;
+  public readonly additionalBinds: string[];
   public readonly clientPort: number;
   public readonly clientLogLevel: string;
   public readonly queryTimeout: number;
@@ -20,6 +21,7 @@ export class HookSparqlEndpointComunica implements Hook {
     resourceConstraints: DockerResourceConstraints,
     configClient: string,
     contextClient: string,
+    additionalBinds: string[],
     clientPort: number,
     clientLogLevel: string,
     queryTimeout: number,
@@ -29,6 +31,7 @@ export class HookSparqlEndpointComunica implements Hook {
     this.resourceConstraints = resourceConstraints;
     this.configClient = configClient;
     this.contextClient = contextClient;
+    this.additionalBinds = additionalBinds;
     this.clientPort = clientPort;
     this.clientLogLevel = clientLogLevel;
     this.queryTimeout = queryTimeout;
@@ -57,6 +60,7 @@ export class HookSparqlEndpointComunica implements Hook {
   }
 
   public async start(context: ITaskContext, options?: IHookStartOptions): Promise<ProcessHandler> {
+    const additionalMaps = this.additionalBinds.map(x => Path.join(context.experimentPaths.root, x));
     return await context.docker.containerCreator.start({
       containerName: 'comunica',
       imageName: this.getDockerImageName(context),
@@ -64,6 +68,7 @@ export class HookSparqlEndpointComunica implements Hook {
       hostConfig: {
         Binds: [
           `${Path.join(context.experimentPaths.root, this.contextClient)}:/tmp/context.json`,
+          ...additionalMaps,
         ],
         PortBindings: {
           '3000/tcp': [

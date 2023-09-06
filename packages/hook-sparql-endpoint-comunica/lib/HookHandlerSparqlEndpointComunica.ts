@@ -21,6 +21,7 @@ export class HookHandlerSparqlEndpointComunica extends HookHandler<HookSparqlEnd
       },
       configClient: 'input/config-client.json',
       contextClient: 'input/context-client.json',
+      additionalBinds: [ ],
       clientPort: 3_001,
       clientLogLevel: 'info',
       queryTimeout: 300,
