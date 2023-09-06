@@ -287,6 +287,78 @@ $ jbr run -d docker-options.json
 
 More configuration options can be found at https://github.com/apocas/dockerode#getting-started
 
+### Querying local files in Comunica experiment
+
+By default, the hook handler sparql-endpoint-comunica expects the dataset to be served through http. 
+If you want to use a local file as source for the comunica endpoint you can bind a local dataset to comunica docker container.
+To do so, follow these steps:
+
+First, use [lerna-docker](https://github.com/rubensworks/lerna-docker) to create a docker image of [engines/query-sparql-file](https://github.com/comunica/comunica/tree/master/engines/query-sparql-file). For this use the dockerfile in [engines/query-sparql](https://github.com/comunica/comunica/blob/master/engines/query-sparql/Dockerfile).
+Then generate an experiment and add the sparql-endpoint-comunica hook like explained above.
+In the generated experiment, you should change the client dockerfile:
+
+```text
+my-experiment/
+  input/
+    dockerfiles
+      Dockerfile-client
+```
+
+Change the default docker image to your newly created docker image. For example:
+```
+FROM comunica/query-sparql:v2.5.0 -> FROM comunica/query-sparql-file:v2.5.0
+```
+
+Furthermore, change the config-client.json and context-client.json
+```text
+my-experiment/
+  input/
+    config-client.json
+    context-client.json
+```
+In the config-client.json change the import of 
+```
+ccqs:config/config-default.json
+```
+to
+```
+ccqs:config/config-file.json
+``` 
+Then in the context-client.json set sources to
+```
+"sources": [ "/tmp/dataset.nt" ]
+``` 
+This path should point to where you want your dataset to be available in the Docker image.
+
+Finally, we want to bind our dataset to the sources path we've specified above. This is done in the jbr-experiment.json
+```
+  my-experiment/
+    jbr-experiment.json
+```
+By default the entry for the hookSparqlEndpoint should look like this
+```
+  "hookSparqlEndpoint": {
+    "@id": "urn:jbr:testerdetest:hookSparqlEndpoint",
+    "@type": "HookSparqlEndpointComunica",
+    "dockerfileClient": "input/dockerfiles/Dockerfile-client",
+    "resourceConstraints": {
+      "@type": "StaticDockerResourceConstraints",
+      "cpu_percentage": 100
+    },
+    "configClient": "input/config-client.json",
+    "contextClient": "input/context-client.json",
+    "additionalBinds": [],
+    "clientPort": 3001,
+    "clientLogLevel": "info",
+    "queryTimeout": 300,
+    "maxMemory": 8192
+  }
+```
+In this, we set 
+```
+  "additionalBinds": ["/generated/dataset.nt:/tmp/dataset.nt"] 
+```
+The first part before the ```:``` denotes where our dataset is found locally, while the second part shows where the dataset will be available in the Docker image.
 ## License
 
 jbr.js is written by [Ruben Taelman](http://www.rubensworks.net/).
