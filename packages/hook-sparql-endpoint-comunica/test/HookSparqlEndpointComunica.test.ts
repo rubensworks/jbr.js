@@ -45,11 +45,11 @@ describe('HookSparqlEndpointComunica', () => {
       resourceConstraints,
       'input/config-client.json',
       'input/context-client.json',
+      [ '/generated/dataset.nt:/tmp/dataset.nt' ],
       3_001,
       'info',
       300,
       8_192,
-      [],
     );
   });
 
@@ -76,6 +76,8 @@ describe('HookSparqlEndpointComunica', () => {
   describe('start', () => {
     it('should start the hook', async() => {
       const handler = await hook.start(context);
+      const additionalMaps = [ '/generated/dataset.nt:/tmp/dataset.nt' ]
+        .map(x => Path.join(context.experimentPaths.root, x));
       expect(handler).toBe(endpointHandler);
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
@@ -87,6 +89,7 @@ describe('HookSparqlEndpointComunica', () => {
         hostConfig: {
           Binds: [
             `${context.experimentPaths.root}/input/context-client.json:/tmp/context.json`,
+            ...additionalMaps,
           ],
           PortBindings: {
             '3000/tcp': [
@@ -101,6 +104,8 @@ describe('HookSparqlEndpointComunica', () => {
 
     it('should start the hook with a network', async() => {
       const handler = await hook.start(context, { docker: { network: 'n1' }});
+      const additionalMaps = [ '/generated/dataset.nt:/tmp/dataset.nt' ]
+        .map(x => Path.join(context.experimentPaths.root, x));
       expect(handler).toBe(endpointHandler);
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
@@ -112,6 +117,7 @@ describe('HookSparqlEndpointComunica', () => {
         hostConfig: {
           Binds: [
             `${context.experimentPaths.root}/input/context-client.json:/tmp/context.json`,
+            ...additionalMaps,
           ],
           PortBindings: {
             '3000/tcp': [
