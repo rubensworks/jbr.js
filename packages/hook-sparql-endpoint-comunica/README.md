@@ -53,6 +53,7 @@ When installing this hook, your configuration file (`jbr-experiment.json`) will 
       "cpu_percentage": 90
     },
     "configClient": "input/config-client.json",
+    "additionalBinds": [ ],
     "clientPort": 3001,
     "clientLogLevel": "info",
     "queryTimeout": 300,
