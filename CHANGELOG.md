@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v3.0.0"></a>
+## [v3.0.0](https://github.com/rubensworks/jbr.js/compare/v2.6.1...v3.0.0) - 2023-09-07
+
+### Breaking
+* [Allow binding local directories to comunica docker image](https://github.com/rubensworks/jbr.js/commit/b462a9991a85cbba8a78732d7d53c396884cc5cc)
+* [Update to Node 18](https://github.com/rubensworks/jbr.js/commit/75c2c06625a2d488eeb1e3bf44f12731215332a0)
+
 <a name="v2.6.1"></a>
 ## [v2.6.1](https://github.com/rubensworks/jbr.js/compare/v2.6.0...v2.6.1) - 2023-02-11
 

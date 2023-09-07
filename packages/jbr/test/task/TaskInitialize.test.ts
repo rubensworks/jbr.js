@@ -133,7 +133,7 @@ describe('TaskInitialize', () => {
         [Path.join('CWD', 'TARGETDIR', 'output', '.keep')]: 'TRUE',
         [Path.join('CWD', 'TARGETDIR', 'jbr-experiment.json')]: `{
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^3.0.0/components/context.jsonld",
     "context1",
     "context2"
   ],
@@ -255,7 +255,7 @@ describe('TaskInitialize', () => {
       [Path.join('CWD', 'TARGETDIR', 'output', '.keep')]: 'TRUE',
       [Path.join('CWD', 'TARGETDIR', 'jbr-combinations.json')]: `{
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld"
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^3.0.0/components/context.jsonld"
   ],
   "@id": "IRI-combinations",
   "@type": "FullFactorialCombinationProvider",
@@ -264,7 +264,7 @@ describe('TaskInitialize', () => {
 }`,
       [Path.join('CWD', 'TARGETDIR', 'jbr-experiment.json.template')]: `{
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^3.0.0/components/context.jsonld",
     "context1",
     "context2"
   ],
