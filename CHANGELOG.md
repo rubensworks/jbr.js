@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v3.0.1"></a>
+## [v3.0.1](https://github.com/rubensworks/jbr.js/compare/v3.0.0...v3.0.1) - 2023-09-11
+
+### Fixed
+* [Fix wrong component versions after major update](https://github.com/rubensworks/jbr.js/commit/67cd5e5610466fdfa61cb1007f69b910cbbf008b)
+
 <a name="v3.0.0"></a>
 ## [v3.0.0](https://github.com/rubensworks/jbr.js/compare/v2.6.1...v3.0.0) - 2023-09-07
 
