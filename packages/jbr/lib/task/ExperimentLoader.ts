@@ -5,7 +5,7 @@ import {
   ParameterPropertyHandlerRange,
 } from 'componentsjs/lib/preprocess/parameterproperty/ParameterPropertyHandlerRange';
 import * as fs from 'fs-extra';
-import { major, coerce } from 'semver';
+import { major } from 'semver';
 import type { CombinationProvider } from '../..';
 import { createExperimentPaths } from '../cli/CliHelpers';
 import { ErrorHandled } from '../cli/ErrorHandled';
@@ -26,10 +26,10 @@ export class ExperimentLoader {
   public static readonly PACKAGEJSON_NAME = 'package.json';
   public static readonly PREPAREDMARKER_PATH = [ 'generated', '.prepared' ];
   public static readonly IRI_EXPERIMENT_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/` +
-  `^${coerce(major(pJson.version))!.raw}/components/experiment/ExperimentHandler.jsonld#ExperimentHandler`;
+  `^${major(pJson.version)}.0.0/components/experiment/ExperimentHandler.jsonld#ExperimentHandler`;
 
   public static readonly IRI_HOOK_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/` +
-  `^${coerce(major(pJson.version))!.raw}/components/hook/HookHandler.jsonld#HookHandler`;
+  `^${major(pJson.version)}.0.0/components/hook/HookHandler.jsonld#HookHandler`;
 
   private readonly componentsManager: ComponentsManager<any>;
 
