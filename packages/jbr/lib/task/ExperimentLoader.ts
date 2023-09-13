@@ -5,6 +5,7 @@ import {
   ParameterPropertyHandlerRange,
 } from 'componentsjs/lib/preprocess/parameterproperty/ParameterPropertyHandlerRange';
 import * as fs from 'fs-extra';
+import { major } from 'semver';
 import type { CombinationProvider } from '../..';
 import { createExperimentPaths } from '../cli/CliHelpers';
 import { ErrorHandled } from '../cli/ErrorHandled';
@@ -12,6 +13,7 @@ import type { Experiment } from '../experiment/Experiment';
 import type { ExperimentHandler } from '../experiment/ExperimentHandler';
 import type { HookHandler } from '../hook/HookHandler';
 import type { IExperimentPaths } from './ITaskContext';
+
 const pJson = require('../../package.json');
 
 /**
@@ -23,8 +25,11 @@ export class ExperimentLoader {
   public static readonly COMBINATIONS_NAME = 'jbr-combinations.json';
   public static readonly PACKAGEJSON_NAME = 'package.json';
   public static readonly PREPAREDMARKER_PATH = [ 'generated', '.prepared' ];
-  public static readonly IRI_EXPERIMENT_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/^${pJson.version}/components/experiment/ExperimentHandler.jsonld#ExperimentHandler`;
-  public static readonly IRI_HOOK_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/^${pJson.version}/components/hook/HookHandler.jsonld#HookHandler`;
+  public static readonly IRI_EXPERIMENT_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/` +
+  `^${major(pJson.version)}.0.0/components/experiment/ExperimentHandler.jsonld#ExperimentHandler`;
+
+  public static readonly IRI_HOOK_HANDLER = `https://linkedsoftwaredependencies.org/bundles/npm/jbr/` +
+  `^${major(pJson.version)}.0.0/components/hook/HookHandler.jsonld#HookHandler`;
 
   private readonly componentsManager: ComponentsManager<any>;
 
