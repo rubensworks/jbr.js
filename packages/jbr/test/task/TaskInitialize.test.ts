@@ -1,4 +1,5 @@
 import * as Path from 'path';
+import semverMajor = require('semver/functions/major');
 import { createExperimentPaths } from '../../lib/cli/CliHelpers';
 import type { ExperimentHandler } from '../../lib/experiment/ExperimentHandler';
 import type { NpmInstaller } from '../../lib/npm/NpmInstaller';
@@ -6,6 +7,8 @@ import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
 import type { ITaskContext } from '../../lib/task/ITaskContext';
 import { TaskInitialize } from '../../lib/task/TaskInitialize';
 import { TestLogger } from '../TestLogger';
+
+const MAJOR_VERSION = semverMajor(require('../../package.json').version);
 
 let files: Record<string, string> = {};
 let filesOut: Record<string, string> = {};
@@ -133,7 +136,7 @@ describe('TaskInitialize', () => {
         [Path.join('CWD', 'TARGETDIR', 'output', '.keep')]: 'TRUE',
         [Path.join('CWD', 'TARGETDIR', 'jbr-experiment.json')]: `{
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^3.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^${MAJOR_VERSION}.0.0/components/context.jsonld",
     "context1",
     "context2"
   ],
@@ -255,7 +258,7 @@ describe('TaskInitialize', () => {
       [Path.join('CWD', 'TARGETDIR', 'output', '.keep')]: 'TRUE',
       [Path.join('CWD', 'TARGETDIR', 'jbr-combinations.json')]: `{
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^3.0.0/components/context.jsonld"
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^${MAJOR_VERSION}.0.0/components/context.jsonld"
   ],
   "@id": "IRI-combinations",
   "@type": "FullFactorialCombinationProvider",
@@ -264,7 +267,7 @@ describe('TaskInitialize', () => {
 }`,
       [Path.join('CWD', 'TARGETDIR', 'jbr-experiment.json.template')]: `{
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^3.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^${MAJOR_VERSION}.0.0/components/context.jsonld",
     "context1",
     "context2"
   ],
