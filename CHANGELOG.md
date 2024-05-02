@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v4.0.4"></a>
+## [v4.0.4](https://github.com/rubensworks/jbr.js/compare/v4.0.3...v4.0.4) - 2024-05-02
+
+### Fixed
+* [Use execFile instead of exec to file issues in CI](https://github.com/rubensworks/jbr.js/commit/9ab13696a0eb78a6091f454e20c0808749b9bc65)
+
 <a name="v4.0.3"></a>
 ## [v4.0.3](https://github.com/rubensworks/jbr.js/compare/v4.0.2...v4.0.3) - 2024-05-02
 
