@@ -24,7 +24,7 @@ describe('CliProcessHandler', () => {
     childProcess = <any> new EventEmitter();
     (<any> childProcess).kill = jest.fn(() => {
       setImmediate(() => {
-        childProcess.emit('exit');
+        childProcess.emit('close');
       });
     });
     (<any> childProcess).pid = 123;
@@ -33,7 +33,7 @@ describe('CliProcessHandler', () => {
     streamEnd = jest.fn();
   });
 
-  describe('exit', () => {
+  describe('close', () => {
     it('stops a process', async() => {
       const p = handler.close();
       jest.runAllTimers();
@@ -41,11 +41,26 @@ describe('CliProcessHandler', () => {
       expect(childProcess.kill).toHaveBeenCalled();
     });
 
+    it('stops a process and stops streams', async() => {
+      (<any> childProcess).stdin = { end: jest.fn() };
+      (<any> childProcess).stdout = { unpipe: jest.fn() };
+      (<any> childProcess).stderr = { unpipe: jest.fn() };
+
+      const p = handler.close();
+      jest.runAllTimers();
+      await p;
+      expect(childProcess.kill).toHaveBeenCalled();
+
+      expect(childProcess.stdin!.end).toHaveBeenCalled();
+      expect(childProcess.stdout!.unpipe).toHaveBeenCalled();
+      expect(childProcess.stderr!.unpipe).toHaveBeenCalled();
+    });
+
     it('kills a process if SIGTERM has no effect', async() => {
       (<any> childProcess).kill = jest.fn(signal => {
         if (signal === 'SIGKILL') {
           setImmediate(() => {
-            childProcess.emit('exit');
+            childProcess.emit('close');
           });
         }
         jest.runAllTimers();
@@ -69,7 +84,7 @@ describe('CliProcessHandler', () => {
       expect(onResolve).not.toHaveBeenCalled();
       expect(onReject).not.toHaveBeenCalled();
 
-      childProcess.emit('exit');
+      childProcess.emit('close');
       await singleTick();
 
       expect(onResolve).toHaveBeenCalled();
@@ -97,7 +112,7 @@ describe('CliProcessHandler', () => {
       const onResolve = jest.fn();
       const onReject = jest.fn();
 
-      childProcess.emit('exit');
+      childProcess.emit('close');
       await singleTick();
 
       handler.join().then(onResolve, onReject);
@@ -155,7 +170,7 @@ describe('CliProcessHandler', () => {
 
       handler.addTerminationHandler(termHandler);
 
-      childProcess.emit('exit');
+      childProcess.emit('close');
 
       // eslint-disable-next-line unicorn/no-useless-undefined
       expect(termHandler).toHaveBeenCalledWith(`CLI process (123)`, undefined);
@@ -177,7 +192,7 @@ describe('CliProcessHandler', () => {
 
       handler.addTerminationHandler(termHandler);
 
-      childProcess.emit('exit');
+      childProcess.emit('close');
       childProcess.emit('error', new Error('my error'));
 
       expect(termHandler).toHaveBeenCalledTimes(1);
@@ -204,7 +219,7 @@ describe('CliProcessHandler', () => {
       handler.addTerminationHandler(termHandler);
       handler.removeTerminationHandler(termHandler);
 
-      childProcess.emit('exit');
+      childProcess.emit('close');
 
       expect(termHandler).not.toHaveBeenCalled();
     });

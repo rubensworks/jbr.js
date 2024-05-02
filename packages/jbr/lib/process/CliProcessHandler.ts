@@ -21,7 +21,7 @@ export class CliProcessHandler implements ProcessHandler {
     this.terminationHandlers = new Set<() => void>();
 
     this.ended = false;
-    this.childProcess.on('exit', () => {
+    this.childProcess.on('close', () => {
       if (!this.ended && !this.errored) {
         this.onTerminated();
       }
@@ -39,6 +39,11 @@ export class CliProcessHandler implements ProcessHandler {
 
   public async close(): Promise<void> {
     if (!this.ended && !this.errored) {
+      // Make sure streams are closed.
+      this.childProcess.stdin?.end();
+      this.childProcess.stdout?.unpipe();
+      this.childProcess.stderr?.unpipe();
+
       // First try a graceful SIGTERM, and if the process hasn't been closed after 3 seconds,
       // forcefully stop with SIGKILL.
 
@@ -50,7 +55,7 @@ export class CliProcessHandler implements ProcessHandler {
         this.childProcess.kill('SIGKILL');
       }, 3000);
       const promise = new Promise<void>((resolve, reject) => {
-        this.childProcess.on('exit', () => {
+        this.childProcess.on('close', () => {
           // eslint-disable-next-line no-console
           console.log('CHILD PROCESS HAS BEEN CLOSED');
           clearTimeout(timeout);
@@ -71,7 +76,7 @@ export class CliProcessHandler implements ProcessHandler {
 
     if (!this.ended) {
       await new Promise((resolve, reject) => {
-        this.childProcess.on('exit', resolve);
+        this.childProcess.on('close', resolve);
         this.childProcess.on('error', reject);
       });
     }
