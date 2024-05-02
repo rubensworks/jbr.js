@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v4.0.3"></a>
+## [v4.0.3](https://github.com/rubensworks/jbr.js/compare/v4.0.2...v4.0.3) - 2024-05-02
+
+### Fixed
+* [Stop streams on child process kill](https://github.com/rubensworks/jbr.js/commit/bd7fec262afc1abef979ca8c9b34747d3df7de02)
+
 <a name="v4.0.2"></a>
 ## [v4.0.2](https://github.com/rubensworks/jbr.js/compare/v4.0.1...v4.0.2) - 2024-05-02
 
