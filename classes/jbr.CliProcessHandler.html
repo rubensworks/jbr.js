@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ProcessHandler | jbr</title>
+	<title>CliProcessHandler | jbr</title>
 	<meta name="description" content="Documentation for jbr">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -58,38 +58,28 @@
 					<a href="../modules/jbr.html">jbr</a>
 				</li>
 				<li>
-					<a href="jbr.ProcessHandler.html">ProcessHandler</a>
+					<a href="jbr.CliProcessHandler.html">CliProcessHandler</a>
 				</li>
 			</ul>
-			<h1>Interface ProcessHandler</h1>
+			<h1>Class CliProcessHandler</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Handles a started process.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ProcessHandler</span>
+						<span class="target">CliProcessHandler</span>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
-				<h3>Implemented by</h3>
+				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../classes/jbr.CliProcessHandler.html" class="tsd-signature-type" data-tsd-kind="Class">CliProcessHandler</a></li>
-					<li><a href="../classes/jbr.DockerContainerHandler.html" class="tsd-signature-type" data-tsd-kind="Class">DockerContainerHandler</a></li>
-					<li><a href="../classes/jbr.DockerNetworkHandler.html" class="tsd-signature-type" data-tsd-kind="Class">DockerNetworkHandler</a></li>
-					<li><a href="../classes/jbr.ProcessHandlerComposite.html" class="tsd-signature-type" data-tsd-kind="Class">ProcessHandlerComposite</a></li>
+					<li><a href="../interfaces/jbr.ProcessHandler.html" class="tsd-signature-type" data-tsd-kind="Interface">ProcessHandler</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -97,31 +87,131 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="jbr.CliProcessHandler.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jbr.CliProcessHandler.html#childProcess" class="tsd-kind-icon">child<wbr>Process</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jbr.CliProcessHandler.html#ended" class="tsd-kind-icon">ended</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jbr.CliProcessHandler.html#errored" class="tsd-kind-icon">errored</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jbr.CliProcessHandler.html#statsFilePath" class="tsd-kind-icon">stats<wbr>File<wbr>Path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jbr.CliProcessHandler.html#terminationHandlers" class="tsd-kind-icon">termination<wbr>Handlers</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="jbr.ProcessHandler.html#addTerminationHandler" class="tsd-kind-icon">add<wbr>Termination<wbr>Handler</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="jbr.ProcessHandler.html#close" class="tsd-kind-icon">close</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="jbr.ProcessHandler.html#join" class="tsd-kind-icon">join</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="jbr.ProcessHandler.html#removeTerminationHandler" class="tsd-kind-icon">remove<wbr>Termination<wbr>Handler</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="jbr.ProcessHandler.html#startCollectingStats" class="tsd-kind-icon">start<wbr>Collecting<wbr>Stats</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.CliProcessHandler.html#addTerminationHandler" class="tsd-kind-icon">add<wbr>Termination<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.CliProcessHandler.html#close" class="tsd-kind-icon">close</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.CliProcessHandler.html#join" class="tsd-kind-icon">join</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="jbr.CliProcessHandler.html#onTerminated" class="tsd-kind-icon">on<wbr>Terminated</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.CliProcessHandler.html#removeTerminationHandler" class="tsd-kind-icon">remove<wbr>Termination<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.CliProcessHandler.html#startCollectingStats" class="tsd-kind-icon">start<wbr>Collecting<wbr>Stats</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="addTerminationHandler" class="tsd-anchor"></a>
-					<h3>add<wbr>Termination<wbr>Handler</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Termination<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Cli<wbr>Process<wbr>Handler<span class="tsd-signature-symbol">(</span>childProcess<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ChildProcess</span>, statsFilePath<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jbr.CliProcessHandler.html" class="tsd-signature-type" data-tsd-kind="Class">CliProcessHandler</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/experiment/ProcessHandler.ts#L25">packages/jbr/lib/experiment/ProcessHandler.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/process/CliProcessHandler.ts#L15">packages/jbr/lib/process/CliProcessHandler.ts:15</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>childProcess: <span class="tsd-signature-type">ChildProcess</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> statsFilePath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="jbr.CliProcessHandler.html" class="tsd-signature-type" data-tsd-kind="Class">CliProcessHandler</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="childProcess" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> child<wbr>Process</h3>
+					<div class="tsd-signature tsd-kind-icon">child<wbr>Process<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ChildProcess</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/process/CliProcessHandler.ts#L8">packages/jbr/lib/process/CliProcessHandler.ts:8</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="ended" class="tsd-anchor"></a>
+					<h3>ended</h3>
+					<div class="tsd-signature tsd-kind-icon">ended<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/process/CliProcessHandler.ts#L12">packages/jbr/lib/process/CliProcessHandler.ts:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="errored" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> errored</h3>
+					<div class="tsd-signature tsd-kind-icon">errored<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Error</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/process/CliProcessHandler.ts#L13">packages/jbr/lib/process/CliProcessHandler.ts:13</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="statsFilePath" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> stats<wbr>File<wbr>Path</h3>
+					<div class="tsd-signature tsd-kind-icon">stats<wbr>File<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/process/CliProcessHandler.ts#L9">packages/jbr/lib/process/CliProcessHandler.ts:9</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="terminationHandlers" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> termination<wbr>Handlers</h3>
+					<div class="tsd-signature tsd-kind-icon">termination<wbr>Handlers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/process/CliProcessHandler.ts#L10">packages/jbr/lib/process/CliProcessHandler.ts:10</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="addTerminationHandler" class="tsd-anchor"></a>
+					<h3>add<wbr>Termination<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Termination<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/jbr.ProcessHandler.html">ProcessHandler</a>.<a href="../interfaces/jbr.ProcessHandler.html#addTerminationHandler">addTerminationHandler</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/process/CliProcessHandler.ts#L91">packages/jbr/lib/process/CliProcessHandler.ts:91</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -133,9 +223,6 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>handler: <span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>A handler that will be invoked when this process terminates.</p>
-									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
@@ -163,17 +250,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="close" class="tsd-anchor"></a>
 					<h3>close</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/jbr.ProcessHandler.html">ProcessHandler</a>.<a href="../interfaces/jbr.ProcessHandler.html#close">close</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/experiment/ProcessHandler.ts#L8">packages/jbr/lib/experiment/ProcessHandler.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/process/CliProcessHandler.ts#L40">packages/jbr/lib/process/CliProcessHandler.ts:40</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -185,17 +273,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="join" class="tsd-anchor"></a>
 					<h3>join</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">join<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/jbr.ProcessHandler.html">ProcessHandler</a>.<a href="../interfaces/jbr.ProcessHandler.html#join">join</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/experiment/ProcessHandler.ts#L13">packages/jbr/lib/experiment/ProcessHandler.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/process/CliProcessHandler.ts#L50">packages/jbr/lib/process/CliProcessHandler.ts:50</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -207,17 +296,41 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="removeTerminationHandler" class="tsd-anchor"></a>
-					<h3>remove<wbr>Termination<wbr>Handler</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>Termination<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="onTerminated" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Terminated</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Terminated<span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/experiment/ProcessHandler.ts#L30">packages/jbr/lib/experiment/ProcessHandler.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/process/CliProcessHandler.ts#L99">packages/jbr/lib/process/CliProcessHandler.ts:99</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> error: <span class="tsd-signature-type">Error</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="removeTerminationHandler" class="tsd-anchor"></a>
+					<h3>remove<wbr>Termination<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Termination<wbr>Handler<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/jbr.ProcessHandler.html">ProcessHandler</a>.<a href="../interfaces/jbr.ProcessHandler.html#removeTerminationHandler">removeTerminationHandler</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/process/CliProcessHandler.ts#L95">packages/jbr/lib/process/CliProcessHandler.ts:95</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -229,9 +342,6 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>handler: <span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>A registered handler.</p>
-									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
@@ -259,17 +369,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="startCollectingStats" class="tsd-anchor"></a>
 					<h3>start<wbr>Collecting<wbr>Stats</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">start<wbr>Collecting<wbr>Stats<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/jbr.ProcessHandler.html">ProcessHandler</a>.<a href="../interfaces/jbr.ProcessHandler.html#startCollectingStats">startCollectingStats</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/experiment/ProcessHandler.ts#L19">packages/jbr/lib/experiment/ProcessHandler.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/bba7498/packages/jbr/lib/process/CliProcessHandler.ts#L63">packages/jbr/lib/process/CliProcessHandler.ts:63</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -332,23 +443,44 @@
 					<li class="current tsd-kind-module">
 						<a href="../modules/jbr.html" class="tsd-kind-icon">jbr</a>
 						<ul>
-							<li class="current tsd-kind-interface tsd-parent-kind-module">
-								<a href="jbr.ProcessHandler.html" class="tsd-kind-icon">Process<wbr>Handler</a>
+							<li class="current tsd-kind-class tsd-parent-kind-module">
+								<a href="jbr.CliProcessHandler.html" class="tsd-kind-icon">Cli<wbr>Process<wbr>Handler</a>
 								<ul>
-									<li class=" tsd-kind-method tsd-parent-kind-interface">
-										<a href="jbr.ProcessHandler.html#addTerminationHandler" class="tsd-kind-icon">add<wbr>Termination<wbr>Handler</a>
+									<li class=" tsd-kind-constructor tsd-parent-kind-class">
+										<a href="jbr.CliProcessHandler.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-interface">
-										<a href="jbr.ProcessHandler.html#close" class="tsd-kind-icon">close</a>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="jbr.CliProcessHandler.html#childProcess" class="tsd-kind-icon">child<wbr>Process</a>
 									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-interface">
-										<a href="jbr.ProcessHandler.html#join" class="tsd-kind-icon">join</a>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="jbr.CliProcessHandler.html#ended" class="tsd-kind-icon">ended</a>
 									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-interface">
-										<a href="jbr.ProcessHandler.html#removeTerminationHandler" class="tsd-kind-icon">remove<wbr>Termination<wbr>Handler</a>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="jbr.CliProcessHandler.html#errored" class="tsd-kind-icon">errored</a>
 									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-interface">
-										<a href="jbr.ProcessHandler.html#startCollectingStats" class="tsd-kind-icon">start<wbr>Collecting<wbr>Stats</a>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="jbr.CliProcessHandler.html#statsFilePath" class="tsd-kind-icon">stats<wbr>File<wbr>Path</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="jbr.CliProcessHandler.html#terminationHandlers" class="tsd-kind-icon">termination<wbr>Handlers</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="jbr.CliProcessHandler.html#addTerminationHandler" class="tsd-kind-icon">add<wbr>Termination<wbr>Handler</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="jbr.CliProcessHandler.html#close" class="tsd-kind-icon">close</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="jbr.CliProcessHandler.html#join" class="tsd-kind-icon">join</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+										<a href="jbr.CliProcessHandler.html#onTerminated" class="tsd-kind-icon">on<wbr>Terminated</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="jbr.CliProcessHandler.html#removeTerminationHandler" class="tsd-kind-icon">remove<wbr>Termination<wbr>Handler</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="jbr.CliProcessHandler.html#startCollectingStats" class="tsd-kind-icon">start<wbr>Collecting<wbr>Stats</a>
 									</li>
 								</ul>
 							</li>
@@ -366,6 +498,13 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
@@ -373,11 +512,9 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
 			</ul>
 		</div>
 	</div>
