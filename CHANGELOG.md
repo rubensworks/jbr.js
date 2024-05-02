@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v4.0.2"></a>
+## [v4.0.2](https://github.com/rubensworks/jbr.js/compare/v4.0.1...v4.0.2) - 2024-05-02
+
+### Fixed
+* [Listen to child process exit instead of close](https://github.com/rubensworks/jbr.js/commit/c2f3251030d64be0624ff8a6a8d93f59d0050eb5)
+
 <a name="v4.0.1"></a>
 ## [v4.0.1](https://github.com/rubensworks/jbr.js/compare/v4.0.0...v4.0.1) - 2024-05-02
 
