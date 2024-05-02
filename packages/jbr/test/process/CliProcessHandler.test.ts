@@ -34,11 +34,27 @@ describe('CliProcessHandler', () => {
   });
 
   describe('close', () => {
-    it('kills a process', async() => {
+    it('stops a process', async() => {
       const p = handler.close();
       jest.runAllTimers();
       await p;
       expect(childProcess.kill).toHaveBeenCalled();
+    });
+
+    it('kills a process if SIGTERM has no effect', async() => {
+      (<any> childProcess).kill = jest.fn(signal => {
+        if (signal === 'SIGKILL') {
+          setImmediate(() => {
+            childProcess.emit('close');
+          });
+        }
+        jest.runAllTimers();
+      });
+
+      const p = handler.close();
+      jest.runAllTimers();
+      await p;
+      expect(childProcess.kill).toHaveBeenCalledTimes(2);
     });
   });
 
