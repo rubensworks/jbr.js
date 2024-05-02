@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v4.0.0"></a>
+## [v4.0.0](https://github.com/rubensworks/jbr.js/compare/v3.0.2...v4.0.0) - 2024-05-02
+
+### BREAKING CHANGES
+* [Update to Components.js v6](https://github.com/rubensworks/jbr.js/commit/f8c4cfd6972514a85c9076dbc8748bc071051c63)
+  * For most users, this will not cause breaking changes.
+
+### Added
+* [Add CLI-based hook](https://github.com/rubensworks/jbr.js/commit/0c1ccf8ba46e574a219bb8ddf65f02276314c7a1)
+
 <a name="v3.0.2"></a>
 ## [v3.0.2](https://github.com/rubensworks/jbr.js/compare/v3.0.1...v3.0.2) - 2023-09-13
 
