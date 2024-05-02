@@ -24,7 +24,7 @@ describe('CliProcessHandler', () => {
     childProcess = <any> new EventEmitter();
     (<any> childProcess).kill = jest.fn(() => {
       setImmediate(() => {
-        childProcess.emit('close');
+        childProcess.emit('exit');
       });
     });
     (<any> childProcess).pid = 123;
@@ -33,7 +33,7 @@ describe('CliProcessHandler', () => {
     streamEnd = jest.fn();
   });
 
-  describe('close', () => {
+  describe('exit', () => {
     it('stops a process', async() => {
       const p = handler.close();
       jest.runAllTimers();
@@ -45,7 +45,7 @@ describe('CliProcessHandler', () => {
       (<any> childProcess).kill = jest.fn(signal => {
         if (signal === 'SIGKILL') {
           setImmediate(() => {
-            childProcess.emit('close');
+            childProcess.emit('exit');
           });
         }
         jest.runAllTimers();
@@ -69,7 +69,7 @@ describe('CliProcessHandler', () => {
       expect(onResolve).not.toHaveBeenCalled();
       expect(onReject).not.toHaveBeenCalled();
 
-      childProcess.emit('close');
+      childProcess.emit('exit');
       await singleTick();
 
       expect(onResolve).toHaveBeenCalled();
@@ -97,7 +97,7 @@ describe('CliProcessHandler', () => {
       const onResolve = jest.fn();
       const onReject = jest.fn();
 
-      childProcess.emit('close');
+      childProcess.emit('exit');
       await singleTick();
 
       handler.join().then(onResolve, onReject);
@@ -155,7 +155,7 @@ describe('CliProcessHandler', () => {
 
       handler.addTerminationHandler(termHandler);
 
-      childProcess.emit('close');
+      childProcess.emit('exit');
 
       // eslint-disable-next-line unicorn/no-useless-undefined
       expect(termHandler).toHaveBeenCalledWith(`CLI process (123)`, undefined);
@@ -177,7 +177,7 @@ describe('CliProcessHandler', () => {
 
       handler.addTerminationHandler(termHandler);
 
-      childProcess.emit('close');
+      childProcess.emit('exit');
       childProcess.emit('error', new Error('my error'));
 
       expect(termHandler).toHaveBeenCalledTimes(1);
@@ -204,7 +204,7 @@ describe('CliProcessHandler', () => {
       handler.addTerminationHandler(termHandler);
       handler.removeTerminationHandler(termHandler);
 
-      childProcess.emit('close');
+      childProcess.emit('exit');
 
       expect(termHandler).not.toHaveBeenCalled();
     });

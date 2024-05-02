@@ -21,7 +21,7 @@ export class CliProcessHandler implements ProcessHandler {
     this.terminationHandlers = new Set<() => void>();
 
     this.ended = false;
-    this.childProcess.on('close', () => {
+    this.childProcess.on('exit', () => {
       if (!this.ended && !this.errored) {
         this.onTerminated();
       }
@@ -50,7 +50,7 @@ export class CliProcessHandler implements ProcessHandler {
         this.childProcess.kill('SIGKILL');
       }, 3000);
       const promise = new Promise<void>((resolve, reject) => {
-        this.childProcess.on('close', () => {
+        this.childProcess.on('exit', () => {
           // eslint-disable-next-line no-console
           console.log('CHILD PROCESS HAS BEEN CLOSED');
           clearTimeout(timeout);
@@ -71,7 +71,7 @@ export class CliProcessHandler implements ProcessHandler {
 
     if (!this.ended) {
       await new Promise((resolve, reject) => {
-        this.childProcess.on('close', resolve);
+        this.childProcess.on('exit', resolve);
         this.childProcess.on('error', reject);
       });
     }
