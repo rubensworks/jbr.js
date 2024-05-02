@@ -3,7 +3,7 @@ import { CliProcessHandler, createExperimentPaths } from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { HookCli } from '../lib/HookCli';
 
-const execSpy = jest.spyOn(require('node:child_process'), 'exec');
+const execSpy = jest.spyOn(require('node:child_process'), 'execFile');
 
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'),
