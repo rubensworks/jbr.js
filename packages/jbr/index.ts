@@ -23,6 +23,7 @@ export * from './lib/hook/HookHandler';
 export * from './lib/npm/CliNpmInstaller';
 export * from './lib/npm/NpmInstaller';
 export * from './lib/npm/VoidNpmInstaller';
+export * from './lib/process/CliProcessHandler';
 export * from './lib/task/ExperimentLoader';
 export * from './lib/task/ICleanTargets';
 export * from './lib/task/ITaskContext';

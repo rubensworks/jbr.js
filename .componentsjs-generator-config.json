@@ -9,6 +9,8 @@
     "DockerNetworkHandler",
     "DockerImageBuilder",
     "DockerImagePuller",
-    "ITaskContext"
+    "ITaskContext",
+    "ChildProcess",
+    "Set"
   ]
 }

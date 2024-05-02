@@ -1,7 +1,7 @@
 {
-  "name": "jbr",
+  "name": "@jbr-hook/cli",
   "version": "3.0.2",
-  "description": "Just a Benchmark Runner",
+  "description": "CLI-based hook handler for JBR",
   "main": "index.js",
   "typings": "index",
   "lsd:module": true,
@@ -9,7 +9,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/rubensworks/jbr.js.git",
-    "directory": "packages/jbr"
+    "directory": "packages/hook-cli"
   },
   "publishConfig": {
     "access": "public"
@@ -19,22 +19,16 @@
   },
   "homepage": "https://github.com/rubensworks/jbr.js#readme",
   "license": "MIT",
-  "bin": "bin/jbr",
   "keywords": [
+    "hook",
+    "CLI",
     "jbr",
-    "just a benchmark runner",
-    "benchmarking",
-    "command line"
+    "benchmarking"
   ],
   "files": [
-    "bin/**/*.d.ts",
-    "bin/**/*.js",
-    "bin/jbr",
     "lib/**/*.d.ts",
     "lib/**/*.js",
-    "lib/**/*.json",
     "lib/templates",
-    "lib/templates/.gitignore",
     "index.d.ts",
     "index.ts",
     "components"
@@ -48,7 +42,7 @@
     "transform": {
       "^.+\\.ts$": "ts-jest"
     },
-    "testRegex": "/test/.*.test.ts$",
+    "testRegex": "(/test/.*|(\\.|/)(test|spec))\\.ts$",
     "moduleFileExtensions": [
       "ts",
       "js"
@@ -61,29 +55,14 @@
     "build": "node \"../../node_modules/typescript/bin/tsc\"",
     "validate": "npm ls"
   },
-  "dependencies": {
-    "@types/cli-progress": "^3.9.1",
-    "@types/cross-spawn": "^6.0.2",
-    "@types/dockerode": "^3.2.3",
-    "@types/fs-extra": "^9.0.11",
-    "@types/semver": "^7.5.1",
-    "@types/tar": "^4.0.5",
-    "@types/yargs": "^17.0.0",
-    "@types/pidusage": "^2.0.5",
-    "cli-progress": "^3.9.0",
-    "componentsjs": "^5.2.0",
-    "cross-fetch": "^4.0.0",
-    "cross-spawn": "^7.0.3",
-    "dockerode": "^3.3.0",
-    "fs-extra": "^10.0.0",
-    "ora": "^5.4.0",
-    "semver": "^7.5.4",
-    "tar": "^6.1.7",
-    "winston": "^3.3.3",
-    "yargs": "^17.0.0",
-    "pidusage": "^3.0.2"
+  "devDependencies": {
+    "jbr": "^3.0.2"
   },
-  "engines": {
-    "node": ">=14.0"
+  "peerDependencies": {
+    "jbr": ">=2.0.0"
+  },
+  "dependencies": {
+    "@types/fs-extra": "^9.0.11",
+    "fs-extra": "^10.0.0"
   }
 }
