@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v4.0.1"></a>
+## [v4.0.1](https://github.com/rubensworks/jbr.js/compare/v4.0.0...v4.0.1) - 2024-05-02
+
+### Fixed
+* [Kill child process if it hasn't stopped yet after 3 seconds](https://github.com/rubensworks/jbr.js/commit/9e7ad2db105470d724ef7fb401736c067116e974)
+
 <a name="v4.0.0"></a>
 ## [v4.0.0](https://github.com/rubensworks/jbr.js/compare/v3.0.2...v4.0.0) - 2024-05-02
 

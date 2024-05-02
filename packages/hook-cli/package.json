@@ -1,6 +1,6 @@
 {
   "name": "@jbr-hook/cli",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "CLI-based hook handler for JBR",
   "main": "index.js",
   "typings": "index",
@@ -56,7 +56,7 @@
     "validate": "npm ls"
   },
   "devDependencies": {
-    "jbr": "^4.0.0"
+    "jbr": "^4.0.1"
   },
   "peerDependencies": {
     "jbr": ">=2.0.0"
