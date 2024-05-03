@@ -24,7 +24,8 @@ export class HookCli implements Hook {
   }
 
   public async start(context: ITaskContext, options?: IHookStartOptions): Promise<ProcessHandler> {
-    const childProcess = execFile(this.command);
+    const [ file, ...args ] = this.command.split(' ');
+    const childProcess = execFile(file, args);
     childProcess.stdout!.pipe(fs.createWriteStream(Path
       .join(context.experimentPaths.output, 'logs', 'cli-stdout.txt'), 'utf8'));
     childProcess.stderr!.pipe(fs.createWriteStream(Path

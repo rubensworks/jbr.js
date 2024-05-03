@@ -49,7 +49,7 @@ describe('HookCli', () => {
     it('should start the hook', async() => {
       const handler = await hook.start(context);
 
-      expect(execSpy).toHaveBeenCalledWith('echo "HI"');
+      expect(execSpy).toHaveBeenCalledWith('echo', [ '"HI"' ]);
       expect(handler).toBeInstanceOf(CliProcessHandler);
     });
   });
