@@ -13,6 +13,11 @@ export const builder = (yargs: Argv<any>): Argv<any> =>
         alias: 'c',
         describe: 'The combination id to run. If undefined, all combinations will be run.',
       },
+      filter: {
+        type: 'string',
+        alias: 'f',
+        describe: 'An optional filter that will be passed to the experiment.',
+      },
     });
 export const handler = (argv: Record<string, any>): Promise<void> => wrapCommandHandler(argv,
-  async(context: ITaskContext) => new TaskRun(context, argv.combination).run());
+  async(context: ITaskContext) => new TaskRun(context, argv.combination, argv.filter).run());

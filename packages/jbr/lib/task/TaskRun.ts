@@ -7,13 +7,16 @@ import type { ITaskContext } from './ITaskContext';
 export class TaskRun {
   private readonly context: ITaskContext;
   private readonly combination: number | undefined;
+  private readonly filter: string | undefined;
 
   public constructor(
     context: ITaskContext,
     combination: number | undefined,
+    filter: string | undefined,
   ) {
     this.context = context;
     this.combination = combination;
+    this.filter = filter;
   }
 
   public async run(): Promise<void> {
@@ -27,7 +30,7 @@ export class TaskRun {
           this.context.logger.info(`🧩 Running experiment combination ${i}`);
         }
 
-        await experiment.run({ ...this.context, experimentPaths: experimentPathsArray[i] });
+        await experiment.run({ ...this.context, experimentPaths: experimentPathsArray[i], filter: this.filter });
       }
     }
   }

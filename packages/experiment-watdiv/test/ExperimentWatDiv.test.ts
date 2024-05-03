@@ -1,7 +1,7 @@
 import Path from 'path';
 import type { Hook, ITaskContext, ProcessHandler } from 'jbr';
 import { createExperimentPaths } from 'jbr';
-import { writeBenchmarkResults } from 'sparql-benchmark-runner';
+import { SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { ExperimentWatDiv } from '../lib/ExperimentWatDiv';
 
@@ -13,7 +13,11 @@ jest.mock('sparql-benchmark-runner', () => ({
       run: sparqlBenchmarkRun,
     };
   }),
-  readQueries: jest.fn(),
+  readQueries: jest.fn(() => ({
+    C1: 'path/C1',
+    C2: 'path/C2',
+    C3: 'path/C3',
+  })),
   writeBenchmarkResults: jest.fn(),
 }));
 
@@ -333,6 +337,14 @@ describe('ExperimentWatDiv', () => {
       expect(dirsOut).toEqual({
         'CWD/output': true,
       });
+
+      expect(SparqlBenchmarkRunner).toHaveBeenCalledWith(expect.objectContaining({
+        querySets: {
+          C1: 'path/C1',
+          C2: 'path/C2',
+          C3: 'path/C3',
+        },
+      }));
     });
 
     it('should run the experiment without recording http requests', async() => {
@@ -435,6 +447,30 @@ describe('ExperimentWatDiv', () => {
       expect(dirsOut).toEqual({
         'CWD/output': true,
       });
+    });
+
+    it('should run the experiment with query filter', async() => {
+      await experiment.run({ ...context, filter: 'C1' });
+
+      expect(hookSparqlEndpoint.start).toHaveBeenCalledWith({ ...context, filter: 'C1' });
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
+      expect(sparqlBenchmarkRun).toHaveBeenCalled();
+      expect(endpointHandler.close).toHaveBeenCalled();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
+      expect(writeBenchmarkResults).toHaveBeenCalledWith(
+        undefined,
+        Path.normalize('CWD/output/query-times.csv'),
+        true,
+        [ 'httpRequests' ],
+      );
+
+      expect(dirsOut).toEqual({
+        'CWD/output': true,
+      });
+
+      expect(SparqlBenchmarkRunner).toHaveBeenCalledWith(expect.objectContaining({
+        querySets: { C1: 'path/C1' },
+      }));
     });
   });
 

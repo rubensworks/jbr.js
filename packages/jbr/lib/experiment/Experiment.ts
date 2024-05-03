@@ -13,7 +13,7 @@ export interface Experiment {
    * Called when an experiment is executed.
    * @param context The task context.
    */
-  run: (context: ITaskContext) => Promise<void>;
+  run: (context: IRunTaskContext) => Promise<void>;
 
   /**
    * Called when an experiment needs to be cleaned up.
@@ -22,3 +22,5 @@ export interface Experiment {
    */
   clean: (context: ITaskContext, cleanTargets: ICleanTargets) => Promise<void>;
 }
+
+export type IRunTaskContext = ITaskContext & { filter?: string };

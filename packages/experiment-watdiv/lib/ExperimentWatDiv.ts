@@ -1,7 +1,7 @@
 import * as Path from 'path';
 import * as fs from 'fs-extra';
 import { secureProcessHandler } from 'jbr';
-import type { Experiment, Hook, ICleanTargets, ITaskContext } from 'jbr';
+import type { Experiment, Hook, ICleanTargets, ITaskContext, IRunTaskContext } from 'jbr';
 import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
 
 /**
@@ -135,16 +135,24 @@ export class ExperimentWatDiv implements Experiment {
     }
   }
 
-  public async run(context: ITaskContext): Promise<void> {
+  public async run(context: IRunTaskContext): Promise<void> {
     // Setup SPARQL endpoint
     const endpointProcessHandler = await this.hookSparqlEndpoint.start(context);
     const closeProcess = secureProcessHandler(endpointProcessHandler, context);
+
+    // Determine query sets
+    let querySets = await readQueries(Path.join(context.experimentPaths.generated, 'queries'));
+    if (context.filter) {
+      const filterRegex = new RegExp(context.filter, 'u');
+      querySets = Object.fromEntries(Object.entries(querySets)
+        .filter(entry => filterRegex.test(entry[0])));
+    }
 
     // Initiate SPARQL benchmark runner
     let stopEndpointStats: () => void;
     const results = await new SparqlBenchmarkRunner({
       endpoint: this.endpointUrl,
-      querySets: await readQueries(Path.join(context.experimentPaths.generated, 'queries')),
+      querySets,
       replication: this.queryRunnerReplication,
       warmup: this.queryRunnerWarmupRounds,
       timestampsRecording: this.queryRunnerRecordTimestamps,
