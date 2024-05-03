@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v4.1.0"></a>
+## [v4.1.0](https://github.com/rubensworks/jbr.js/compare/v4.0.4...v4.1.0) - 2024-05-03
+
+### Added
+* [Allow query filter to be passed to WatDiv experiment](https://github.com/rubensworks/jbr.js/commit/6fb4f7cfe15f3b017fefc3b78290a78c449e76a2)
+
+### Changed
+* [Print error message on early process termination](https://github.com/rubensworks/jbr.js/commit/ad372c8ef21888652f0c6c806910ae6601b288fa)
+
 <a name="v4.0.4"></a>
 ## [v4.0.4](https://github.com/rubensworks/jbr.js/compare/v4.0.3...v4.0.4) - 2024-05-02
 
