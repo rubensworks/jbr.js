@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v4.2.0"></a>
+## [v4.2.0](https://github.com/rubensworks/jbr.js/compare/v4.1.1...v4.2.0) - 2024-05-03
+
+### Changed
+* [Use entrypoint array instead of command string in HookCli](https://github.com/rubensworks/jbr.js/commit/82fa6fa191cecac6e35e385babdacb5d99359446)
+
 <a name="v4.1.1"></a>
 ## [v4.1.1](https://github.com/rubensworks/jbr.js/compare/v4.1.0...v4.1.1) - 2024-05-03
 
