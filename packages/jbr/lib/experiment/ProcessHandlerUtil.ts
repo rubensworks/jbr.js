@@ -10,8 +10,10 @@ import type { ProcessHandler } from './ProcessHandler';
  */
 export function secureProcessHandler(processHandler: ProcessHandler, context: ITaskContext): () => Promise<void> {
   // Register termination listener
-  function terminationHandler(processName: string): void {
-    context.logger.error(`A process (${processName}) exited prematurely.\nThis may be caused by a software error or insufficient memory being allocated to the system or Docker.\nPlease inspect the output logs for more details.`);
+  function terminationHandler(processName: string, error?: Error): void {
+    context.logger.error(`A process (${processName}) exited prematurely${error ? ` with error '${error.message}'` : ''}.
+This may be caused by a software error or insufficient memory being allocated to the system or Docker.
+Please inspect the output logs for more details.`);
     context.closeExperiment();
   }
   processHandler.addTerminationHandler(terminationHandler);
