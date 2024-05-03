@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v4.1.1"></a>
+## [v4.1.1](https://github.com/rubensworks/jbr.js/compare/v4.1.0...v4.1.1) - 2024-05-03
+
+### Fixed
+* [Pass args separately to execFile](https://github.com/rubensworks/jbr.js/commit/353e396ebe37bf157d357ae8e2c0e13a92673208)
+
 <a name="v4.1.0"></a>
 ## [v4.1.0](https://github.com/rubensworks/jbr.js/compare/v4.0.4...v4.1.0) - 2024-05-03
 
