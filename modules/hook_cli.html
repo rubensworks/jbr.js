@@ -101,7 +101,12 @@
   &quot;someHook&quot;: {
     &quot;@id&quot;: &quot;urn:jrb:bb:hookSome&quot;,
     &quot;@type&quot;: &quot;HookCli&quot;,
-    &quot;command&quot;: &quot;comunica-sparql-http file@generated/dataset.nt -p 3001&quot;,
+    &quot;entrypoint&quot;: [
+      &quot;comunica-sparql-http&quot;,
+      &quot;file@generated/dataset.nt&quot;,
+      &quot;-p&quot;,
+      &quot;3001&quot;
+    ],
     &quot;statsFilePath&quot;: &quot;stats.csv&quot;
   }
 ...
@@ -110,7 +115,7 @@
 						<h3>Configuration fields</h3>
 					</a>
 					<ul>
-						<li><code>command</code>: Command to execute when starting the experiment.</li>
+						<li><code>entrypoint</code>: Array of command parts to execute when starting the experiment.</li>
 						<li><code>statsFilePath</code>: Optional path to a CSV file in which the stats of the process will be written.</li>
 					</ul>
 					<a href="#license" id="license" style="color: inherit; text-decoration: none;">
