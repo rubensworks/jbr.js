@@ -47,11 +47,17 @@ export class CliProcessHandler implements ProcessHandler {
       // First try a graceful SIGTERM, and if the process hasn't been closed after 3 seconds,
       // forcefully stop with SIGKILL.
 
+      // eslint-disable-next-line no-console
+      console.log('STOPPING CHILD PROCESS');
       const timeout = setTimeout(() => {
+        // eslint-disable-next-line no-console
+        console.log('KILLING CHILD PROCESS');
         this.childProcess.kill('SIGKILL');
       }, 3000);
       const promise = new Promise<void>((resolve, reject) => {
         this.childProcess.on('close', () => {
+          // eslint-disable-next-line no-console
+          console.log('CHILD PROCESS HAS BEEN CLOSED');
           clearTimeout(timeout);
           resolve();
         });
