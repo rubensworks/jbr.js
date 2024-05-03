@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v4.2.1"></a>
+## [v4.2.1](https://github.com/rubensworks/jbr.js/compare/v4.2.0...v4.2.1) - 2024-05-03
+
+### Changed
+* [Add debug info to CliProcessHandler](https://github.com/rubensworks/jbr.js/commit/1cffbb990f45d56478ef95e0b7d4d07f0d51a7d9)
+
 <a name="v4.2.0"></a>
 ## [v4.2.0](https://github.com/rubensworks/jbr.js/compare/v4.1.1...v4.2.0) - 2024-05-03
 
