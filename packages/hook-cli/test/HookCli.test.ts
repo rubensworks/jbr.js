@@ -34,7 +34,7 @@ describe('HookCli', () => {
       docker: <any> {},
     };
     hook = new HookCli(
-      'echo "HI"',
+      [ 'echo', '"HI"' ],
       'stats.csv',
     );
   });

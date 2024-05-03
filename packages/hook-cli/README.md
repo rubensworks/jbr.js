@@ -34,7 +34,12 @@ When installing this hook, your configuration file (`jbr-experiment.json`) will 
   "someHook": {
     "@id": "urn:jrb:bb:hookSome",
     "@type": "HookCli",
-    "command": "comunica-sparql-http file@generated/dataset.nt -p 3001",
+    "entrypoint": [
+      "comunica-sparql-http",
+      "file@generated/dataset.nt",
+      "-p",
+      "3001"
+    ],
     "statsFilePath": "stats.csv"
   }
 ...
@@ -42,7 +47,7 @@ When installing this hook, your configuration file (`jbr-experiment.json`) will 
 
 ### Configuration fields
 
-* `command`: Command to execute when starting the experiment.
+* `entrypoint`: Array of command parts to execute when starting the experiment.
 * `statsFilePath`: Optional path to a CSV file in which the stats of the process will be written.
 
 ## License
