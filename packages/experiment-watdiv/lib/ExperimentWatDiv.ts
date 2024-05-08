@@ -2,7 +2,7 @@ import * as Path from 'path';
 import * as fs from 'fs-extra';
 import { secureProcessHandler } from 'jbr';
 import type { Experiment, Hook, ICleanTargets, ITaskContext, IRunTaskContext } from 'jbr';
-import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
+import { SparqlBenchmarkRunner, QueryLoaderFile, ResultSerializerCsv } from 'sparql-benchmark-runner';
 
 /**
  * An experiment instance for the LDBC SNB Decentralized benchmark.
@@ -18,10 +18,9 @@ export class ExperimentWatDiv implements Experiment {
   public readonly endpointUrl: string;
   public readonly queryRunnerReplication: number;
   public readonly queryRunnerWarmupRounds: number;
-  public readonly queryRunnerRecordTimestamps: boolean;
-  public readonly queryRunnerRecordHttpRequests: boolean;
-  public readonly queryRunnerUrlParamsInit: Record<string, any>;
-  public readonly queryRunnerUrlParamsRun: Record<string, any>;
+  public readonly queryRunnerRequestDelay: number;
+  public readonly queryRunnerEndpointAvailabilityCheckTimeout: number;
+  public readonly queryRunnerUrlParams: Record<string, any>;
   public readonly queryTimeoutFallback: number | undefined;
 
   /**
@@ -33,10 +32,9 @@ export class ExperimentWatDiv implements Experiment {
    * @param endpointUrl
    * @param queryRunnerReplication
    * @param queryRunnerWarmupRounds
-   * @param queryRunnerRecordTimestamps
-   * @param queryRunnerRecordHttpRequests
-   * @param queryRunnerUrlParamsInit - @range {json}
-   * @param queryRunnerUrlParamsRun - @range {json}
+   * @param queryRunnerRequestDelay
+   * @param queryRunnerEndpointAvailabilityCheckTimeout
+   * @param queryRunnerUrlParams - @range {json}
    * @param queryTimeoutFallback
    */
   public constructor(
@@ -48,10 +46,9 @@ export class ExperimentWatDiv implements Experiment {
     endpointUrl: string,
     queryRunnerReplication: number,
     queryRunnerWarmupRounds: number,
-    queryRunnerRecordTimestamps: boolean,
-    queryRunnerRecordHttpRequests: boolean,
-    queryRunnerUrlParamsInit: Record<string, any>,
-    queryRunnerUrlParamsRun: Record<string, any>,
+    queryRunnerRequestDelay: number,
+    queryRunnerEndpointAvailabilityCheckTimeout: number,
+    queryRunnerUrlParams: Record<string, any>,
     queryTimeoutFallback: number | undefined,
   ) {
     this.datasetScale = datasetScale;
@@ -62,10 +59,9 @@ export class ExperimentWatDiv implements Experiment {
     this.endpointUrl = endpointUrl;
     this.queryRunnerReplication = queryRunnerReplication;
     this.queryRunnerWarmupRounds = queryRunnerWarmupRounds;
-    this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps;
-    this.queryRunnerRecordHttpRequests = queryRunnerRecordHttpRequests;
-    this.queryRunnerUrlParamsInit = queryRunnerUrlParamsInit;
-    this.queryRunnerUrlParamsRun = queryRunnerUrlParamsRun;
+    this.queryRunnerRequestDelay = queryRunnerRequestDelay;
+    this.queryRunnerEndpointAvailabilityCheckTimeout = queryRunnerEndpointAvailabilityCheckTimeout;
+    this.queryRunnerUrlParams = queryRunnerUrlParams;
     this.queryTimeoutFallback = queryTimeoutFallback;
   }
 
@@ -141,7 +137,11 @@ export class ExperimentWatDiv implements Experiment {
     const closeProcess = secureProcessHandler(endpointProcessHandler, context);
 
     // Determine query sets
-    let querySets = await readQueries(Path.join(context.experimentPaths.generated, 'queries'));
+    const queryLoader = new QueryLoaderFile({
+      path: Path.join(context.experimentPaths.generated, 'queries'),
+      extensions: [ '.sparql' ],
+    });
+    let querySets = await queryLoader.loadQueries();
     if (context.filter) {
       const filterRegex = new RegExp(context.filter, 'u');
       querySets = Object.fromEntries(Object.entries(querySets)
@@ -155,10 +155,10 @@ export class ExperimentWatDiv implements Experiment {
       querySets,
       replication: this.queryRunnerReplication,
       warmup: this.queryRunnerWarmupRounds,
-      timestampsRecording: this.queryRunnerRecordTimestamps,
+      requestDelay: this.queryRunnerRequestDelay,
+      availabilityCheckTimeout: this.queryRunnerEndpointAvailabilityCheckTimeout,
       logger: (message: string) => process.stderr.write(message),
-      additionalUrlParamsInit: new URLSearchParams(this.queryRunnerUrlParamsInit),
-      additionalUrlParamsRun: new URLSearchParams(this.queryRunnerUrlParamsRun),
+      additionalUrlParams: new URLSearchParams(this.queryRunnerUrlParams),
       timeout: this.queryTimeoutFallback,
     }).run({
       async onStart() {
@@ -176,19 +176,13 @@ export class ExperimentWatDiv implements Experiment {
     });
 
     // Write results
+    const resultSerializer = new ResultSerializerCsv();
     const resultsOutput = context.experimentPaths.output;
     if (!await fs.pathExists(resultsOutput)) {
       await fs.mkdir(resultsOutput);
     }
     context.logger.info(`Writing results to ${resultsOutput}\n`);
-    await writeBenchmarkResults(
-      results,
-      Path.join(resultsOutput, 'query-times.csv'),
-      this.queryRunnerRecordTimestamps,
-      [
-        ...this.queryRunnerRecordHttpRequests ? [ 'httpRequests' ] : [],
-      ],
-    );
+    await resultSerializer.serialize(Path.join(resultsOutput, 'query-times.csv'), results);
 
     // Close process safely
     await closeProcess();

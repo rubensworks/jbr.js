@@ -21,10 +21,9 @@ export class ExperimentHandlerWatDiv extends ExperimentHandler<ExperimentWatDiv>
       endpointUrl: 'http://localhost:3001/sparql',
       queryRunnerReplication: 3,
       queryRunnerWarmupRounds: 1,
-      queryRunnerRecordTimestamps: true,
-      queryRunnerRecordHttpRequests: true,
-      queryRunnerUrlParamsInit: {},
-      queryRunnerUrlParamsRun: {},
+      queryRunnerRequestDelay: 0,
+      queryRunnerEndpointAvailabilityCheckTimeout: 1_000,
+      queryRunnerUrlParams: {},
     };
   }
 

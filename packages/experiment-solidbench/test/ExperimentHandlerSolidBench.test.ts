@@ -70,7 +70,7 @@ describe('ExperimentHandlerSolidBench', () => {
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
       expect(handler.getDefaultParams(experimentPaths)).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(22);
+      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(20);
     });
   });
 
