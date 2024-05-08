@@ -128,10 +128,14 @@ export class ExperimentLoader {
       }
     }
 
-    // Instantiate valid config
+    // Instantiate valid config sequentially
+    const experiments = [];
+    for (const config of configs) {
+      experiments.push(await this.instantiateFromConfig<Experiment>(config.path, config.iri));
+    }
+
     return {
-      experiments: await Promise.all(configs
-        .map(config => this.instantiateFromConfig<Experiment>(config.path, config.iri))),
+      experiments,
       experimentPathsArray,
       combinationProvider,
     };
