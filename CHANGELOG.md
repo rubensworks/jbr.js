@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v4.2.3"></a>
+## [v4.2.3](https://github.com/rubensworks/jbr.js/compare/v4.2.2...v4.2.3) - 2024-05-08
+
+### Fixed
+* [Fix race condition in ExperimentLoader breaking runs](https://github.com/rubensworks/jbr.js/commit/dba0eb33f9c61c04325730091d753b42c6fd283b)
+
 <a name="v4.2.2"></a>
 ## [v4.2.2](https://github.com/rubensworks/jbr.js/compare/v4.2.1...v4.2.2) - 2024-05-03
 
