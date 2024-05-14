@@ -5,7 +5,7 @@ import type { Experiment, Hook, ITaskContext,
   DockerResourceConstraints, ICleanTargets, DockerContainerHandler, DockerNetworkHandler } from 'jbr';
 import { ProcessHandlerComposite, secureProcessHandler } from 'jbr';
 import { Generator } from 'solidbench/lib/Generator';
-import { readQueries, SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
+import { SparqlBenchmarkRunner, QueryLoaderFile, ResultSerializerCsv } from 'sparql-benchmark-runner';
 
 /**
  * An experiment instance for the SolidBench social network benchmark.
@@ -29,11 +29,9 @@ export class ExperimentSolidBench implements Experiment {
   public readonly endpointUrl: string;
   public readonly queryRunnerReplication: number;
   public readonly queryRunnerWarmupRounds: number;
-  public readonly queryRunnerRecordTimestamps: boolean;
-  public readonly queryRunnerRecordHttpRequests: boolean;
-  public readonly queryRunnerUpQuery: string;
-  public readonly queryRunnerUrlParamsInit: Record<string, any>;
-  public readonly queryRunnerUrlParamsRun: Record<string, any>;
+  public readonly queryRunnerRequestDelay: number;
+  public readonly queryRunnerEndpointAvailabilityCheckTimeout: number;
+  public readonly queryRunnerUrlParams: Record<string, any>;
   public readonly queryTimeoutFallback: number | undefined;
 
   /**
@@ -55,11 +53,9 @@ export class ExperimentSolidBench implements Experiment {
    * @param endpointUrl
    * @param queryRunnerReplication
    * @param queryRunnerWarmupRounds
-   * @param queryRunnerRecordTimestamps
-   * @param queryRunnerRecordHttpRequests
-   * @param queryRunnerUpQuery
-   * @param queryRunnerUrlParamsInit - @range {json}
-   * @param queryRunnerUrlParamsRun - @range {json}
+   * @param queryRunnerRequestDelay
+   * @param queryRunnerEndpointAvailabilityCheckTimeout
+   * @param queryRunnerUrlParams - @range {json}
    * @param queryTimeoutFallback
    */
   public constructor(
@@ -81,11 +77,9 @@ export class ExperimentSolidBench implements Experiment {
     endpointUrl: string,
     queryRunnerReplication: number,
     queryRunnerWarmupRounds: number,
-    queryRunnerRecordTimestamps: boolean,
-    queryRunnerRecordHttpRequests: boolean,
-    queryRunnerUpQuery: string,
-    queryRunnerUrlParamsInit: Record<string, any>,
-    queryRunnerUrlParamsRun: Record<string, any>,
+    queryRunnerRequestDelay: number,
+    queryRunnerEndpointAvailabilityCheckTimeout: number,
+    queryRunnerUrlParams: Record<string, any>,
     queryTimeoutFallback: number | undefined,
   ) {
     this.scale = scale;
@@ -106,11 +100,9 @@ export class ExperimentSolidBench implements Experiment {
     this.serverResourceConstraints = serverResourceConstraints;
     this.queryRunnerReplication = queryRunnerReplication;
     this.queryRunnerWarmupRounds = queryRunnerWarmupRounds;
-    this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps;
-    this.queryRunnerRecordHttpRequests = queryRunnerRecordHttpRequests;
-    this.queryRunnerUpQuery = queryRunnerUpQuery;
-    this.queryRunnerUrlParamsInit = queryRunnerUrlParamsInit;
-    this.queryRunnerUrlParamsRun = queryRunnerUrlParamsRun;
+    this.queryRunnerRequestDelay = queryRunnerRequestDelay;
+    this.queryRunnerEndpointAvailabilityCheckTimeout = queryRunnerEndpointAvailabilityCheckTimeout;
+    this.queryRunnerUrlParams = queryRunnerUrlParams;
     this.queryTimeoutFallback = queryTimeoutFallback;
   }
 
@@ -190,18 +182,23 @@ export class ExperimentSolidBench implements Experiment {
     ]);
     const closeProcess = secureProcessHandler(processHandler, context);
 
+    // Set up the query loader
+    const queryLoader = new QueryLoaderFile({
+      path: Path.join(context.experimentPaths.generated, 'out-queries'),
+      extensions: [ '.sparql' ],
+    });
+
     // Initiate SPARQL benchmark runner
     let stopStats: () => void;
     const results = await new SparqlBenchmarkRunner({
       endpoint: this.endpointUrl,
-      querySets: await readQueries(Path.join(context.experimentPaths.generated, 'out-queries')),
+      querySets: await queryLoader.loadQueries(),
       replication: this.queryRunnerReplication,
       warmup: this.queryRunnerWarmupRounds,
-      timestampsRecording: this.queryRunnerRecordTimestamps,
+      requestDelay: this.queryRunnerRequestDelay,
+      availabilityCheckTimeout: this.queryRunnerEndpointAvailabilityCheckTimeout,
       logger: (message: string) => process.stderr.write(message),
-      upQuery: this.queryRunnerUpQuery,
-      additionalUrlParamsInit: new URLSearchParams(this.queryRunnerUrlParamsInit),
-      additionalUrlParamsRun: new URLSearchParams(this.queryRunnerUrlParamsRun),
+      additionalUrlParams: new URLSearchParams(this.queryRunnerUrlParams),
       timeout: this.queryTimeoutFallback,
     }).run({
       async onStart() {
@@ -219,19 +216,13 @@ export class ExperimentSolidBench implements Experiment {
     });
 
     // Write results
+    const resultSerializer = new ResultSerializerCsv();
     const resultsOutput = context.experimentPaths.output;
     if (!await fs.pathExists(resultsOutput)) {
       await fs.mkdir(resultsOutput);
     }
     context.logger.info(`Writing results to ${resultsOutput}\n`);
-    await writeBenchmarkResults(
-      results,
-      Path.join(resultsOutput, 'query-times.csv'),
-      this.queryRunnerRecordTimestamps,
-      [
-        ...this.queryRunnerRecordHttpRequests ? [ 'httpRequests' ] : [],
-      ],
-    );
+    await resultSerializer.serialize(Path.join(resultsOutput, 'query-times.csv'), results);
 
     // Close endpoint and server
     await closeProcess();

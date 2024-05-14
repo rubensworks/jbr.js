@@ -1,11 +1,12 @@
 import Path from 'path';
 import type { Hook, ITaskContext, ProcessHandler } from 'jbr';
 import { createExperimentPaths } from 'jbr';
-import { SparqlBenchmarkRunner, writeBenchmarkResults } from 'sparql-benchmark-runner';
+import { SparqlBenchmarkRunner } from 'sparql-benchmark-runner';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { ExperimentWatDiv } from '../lib/ExperimentWatDiv';
 
 let sparqlBenchmarkRun: any;
+let resultSerializerSerialize: any;
 jest.mock('sparql-benchmark-runner', () => ({
   SparqlBenchmarkRunner: jest.fn().mockImplementation((options: any) => {
     options.logger('Test logger');
@@ -13,12 +14,16 @@ jest.mock('sparql-benchmark-runner', () => ({
       run: sparqlBenchmarkRun,
     };
   }),
-  readQueries: jest.fn(() => ({
-    C1: 'path/C1',
-    C2: 'path/C2',
-    C3: 'path/C3',
+  QueryLoaderFile: jest.fn().mockImplementation(() => ({
+    loadQueries: jest.fn().mockResolvedValue({
+      C1: 'path/C1',
+      C2: 'path/C2',
+      C3: 'path/C3',
+    }),
   })),
-  writeBenchmarkResults: jest.fn(),
+  ResultSerializerCsv: jest.fn().mockImplementation(() => ({
+    serialize: resultSerializerSerialize,
+  })),
 }));
 
 let files: Record<string, boolean | string> = {};
@@ -82,6 +87,7 @@ describe('ExperimentWatDiv', () => {
       await onStart();
       await onStop();
     });
+    resultSerializerSerialize = jest.fn();
     experiment = new ExperimentWatDiv(
       1,
       5,
@@ -91,9 +97,8 @@ describe('ExperimentWatDiv', () => {
       'http://localhost:3001/sparql',
       3,
       1,
-      true,
-      true,
-      {},
+      0,
+      1_000,
       {},
       600,
     );
@@ -284,9 +289,8 @@ describe('ExperimentWatDiv', () => {
         'http://localhost:3001/sparql',
         3,
         1,
-        true,
-        true,
-        {},
+        0,
+        1_000,
         {},
         600,
       );
@@ -327,12 +331,8 @@ describe('ExperimentWatDiv', () => {
       expect(sparqlBenchmarkRun).toHaveBeenCalled();
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
-      expect(writeBenchmarkResults).toHaveBeenCalledWith(
-        undefined,
-        Path.normalize('CWD/output/query-times.csv'),
-        true,
-        [ 'httpRequests' ],
-      );
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), undefined);
 
       expect(dirsOut).toEqual({
         'CWD/output': true,
@@ -345,33 +345,6 @@ describe('ExperimentWatDiv', () => {
           C3: 'path/C3',
         },
       }));
-    });
-
-    it('should run the experiment without recording http requests', async() => {
-      experiment = new ExperimentWatDiv(
-        1,
-        5,
-        1,
-        true,
-        hookSparqlEndpoint,
-        'http://localhost:3001/sparql',
-        3,
-        1,
-        true,
-        false,
-        {},
-        {},
-        600,
-      );
-
-      await experiment.run(context);
-
-      expect(writeBenchmarkResults).toHaveBeenCalledWith(
-        undefined,
-        Path.normalize('CWD/output/query-times.csv'),
-        true,
-        [],
-      );
     });
 
     it('should not create an output dir if it already exists', async() => {
@@ -457,12 +430,8 @@ describe('ExperimentWatDiv', () => {
       expect(sparqlBenchmarkRun).toHaveBeenCalled();
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
-      expect(writeBenchmarkResults).toHaveBeenCalledWith(
-        undefined,
-        Path.normalize('CWD/output/query-times.csv'),
-        true,
-        [ 'httpRequests' ],
-      );
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), undefined);
 
       expect(dirsOut).toEqual({
         'CWD/output': true,
