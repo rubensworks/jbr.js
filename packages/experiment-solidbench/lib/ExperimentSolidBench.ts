@@ -197,7 +197,7 @@ export class ExperimentSolidBench implements Experiment {
       warmup: this.queryRunnerWarmupRounds,
       requestDelay: this.queryRunnerRequestDelay,
       availabilityCheckTimeout: this.queryRunnerEndpointAvailabilityCheckTimeout,
-      logger: (message: string) => process.stderr.write(message),
+      logger: (message: string) => process.stderr.write(`${message}\n`),
       additionalUrlParams: new URLSearchParams(this.queryRunnerUrlParams),
       timeout: this.queryTimeoutFallback,
     }).run({
