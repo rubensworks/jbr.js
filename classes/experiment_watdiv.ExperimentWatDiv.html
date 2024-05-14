@@ -108,11 +108,10 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_watdiv.ExperimentWatDiv.html#hookSparqlEndpoint" class="tsd-kind-icon">hook<wbr>Sparql<wbr>Endpoint</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_watdiv.ExperimentWatDiv.html#queryCount" class="tsd-kind-icon">query<wbr>Count</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_watdiv.ExperimentWatDiv.html#queryRecurrence" class="tsd-kind-icon">query<wbr>Recurrence</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerRecordHttpRequests" class="tsd-kind-icon">query<wbr>Runner<wbr>Record<wbr>Http<wbr>Requests</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerRecordTimestamps" class="tsd-kind-icon">query<wbr>Runner<wbr>Record<wbr>Timestamps</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerEndpointAvailabilityCheckTimeout" class="tsd-kind-icon">query<wbr>Runner<wbr>Endpoint<wbr>Availability<wbr>Check<wbr>Timeout</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerReplication" class="tsd-kind-icon">query<wbr>Runner<wbr>Replication</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerUrlParamsInit" class="tsd-kind-icon">query<wbr>Runner<wbr>Url<wbr>Params<wbr>Init</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerUrlParamsRun" class="tsd-kind-icon">query<wbr>Runner<wbr>Url<wbr>Params<wbr>Run</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerRequestDelay" class="tsd-kind-icon">query<wbr>Runner<wbr>Request<wbr>Delay</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerUrlParams" class="tsd-kind-icon">query<wbr>Runner<wbr>Url<wbr>Params</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerWarmupRounds" class="tsd-kind-icon">query<wbr>Runner<wbr>Warmup<wbr>Rounds</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_watdiv.ExperimentWatDiv.html#queryTimeoutFallback" class="tsd-kind-icon">query<wbr>Timeout<wbr>Fallback</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="experiment_watdiv.ExperimentWatDiv.html#DOCKER_IMAGE_HDT" class="tsd-kind-icon">DOCKER_<wbr>IMAGE_<wbr>HDT</a></li>
@@ -136,13 +135,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Experiment<wbr>Wat<wbr>Div<span class="tsd-signature-symbol">(</span>datasetScale<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, queryCount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, queryRecurrence<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, generateHdt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, hookSparqlEndpoint<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.Hook.html" class="tsd-signature-type" data-tsd-kind="Interface">Hook</a>, endpointUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, queryRunnerReplication<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, queryRunnerWarmupRounds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, queryRunnerRecordTimestamps<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, queryRunnerRecordHttpRequests<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, queryRunnerUrlParamsInit<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, queryRunnerUrlParamsRun<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, queryTimeoutFallback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="experiment_watdiv.ExperimentWatDiv.html" class="tsd-signature-type" data-tsd-kind="Class">ExperimentWatDiv</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Experiment<wbr>Wat<wbr>Div<span class="tsd-signature-symbol">(</span>datasetScale<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, queryCount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, queryRecurrence<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, generateHdt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, hookSparqlEndpoint<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.Hook.html" class="tsd-signature-type" data-tsd-kind="Interface">Hook</a>, endpointUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, queryRunnerReplication<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, queryRunnerWarmupRounds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, queryRunnerRequestDelay<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, queryRunnerEndpointAvailabilityCheckTimeout<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, queryRunnerUrlParams<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, queryTimeoutFallback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="experiment_watdiv.ExperimentWatDiv.html" class="tsd-signature-type" data-tsd-kind="Class">ExperimentWatDiv</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L42">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L40">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:40</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -172,21 +171,13 @@
 									<h5>queryRunnerWarmupRounds: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>queryRunnerRecordTimestamps: <span class="tsd-signature-type">boolean</span></h5>
+									<h5>queryRunnerRequestDelay: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>queryRunnerRecordHttpRequests: <span class="tsd-signature-type">boolean</span></h5>
+									<h5>queryRunnerEndpointAvailabilityCheckTimeout: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>queryRunnerUrlParamsInit: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>@range {json}</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<h5>queryRunnerUrlParamsRun: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>queryRunnerUrlParams: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>@range {json}</p>
@@ -214,7 +205,7 @@
 					<div class="tsd-signature tsd-kind-icon">dataset<wbr>Scale<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L13">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L13">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -224,7 +215,7 @@
 					<div class="tsd-signature tsd-kind-icon">endpoint<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L18">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L18">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -234,7 +225,7 @@
 					<div class="tsd-signature tsd-kind-icon">generate<wbr>Hdt<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L16">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L16">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -244,7 +235,7 @@
 					<div class="tsd-signature tsd-kind-icon">hook<wbr>Sparql<wbr>Endpoint<span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.Hook.html" class="tsd-signature-type" data-tsd-kind="Interface">Hook</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L17">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L17">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -254,7 +245,7 @@
 					<div class="tsd-signature tsd-kind-icon">query<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L14">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L14">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -264,27 +255,17 @@
 					<div class="tsd-signature tsd-kind-icon">query<wbr>Recurrence<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L15">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L15">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="queryRunnerRecordHttpRequests" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> query<wbr>Runner<wbr>Record<wbr>Http<wbr>Requests</h3>
-					<div class="tsd-signature tsd-kind-icon">query<wbr>Runner<wbr>Record<wbr>Http<wbr>Requests<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="queryRunnerEndpointAvailabilityCheckTimeout" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> query<wbr>Runner<wbr>Endpoint<wbr>Availability<wbr>Check<wbr>Timeout</h3>
+					<div class="tsd-signature tsd-kind-icon">query<wbr>Runner<wbr>Endpoint<wbr>Availability<wbr>Check<wbr>Timeout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L22">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:22</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="queryRunnerRecordTimestamps" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> query<wbr>Runner<wbr>Record<wbr>Timestamps</h3>
-					<div class="tsd-signature tsd-kind-icon">query<wbr>Runner<wbr>Record<wbr>Timestamps<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L21">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L22">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -294,27 +275,27 @@
 					<div class="tsd-signature tsd-kind-icon">query<wbr>Runner<wbr>Replication<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L19">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L19">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="queryRunnerUrlParamsInit" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> query<wbr>Runner<wbr>Url<wbr>Params<wbr>Init</h3>
-					<div class="tsd-signature tsd-kind-icon">query<wbr>Runner<wbr>Url<wbr>Params<wbr>Init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="queryRunnerRequestDelay" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> query<wbr>Runner<wbr>Request<wbr>Delay</h3>
+					<div class="tsd-signature tsd-kind-icon">query<wbr>Runner<wbr>Request<wbr>Delay<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L23">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L21">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="queryRunnerUrlParamsRun" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> query<wbr>Runner<wbr>Url<wbr>Params<wbr>Run</h3>
-					<div class="tsd-signature tsd-kind-icon">query<wbr>Runner<wbr>Url<wbr>Params<wbr>Run<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="queryRunnerUrlParams" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> query<wbr>Runner<wbr>Url<wbr>Params</h3>
+					<div class="tsd-signature tsd-kind-icon">query<wbr>Runner<wbr>Url<wbr>Params<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L24">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L23">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -324,7 +305,7 @@
 					<div class="tsd-signature tsd-kind-icon">query<wbr>Runner<wbr>Warmup<wbr>Rounds<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L20">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L20">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -334,7 +315,7 @@
 					<div class="tsd-signature tsd-kind-icon">query<wbr>Timeout<wbr>Fallback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L25">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L24">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -344,7 +325,7 @@
 					<div class="tsd-signature tsd-kind-icon">DOCKER_<wbr>IMAGE_<wbr>HDT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;rdfhdt/hdt-cpp:v1.3.3&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L12">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L12">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -354,7 +335,7 @@
 					<div class="tsd-signature tsd-kind-icon">DOCKER_<wbr>IMAGE_<wbr>WATDIV<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;comunica/watdiv@sha256:2fac67737d6dddd75ea023b90bba2a1c7432a00e233791a802e374e3d2a8ec3b&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L11">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L11">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -372,7 +353,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/jbr.Experiment.html">Experiment</a>.<a href="../interfaces/jbr.Experiment.html#clean">clean</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L197">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:197</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L191">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:191</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -404,7 +385,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/jbr.Experiment.html">Experiment</a>.<a href="../interfaces/jbr.Experiment.html#prepare">prepare</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L72">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L68">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:68</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -436,7 +417,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/jbr.Experiment.html">Experiment</a>.<a href="../interfaces/jbr.Experiment.html#run">run</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7ca7bca/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L138">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:138</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/67309c4/packages/experiment-watdiv/lib/ExperimentWatDiv.ts#L134">packages/experiment-watdiv/lib/ExperimentWatDiv.ts:134</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -520,19 +501,16 @@
 										<a href="experiment_watdiv.ExperimentWatDiv.html#queryRecurrence" class="tsd-kind-icon">query<wbr>Recurrence</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerRecordHttpRequests" class="tsd-kind-icon">query<wbr>Runner<wbr>Record<wbr>Http<wbr>Requests</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerRecordTimestamps" class="tsd-kind-icon">query<wbr>Runner<wbr>Record<wbr>Timestamps</a>
+										<a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerEndpointAvailabilityCheckTimeout" class="tsd-kind-icon">query<wbr>Runner<wbr>Endpoint<wbr>Availability<wbr>Check<wbr>Timeout</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerReplication" class="tsd-kind-icon">query<wbr>Runner<wbr>Replication</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerUrlParamsInit" class="tsd-kind-icon">query<wbr>Runner<wbr>Url<wbr>Params<wbr>Init</a>
+										<a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerRequestDelay" class="tsd-kind-icon">query<wbr>Runner<wbr>Request<wbr>Delay</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerUrlParamsRun" class="tsd-kind-icon">query<wbr>Runner<wbr>Url<wbr>Params<wbr>Run</a>
+										<a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerUrlParams" class="tsd-kind-icon">query<wbr>Runner<wbr>Url<wbr>Params</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="experiment_watdiv.ExperimentWatDiv.html#queryRunnerWarmupRounds" class="tsd-kind-icon">query<wbr>Runner<wbr>Warmup<wbr>Rounds</a>
