@@ -139,7 +139,7 @@ export class ExperimentWatDiv implements Experiment {
     // Determine query sets
     const queryLoader = new QueryLoaderFile({
       path: Path.join(context.experimentPaths.generated, 'queries'),
-      extensions: [ '.sparql' ],
+      extensions: [ '.txt' ],
     });
     let querySets = await queryLoader.loadQueries();
     if (context.filter) {
