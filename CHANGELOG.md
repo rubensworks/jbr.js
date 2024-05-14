@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.0.1"></a>
+## [v5.0.1](https://github.com/rubensworks/jbr.js/compare/v5.0.0...v5.0.1) - 2024-05-14
+
+### Fixed
+* [Print newlines in logger](https://github.com/rubensworks/jbr.js/commit/926829ea5335a6d09dffa96651dfbd0e2644412e)
+* [Use .txt as query file extension](https://github.com/rubensworks/jbr.js/commit/2f5fad3b3e285d4d583cfd7e2831b85328640741)
+
 <a name="v5.0.0"></a>
 ## [v5.0.0](https://github.com/rubensworks/jbr.js/compare/v4.2.3...v5.0.0) - 2024-05-14
 
