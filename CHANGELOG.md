@@ -1,6 +1,27 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.0.0"></a>
+## [v5.0.0](https://github.com/rubensworks/jbr.js/compare/v4.2.3...v5.0.0) - 2024-05-14
+
+### BREAKING CHANGES
+* [Update experiments to use sparql-benchmark-runner v4](https://github.com/rubensworks/jbr.js/commit/67309c46377a40d2c4ae0ee3e88a5729513e584e)
+    This includes breaking changes to experiment configs.
+
+    Most notable, the following fields have been removed:
+
+    - `queryRunnerRecordTimestamps`
+    - `queryRunnerRecordHttpRequests`
+    - `queryRunnerUpQuery`
+    - `queryRunnerUrlParamsInit`
+    - `queryRunnerUrlParamsRun`
+
+    And the following fields have been added:
+
+    - `queryRunnerRequestDelay`
+    - `queryRunnerEndpointAvailabilityCheckTimeout`
+    - `queryRunnerUrlParams`
+
 <a name="v4.2.3"></a>
 ## [v4.2.3](https://github.com/rubensworks/jbr.js/compare/v4.2.2...v4.2.3) - 2024-05-08
 
