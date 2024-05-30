@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.1.1"></a>
+## [v5.1.1](https://github.com/rubensworks/jbr.js/compare/v5.1.0...v5.1.1) - 2024-05-30
+
+### Fixed
+* [Update to latest @types/tar](https://github.com/rubensworks/jbr.js/commit/77f3bd0f7632b63f41bb0f0df384ded2db434a55)
+
 <a name="v5.1.0"></a>
 ## [v5.1.0](https://github.com/rubensworks/jbr.js/compare/v5.0.1...v5.1.0) - 2024-05-30
 
