@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.1.0"></a>
+## [v5.1.0](https://github.com/rubensworks/jbr.js/compare/v5.0.1...v5.1.0) - 2024-05-30
+
+### Added
+* [Make LDF experiment wait until server is up before querying](https://github.com/rubensworks/jbr.js/commit/7e68aba29c58c0360e06d7f4ab12e2244cc50ee8)
+
 <a name="v5.0.1"></a>
 ## [v5.0.1](https://github.com/rubensworks/jbr.js/compare/v5.0.0...v5.0.1) - 2024-05-14
 
