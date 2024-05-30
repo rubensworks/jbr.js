@@ -11,6 +11,10 @@ describe('HookSparqlEndpointLdf', () => {
   let resourceConstraints: DockerResourceConstraints;
   let subHook: Hook;
   let hook: HookSparqlEndpointLdf;
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   beforeEach(() => {
     endpointHandler = <any> {
       close: jest.fn(),
@@ -119,6 +123,10 @@ describe('HookSparqlEndpointLdf', () => {
   });
 
   describe('start', () => {
+    beforeEach(() => {
+      hook.waitForEndpoint = () => Promise.resolve();
+    });
+
     it('should start the hook', async() => {
       const handler = await hook.start(context);
       expect(handler).toBeInstanceOf(ProcessHandlerComposite);
@@ -234,6 +242,7 @@ describe('HookSparqlEndpointLdf', () => {
         'input/dataset.hdt',
         subHook,
       );
+      hook.waitForEndpoint = () => Promise.resolve();
 
       const handler = await hook.start(context);
       expect(handler).toBeInstanceOf(ProcessHandlerComposite);
@@ -305,6 +314,70 @@ describe('HookSparqlEndpointLdf', () => {
         .toHaveBeenCalledWith('IMG-sparql-endpoint-ldf-network');
       expect(context.docker.containerCreator.remove).toHaveBeenCalledWith('ldfserver');
       expect(context.docker.containerCreator.remove).toHaveBeenCalledWith('cache');
+    });
+  });
+
+  describe('countTime', () => {
+    it('returns duration in milliseconds', async() => {
+      process.hrtime = <any> (() => [ 1, 1_000_000 ]);
+      expect(hook.countTime([ 10, 10 ])).toBe(1_001);
+    });
+  });
+
+  describe('endpointAvailable', () => {
+    it('returns true for a valid endpoint', async() => {
+      // eslint-disable-next-line no-undef
+      jest.spyOn(globalThis, 'fetch').mockResolvedValue(<Response>{ ok: true });
+      await expect(hook.endpointAvailable('http://localhost:8080/')).resolves.toBeTruthy();
+    });
+
+    it('returns false for an invalid endpoint', async() => {
+      // eslint-disable-next-line no-undef
+      jest.spyOn(globalThis, 'fetch').mockResolvedValue(<Response>{ ok: false });
+      await expect(hook.endpointAvailable('http://localhost:8080/')).resolves.toBeFalsy();
+    });
+
+    it('returns false for a hanging request', async() => {
+      // eslint-disable-next-line no-undef
+      jest.spyOn(globalThis, 'fetch').mockImplementation(() => new Promise<Response>(() => {
+        // Do nothing
+      }));
+      const available = hook.endpointAvailable('http://localhost:8080/');
+      await jest.runAllTimersAsync();
+      await expect(available).resolves.toBeFalsy();
+    });
+
+    it('returns false for an erroring request', async() => {
+      // eslint-disable-next-line no-undef
+      jest.spyOn(globalThis, 'fetch').mockRejectedValue(new Error('Endpoint fetch failed'));
+      const available = hook.endpointAvailable('http://localhost:8080/');
+      await expect(available).resolves.toBeFalsy();
+    });
+  });
+
+  describe('waitForEndpoint', () => {
+    it('returns true for a valid endpoint', async() => {
+      // eslint-disable-next-line no-undef
+      jest.spyOn(globalThis, 'fetch').mockResolvedValue(<Response>{ ok: true });
+      await expect(hook.waitForEndpoint(context, 'http://localhost:8080/')).resolves.toBe(undefined);
+    });
+
+    it('returns true for an endpoint that becomes available later', async() => {
+      let ok = false;
+      // eslint-disable-next-line no-undef
+      jest.spyOn(globalThis, 'fetch').mockImplementation(async() => <Response>({ ok }));
+
+      const resolve = jest.fn();
+      const p = hook.waitForEndpoint(context, 'http://localhost:8080/');
+      p.then(resolve, resolve);
+
+      await jest.runOnlyPendingTimersAsync();
+      expect(resolve).not.toHaveBeenCalled();
+
+      ok = true;
+
+      await jest.runOnlyPendingTimersAsync();
+      expect(resolve).toHaveBeenCalled();
     });
   });
 });

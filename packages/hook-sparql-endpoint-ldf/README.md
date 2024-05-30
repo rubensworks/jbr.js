@@ -94,6 +94,7 @@ More background information on these config options can be found on https://gith
 * `maxMemory`: Maximum amount of Memory for the LDF serve
 * `dataset`: HDT file to use as dataset.
 * `hookSparqlEndpointLdfEngine`: Sub-hook for an engine that exposes a SPARQL endpoint over this hook.
+* `cacheUrl` The public  URL of the NGINX server cache, which will be used for checking if the server has been fully loaded. Defaults to `http://localhost:${portCache}/dataset`
 
 ## Networks
 
