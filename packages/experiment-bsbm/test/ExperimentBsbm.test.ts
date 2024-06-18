@@ -127,7 +127,7 @@ describe('ExperimentBsbm', () => {
         10,
         50,
       );
-      expect(experiment.endpointUrl).toEqual('http://127.0.0.1:3000/sparql');
+      expect(experiment.endpointUrl).toEqual('http://172.17.0.1:3000/sparql');
     });
   });
 
