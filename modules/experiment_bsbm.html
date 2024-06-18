@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>experiment-watdiv | jbr</title>
+	<title>experiment-bsbm | jbr</title>
 	<meta name="description" content="Documentation for jbr">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,10 +55,10 @@
 					<a href="../modules.html">jbr</a>
 				</li>
 				<li>
-					<a href="experiment_watdiv.html">experiment-watdiv</a>
+					<a href="experiment_bsbm.html">experiment-bsbm</a>
 				</li>
 			</ul>
-			<h1>Module experiment-watdiv</h1>
+			<h1>Module experiment-bsbm</h1>
 		</div>
 	</div>
 </header>
@@ -67,13 +67,13 @@
 		<div class="col-8 col-content">
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
-					<a href="#jbr-experiment---watdiv" id="jbr-experiment---watdiv" style="color: inherit; text-decoration: none;">
-						<h1>JBR Experiment - WatDiv</h1>
+					<a href="#jbr-experiment---bsbm" id="jbr-experiment---bsbm" style="color: inherit; text-decoration: none;">
+						<h1>JBR Experiment - BSBM</h1>
 					</a>
 					<p><a href="https://github.com/rubensworks/jbr.js/actions?query=workflow%3ACI"><img src="https://github.com/rubensworks/jbr.js/workflows/CI/badge.svg" alt="Build status"></a>
 						<a href="https://coveralls.io/github/rubensworks/jbr.js?branch=master"><img src="https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master" alt="Coverage Status"></a>
 					<a href="https://www.npmjs.com/package/@jbr-experiment/watdiv"><img src="https://badge.fury.io/js/%40jbr-experiment%2Fwatdiv.svg" alt="npm version"></a></p>
-					<p>A <a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> experiment type for the <a href="https://dsg.uwaterloo.ca/watdiv/">Waterloo SPARQL Diversity Test Suite (WatDiv)</a>.</p>
+					<p>A <a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> experiment type for the <a href="http://wbsg.informatik.uni-mannheim.de/bizer/berlinsparqlbenchmark/">Berlin SPARQL Benchmark (BSBM)</a>.</p>
 					<a href="#requirements" id="requirements" style="color: inherit; text-decoration: none;">
 						<h2>Requirements</h2>
 					</a>
@@ -121,7 +121,7 @@
   dataset.hdt
   dataset.hdt.index.v1-1
   dataset.nt
-  queries/
+  td_data/
 </code></pre>
 					<a href="#5-run-the-experiment" id="5-run-the-experiment" style="color: inherit; text-decoration: none;">
 						<h3>5. Run the experiment</h3>
@@ -134,42 +134,56 @@
 						<h2>Output</h2>
 					</a>
 					<p>The following output is generated after an experiment has run.</p>
-					<p><code>output/query-times.csv</code>:</p>
-					<pre><code class="language-csv">name;id;results;time;timestamps
-interactive-short-4;0;0;7;
-interactive-short-4;1;0;5;
-interactive-short-4;2;0;6;
-interactive-short-4;3;0;3;
-interactive-short-4;4;0;3;
-interactive-short-5;0;0;0;
-interactive-short-5;1;0;0;
-interactive-short-5;2;0;0;
-interactive-short-5;3;0;0;
-interactive-short-5;4;0;0;
+					<p><code>output/bsbm.xml</code>:</p>
+					<pre><code class="language-xml"><span style="color: #800000">&lt;?xml</span><span style="color: #FF0000"> version</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;1.0&quot;</span><span style="color: #800000">?&gt;&lt;bsbm&gt;</span>
+<span style="color: #000000">    </span><span style="color: #800000">&lt;querymix&gt;</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;scalefactor&gt;</span><span style="color: #000000">100</span><span style="color: #800000">&lt;/scalefactor&gt;</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;warmups&gt;</span><span style="color: #000000">10</span><span style="color: #800000">&lt;/warmups&gt;</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;seed&gt;</span><span style="color: #000000">9834533</span><span style="color: #800000">&lt;/seed&gt;</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;querymixruns&gt;</span><span style="color: #000000">10</span><span style="color: #800000">&lt;/querymixruns&gt;</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;minquerymixruntime&gt;</span><span style="color: #000000">1.9948</span><span style="color: #800000">&lt;/minquerymixruntime&gt;</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;maxquerymixruntime&gt;</span><span style="color: #000000">3.5679</span><span style="color: #800000">&lt;/maxquerymixruntime&gt;</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;totalruntime&gt;</span><span style="color: #000000">23.993</span><span style="color: #800000">&lt;/totalruntime&gt;</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;qmph&gt;</span><span style="color: #000000">1500.46</span><span style="color: #800000">&lt;/qmph&gt;</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;cqet&gt;</span><span style="color: #000000">2.39926</span><span style="color: #800000">&lt;/cqet&gt;</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;cqetg&gt;</span><span style="color: #000000">2.35945</span><span style="color: #800000">&lt;/cqetg&gt;</span>
+<span style="color: #000000">    </span><span style="color: #800000">&lt;/querymix&gt;</span>
+<span style="color: #000000">    </span><span style="color: #800000">&lt;queries&gt;</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;query</span><span style="color: #000000"> </span><span style="color: #FF0000">nr</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;1&quot;</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">            </span><span style="color: #800000">&lt;executecount&gt;</span><span style="color: #000000">10</span><span style="color: #800000">&lt;/executecount&gt;</span>
+<span style="color: #000000">            </span><span style="color: #800000">&lt;aqet&gt;</span><span style="color: #000000">0.007408</span><span style="color: #800000">&lt;/aqet&gt;</span>
+<span style="color: #000000">            </span><span style="color: #800000">&lt;aqetg&gt;</span><span style="color: #000000">0.006883</span><span style="color: #800000">&lt;/aqetg&gt;</span>
+<span style="color: #000000">            </span><span style="color: #800000">&lt;qps&gt;</span><span style="color: #000000">135.00</span><span style="color: #800000">&lt;/qps&gt;</span>
+<span style="color: #000000">            </span><span style="color: #800000">&lt;minqet&gt;</span><span style="color: #000000">0.00484910</span><span style="color: #800000">&lt;/minqet&gt;</span>
+<span style="color: #000000">            </span><span style="color: #800000">&lt;maxqet&gt;</span><span style="color: #000000">0.01610740</span><span style="color: #800000">&lt;/maxqet&gt;</span>
+<span style="color: #000000">            </span><span style="color: #800000">&lt;avgresults&gt;</span><span style="color: #000000">0.10</span><span style="color: #800000">&lt;/avgresults&gt;</span>
+<span style="color: #000000">            </span><span style="color: #800000">&lt;minresults&gt;</span><span style="color: #000000">0</span><span style="color: #800000">&lt;/minresults&gt;</span>
+<span style="color: #000000">            </span><span style="color: #800000">&lt;maxresults&gt;</span><span style="color: #000000">1</span><span style="color: #800000">&lt;/maxresults&gt;</span>
+<span style="color: #000000">            </span><span style="color: #800000">&lt;timeoutcount&gt;</span><span style="color: #000000">0</span><span style="color: #800000">&lt;/timeoutcount&gt;</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;/query&gt;</span>
+<span style="color: #000000">    </span><span style="color: #800000">&lt;/queries&gt;</span>
+<span style="color: #800000">&lt;/bsbm&gt;</span>
 </code></pre>
+					<p>More output can be found in <code>output/logs/bsbm-run.txt</code></p>
 					<a href="#configuration" id="configuration" style="color: inherit; text-decoration: none;">
 						<h2>Configuration</h2>
 					</a>
 					<p>The default generated configuration file (<code>jbr-experiment.json</code>) for this experiment looks as follows:</p>
 					<pre><code class="language-json"><span style="color: #000000">{</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;@context&quot;</span><span style="color: #000000">: [</span>
-<span style="color: #000000">    </span><span style="color: #A31515">&quot;https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #A31515">&quot;https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/watdiv/^1.0.0/components/context.jsonld&quot;</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;https://linkedsoftwaredependencies.org/bundles/npm/jbr/^5.0.0/components/context.jsonld&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/bsbm/^5.0.0/components/context.jsonld&quot;</span>
 <span style="color: #000000">  ],</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@id&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;urn:jrb:test-watdiv2&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;ExperimentWatDiv&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;datasetScale&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryCount&quot;</span><span style="color: #000000">: </span><span style="color: #098658">5</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRecurrence&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@id&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;urn:jrb:test-bsbm&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;ExperimentBsbm&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;productCount&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1000</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;generateHdt&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">true</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;endpointUrl&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;http://localhost:3001/sparql&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerReplication&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerWarmupRounds&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerRecordTimestamps&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">true</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerUrlParamsInit&quot;</span><span style="color: #000000">: {},</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerUrlParamsRun&quot;</span><span style="color: #000000">: {},</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;endpointUrlExternal&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;http://localhost:3001/sparql&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;warmupRuns&quot;</span><span style="color: #000000">: </span><span style="color: #098658">5</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;runs&quot;</span><span style="color: #000000">: </span><span style="color: #098658">50</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;hookSparqlEndpoint&quot;</span><span style="color: #000000">: {</span>
-<span style="color: #000000">    </span><span style="color: #0451A5">&quot;@id&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;urn:jrb:test-watdiv2:hookSparqlEndpoint&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #0451A5">&quot;@id&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;urn:jrb:test-watdiv:hookSparqlEndpoint&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;HookNonConfigured&quot;</span>
 <span style="color: #000000">  }</span>
 <span style="color: #000000">}</span>
@@ -180,18 +194,12 @@ interactive-short-5;4;0;0;
 						<h3>Configuration fields</h3>
 					</a>
 					<ul>
-						<li><code>datasetScale</code>: Scale factor (1 ~= 100K triples), defaults to 1.</li>
-						<li><code>queryCount</code>: Query count per type.</li>
-						<li><code>queryRecurrence</code>: Query recurrence factor.</li>
+						<li><code>productCount</code>: The number of products in the dataset. 91 products make about 50K triples. Defaults to 1000.</li>
 						<li><code>generateHdt</code>: If a <code>dataset.hdt</code> should also be generated.</li>
-						<li><code>endpointUrl</code>: URL through which the SPARQL endpoint of the <code>hookSparqlEndpoint</code> hook will be exposed.</li>
-						<li><code>queryRunnerReplication</code>: Number of replication runs for <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
-						<li><code>queryRunnerWarmupRounds</code>: Number of warmup runs for <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
-						<li><code>queryRunnerRecordTimestamps</code>: Flag to indicate if result arrival timestamps must be recorded by <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
-						<li><code>queryRunnerRecordHttpRequests</code>: Flag to indicate if the number of http requests must be reported by <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
-						<li><code>queryRunnerUrlParamsInit</code>: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during initialization to check if the endpoint is up.</li>
-						<li><code>queryRunnerUrlParamsRun</code>: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during query executions.</li>
-						<li><code>queryTimeoutFallback</code>: An optional timeout value for a single query in milliseconds, to be used as fallback in case the SPARQL endpoint hook&#39;s timeout fails. This should always be higher than the timeout value configured in the SPARQL endpoint hook.</li>
+						<li><code>endpointUrl</code>: URL through which the SPARQL endpoint of the <code>hookSparqlEndpoint</code> hook will be exposed from within the Docker container. When the endpoint is hosted on your main machine outside of Docker, this will be something like <code>http://host.docker.internal:3001/sparql</code>.</li>
+						<li><code>endpointUrlExternal</code>: URL through which the SPARQL endpoint of the <code>hookSparqlEndpoint</code> hook will be exposed.</li>
+						<li><code>warmupRuns</code>: Number of warmup runs.</li>
+						<li><code>runs</code>: Number of actual query runs.</li>
 					</ul>
 					<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 						<h2>License</h2>
@@ -208,8 +216,8 @@ interactive-short-5;4;0;0;
 						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/experiment_watdiv.ExperimentHandlerWatDiv.html" class="tsd-kind-icon">Experiment<wbr>Handler<wbr>Wat<wbr>Div</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/experiment_watdiv.ExperimentWatDiv.html" class="tsd-kind-icon">Experiment<wbr>Wat<wbr>Div</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/experiment_bsbm.ExperimentBsbm.html" class="tsd-kind-icon">Experiment<wbr>Bsbm</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/experiment_bsbm.ExperimentHandlerBsbm.html" class="tsd-kind-icon">Experiment<wbr>Handler<wbr>Bsbm</a></li>
 							</ul>
 						</section>
 					</div>
@@ -222,13 +230,13 @@ interactive-short-5;4;0;0;
 					<li class=" ">
 						<a href="../modules.html">Modules</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="experiment_bsbm.html">experiment-<wbr>bsbm</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="experiment_solidbench.html">experiment-<wbr>solidbench</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="experiment_watdiv.html">experiment-<wbr>watdiv</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -247,27 +255,27 @@ interactive-short-5;4;0;0;
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-module">
-						<a href="experiment_bsbm.html" class="tsd-kind-icon">experiment-<wbr>bsbm</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="experiment_solidbench.html" class="tsd-kind-icon">experiment-<wbr>solidbench</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-module">
-						<a href="experiment_watdiv.html" class="tsd-kind-icon">experiment-<wbr>watdiv</a>
+						<a href="experiment_bsbm.html" class="tsd-kind-icon">experiment-<wbr>bsbm</a>
 						<ul>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/experiment_watdiv.ExperimentHandlerWatDiv.html" class="tsd-kind-icon">Experiment<wbr>Handler<wbr>Wat<wbr>Div</a>
+								<a href="../classes/experiment_bsbm.ExperimentBsbm.html" class="tsd-kind-icon">Experiment<wbr>Bsbm</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/experiment_watdiv.ExperimentWatDiv.html" class="tsd-kind-icon">Experiment<wbr>Wat<wbr>Div</a>
+								<a href="../classes/experiment_bsbm.ExperimentHandlerBsbm.html" class="tsd-kind-icon">Experiment<wbr>Handler<wbr>Bsbm</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-module">
+						<a href="experiment_solidbench.html" class="tsd-kind-icon">experiment-<wbr>solidbench</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="experiment_watdiv.html" class="tsd-kind-icon">experiment-<wbr>watdiv</a>
+					</li>
 					<li class=" tsd-kind-module">
 						<a href="hook_cli.html" class="tsd-kind-icon">hook-<wbr>cli</a>
 					</li>

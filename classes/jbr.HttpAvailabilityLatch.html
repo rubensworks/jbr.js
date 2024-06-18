@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CliNpmInstaller | jbr</title>
+	<title>HttpAvailabilityLatch | jbr</title>
 	<meta name="description" content="Documentation for jbr">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -58,10 +58,10 @@
 					<a href="../modules/jbr.html">jbr</a>
 				</li>
 				<li>
-					<a href="jbr.CliNpmInstaller.html">CliNpmInstaller</a>
+					<a href="jbr.HttpAvailabilityLatch.html">HttpAvailabilityLatch</a>
 				</li>
 			</ul>
-			<h1>Class CliNpmInstaller</h1>
+			<h1>Class HttpAvailabilityLatch</h1>
 		</div>
 	</div>
 </header>
@@ -71,7 +71,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Installs npm packages by invoking the CLI.</p>
+						<p>A utility class to wait for a server to be available.</p>
 					</div>
 				</div>
 			</section>
@@ -79,14 +79,8 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">CliNpmInstaller</span>
+						<span class="target">HttpAvailabilityLatch</span>
 					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel">
-				<h3>Implements</h3>
-				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/jbr.NpmInstaller.html" class="tsd-signature-type" data-tsd-kind="Interface">NpmInstaller</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -96,21 +90,16 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="jbr.CliNpmInstaller.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="jbr.CliNpmInstaller.html#context" class="tsd-kind-icon">context</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="jbr.CliNpmInstaller.html#nextVersion" class="tsd-kind-icon">next<wbr>Version</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="jbr.HttpAvailabilityLatch.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.CliNpmInstaller.html#fetchPackageNames" class="tsd-kind-icon">fetch<wbr>Package<wbr>Names</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.CliNpmInstaller.html#install" class="tsd-kind-icon">install</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.HttpAvailabilityLatch.html#countTime" class="tsd-kind-icon">count<wbr>Time</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.HttpAvailabilityLatch.html#isEndpointAvailable" class="tsd-kind-icon">is<wbr>Endpoint<wbr>Available</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.HttpAvailabilityLatch.html#sleep" class="tsd-kind-icon">sleep</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.HttpAvailabilityLatch.html#sleepUntilAvailable" class="tsd-kind-icon">sleep<wbr>Until<wbr>Available</a></li>
 							</ul>
 						</section>
 					</div>
@@ -122,101 +111,134 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Cli<wbr>Npm<wbr>Installer<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a>, nextVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jbr.CliNpmInstaller.html" class="tsd-signature-type" data-tsd-kind="Class">CliNpmInstaller</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Http<wbr>Availability<wbr>Latch<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jbr.HttpAvailabilityLatch.html" class="tsd-signature-type" data-tsd-kind="Class">HttpAvailabilityLatch</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="jbr.HttpAvailabilityLatch.html" class="tsd-signature-type" data-tsd-kind="Class">HttpAvailabilityLatch</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="countTime" class="tsd-anchor"></a>
+					<h3>count<wbr>Time</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">count<wbr>Time<span class="tsd-signature-symbol">(</span>hrstart<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/npm/CliNpmInstaller.ts#L14">packages/jbr/lib/npm/CliNpmInstaller.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/util/HttpAvailabilityLatch.ts#L11">packages/jbr/lib/util/HttpAvailabilityLatch.ts:11</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Based on a hrtime start, obtain the duration.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hrstart: <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>process.hrtime</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="isEndpointAvailable" class="tsd-anchor"></a>
+					<h3>is<wbr>Endpoint<wbr>Available</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Endpoint<wbr>Available<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/util/HttpAvailabilityLatch.ts#L27">packages/jbr/lib/util/HttpAvailabilityLatch.ts:27</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if the server is available.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sleep" class="tsd-anchor"></a>
+					<h3>sleep</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">sleep<span class="tsd-signature-symbol">(</span>durationMs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/util/HttpAvailabilityLatch.ts#L20">packages/jbr/lib/util/HttpAvailabilityLatch.ts:20</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sleep for a given amount of time.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>durationMs: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A duration in milliseconds.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sleepUntilAvailable" class="tsd-anchor"></a>
+					<h3>sleep<wbr>Until<wbr>Available</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">sleep<wbr>Until<wbr>Available<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a>, url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/util/HttpAvailabilityLatch.ts#L45">packages/jbr/lib/util/HttpAvailabilityLatch.ts:45</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Wait until the server is available.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>context: <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a></h5>
 								</li>
 								<li>
-									<h5>nextVersion: <span class="tsd-signature-type">boolean</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="jbr.CliNpmInstaller.html" class="tsd-signature-type" data-tsd-kind="Class">CliNpmInstaller</a></h4>
-						</li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="context" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> context</h3>
-					<div class="tsd-signature tsd-kind-icon">context<span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/npm/CliNpmInstaller.ts#L11">packages/jbr/lib/npm/CliNpmInstaller.ts:11</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="nextVersion" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> next<wbr>Version</h3>
-					<div class="tsd-signature tsd-kind-icon">next<wbr>Version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/npm/CliNpmInstaller.ts#L12">packages/jbr/lib/npm/CliNpmInstaller.ts:12</a></li>
-						</ul>
-					</aside>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="fetchPackageNames" class="tsd-anchor"></a>
-					<h3>fetch<wbr>Package<wbr>Names</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">fetch<wbr>Package<wbr>Names<span class="tsd-signature-symbol">(</span>scope<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>link<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/npm/CliNpmInstaller.ts#L51">packages/jbr/lib/npm/CliNpmInstaller.ts:51</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>scope: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>link<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="install" class="tsd-anchor"></a>
-					<h3>install</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">install<span class="tsd-signature-symbol">(</span>cwd<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, packages<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, scopeError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/jbr.NpmInstaller.html">NpmInstaller</a>.<a href="../interfaces/jbr.NpmInstaller.html#install">install</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/npm/CliNpmInstaller.ts#L19">packages/jbr/lib/npm/CliNpmInstaller.ts:19</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>cwd: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>packages: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-								<li>
-									<h5>scopeError: <span class="tsd-signature-type">string</span></h5>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -280,22 +302,22 @@
 						<a href="../modules/jbr.html" class="tsd-kind-icon">jbr</a>
 						<ul>
 							<li class="current tsd-kind-class tsd-parent-kind-module">
-								<a href="jbr.CliNpmInstaller.html" class="tsd-kind-icon">Cli<wbr>Npm<wbr>Installer</a>
+								<a href="jbr.HttpAvailabilityLatch.html" class="tsd-kind-icon">Http<wbr>Availability<wbr>Latch</a>
 								<ul>
 									<li class=" tsd-kind-constructor tsd-parent-kind-class">
-										<a href="jbr.CliNpmInstaller.html#constructor" class="tsd-kind-icon">constructor</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-										<a href="jbr.CliNpmInstaller.html#context" class="tsd-kind-icon">context</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-										<a href="jbr.CliNpmInstaller.html#nextVersion" class="tsd-kind-icon">next<wbr>Version</a>
+										<a href="jbr.HttpAvailabilityLatch.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="jbr.CliNpmInstaller.html#fetchPackageNames" class="tsd-kind-icon">fetch<wbr>Package<wbr>Names</a>
+										<a href="jbr.HttpAvailabilityLatch.html#countTime" class="tsd-kind-icon">count<wbr>Time</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="jbr.CliNpmInstaller.html#install" class="tsd-kind-icon">install</a>
+										<a href="jbr.HttpAvailabilityLatch.html#isEndpointAvailable" class="tsd-kind-icon">is<wbr>Endpoint<wbr>Available</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="jbr.HttpAvailabilityLatch.html#sleep" class="tsd-kind-icon">sleep</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="jbr.HttpAvailabilityLatch.html#sleepUntilAvailable" class="tsd-kind-icon">sleep<wbr>Until<wbr>Available</a>
 									</li>
 								</ul>
 							</li>
@@ -326,9 +348,6 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
 			</ul>
 		</div>
 	</div>

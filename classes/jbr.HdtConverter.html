@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>TaskValidate | jbr</title>
+	<title>HdtConverter | jbr</title>
 	<meta name="description" content="Documentation for jbr">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -58,10 +58,10 @@
 					<a href="../modules/jbr.html">jbr</a>
 				</li>
 				<li>
-					<a href="jbr.TaskValidate.html">TaskValidate</a>
+					<a href="jbr.HdtConverter.html">HdtConverter</a>
 				</li>
 			</ul>
-			<h1>Class TaskValidate</h1>
+			<h1>Class HdtConverter</h1>
 		</div>
 	</div>
 </header>
@@ -71,7 +71,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Validates an experiment.</p>
+						<p>A utility to generate HDT files.</p>
 					</div>
 				</div>
 			</section>
@@ -79,7 +79,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">TaskValidate</span>
+						<span class="target">HdtConverter</span>
 					</li>
 				</ul>
 			</section>
@@ -90,21 +90,22 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="jbr.TaskValidate.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="jbr.HdtConverter.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="jbr.TaskValidate.html#context" class="tsd-kind-icon">context</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="jbr.TaskValidate.html#REQUIRED_FILES" class="tsd-kind-icon">REQUIRED_<wbr>FILES</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="jbr.TaskValidate.html#REQUIRED_FILES_COMBINATIONS" class="tsd-kind-icon">REQUIRED_<wbr>FILES_<wbr>COMBINATIONS</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jbr.HdtConverter.html#context" class="tsd-kind-icon">context</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jbr.HdtConverter.html#forceOverwriteGenerated" class="tsd-kind-icon">force<wbr>Overwrite<wbr>Generated</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jbr.HdtConverter.html#scope" class="tsd-kind-icon">scope</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="jbr.HdtConverter.html#DOCKER_IMAGE_HDT" class="tsd-kind-icon">DOCKER_<wbr>IMAGE_<wbr>HDT</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.TaskValidate.html#validate" class="tsd-kind-icon">validate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jbr.HdtConverter.html#generate" class="tsd-kind-icon">generate</a></li>
 							</ul>
 						</section>
 					</div>
@@ -116,13 +117,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Task<wbr>Validate<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jbr.TaskValidate.html" class="tsd-signature-type" data-tsd-kind="Class">TaskValidate</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Hdt<wbr>Converter<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a>, forceOverwriteGenerated<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, scope<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jbr.HdtConverter.html" class="tsd-signature-type" data-tsd-kind="Class">HdtConverter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/task/TaskValidate.ts#L24">packages/jbr/lib/task/TaskValidate.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/util/HdtConverter.ts#L11">packages/jbr/lib/util/HdtConverter.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -130,41 +131,48 @@
 								<li>
 									<h5>context: <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a></h5>
 								</li>
+								<li>
+									<h5>forceOverwriteGenerated: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+								<li>
+									<h5>scope: <span class="tsd-signature-type">string</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="jbr.TaskValidate.html" class="tsd-signature-type" data-tsd-kind="Class">TaskValidate</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="jbr.HdtConverter.html" class="tsd-signature-type" data-tsd-kind="Class">HdtConverter</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="context" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> context</h3>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> context</h3>
 					<div class="tsd-signature tsd-kind-icon">context<span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a></div>
 					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/task/TaskValidate.ts#L22">packages/jbr/lib/task/TaskValidate.ts:22</a></li>
-						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="forceOverwriteGenerated" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> force<wbr>Overwrite<wbr>Generated</h3>
+					<div class="tsd-signature tsd-kind-icon">force<wbr>Overwrite<wbr>Generated<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="scope" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> scope</h3>
+					<div class="tsd-signature tsd-kind-icon">scope<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
-					<a name="REQUIRED_FILES" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> REQUIRED_<wbr>FILES</h3>
-					<div class="tsd-signature tsd-kind-icon">REQUIRED_<wbr>FILES<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<a name="DOCKER_IMAGE_HDT" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> DOCKER_<wbr>IMAGE_<wbr>HDT</h3>
+					<div class="tsd-signature tsd-kind-icon">DOCKER_<wbr>IMAGE_<wbr>HDT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;rdfhdt/hdt-cpp:v1.3.3&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/task/TaskValidate.ts#L11">packages/jbr/lib/task/TaskValidate.ts:11</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
-					<a name="REQUIRED_FILES_COMBINATIONS" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> REQUIRED_<wbr>FILES_<wbr>COMBINATIONS</h3>
-					<div class="tsd-signature tsd-kind-icon">REQUIRED_<wbr>FILES_<wbr>COMBINATIONS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = ...</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/task/TaskValidate.ts#L16">packages/jbr/lib/task/TaskValidate.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/util/HdtConverter.ts#L9">packages/jbr/lib/util/HdtConverter.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -172,16 +180,16 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="validate" class="tsd-anchor"></a>
-					<h3>validate</h3>
+					<a name="generate" class="tsd-anchor"></a>
+					<h3>generate</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">validate<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">generate<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/task/TaskValidate.ts#L30">packages/jbr/lib/task/TaskValidate.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/0f89979/packages/jbr/lib/util/HdtConverter.ts#L17">packages/jbr/lib/util/HdtConverter.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -245,22 +253,25 @@
 						<a href="../modules/jbr.html" class="tsd-kind-icon">jbr</a>
 						<ul>
 							<li class="current tsd-kind-class tsd-parent-kind-module">
-								<a href="jbr.TaskValidate.html" class="tsd-kind-icon">Task<wbr>Validate</a>
+								<a href="jbr.HdtConverter.html" class="tsd-kind-icon">Hdt<wbr>Converter</a>
 								<ul>
 									<li class=" tsd-kind-constructor tsd-parent-kind-class">
-										<a href="jbr.TaskValidate.html#constructor" class="tsd-kind-icon">constructor</a>
+										<a href="jbr.HdtConverter.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-										<a href="jbr.TaskValidate.html#context" class="tsd-kind-icon">context</a>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="jbr.HdtConverter.html#context" class="tsd-kind-icon">context</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="jbr.HdtConverter.html#forceOverwriteGenerated" class="tsd-kind-icon">force<wbr>Overwrite<wbr>Generated</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="jbr.HdtConverter.html#scope" class="tsd-kind-icon">scope</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
-										<a href="jbr.TaskValidate.html#REQUIRED_FILES" class="tsd-kind-icon">REQUIRED_<wbr>FILES</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
-										<a href="jbr.TaskValidate.html#REQUIRED_FILES_COMBINATIONS" class="tsd-kind-icon">REQUIRED_<wbr>FILES_<wbr>COMBINATIONS</a>
+										<a href="jbr.HdtConverter.html#DOCKER_IMAGE_HDT" class="tsd-kind-icon">DOCKER_<wbr>IMAGE_<wbr>HDT</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="jbr.TaskValidate.html#validate" class="tsd-kind-icon">validate</a>
+										<a href="jbr.HdtConverter.html#generate" class="tsd-kind-icon">generate</a>
 									</li>
 								</ul>
 							</li>
@@ -278,22 +289,20 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
