@@ -1,6 +1,6 @@
 {
   "name": "@jbr-experiment/bsbm",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "description": "BSBM experiment handler for JBR",
   "main": "index.js",
   "typings": "index",

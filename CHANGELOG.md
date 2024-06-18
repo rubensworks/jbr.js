@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.2.1"></a>
+## [v5.2.1](https://github.com/rubensworks/jbr.js/compare/v5.2.0...v5.2.1) - 2024-06-18
+
+### Changed
+* [Output the BSBM run log if the run failed](https://github.com/rubensworks/jbr.js/commit/9ec9590d698dd1814dda290f64ab9c034da6738f)
+
 <a name="v5.2.0"></a>
 ## [v5.2.0](https://github.com/rubensworks/jbr.js/compare/v5.1.1...v5.2.0) - 2024-06-18
 
