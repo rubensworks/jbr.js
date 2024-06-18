@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.2.0"></a>
+## [v5.2.0](https://github.com/rubensworks/jbr.js/compare/v5.1.1...v5.2.0) - 2024-06-18
+
+### Added
+* [Add BSBM experiment handler, Closes #9](https://github.com/rubensworks/jbr.js/commit/0f899793fe82e5e68c895e463ee89d52dda573b4)
+
 <a name="v5.1.1"></a>
 ## [v5.1.1](https://github.com/rubensworks/jbr.js/compare/v5.1.0...v5.1.1) - 2024-05-30
 
