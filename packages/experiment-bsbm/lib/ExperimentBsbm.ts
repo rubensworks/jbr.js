@@ -115,6 +115,16 @@ export class ExperimentBsbm implements Experiment {
     await testDriverHandler.join();
     stopEndpointStats();
 
+    // Output the run log if the run failed
+    if (!await fs.pathExists(Path.join(context.experimentPaths.generated, 'single.xml'))) {
+      context.logger.info(`No valid BSBM output file was generated.`);
+      const logs = await fs.readFile(
+        Path.join(context.experimentPaths.output, 'logs', 'bsbm-run.txt'),
+        { encoding: 'utf8' },
+      );
+      context.logger.error(logs);
+    }
+
     // Move output file to output directory
     await fs.move(
       Path.join(context.experimentPaths.generated, 'single.xml'),

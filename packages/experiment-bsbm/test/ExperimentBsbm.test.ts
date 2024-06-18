@@ -20,6 +20,9 @@ jest.mock('fs-extra', () => ({
   createWriteStream: jest.fn((path: string) => {
     filesOut[path] = true;
   }),
+  readFile: jest.fn((path: string) => {
+    return filesOut[path];
+  }),
   async ensureDir(dirPath: string) {
     dirsOut[dirPath] = true;
   },
@@ -64,7 +67,9 @@ describe('ExperimentBsbm', () => {
         },
       },
     };
-    endpointHandlerStopCollectingStats = jest.fn();
+    endpointHandlerStopCollectingStats = jest.fn(() => {
+      filesOut[Path.join(context.experimentPaths.generated, 'single.xml')] = 'SINGLE.XML';
+    });
     endpointHandler = {
       close: jest.fn(),
       startCollectingStats: jest.fn(() => endpointHandlerStopCollectingStats),
