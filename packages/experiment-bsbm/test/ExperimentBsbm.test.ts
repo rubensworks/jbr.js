@@ -97,6 +97,40 @@ describe('ExperimentBsbm', () => {
     (<any> process).on = jest.fn();
   });
 
+  describe('constructed', () => {
+    it('on mac', () => {
+      Object.defineProperty(process, 'platform', {
+        value: 'darwin',
+      });
+      experiment = new ExperimentBsbm(
+        100,
+        true,
+        hookSparqlEndpoint,
+        'http://host.docker.internal:3000/sparql',
+        'http://localhost:3001/sparql',
+        10,
+        50,
+      );
+      expect(experiment.endpointUrl).toEqual('http://host.docker.internal:3000/sparql');
+    });
+
+    it('on linux', () => {
+      Object.defineProperty(process, 'platform', {
+        value: 'linux',
+      });
+      experiment = new ExperimentBsbm(
+        100,
+        true,
+        hookSparqlEndpoint,
+        'http://host.docker.internal:3000/sparql',
+        'http://localhost:3001/sparql',
+        10,
+        50,
+      );
+      expect(experiment.endpointUrl).toEqual('http://127.0.0.1:3000/sparql');
+    });
+  });
+
   describe('prepare', () => {
     it('should prepare the experiment', async() => {
       await experiment.prepare(context, false);

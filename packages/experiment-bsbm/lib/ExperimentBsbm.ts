@@ -38,7 +38,9 @@ export class ExperimentBsbm implements Experiment {
     this.productCount = productCount;
     this.generateHdt = generateHdt;
     this.hookSparqlEndpoint = hookSparqlEndpoint;
-    this.endpointUrl = endpointUrl;
+    this.endpointUrl = process.platform === 'darwin' || process.platform === 'win32' ?
+      endpointUrl :
+      endpointUrl.replace('host.docker.internal', '127.0.0.1');
     this.endpointUrlExternal = endpointUrlExternal;
     this.warmupRuns = warmupRuns;
     this.runs = runs;
