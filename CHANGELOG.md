@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.2.2"></a>
+## [v5.2.2](https://github.com/rubensworks/jbr.js/compare/v5.2.1...v5.2.2) - 2024-06-18
+
+### Fixed
+* [Fix BSBM internal URL when running on Linux](https://github.com/rubensworks/jbr.js/commit/377bc1fd8e50158c3b11d3ffc7c40592fe142f87)
+
 <a name="v5.2.1"></a>
 ## [v5.2.1](https://github.com/rubensworks/jbr.js/compare/v5.2.0...v5.2.1) - 2024-06-18
 
