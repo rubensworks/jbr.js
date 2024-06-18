@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.2.3"></a>
+## [v5.2.3](https://github.com/rubensworks/jbr.js/compare/v5.2.2...v5.2.3) - 2024-06-18
+
+### Fixed
+* [Fix incorrect Docker internal IP on Linux](https://github.com/rubensworks/jbr.js/commit/b3a19d13dbac8be4888bc3139d15e066c3ca46c9)
+
 <a name="v5.2.2"></a>
 ## [v5.2.2](https://github.com/rubensworks/jbr.js/compare/v5.2.1...v5.2.2) - 2024-06-18
 
