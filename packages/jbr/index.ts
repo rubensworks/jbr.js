@@ -35,3 +35,5 @@ export * from './lib/task/TaskPrepare';
 export * from './lib/task/TaskRun';
 export * from './lib/task/TaskSetHook';
 export * from './lib/task/TaskValidate';
+export * from './lib/util/HdtConverter';
+export * from './lib/util/HttpAvailabilityLatch';

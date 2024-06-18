@@ -1,10 +1,10 @@
-# JBR Experiment - WatDiv
+# JBR Experiment - BSBM
 
 [![Build status](https://github.com/rubensworks/jbr.js/workflows/CI/badge.svg)](https://github.com/rubensworks/jbr.js/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master)](https://coveralls.io/github/rubensworks/jbr.js?branch=master)
 [![npm version](https://badge.fury.io/js/%40jbr-experiment%2Fwatdiv.svg)](https://www.npmjs.com/package/@jbr-experiment/watdiv)
 
-A [jbr](https://github.com/rubensworks/jbr.js/tree/master/packages/jbr) experiment type for the [Waterloo SPARQL Diversity Test Suite (WatDiv)](https://dsg.uwaterloo.ca/watdiv/).
+A [jbr](https://github.com/rubensworks/jbr.js/tree/master/packages/jbr) experiment type for the [Berlin SPARQL Benchmark (BSBM)](http://wbsg.informatik.uni-mannheim.de/bizer/berlinsparqlbenchmark/).
 
 ## Requirements
 
@@ -61,7 +61,7 @@ generated/
   dataset.hdt
   dataset.hdt.index.v1-1
   dataset.nt
-  queries/
+  td_data/
 ```
 
 ### 5. Run the experiment
@@ -78,20 +78,39 @@ Once the run step completes, results will be present in the `output/` directory.
 
 The following output is generated after an experiment has run.
 
-`output/query-times.csv`:
-```csv
-name;id;results;time;timestamps
-interactive-short-4;0;0;7;
-interactive-short-4;1;0;5;
-interactive-short-4;2;0;6;
-interactive-short-4;3;0;3;
-interactive-short-4;4;0;3;
-interactive-short-5;0;0;0;
-interactive-short-5;1;0;0;
-interactive-short-5;2;0;0;
-interactive-short-5;3;0;0;
-interactive-short-5;4;0;0;
+`output/bsbm.xml`:
+```xml
+<?xml version="1.0"?><bsbm>
+    <querymix>
+        <scalefactor>100</scalefactor>
+        <warmups>10</warmups>
+        <seed>9834533</seed>
+        <querymixruns>10</querymixruns>
+        <minquerymixruntime>1.9948</minquerymixruntime>
+        <maxquerymixruntime>3.5679</maxquerymixruntime>
+        <totalruntime>23.993</totalruntime>
+        <qmph>1500.46</qmph>
+        <cqet>2.39926</cqet>
+        <cqetg>2.35945</cqetg>
+    </querymix>
+    <queries>
+        <query nr="1">
+            <executecount>10</executecount>
+            <aqet>0.007408</aqet>
+            <aqetg>0.006883</aqetg>
+            <qps>135.00</qps>
+            <minqet>0.00484910</minqet>
+            <maxqet>0.01610740</maxqet>
+            <avgresults>0.10</avgresults>
+            <minresults>0</minresults>
+            <maxresults>1</maxresults>
+            <timeoutcount>0</timeoutcount>
+        </query>
+    </queries>
+</bsbm>
 ```
+
+More output can be found in `output/logs/bsbm-run.txt`
 
 ## Configuration
 
@@ -100,23 +119,19 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
 ```json
 {
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld",
-    "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/watdiv/^1.0.0/components/context.jsonld"
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^5.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/bsbm/^5.0.0/components/context.jsonld"
   ],
-  "@id": "urn:jrb:test-watdiv2",
-  "@type": "ExperimentWatDiv",
-  "datasetScale": 1,
-  "queryCount": 5,
-  "queryRecurrence": 1,
+  "@id": "urn:jrb:test-bsbm",
+  "@type": "ExperimentBsbm",
+  "productCount": 1000,
   "generateHdt": true,
   "endpointUrl": "http://localhost:3001/sparql",
-  "queryRunnerReplication": 3,
-  "queryRunnerWarmupRounds": 1,
-  "queryRunnerRecordTimestamps": true,
-  "queryRunnerUrlParamsInit": {},
-  "queryRunnerUrlParamsRun": {},
+  "endpointUrlExternal": "http://localhost:3001/sparql",
+  "warmupRuns": 5,
+  "runs": 50,
   "hookSparqlEndpoint": {
-    "@id": "urn:jrb:test-watdiv2:hookSparqlEndpoint",
+    "@id": "urn:jrb:test-watdiv:hookSparqlEndpoint",
     "@type": "HookNonConfigured"
   }
 }
@@ -128,18 +143,12 @@ More background information on these config options can be found in the README o
 
 ### Configuration fields
 
-* `datasetScale`: Scale factor (1 ~= 100K triples), defaults to 1.
-* `queryCount`: Query count per type.
-* `queryRecurrence`: Query recurrence factor.
+* `productCount`: The number of products in the dataset. 91 products make about 50K triples. Defaults to 1000.
 * `generateHdt`: If a `dataset.hdt` should also be generated.
-* `endpointUrl`: URL through which the SPARQL endpoint of the `hookSparqlEndpoint` hook will be exposed.
-* `queryRunnerReplication`: Number of replication runs for [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
-* `queryRunnerWarmupRounds`: Number of warmup runs for [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
-* `queryRunnerRecordTimestamps`: Flag to indicate if result arrival timestamps must be recorded by [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
-* `queryRunnerRecordHttpRequests`: Flag to indicate if the number of http requests must be reported by [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
-* `queryRunnerUrlParamsInit`: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during initialization to check if the endpoint is up.
-* `queryRunnerUrlParamsRun`: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during query executions.
-* `queryTimeoutFallback`: An optional timeout value for a single query in milliseconds, to be used as fallback in case the SPARQL endpoint hook's timeout fails. This should always be higher than the timeout value configured in the SPARQL endpoint hook.
+* `endpointUrl`: URL through which the SPARQL endpoint of the `hookSparqlEndpoint` hook will be exposed from within the Docker container. When the endpoint is hosted on your main machine outside of Docker, this will be something like `http://host.docker.internal:3001/sparql`.
+* `endpointUrlExternal`: URL through which the SPARQL endpoint of the `hookSparqlEndpoint` hook will be exposed.
+* `warmupRuns`: Number of warmup runs.
+* `runs`: Number of actual query runs.
 
 ## License
 

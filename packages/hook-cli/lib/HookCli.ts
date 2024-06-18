@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { execFile } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import Path from 'path';
 import type { ITaskContext, ProcessHandler, Hook, IHookStartOptions, ICleanTargets } from 'jbr';
 import { CliProcessHandler } from 'jbr';
@@ -25,12 +25,11 @@ export class HookCli implements Hook {
 
   public async start(context: ITaskContext, options?: IHookStartOptions): Promise<ProcessHandler> {
     const [ base, ...args ] = this.entrypoint;
-    const childProcess = execFile(base, args);
-    childProcess.stdout!.pipe(fs.createWriteStream(Path
+    const childProcess = spawn(base, args);
+    childProcess.stdout.pipe(fs.createWriteStream(Path
       .join(context.experimentPaths.output, 'logs', 'cli-stdout.txt'), 'utf8'));
-    childProcess.stderr!.pipe(fs.createWriteStream(Path
+    childProcess.stderr.pipe(fs.createWriteStream(Path
       .join(context.experimentPaths.output, 'logs', 'cli-stderr.txt'), 'utf8'));
-
     return new CliProcessHandler(childProcess, this.statsFilePath);
   }
 

@@ -3,7 +3,7 @@ import { ExperimentHandler } from 'jbr';
 import { ExperimentWatDiv } from './ExperimentWatDiv';
 
 /**
- * An experiment handler for the LDBC SNB Decentralized benchmark.
+ * An experiment handler for the WatDiv.
  */
 export class ExperimentHandlerWatDiv extends ExperimentHandler<ExperimentWatDiv> {
   public constructor() {

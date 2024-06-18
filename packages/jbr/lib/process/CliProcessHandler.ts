@@ -39,6 +39,8 @@ export class CliProcessHandler implements ProcessHandler {
 
   public async close(): Promise<void> {
     if (!this.ended && !this.errored) {
+      this.ended = true;
+
       // Make sure streams are closed.
       this.childProcess.stdin?.end();
       this.childProcess.stdout?.unpipe();

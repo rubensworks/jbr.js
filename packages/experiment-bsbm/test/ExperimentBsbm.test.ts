@@ -1,32 +1,12 @@
 import Path from 'path';
 import type { Hook, ITaskContext, ProcessHandler } from 'jbr';
 import { HdtConverter, createExperimentPaths } from 'jbr';
-import { SparqlBenchmarkRunner } from 'sparql-benchmark-runner';
 import { TestLogger } from '../../jbr/test/TestLogger';
-import { ExperimentWatDiv } from '../lib/ExperimentWatDiv';
+import { ExperimentBsbm } from '../lib/ExperimentBsbm';
 
-let sparqlBenchmarkRun: any;
-let resultSerializerSerialize: any;
-jest.mock('sparql-benchmark-runner', () => ({
-  SparqlBenchmarkRunner: jest.fn().mockImplementation((options: any) => {
-    options.logger('Test logger');
-    return {
-      run: sparqlBenchmarkRun,
-    };
-  }),
-  QueryLoaderFile: jest.fn().mockImplementation(() => ({
-    loadQueries: jest.fn().mockResolvedValue({
-      C1: 'path/C1',
-      C2: 'path/C2',
-      C3: 'path/C3',
-    }),
-  })),
-  ResultSerializerCsv: jest.fn().mockImplementation(() => ({
-    serialize: resultSerializerSerialize,
-  })),
-}));
-
-let files: Record<string, boolean | string> = {};
+let files: Record<string, boolean | string> = {
+  'CWD/generated/single.xml': '',
+};
 let filesOut: Record<string, boolean | string> = {};
 let dirsOut: Record<string, boolean | string> = {};
 jest.mock('fs-extra', () => ({
@@ -43,14 +23,21 @@ jest.mock('fs-extra', () => ({
   async ensureDir(dirPath: string) {
     dirsOut[dirPath] = true;
   },
+  async move() {
+    // No-op
+  },
 }));
 
-describe('ExperimentWatDiv', () => {
+describe('ExperimentBsbm', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   let context: ITaskContext;
   let hookSparqlEndpoint: Hook;
   let endpointHandlerStopCollectingStats: any;
   let endpointHandler: ProcessHandler;
-  let experiment: ExperimentWatDiv;
+  let experiment: ExperimentBsbm;
   beforeEach(() => {
     context = {
       cwd: 'CWD',
@@ -68,6 +55,13 @@ describe('ExperimentWatDiv', () => {
         imagePuller: {
           pull: jest.fn(),
         },
+        imageBuilder: {
+          getImageName: jest.fn(),
+        },
+        networkCreator: {
+          create: jest.fn(() => ({ network: { id: 'network-id' }, close: jest.fn() })),
+          remove: jest.fn(),
+        },
       },
     };
     endpointHandlerStopCollectingStats = jest.fn();
@@ -83,24 +77,14 @@ describe('ExperimentWatDiv', () => {
       start: jest.fn(() => endpointHandler),
       clean: jest.fn(),
     };
-    sparqlBenchmarkRun = jest.fn(async({ onStart, onStop }) => {
-      await onStart();
-      await onStop();
-    });
-    resultSerializerSerialize = jest.fn();
-    experiment = new ExperimentWatDiv(
-      1,
-      5,
-      1,
+    experiment = new ExperimentBsbm(
+      100,
       true,
       hookSparqlEndpoint,
+      'http://localhost:3000/sparql',
       'http://localhost:3001/sparql',
-      3,
-      1,
-      0,
-      1_000,
-      {},
-      600,
+      10,
+      50,
     );
     files = {};
     dirsOut = {};
@@ -116,7 +100,7 @@ describe('ExperimentWatDiv', () => {
 
       expect(context.docker.imagePuller.pull).toHaveBeenCalledTimes(2);
       expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
-        repoTag: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
+        repoTag: ExperimentBsbm.DOCKER_IMAGE_BSBM,
       });
       expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
         repoTag: HdtConverter.DOCKER_IMAGE_HDT,
@@ -124,14 +108,21 @@ describe('ExperimentWatDiv', () => {
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(3);
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
-        imageName: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
-        cmdArgs: [ '-s', '1', '-q', '5', '-r', '1' ],
+        imageName: ExperimentBsbm.DOCKER_IMAGE_BSBM,
+        cmdArgs: [
+          'generate',
+          '-dir',
+          '/data/td_data',
+          '-pc',
+          '100',
+          '-fc',
+        ],
         hostConfig: {
           Binds: [
-            `${context.experimentPaths.generated}:/output`,
+            `${context.experimentPaths.generated}:/data`,
           ],
         },
-        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-generation.txt'),
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-generation.txt'),
       });
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         imageName: HdtConverter.DOCKER_IMAGE_HDT,
@@ -141,7 +132,7 @@ describe('ExperimentWatDiv', () => {
             `${context.experimentPaths.generated}:/output`,
           ],
         },
-        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt.txt'),
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-hdt.txt'),
       });
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         imageName: HdtConverter.DOCKER_IMAGE_HDT,
@@ -151,7 +142,7 @@ describe('ExperimentWatDiv', () => {
             `${context.experimentPaths.generated}:/output`,
           ],
         },
-        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt-index.txt'),
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-hdt-index.txt'),
       });
 
       expect(dirsOut).toEqual({
@@ -183,7 +174,7 @@ describe('ExperimentWatDiv', () => {
 
       expect(context.docker.imagePuller.pull).toHaveBeenCalledTimes(2);
       expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
-        repoTag: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
+        repoTag: ExperimentBsbm.DOCKER_IMAGE_BSBM,
       });
       expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
         repoTag: HdtConverter.DOCKER_IMAGE_HDT,
@@ -191,14 +182,21 @@ describe('ExperimentWatDiv', () => {
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(3);
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
-        imageName: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
-        cmdArgs: [ '-s', '1', '-q', '5', '-r', '1' ],
+        imageName: ExperimentBsbm.DOCKER_IMAGE_BSBM,
+        cmdArgs: [
+          'generate',
+          '-dir',
+          '/data/td_data',
+          '-pc',
+          '100',
+          '-fc',
+        ],
         hostConfig: {
           Binds: [
-            `${context.experimentPaths.generated}:/output`,
+            `${context.experimentPaths.generated}:/data`,
           ],
         },
-        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-generation.txt'),
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-generation.txt'),
       });
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         imageName: HdtConverter.DOCKER_IMAGE_HDT,
@@ -208,7 +206,7 @@ describe('ExperimentWatDiv', () => {
             `${context.experimentPaths.generated}:/output`,
           ],
         },
-        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt.txt'),
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-hdt.txt'),
       });
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         imageName: HdtConverter.DOCKER_IMAGE_HDT,
@@ -218,7 +216,7 @@ describe('ExperimentWatDiv', () => {
             `${context.experimentPaths.generated}:/output`,
           ],
         },
-        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt-index.txt'),
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-hdt-index.txt'),
       });
 
       expect(dirsOut).toEqual({
@@ -236,7 +234,7 @@ describe('ExperimentWatDiv', () => {
 
       expect(context.docker.imagePuller.pull).toHaveBeenCalledTimes(2);
       expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
-        repoTag: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
+        repoTag: ExperimentBsbm.DOCKER_IMAGE_BSBM,
       });
       expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
         repoTag: HdtConverter.DOCKER_IMAGE_HDT,
@@ -244,14 +242,21 @@ describe('ExperimentWatDiv', () => {
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(3);
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
-        imageName: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
-        cmdArgs: [ '-s', '1', '-q', '5', '-r', '1' ],
+        imageName: ExperimentBsbm.DOCKER_IMAGE_BSBM,
+        cmdArgs: [
+          'generate',
+          '-dir',
+          '/data/td_data',
+          '-pc',
+          '100',
+          '-fc',
+        ],
         hostConfig: {
           Binds: [
-            `${context.experimentPaths.generated}:/output`,
+            `${context.experimentPaths.generated}:/data`,
           ],
         },
-        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-generation.txt'),
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-generation.txt'),
       });
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         imageName: HdtConverter.DOCKER_IMAGE_HDT,
@@ -261,7 +266,7 @@ describe('ExperimentWatDiv', () => {
             `${context.experimentPaths.generated}:/output`,
           ],
         },
-        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt.txt'),
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-hdt.txt'),
       });
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         imageName: HdtConverter.DOCKER_IMAGE_HDT,
@@ -271,7 +276,7 @@ describe('ExperimentWatDiv', () => {
             `${context.experimentPaths.generated}:/output`,
           ],
         },
-        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-hdt-index.txt'),
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-hdt-index.txt'),
       });
 
       expect(dirsOut).toEqual({
@@ -280,19 +285,14 @@ describe('ExperimentWatDiv', () => {
     });
 
     it('should prepare the experiment without HDT', async() => {
-      experiment = new ExperimentWatDiv(
-        1,
-        5,
-        1,
+      experiment = new ExperimentBsbm(
+        100,
         false,
         hookSparqlEndpoint,
+        'http://localhost:3000/sparql',
         'http://localhost:3001/sparql',
-        3,
-        1,
-        0,
-        1_000,
-        {},
-        600,
+        10,
+        50,
       );
 
       await experiment.prepare(context, false);
@@ -301,19 +301,26 @@ describe('ExperimentWatDiv', () => {
 
       expect(context.docker.imagePuller.pull).toHaveBeenCalledTimes(1);
       expect(context.docker.imagePuller.pull).toHaveBeenCalledWith({
-        repoTag: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
+        repoTag: ExperimentBsbm.DOCKER_IMAGE_BSBM,
       });
 
       expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(1);
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
-        imageName: ExperimentWatDiv.DOCKER_IMAGE_WATDIV,
-        cmdArgs: [ '-s', '1', '-q', '5', '-r', '1' ],
+        imageName: ExperimentBsbm.DOCKER_IMAGE_BSBM,
+        cmdArgs: [
+          'generate',
+          '-dir',
+          '/data/td_data',
+          '-pc',
+          '100',
+          '-fc',
+        ],
         hostConfig: {
           Binds: [
-            `${context.experimentPaths.generated}:/output`,
+            `${context.experimentPaths.generated}:/data`,
           ],
         },
-        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-generation.txt'),
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-generation.txt'),
       });
 
       expect(dirsOut).toEqual({
@@ -323,33 +330,42 @@ describe('ExperimentWatDiv', () => {
   });
 
   describe('run', () => {
+    beforeEach(() => {
+      experiment.httpAvailabilityLatch.sleepUntilAvailable = () => Promise.resolve();
+    });
+
     it('should run the experiment', async() => {
       await experiment.run(context);
 
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
       expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
-      expect(sparqlBenchmarkRun).toHaveBeenCalled();
+      expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(1);
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        imageName: ExperimentBsbm.DOCKER_IMAGE_BSBM,
+        cmdArgs: [
+          'testdriver',
+          '-idir',
+          '/data/td_data',
+          '-seed',
+          '9834533',
+          '-o',
+          'single.xml',
+          '-w',
+          '10',
+          '-runs',
+          '50',
+          'http://localhost:3000/sparql',
+        ],
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.generated}:/data`,
+          ],
+          NetworkMode: 'network-id',
+        },
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-run.txt'),
+      });
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), undefined);
-
-      expect(dirsOut).toEqual({
-        'CWD/output': true,
-      });
-
-      expect(SparqlBenchmarkRunner).toHaveBeenCalledWith(expect.objectContaining({
-        querySets: {
-          C1: 'path/C1',
-          C2: 'path/C2',
-          C3: 'path/C3',
-        },
-      }));
-    });
-
-    it('should not create an output dir if it already exists', async() => {
-      files['CWD/output'] = true;
-      await experiment.run(context);
 
       expect(dirsOut).toEqual({});
     });
@@ -366,81 +382,6 @@ describe('ExperimentWatDiv', () => {
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
       expect(endpointHandler.close).toHaveBeenCalled();
     });
-
-    it('should run the experiment with breakpoint', async() => {
-      let breakpointBarrierResolver: any;
-      const breakpointBarrier: any = () => new Promise(resolve => {
-        breakpointBarrierResolver = resolve;
-      });
-      const experimentEnd = experiment.run({ ...context, breakpointBarrier });
-
-      await new Promise(setImmediate);
-
-      expect(hookSparqlEndpoint.start).toHaveBeenCalled();
-      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
-      expect(sparqlBenchmarkRun).toHaveBeenCalled();
-      expect(endpointHandler.close).not.toHaveBeenCalled();
-
-      breakpointBarrierResolver();
-      await experimentEnd;
-
-      expect(endpointHandler.close).toHaveBeenCalled();
-      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
-
-      expect(dirsOut).toEqual({
-        'CWD/output': true,
-      });
-    });
-
-    it('should run the experiment with breakpoint and termination handler', async() => {
-      let breakpointBarrierResolver: any;
-      const breakpointBarrier: any = () => new Promise(resolve => {
-        breakpointBarrierResolver = resolve;
-      });
-      const experimentEnd = experiment.run({ ...context, breakpointBarrier });
-
-      await new Promise(setImmediate);
-
-      expect(hookSparqlEndpoint.start).toHaveBeenCalled();
-      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
-      expect(sparqlBenchmarkRun).toHaveBeenCalled();
-      expect(endpointHandler.close).not.toHaveBeenCalled();
-
-      const termHandler = jest.mocked(endpointHandler.addTerminationHandler).mock.calls[0][0];
-      termHandler('myProcess');
-
-      expect(context.closeExperiment).toHaveBeenCalledTimes(1);
-
-      breakpointBarrierResolver();
-      await experimentEnd;
-
-      expect(endpointHandler.close).toHaveBeenCalled();
-      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
-
-      expect(dirsOut).toEqual({
-        'CWD/output': true,
-      });
-    });
-
-    it('should run the experiment with query filter', async() => {
-      await experiment.run({ ...context, filter: 'C1' });
-
-      expect(hookSparqlEndpoint.start).toHaveBeenCalledWith({ ...context, filter: 'C1' });
-      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
-      expect(sparqlBenchmarkRun).toHaveBeenCalled();
-      expect(endpointHandler.close).toHaveBeenCalled();
-      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), undefined);
-
-      expect(dirsOut).toEqual({
-        'CWD/output': true,
-      });
-
-      expect(SparqlBenchmarkRunner).toHaveBeenCalledWith(expect.objectContaining({
-        querySets: { C1: 'path/C1' },
-      }));
-    });
   });
 
   describe('clean', () => {
@@ -448,6 +389,13 @@ describe('ExperimentWatDiv', () => {
       await experiment.clean(context, {});
 
       expect(hookSparqlEndpoint.clean).toHaveBeenCalledWith(context, {});
+    });
+
+    it('should clean with targets', async() => {
+      await experiment.clean(context, { docker: true });
+
+      expect(hookSparqlEndpoint.clean).toHaveBeenCalledWith(context, { docker: true });
+      expect(context.docker.networkCreator.remove).toHaveBeenCalledWith(<any> undefined);
     });
   });
 });
