@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.3.0"></a>
+## [v5.3.0](https://github.com/rubensworks/jbr.js/compare/v5.2.3...v5.3.0) - 2024-07-02
+
+### Added
+* [Add SPARQL Custom experiment type](https://github.com/rubensworks/jbr.js/commit/6ac1ded5974404b44b08ed0feae5aac313d7db5f)
+
 <a name="v5.2.3"></a>
 ## [v5.2.3](https://github.com/rubensworks/jbr.js/compare/v5.2.2...v5.2.3) - 2024-06-18
 
