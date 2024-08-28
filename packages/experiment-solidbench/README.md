@@ -117,12 +117,13 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
   "configFragmentAux": "input/config-fragmenter-auxiliary.json",
   "configQueries": "input/config-queries.json",
   "configServer": "input/config-server.json",
-  "directoryQueryTemplates": "input/templates/queries",
-  "overwriteFilesDuringPrepare": false,
+  "validationParamsUrl": "https://cloud.ilabt.imec.be/index.php/s/bBZZKb7cP95WgcD/download/validation_params.zip",
+  "configValidation": "input/config-validation.json",
   "hadoopMemory": "4G",
   "dockerfileServer": "input/dockerfiles/Dockerfile-server",
   "serverPort": 3000,
   "serverLogLevel": "info",
+  "serverBaseUrl": "http://solidbench-server:3000/",
   "serverResourceConstraints": {
     "@type": "DockerResourceConstraints",
     "cpu_percentage": 10
@@ -130,10 +131,10 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
   "endpointUrl": "http://localhost:3001/sparql",
   "queryRunnerReplication": 3,
   "queryRunnerWarmupRounds": 1,
-  "queryRunnerRecordTimestamps": true,
-  "queryRunnerUpQuery": "SELECT * WHERE { <http://solidbench-server:3000/pods/00000000000000000933/profile/card#me> a ?o } LIMIT 1",
-  "queryRunnerUrlParamsInit": {},
-  "queryRunnerUrlParamsRun": {},
+  "queryRunnerRequestDelay": 0,
+  "queryRunnerEndpointAvailabilityCheckTimeout": 1000,
+  "queryRunnerUrlParams": {},
+  "queryTimeoutFallback": 240000,
   "hookSparqlEndpoint": {
     "@id": "urn:jrb:cc:hookSparqlEndpoint",
     "@type": "HookNonConfigured"
@@ -153,21 +154,19 @@ More background information on these config options can be found in the README o
 * `configFragmentAux`: Path to enhancement's fragmentation config for [`rdf-dataset-fragmenter`](https://github.com/SolidBench/rdf-dataset-fragmenter.js).
 * `configQueries`: Path to query instantiation config for [`sparql-query-parameter-instantiator`](https://github.com/SolidBench/sparql-query-parameter-instantiator.js).
 * `configServer`: Path to server config for [Solid Community Server](https://github.com/solid/community-server/).
-* `directoryQueryTemplates`: Path to the directory containing SPARQL query templates for [`sparql-query-parameter-instantiator`](https://github.com/SolidBench/sparql-query-parameter-instantiator.js).
-* `overwriteFilesDuringPrepare` A flag to indicate whether or not the fragmentations should always be fully recreated during the prepare step. Otherwise they will be cached until deleted manually.
+* `validationParamsUrl`: Validation parameters URL.
+* `configValidation`: Config for the SolidBench validator.
 * `hadoopMemory`: Memory limit for Hadoop for [LDBC SNB](https://github.com/ldbc/ldbc_snb_datagen_hadoop).
 * `dockerfileServer`: Path to a Dockerfile for [Solid Community Server](https://github.com/CommunitySolidServer/CommunitySolidServer).
 * `serverPort`: HTTP Port for [Solid Community Server](https://github.com/CommunitySolidServer/CommunitySolidServer).
 * `serverLogLevel`: Logging level for [Solid Community Server](https://github.com/CommunitySolidServer/CommunitySolidServer).
+* `serverBaseUrl`: Base URL for the Solid Community Server.
 * `serverResourceConstraints`: Resource constraints for the [Solid Community Server](https://github.com/CommunitySolidServer/CommunitySolidServer) Docker container.
 * `endpointUrl`: URL through which the SPARQL endpoint of the `hookSparqlEndpoint` hook will be exposed.
 * `queryRunnerReplication`: Number of replication runs for [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
 * `queryRunnerWarmupRounds`: Number of warmup runs for [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
-* `queryRunnerRecordTimestamps`: Flag to indicate if result arrival timestamps must be recorded by [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
-* `queryRunnerRecordHttpRequests`: Flag to indicate if the number of http requests must be reported by [`sparql-benchmark-runner`](https://github.com/comunica/sparql-benchmark-runner.js).
-* `queryRunnerUpQuery`: Query that is sent to the SPARQL endpoint to check if it is up.
-* `queryRunnerUrlParamsInit`: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during initialization to check if the endpoint is up.
-* `queryRunnerUrlParamsRun`: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during query executions.
+* `queryRunnerRequestDelay`: Delay between requests in milliseconds.
+* `queryRunnerUrlParams`: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint.
 * `queryTimeoutFallback`: An optional timeout value for a single query in milliseconds, to be used as fallback in case the SPARQL endpoint hook's timeout fails. This should always be higher than the timeout value configured in the SPARQL endpoint hook.
 
 ## License
