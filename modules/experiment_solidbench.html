@@ -168,12 +168,13 @@ interactive-short-5;4;0;0;
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;configFragmentAux&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;input/config-fragmenter-auxiliary.json&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;configQueries&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;input/config-queries.json&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;configServer&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;input/config-server.json&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;directoryQueryTemplates&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;input/templates/queries&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;overwriteFilesDuringPrepare&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">false</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;validationParamsUrl&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;https://cloud.ilabt.imec.be/index.php/s/bBZZKb7cP95WgcD/download/validation_params.zip&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;configValidation&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;input/config-validation.json&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;hadoopMemory&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;4G&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;dockerfileServer&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;input/dockerfiles/Dockerfile-server&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;serverPort&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3000</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;serverLogLevel&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;info&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;serverBaseUrl&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;http://solidbench-server:3000/&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;serverResourceConstraints&quot;</span><span style="color: #000000">: {</span>
 <span style="color: #000000">    </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;DockerResourceConstraints&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #0451A5">&quot;cpu_percentage&quot;</span><span style="color: #000000">: </span><span style="color: #098658">10</span>
@@ -181,10 +182,10 @@ interactive-short-5;4;0;0;
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;endpointUrl&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;http://localhost:3001/sparql&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerReplication&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerWarmupRounds&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerRecordTimestamps&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">true</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerUpQuery&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;SELECT * WHERE { &lt;http://solidbench-server:3000/pods/00000000000000000933/profile/card#me&gt; a ?o } LIMIT 1&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerUrlParamsInit&quot;</span><span style="color: #000000">: {},</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerUrlParamsRun&quot;</span><span style="color: #000000">: {},</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerRequestDelay&quot;</span><span style="color: #000000">: </span><span style="color: #098658">0</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerEndpointAvailabilityCheckTimeout&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1000</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryRunnerUrlParams&quot;</span><span style="color: #000000">: {},</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;queryTimeoutFallback&quot;</span><span style="color: #000000">: </span><span style="color: #098658">240000</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;hookSparqlEndpoint&quot;</span><span style="color: #000000">: {</span>
 <span style="color: #000000">    </span><span style="color: #0451A5">&quot;@id&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;urn:jrb:cc:hookSparqlEndpoint&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;HookNonConfigured&quot;</span>
@@ -203,21 +204,19 @@ interactive-short-5;4;0;0;
 						<li><code>configFragmentAux</code>: Path to enhancement&#39;s fragmentation config for <a href="https://github.com/SolidBench/rdf-dataset-fragmenter.js"><code>rdf-dataset-fragmenter</code></a>.</li>
 						<li><code>configQueries</code>: Path to query instantiation config for <a href="https://github.com/SolidBench/sparql-query-parameter-instantiator.js"><code>sparql-query-parameter-instantiator</code></a>.</li>
 						<li><code>configServer</code>: Path to server config for <a href="https://github.com/solid/community-server/">Solid Community Server</a>.</li>
-						<li><code>directoryQueryTemplates</code>: Path to the directory containing SPARQL query templates for <a href="https://github.com/SolidBench/sparql-query-parameter-instantiator.js"><code>sparql-query-parameter-instantiator</code></a>.</li>
-						<li><code>overwriteFilesDuringPrepare</code> A flag to indicate whether or not the fragmentations should always be fully recreated during the prepare step. Otherwise they will be cached until deleted manually.</li>
+						<li><code>validationParamsUrl</code>: Validation parameters URL.</li>
+						<li><code>configValidation</code>: Config for the SolidBench validator.</li>
 						<li><code>hadoopMemory</code>: Memory limit for Hadoop for <a href="https://github.com/ldbc/ldbc_snb_datagen_hadoop">LDBC SNB</a>.</li>
 						<li><code>dockerfileServer</code>: Path to a Dockerfile for <a href="https://github.com/CommunitySolidServer/CommunitySolidServer">Solid Community Server</a>.</li>
 						<li><code>serverPort</code>: HTTP Port for <a href="https://github.com/CommunitySolidServer/CommunitySolidServer">Solid Community Server</a>.</li>
 						<li><code>serverLogLevel</code>: Logging level for <a href="https://github.com/CommunitySolidServer/CommunitySolidServer">Solid Community Server</a>.</li>
+						<li><code>serverBaseUrl</code>: Base URL for the Solid Community Server.</li>
 						<li><code>serverResourceConstraints</code>: Resource constraints for the <a href="https://github.com/CommunitySolidServer/CommunitySolidServer">Solid Community Server</a> Docker container.</li>
 						<li><code>endpointUrl</code>: URL through which the SPARQL endpoint of the <code>hookSparqlEndpoint</code> hook will be exposed.</li>
 						<li><code>queryRunnerReplication</code>: Number of replication runs for <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
 						<li><code>queryRunnerWarmupRounds</code>: Number of warmup runs for <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
-						<li><code>queryRunnerRecordTimestamps</code>: Flag to indicate if result arrival timestamps must be recorded by <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
-						<li><code>queryRunnerRecordHttpRequests</code>: Flag to indicate if the number of http requests must be reported by <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
-						<li><code>queryRunnerUpQuery</code>: Query that is sent to the SPARQL endpoint to check if it is up.</li>
-						<li><code>queryRunnerUrlParamsInit</code>: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during initialization to check if the endpoint is up.</li>
-						<li><code>queryRunnerUrlParamsRun</code>: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint during query executions.</li>
+						<li><code>queryRunnerRequestDelay</code>: Delay between requests in milliseconds.</li>
+						<li><code>queryRunnerUrlParams</code>: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint.</li>
 						<li><code>queryTimeoutFallback</code>: An optional timeout value for a single query in milliseconds, to be used as fallback in case the SPARQL endpoint hook&#39;s timeout fails. This should always be higher than the timeout value configured in the SPARQL endpoint hook.</li>
 					</ul>
 					<a href="#license" id="license" style="color: inherit; text-decoration: none;">
