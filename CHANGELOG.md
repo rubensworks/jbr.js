@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.3.1"></a>
+## [v5.3.1](https://github.com/rubensworks/jbr.js/compare/v5.3.0...v5.3.1) - 2024-08-28
+
+### Changed
+* [Wait to start SolidBench queries until server is up](https://github.com/rubensworks/jbr.js/commit/3e52f8a54f989803763d7042f3a7516f928d9551)
+
 <a name="v5.3.0"></a>
 ## [v5.3.0](https://github.com/rubensworks/jbr.js/compare/v5.2.3...v5.3.0) - 2024-07-02
 
