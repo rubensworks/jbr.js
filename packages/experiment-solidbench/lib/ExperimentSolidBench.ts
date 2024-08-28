@@ -3,7 +3,7 @@ import * as v8 from 'v8';
 import * as fs from 'fs-extra';
 import type { Experiment, Hook, ITaskContext,
   DockerResourceConstraints, ICleanTargets, DockerContainerHandler, DockerNetworkHandler } from 'jbr';
-import { ProcessHandlerComposite, secureProcessHandler } from 'jbr';
+import { HttpAvailabilityLatch, ProcessHandlerComposite, secureProcessHandler } from 'jbr';
 import { Generator } from 'solidbench/lib/Generator';
 import { SparqlBenchmarkRunner, QueryLoaderFile, ResultSerializerCsv } from 'sparql-benchmark-runner';
 
@@ -11,6 +11,7 @@ import { SparqlBenchmarkRunner, QueryLoaderFile, ResultSerializerCsv } from 'spa
  * An experiment instance for the SolidBench social network benchmark.
  */
 export class ExperimentSolidBench implements Experiment {
+  public readonly httpAvailabilityLatch = new HttpAvailabilityLatch();
   public readonly scale: string;
   public readonly configGenerateAux: string;
   public readonly configFragment: string;
@@ -182,6 +183,9 @@ export class ExperimentSolidBench implements Experiment {
     ]);
     const closeProcess = secureProcessHandler(processHandler, context);
 
+    // Wait for the server to be fully available
+    await this.waitForEndpoint(context);
+
     // Set up the query loader
     const queryLoader = new QueryLoaderFile({
       path: Path.join(context.experimentPaths.generated, 'out-queries'),
@@ -267,5 +271,9 @@ export class ExperimentSolidBench implements Experiment {
       await context.docker.networkCreator.remove(this.getDockerImageName(context, 'network'));
       await context.docker.containerCreator.remove('solidbench-server');
     }
+  }
+
+  public async waitForEndpoint(context: ITaskContext): Promise<void> {
+    await this.httpAvailabilityLatch.sleepUntilAvailable(context, `${this.serverBaseUrl}dbpedia.org/`);
   }
 }

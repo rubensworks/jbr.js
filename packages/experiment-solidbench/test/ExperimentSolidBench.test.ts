@@ -251,6 +251,10 @@ This can be configured using Node's --max_old_space_size option.`);
   });
 
   describe('run', () => {
+    beforeEach(() => {
+      experiment.httpAvailabilityLatch.sleepUntilAvailable = () => Promise.resolve();
+    });
+
     it('should run the experiment', async() => {
       await experiment.run(context);
 
