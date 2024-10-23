@@ -1,7 +1,7 @@
 {
-  "name": "@jbr-hook/sparql-endpoint-comunica",
+  "name": "@jbr-hook/docker",
   "version": "5.2.0",
-  "description": "Comunica SPARQL endpoint hook handler for JBR",
+  "description": "Docker-based hook handler for JBR",
   "main": "index.js",
   "typings": "index",
   "lsd:module": true,
@@ -9,7 +9,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/rubensworks/jbr.js.git",
-    "directory": "packages/hook-sparql-endpoint-comunica"
+    "directory": "packages/hook-docker"
   },
   "publishConfig": {
     "access": "public"
@@ -21,7 +21,7 @@
   "license": "MIT",
   "keywords": [
     "hook",
-    "Docker",
+    "CLI",
     "jbr",
     "benchmarking"
   ],

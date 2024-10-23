@@ -2,7 +2,7 @@
 
 [![Build status](https://github.com/rubensworks/jbr.js/workflows/CI/badge.svg)](https://github.com/rubensworks/jbr.js/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master)](https://coveralls.io/github/rubensworks/jbr.js?branch=master)
-[![npm version](https://badge.fury.io/js/%40jbr-hook%2Fsparql-endpoint-CLI.svg)](https://www.npmjs.com/package/@jbr-hoopk/sparql-endpoint-CLI)
+[![npm version](https://badge.fury.io/js/%40jbr-hook%2Fcli.svg)](https://www.npmjs.com/package/@jbr-hook/cli)
 
 A [jbr](https://github.com/rubensworks/jbr.js/tree/master/packages/jbr) hook type for a CLI-based hook.
 
