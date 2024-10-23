@@ -32,10 +32,6 @@ jest.mock('fs-extra', () => ({
 }));
 
 describe('ExperimentBsbm', () => {
-  beforeAll(() => {
-    jest.useFakeTimers();
-  });
-
   let context: ITaskContext;
   let hookSparqlEndpoint: Hook;
   let endpointHandlerStopCollectingStats: any;
@@ -377,6 +373,56 @@ describe('ExperimentBsbm', () => {
       await experiment.run(context);
 
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
+      expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(1);
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        imageName: ExperimentBsbm.DOCKER_IMAGE_BSBM,
+        cmdArgs: [
+          'testdriver',
+          '-idir',
+          '/data/td_data',
+          '-seed',
+          '9834533',
+          '-o',
+          'single.xml',
+          '-w',
+          '10',
+          '-runs',
+          '50',
+          'http://localhost:3000/sparql',
+        ],
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.generated}:/data`,
+          ],
+          NetworkMode: 'network-id',
+        },
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-run.txt'),
+      });
+      expect(endpointHandler.close).toHaveBeenCalled();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
+
+      expect(dirsOut).toEqual({});
+    });
+
+    it('should run the experiment with breakpoint', async() => {
+      let breakpointBarrierResolver: any;
+      const breakpointBarrier: any = () => new Promise(resolve => {
+        breakpointBarrierResolver = resolve;
+      });
+      const experimentEnd = experiment.run({ ...context, breakpointBarrier });
+
+      await new Promise(setImmediate);
+
+      expect(hookSparqlEndpoint.start).toHaveBeenCalledWith({ ...context, breakpointBarrier });
+      expect(endpointHandler.startCollectingStats).not.toHaveBeenCalled();
+      expect(context.docker.containerCreator.start).not.toHaveBeenCalled();
+      expect(endpointHandler.close).not.toHaveBeenCalled();
+      expect(endpointHandlerStopCollectingStats).not.toHaveBeenCalled();
+
+      breakpointBarrierResolver();
+      await experimentEnd;
+
       expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
       expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(1);
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({

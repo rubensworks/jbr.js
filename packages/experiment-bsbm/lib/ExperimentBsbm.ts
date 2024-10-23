@@ -96,6 +96,11 @@ export class ExperimentBsbm implements Experiment {
     // Wait for the cache proxy to be fully available
     await this.waitForEndpoint(context);
 
+    // Breakpoint right before starting queries.
+    if (context.breakpointBarrier) {
+      await context.breakpointBarrier();
+    }
+
     // Run experiment
     context.logger.info(`Running experiment`);
     const stopEndpointStats: () => void = await endpointProcessHandler.startCollectingStats();
