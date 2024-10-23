@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>hook-cli | jbr</title>
+	<title>hook-docker | jbr</title>
 	<meta name="description" content="Documentation for jbr">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,10 +55,10 @@
 					<a href="../modules.html">jbr</a>
 				</li>
 				<li>
-					<a href="hook_cli.html">hook-cli</a>
+					<a href="hook_docker.html">hook-docker</a>
 				</li>
 			</ul>
-			<h1>Module hook-cli</h1>
+			<h1>Module hook-docker</h1>
 		</div>
 	</div>
 </header>
@@ -72,8 +72,8 @@
 					</a>
 					<p><a href="https://github.com/rubensworks/jbr.js/actions?query=workflow%3ACI"><img src="https://github.com/rubensworks/jbr.js/workflows/CI/badge.svg" alt="Build status"></a>
 						<a href="https://coveralls.io/github/rubensworks/jbr.js?branch=master"><img src="https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master" alt="Coverage Status"></a>
-					<a href="https://www.npmjs.com/package/@jbr-hook/cli"><img src="https://badge.fury.io/js/%40jbr-hook%2Fcli.svg" alt="npm version"></a></p>
-					<p>A <a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> hook type for a CLI-based hook.</p>
+					<a href="https://www.npmjs.com/package/@jbr-hook/cli"><img src="https://badge.fury.io/js/%40jbr-hook%2Fdocker.svg" alt="npm version"></a></p>
+					<p>A <a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> hook type for a Docker-based hook.</p>
 					<a href="#requirements" id="requirements" style="color: inherit; text-decoration: none;">
 						<h2>Requirements</h2>
 					</a>
@@ -85,14 +85,14 @@
 						<h2>Configure an experiment hook</h2>
 					</a>
 					<p>If an experiment requires a hook,
-					then you can install this CLI-based hook as follows.</p>
-					<pre><code class="language-bash"><span style="color: #000000">$ jbr set-hook someHook cli</span>
+					then you can install this Docker-based hook as follows.</p>
+					<pre><code class="language-bash"><span style="color: #000000">$ jbr set-hook someHook docker</span>
 </code></pre>
 					<a href="#output" id="output" style="color: inherit; text-decoration: none;">
 						<h2>Output</h2>
 					</a>
-					<p><code>output/logs/cli-stdout.txt</code>: Logs of stdout.
-					<code>output/logs/cli-stderr.txt</code>: Logs of stderr.</p>
+					<p><code>output/logs/docker-stdout.txt</code>: Logs of stdout.
+					<code>output/logs/docker-stderr.txt</code>: Logs of stderr.</p>
 					<a href="#configuration" id="configuration" style="color: inherit; text-decoration: none;">
 						<h2>Configuration</h2>
 					</a>
@@ -100,14 +100,16 @@
 					<pre><code class="language-text">...
   &quot;someHook&quot;: {
     &quot;@id&quot;: &quot;urn:jrb:bb:hookSome&quot;,
-    &quot;@type&quot;: &quot;HookCli&quot;,
-    &quot;entrypoint&quot;: [
-      &quot;comunica-sparql-http&quot;,
-      &quot;file@generated/dataset.nt&quot;,
-      &quot;-p&quot;,
-      &quot;3001&quot;
-    ],
-    &quot;statsFilePath&quot;: &quot;stats.csv&quot;
+    &quot;@type&quot;: &quot;HookDocker&quot;,
+    &quot;dockerfile&quot;: &quot;input/dockerfiles/Dockerfile&quot;,
+    &quot;resourceConstraints&quot;: {
+      &quot;@type&quot;: &quot;StaticDockerResourceConstraints&quot;,
+      &quot;cpu_percentage&quot;: 100,
+    },
+    &quot;additionalBinds&quot;: [],
+    &quot;additionalBindsPrepare&quot;: [],
+    &quot;innerPort&quot;: 3000,
+    &quot;outerPort&quot;: 3000,
   }
 ...
 </code></pre>
@@ -115,8 +117,12 @@
 						<h3>Configuration fields</h3>
 					</a>
 					<ul>
-						<li><code>entrypoint</code>: Array of command parts to execute when starting the experiment.</li>
-						<li><code>statsFilePath</code>: Optional path to a CSV file in which the stats of the process will be written.</li>
+						<li><code>dockerfile</code>: Path to the dockerfile to build and run.</li>
+						<li><code>resourceConstraints</code>: Resource constraints for the Docker container.</li>
+						<li><code>additionalBinds</code>: The local file bindings to the client dockerfile, e.g. <code>generated/dataset.hdt.index.v1-1:/tmp/dataset.hdt.index.v1-1</code></li>
+						<li><code>additionalBindsPrepare</code>: Path to be passed to the image while building, e.g. <code>input/file.js</code></li>
+						<li><code>innerPort</code> The port within the container to expose.</li>
+						<li><code>outerPort</code> The port on the local machine to bind to.</li>
 					</ul>
 					<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 						<h2>License</h2>
@@ -133,8 +139,8 @@
 						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/hook_cli.HookCli.html" class="tsd-kind-icon">Hook<wbr>Cli</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/hook_cli.HookHandlerCli.html" class="tsd-kind-icon">Hook<wbr>Handler<wbr>Cli</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/hook_docker.HookDocker.html" class="tsd-kind-icon">Hook<wbr>Docker</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/hook_docker.HookHandlerDocker.html" class="tsd-kind-icon">Hook<wbr>Handler<wbr>Docker</a></li>
 							</ul>
 						</section>
 					</div>
@@ -159,10 +165,10 @@
 					<li class=" tsd-kind-module">
 						<a href="experiment_watdiv.html">experiment-<wbr>watdiv</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="hook_cli.html">hook-<wbr>cli</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="hook_docker.html">hook-<wbr>docker</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -190,24 +196,24 @@
 					<li class=" tsd-kind-module">
 						<a href="experiment_watdiv.html" class="tsd-kind-icon">experiment-<wbr>watdiv</a>
 					</li>
+					<li class=" tsd-kind-module">
+						<a href="hook_cli.html" class="tsd-kind-icon">hook-<wbr>cli</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-module">
-						<a href="hook_cli.html" class="tsd-kind-icon">hook-<wbr>cli</a>
+						<a href="hook_docker.html" class="tsd-kind-icon">hook-<wbr>docker</a>
 						<ul>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/hook_cli.HookCli.html" class="tsd-kind-icon">Hook<wbr>Cli</a>
+								<a href="../classes/hook_docker.HookDocker.html" class="tsd-kind-icon">Hook<wbr>Docker</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/hook_cli.HookHandlerCli.html" class="tsd-kind-icon">Hook<wbr>Handler<wbr>Cli</a>
+								<a href="../classes/hook_docker.HookHandlerDocker.html" class="tsd-kind-icon">Hook<wbr>Handler<wbr>Docker</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-module">
-						<a href="hook_docker.html" class="tsd-kind-icon">hook-<wbr>docker</a>
-					</li>
 					<li class=" tsd-kind-module">
 						<a href="hook_sparql_endpoint_comunica.html" class="tsd-kind-icon">hook-<wbr>sparql-<wbr>endpoint-<wbr>comunica</a>
 					</li>

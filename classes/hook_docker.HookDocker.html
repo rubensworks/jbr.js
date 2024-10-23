@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>HookCli | jbr</title>
+	<title>HookDocker | jbr</title>
 	<meta name="description" content="Documentation for jbr">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,13 +55,13 @@
 					<a href="../modules.html">jbr</a>
 				</li>
 				<li>
-					<a href="../modules/hook_cli.html">hook-cli</a>
+					<a href="../modules/hook_docker.html">hook-docker</a>
 				</li>
 				<li>
-					<a href="hook_cli.HookCli.html">HookCli</a>
+					<a href="hook_docker.HookDocker.html">HookDocker</a>
 				</li>
 			</ul>
-			<h1>Class HookCli</h1>
+			<h1>Class HookDocker</h1>
 		</div>
 	</div>
 </header>
@@ -71,7 +71,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A hook instance for a CLI-based hook.</p>
+						<p>A hook instance for a Docker-based hook.</p>
 					</div>
 				</div>
 			</section>
@@ -79,7 +79,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">HookCli</span>
+						<span class="target">HookDocker</span>
 					</li>
 				</ul>
 			</section>
@@ -96,22 +96,27 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="hook_cli.HookCli.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="hook_docker.HookDocker.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="hook_cli.HookCli.html#entrypoint" class="tsd-kind-icon">entrypoint</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="hook_cli.HookCli.html#statsFilePath" class="tsd-kind-icon">stats<wbr>File<wbr>Path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="hook_docker.HookDocker.html#additionalBinds" class="tsd-kind-icon">additional<wbr>Binds</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="hook_docker.HookDocker.html#additionalFilesPrepare" class="tsd-kind-icon">additional<wbr>Files<wbr>Prepare</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="hook_docker.HookDocker.html#dockerfile" class="tsd-kind-icon">dockerfile</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="hook_docker.HookDocker.html#innerPort" class="tsd-kind-icon">inner<wbr>Port</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="hook_docker.HookDocker.html#outerPort" class="tsd-kind-icon">outer<wbr>Port</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="hook_docker.HookDocker.html#resourceConstraints" class="tsd-kind-icon">resource<wbr>Constraints</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="hook_cli.HookCli.html#clean" class="tsd-kind-icon">clean</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="hook_cli.HookCli.html#prepare" class="tsd-kind-icon">prepare</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="hook_cli.HookCli.html#start" class="tsd-kind-icon">start</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="hook_docker.HookDocker.html#clean" class="tsd-kind-icon">clean</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="hook_docker.HookDocker.html#getDockerImageName" class="tsd-kind-icon">get<wbr>Docker<wbr>Image<wbr>Name</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="hook_docker.HookDocker.html#prepare" class="tsd-kind-icon">prepare</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="hook_docker.HookDocker.html#start" class="tsd-kind-icon">start</a></li>
 							</ul>
 						</section>
 					</div>
@@ -123,25 +128,37 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Hook<wbr>Cli<span class="tsd-signature-symbol">(</span>entrypoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, statsFilePath<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="hook_cli.HookCli.html" class="tsd-signature-type" data-tsd-kind="Class">HookCli</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Hook<wbr>Docker<span class="tsd-signature-symbol">(</span>dockerfile<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, resourceConstraints<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.DockerResourceConstraints.html" class="tsd-signature-type" data-tsd-kind="Interface">DockerResourceConstraints</a>, additionalBinds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, additionalFilesPrepare<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, innerPort<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, outerPort<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="hook_docker.HookDocker.html" class="tsd-signature-type" data-tsd-kind="Class">HookDocker</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-cli/lib/HookCli.ts#L14">packages/hook-cli/lib/HookCli.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-docker/lib/HookDocker.ts#L22">packages/hook-docker/lib/HookDocker.ts:22</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>entrypoint: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>dockerfile: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> statsFilePath: <span class="tsd-signature-type">string</span></h5>
+									<h5>resourceConstraints: <a href="../interfaces/jbr.DockerResourceConstraints.html" class="tsd-signature-type" data-tsd-kind="Interface">DockerResourceConstraints</a></h5>
+								</li>
+								<li>
+									<h5>additionalBinds: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>additionalFilesPrepare: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>innerPort: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>outerPort: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="hook_cli.HookCli.html" class="tsd-signature-type" data-tsd-kind="Class">HookCli</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="hook_docker.HookDocker.html" class="tsd-signature-type" data-tsd-kind="Class">HookDocker</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -149,22 +166,62 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="entrypoint" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> entrypoint</h3>
-					<div class="tsd-signature tsd-kind-icon">entrypoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+					<a name="additionalBinds" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> additional<wbr>Binds</h3>
+					<div class="tsd-signature tsd-kind-icon">additional<wbr>Binds<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-cli/lib/HookCli.ts#L11">packages/hook-cli/lib/HookCli.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-docker/lib/HookDocker.ts#L17">packages/hook-docker/lib/HookDocker.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="statsFilePath" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> stats<wbr>File<wbr>Path</h3>
-					<div class="tsd-signature tsd-kind-icon">stats<wbr>File<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="additionalFilesPrepare" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> additional<wbr>Files<wbr>Prepare</h3>
+					<div class="tsd-signature tsd-kind-icon">additional<wbr>Files<wbr>Prepare<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-cli/lib/HookCli.ts#L12">packages/hook-cli/lib/HookCli.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-docker/lib/HookDocker.ts#L18">packages/hook-docker/lib/HookDocker.ts:18</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="dockerfile" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> dockerfile</h3>
+					<div class="tsd-signature tsd-kind-icon">dockerfile<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-docker/lib/HookDocker.ts#L15">packages/hook-docker/lib/HookDocker.ts:15</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="innerPort" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> inner<wbr>Port</h3>
+					<div class="tsd-signature tsd-kind-icon">inner<wbr>Port<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-docker/lib/HookDocker.ts#L19">packages/hook-docker/lib/HookDocker.ts:19</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="outerPort" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> outer<wbr>Port</h3>
+					<div class="tsd-signature tsd-kind-icon">outer<wbr>Port<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-docker/lib/HookDocker.ts#L20">packages/hook-docker/lib/HookDocker.ts:20</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="resourceConstraints" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> resource<wbr>Constraints</h3>
+					<div class="tsd-signature tsd-kind-icon">resource<wbr>Constraints<span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.DockerResourceConstraints.html" class="tsd-signature-type" data-tsd-kind="Interface">DockerResourceConstraints</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-docker/lib/HookDocker.ts#L16">packages/hook-docker/lib/HookDocker.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -182,7 +239,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/jbr.Hook.html">Hook</a>.<a href="../interfaces/jbr.Hook.html#clean">clean</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-cli/lib/HookCli.ts#L36">packages/hook-cli/lib/HookCli.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-docker/lib/HookDocker.ts#L73">packages/hook-docker/lib/HookDocker.ts:73</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -204,6 +261,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getDockerImageName" class="tsd-anchor"></a>
+					<h3>get<wbr>Docker<wbr>Image<wbr>Name</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Docker<wbr>Image<wbr>Name<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-docker/lib/HookDocker.ts#L38">packages/hook-docker/lib/HookDocker.ts:38</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>context: <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="prepare" class="tsd-anchor"></a>
 					<h3>prepare</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -214,7 +294,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/jbr.Hook.html">Hook</a>.<a href="../interfaces/jbr.Hook.html#prepare">prepare</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-cli/lib/HookCli.ts#L22">packages/hook-cli/lib/HookCli.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-docker/lib/HookDocker.ts#L42">packages/hook-docker/lib/HookDocker.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -246,7 +326,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/jbr.Hook.html">Hook</a>.<a href="../interfaces/jbr.Hook.html#start">start</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-cli/lib/HookCli.ts#L26">packages/hook-cli/lib/HookCli.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/7b910ec/packages/hook-docker/lib/HookDocker.ts#L53">packages/hook-docker/lib/HookDocker.ts:53</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -287,10 +367,10 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/experiment_watdiv.html">experiment-<wbr>watdiv</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/hook_cli.html">hook-<wbr>cli</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/hook_docker.html">hook-<wbr>docker</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -318,44 +398,59 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/experiment_watdiv.html" class="tsd-kind-icon">experiment-<wbr>watdiv</a>
 					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/hook_cli.html" class="tsd-kind-icon">hook-<wbr>cli</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-module">
-						<a href="../modules/hook_cli.html" class="tsd-kind-icon">hook-<wbr>cli</a>
+						<a href="../modules/hook_docker.html" class="tsd-kind-icon">hook-<wbr>docker</a>
 						<ul>
 							<li class="current tsd-kind-class tsd-parent-kind-module">
-								<a href="hook_cli.HookCli.html" class="tsd-kind-icon">Hook<wbr>Cli</a>
+								<a href="hook_docker.HookDocker.html" class="tsd-kind-icon">Hook<wbr>Docker</a>
 								<ul>
 									<li class=" tsd-kind-constructor tsd-parent-kind-class">
-										<a href="hook_cli.HookCli.html#constructor" class="tsd-kind-icon">constructor</a>
+										<a href="hook_docker.HookDocker.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="hook_cli.HookCli.html#entrypoint" class="tsd-kind-icon">entrypoint</a>
+										<a href="hook_docker.HookDocker.html#additionalBinds" class="tsd-kind-icon">additional<wbr>Binds</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="hook_cli.HookCli.html#statsFilePath" class="tsd-kind-icon">stats<wbr>File<wbr>Path</a>
+										<a href="hook_docker.HookDocker.html#additionalFilesPrepare" class="tsd-kind-icon">additional<wbr>Files<wbr>Prepare</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="hook_docker.HookDocker.html#dockerfile" class="tsd-kind-icon">dockerfile</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="hook_docker.HookDocker.html#innerPort" class="tsd-kind-icon">inner<wbr>Port</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="hook_docker.HookDocker.html#outerPort" class="tsd-kind-icon">outer<wbr>Port</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="hook_docker.HookDocker.html#resourceConstraints" class="tsd-kind-icon">resource<wbr>Constraints</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="hook_cli.HookCli.html#clean" class="tsd-kind-icon">clean</a>
+										<a href="hook_docker.HookDocker.html#clean" class="tsd-kind-icon">clean</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="hook_cli.HookCli.html#prepare" class="tsd-kind-icon">prepare</a>
+										<a href="hook_docker.HookDocker.html#getDockerImageName" class="tsd-kind-icon">get<wbr>Docker<wbr>Image<wbr>Name</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="hook_cli.HookCli.html#start" class="tsd-kind-icon">start</a>
+										<a href="hook_docker.HookDocker.html#prepare" class="tsd-kind-icon">prepare</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="hook_docker.HookDocker.html#start" class="tsd-kind-icon">start</a>
 									</li>
 								</ul>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="hook_cli.HookHandlerCli.html" class="tsd-kind-icon">Hook<wbr>Handler<wbr>Cli</a>
+								<a href="hook_docker.HookHandlerDocker.html" class="tsd-kind-icon">Hook<wbr>Handler<wbr>Docker</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-module">
-						<a href="../modules/hook_docker.html" class="tsd-kind-icon">hook-<wbr>docker</a>
-					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/hook_sparql_endpoint_comunica.html" class="tsd-kind-icon">hook-<wbr>sparql-<wbr>endpoint-<wbr>comunica</a>
 					</li>
