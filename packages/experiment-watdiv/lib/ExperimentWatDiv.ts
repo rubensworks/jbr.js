@@ -15,6 +15,7 @@ export class ExperimentWatDiv implements Experiment {
   public readonly generateHdt: boolean;
   public readonly hookSparqlEndpoint: Hook;
   public readonly endpointUrl: string;
+  public readonly endpointUrlExternal: string;
   public readonly queryRunnerReplication: number;
   public readonly queryRunnerWarmupRounds: number;
   public readonly queryRunnerRequestDelay: number;
@@ -29,6 +30,7 @@ export class ExperimentWatDiv implements Experiment {
    * @param generateHdt
    * @param hookSparqlEndpoint
    * @param endpointUrl
+   * @param endpointUrlExternal
    * @param queryRunnerReplication
    * @param queryRunnerWarmupRounds
    * @param queryRunnerRequestDelay
@@ -43,6 +45,7 @@ export class ExperimentWatDiv implements Experiment {
     generateHdt: boolean,
     hookSparqlEndpoint: Hook,
     endpointUrl: string,
+    endpointUrlExternal: string | undefined,
     queryRunnerReplication: number,
     queryRunnerWarmupRounds: number,
     queryRunnerRequestDelay: number,
@@ -56,6 +59,7 @@ export class ExperimentWatDiv implements Experiment {
     this.generateHdt = generateHdt;
     this.hookSparqlEndpoint = hookSparqlEndpoint;
     this.endpointUrl = endpointUrl;
+    this.endpointUrlExternal = endpointUrlExternal ?? endpointUrl;
     this.queryRunnerReplication = queryRunnerReplication;
     this.queryRunnerWarmupRounds = queryRunnerWarmupRounds;
     this.queryRunnerRequestDelay = queryRunnerRequestDelay;
@@ -115,6 +119,7 @@ export class ExperimentWatDiv implements Experiment {
     let stopEndpointStats: () => void;
     const results = await new SparqlBenchmarkRunner({
       endpoint: this.endpointUrl,
+      endpointUpCheck: this.endpointUrlExternal,
       querySets,
       replication: this.queryRunnerReplication,
       warmup: this.queryRunnerWarmupRounds,

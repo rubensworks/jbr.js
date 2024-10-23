@@ -19,6 +19,7 @@ export class ExperimentHandlerWatDiv extends ExperimentHandler<ExperimentWatDiv>
       generateHdt: true,
 
       endpointUrl: 'http://localhost:3001/sparql',
+      endpointUrlExternal: 'http://localhost:3001/',
       queryRunnerReplication: 3,
       queryRunnerWarmupRounds: 1,
       queryRunnerRequestDelay: 0,

@@ -146,7 +146,7 @@ More background information on these config options can be found in the README o
 * `productCount`: The number of products in the dataset. 91 products make about 50K triples. Defaults to 1000.
 * `generateHdt`: If a `dataset.hdt` should also be generated.
 * `endpointUrl`: URL through which the SPARQL endpoint of the `hookSparqlEndpoint` hook will be exposed from within the Docker container. When the endpoint is hosted on your main machine outside of Docker, this will be something like `http://host.docker.internal:3001/sparql`.
-* `endpointUrlExternal`: URL through which the SPARQL endpoint of the `hookSparqlEndpoint` hook will be exposed.
+* `endpointUrlExternal`: URL through which the SPARQL endpoint of the `hookSparqlEndpoint` hook will be exposed. This will be used for waiting until the endpoint is available.
 * `warmupRuns`: Number of warmup runs.
 * `runs`: Number of actual query runs.
 
