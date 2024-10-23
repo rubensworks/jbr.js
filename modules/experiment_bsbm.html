@@ -197,7 +197,7 @@
 						<li><code>productCount</code>: The number of products in the dataset. 91 products make about 50K triples. Defaults to 1000.</li>
 						<li><code>generateHdt</code>: If a <code>dataset.hdt</code> should also be generated.</li>
 						<li><code>endpointUrl</code>: URL through which the SPARQL endpoint of the <code>hookSparqlEndpoint</code> hook will be exposed from within the Docker container. When the endpoint is hosted on your main machine outside of Docker, this will be something like <code>http://host.docker.internal:3001/sparql</code>.</li>
-						<li><code>endpointUrlExternal</code>: URL through which the SPARQL endpoint of the <code>hookSparqlEndpoint</code> hook will be exposed.</li>
+						<li><code>endpointUrlExternal</code>: URL through which the SPARQL endpoint of the <code>hookSparqlEndpoint</code> hook will be exposed. This will be used for waiting until the endpoint is available.</li>
 						<li><code>warmupRuns</code>: Number of warmup runs.</li>
 						<li><code>runs</code>: Number of actual query runs.</li>
 					</ul>
@@ -230,6 +230,9 @@
 					<li class=" ">
 						<a href="../modules.html">Modules</a>
 					</li>
+					<li class="label tsd-is-external">
+						<span>Internals</span>
+					</li>
 					<li class="current tsd-kind-module">
 						<a href="experiment_bsbm.html">experiment-<wbr>bsbm</a>
 					</li>
@@ -256,6 +259,12 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="jbr.html">jbr</a>
+					</li>
+					<li class="label tsd-is-external">
+						<span>Externals</span>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="experiment_watdiv_node_modules_fetch_sparql_endpoint.html">experiment-<wbr>watdiv/node_<wbr>modules/fetch-<wbr>sparql-<wbr>endpoint</a>
 					</li>
 				</ul>
 			</nav>
@@ -284,6 +293,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="experiment_watdiv.html" class="tsd-kind-icon">experiment-<wbr>watdiv</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="experiment_watdiv_node_modules_fetch_sparql_endpoint.html" class="tsd-kind-icon">experiment-<wbr>watdiv/node_<wbr>modules/fetch-<wbr>sparql-<wbr>endpoint</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="hook_cli.html" class="tsd-kind-icon">hook-<wbr>cli</a>
