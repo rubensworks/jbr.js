@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.4.0"></a>
+## [v5.4.0](https://github.com/rubensworks/jbr.js/compare/v5.3.1...v5.4.0) - 2024-10-25
+
+### Added
+* [Add endpointUrlExternal for WatDiv](https://github.com/rubensworks/jbr.js/commit/720dbd0761f526d3b89345f7bf19008af6bd9ec2)
+* [Support breakpoint in BSBM](https://github.com/rubensworks/jbr.js/commit/7b910ec94d2d3f0e8303fdc9e9518fee09bb1ed2)
+* [Add Docker-based hook](https://github.com/rubensworks/jbr.js/commit/590fa3c1ee660fda3700d56fe646fe17e031ac30)
+
+### Fixed
+* [Bump CJS with fix when using FractionalCombinationProvider](https://github.com/rubensworks/jbr.js/commit/f6463d15d8fab991f8f62f9484f3a9bd0a42752a)
+
 <a name="v5.3.1"></a>
 ## [v5.3.1](https://github.com/rubensworks/jbr.js/compare/v5.3.0...v5.3.1) - 2024-08-28
 
