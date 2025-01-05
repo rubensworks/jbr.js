@@ -74,7 +74,7 @@
     "componentsjs": "^6.3.0",
     "cross-fetch": "^4.0.0",
     "cross-spawn": "^7.0.3",
-    "dockerode": "^3.3.0",
+    "dockerode": "^4.0.0",
     "fs-extra": "^10.0.0",
     "ora": "^5.4.0",
     "pidusage": "^3.0.2",
