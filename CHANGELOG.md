@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.4.1"></a>
+## [v5.4.1](https://github.com/rubensworks/jbr.js/compare/v5.4.0...v5.4.1) - 2025-01-31
+
+### Fixed
+* [Lookup Docker bridge IP in BSBM](https://github.com/rubensworks/jbr.js/commit/594d89cc2c780acb911437aa60063104ab892a19)
+
 <a name="v5.4.0"></a>
 ## [v5.4.0](https://github.com/rubensworks/jbr.js/compare/v5.3.1...v5.4.0) - 2024-10-25
 
