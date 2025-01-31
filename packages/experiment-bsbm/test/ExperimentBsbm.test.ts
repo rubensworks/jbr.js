@@ -1,6 +1,6 @@
 import Path from 'path';
-import type { Hook, ITaskContext, ProcessHandler } from 'jbr';
 import { HdtConverter, createExperimentPaths } from 'jbr';
+import type { DockerNetworkInspector, Hook, ITaskContext, ProcessHandler } from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { ExperimentBsbm } from '../lib/ExperimentBsbm';
 
@@ -37,6 +37,7 @@ describe('ExperimentBsbm', () => {
   let endpointHandlerStopCollectingStats: any;
   let endpointHandler: ProcessHandler;
   let experiment: ExperimentBsbm;
+  let inspector: DockerNetworkInspector;
   beforeEach(() => {
     context = {
       cwd: 'CWD',
@@ -60,6 +61,21 @@ describe('ExperimentBsbm', () => {
         networkCreator: {
           create: jest.fn(() => ({ network: { id: 'network-id' }, close: jest.fn() })),
           remove: jest.fn(),
+        },
+        networkInspector: {
+          async inspect(id: string) {
+            return {
+              Name: 'bridge',
+              IPAM: {
+                Config: [
+                  {
+                    Subnet: '172.17.0.0/16',
+                    Gateway: '172.17.0.10',
+                  },
+                ],
+              },
+            };
+          },
         },
       },
     };
@@ -94,7 +110,7 @@ describe('ExperimentBsbm', () => {
   });
 
   describe('constructed', () => {
-    it('on mac', () => {
+    it('on mac', async() => {
       Object.defineProperty(process, 'platform', {
         value: 'darwin',
       });
@@ -107,10 +123,10 @@ describe('ExperimentBsbm', () => {
         10,
         50,
       );
-      expect(experiment.endpointUrl).toEqual('http://host.docker.internal:3000/sparql');
+      expect(await experiment.getEndpointUrl(context)).toEqual('http://host.docker.internal:3000/sparql');
     });
 
-    it('on linux', () => {
+    it('on linux', async() => {
       Object.defineProperty(process, 'platform', {
         value: 'linux',
       });
@@ -123,7 +139,26 @@ describe('ExperimentBsbm', () => {
         10,
         50,
       );
-      expect(experiment.endpointUrl).toEqual('http://172.17.0.1:3000/sparql');
+      expect(await experiment.getEndpointUrl(context)).toEqual('http://172.17.0.10:3000/sparql');
+    });
+
+    it('on linux when inspector fails', async() => {
+      Object.defineProperty(process, 'platform', {
+        value: 'linux',
+      });
+      experiment = new ExperimentBsbm(
+        100,
+        true,
+        hookSparqlEndpoint,
+        'http://host.docker.internal:3000/sparql',
+        'http://localhost:3001/sparql',
+        10,
+        50,
+      );
+      context.docker.networkInspector = <any> {
+        inspect: () => Promise.reject(new Error('fail')),
+      };
+      expect(await experiment.getEndpointUrl(context)).toEqual('http://172.17.0.1:3000/sparql');
     });
   });
 

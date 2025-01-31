@@ -12,7 +12,7 @@ export class ExperimentBsbm implements Experiment {
   public readonly productCount: number;
   public readonly generateHdt: boolean;
   public readonly hookSparqlEndpoint: Hook;
-  public readonly endpointUrl: string;
+  public readonly endpointUrlRaw: string;
   public readonly endpointUrlExternal: string;
   public readonly warmupRuns: number;
   public readonly runs: number;
@@ -30,7 +30,7 @@ export class ExperimentBsbm implements Experiment {
     productCount: number,
     generateHdt: boolean,
     hookSparqlEndpoint: Hook,
-    endpointUrl: string,
+    endpointUrlRaw: string,
     endpointUrlExternal: string,
     warmupRuns: number,
     runs: number,
@@ -38,12 +38,24 @@ export class ExperimentBsbm implements Experiment {
     this.productCount = productCount;
     this.generateHdt = generateHdt;
     this.hookSparqlEndpoint = hookSparqlEndpoint;
-    this.endpointUrl = process.platform === 'darwin' || process.platform === 'win32' ?
-      endpointUrl :
-      endpointUrl.replace('host.docker.internal', '172.17.0.1');
+    this.endpointUrlRaw = endpointUrlRaw;
     this.endpointUrlExternal = endpointUrlExternal;
     this.warmupRuns = warmupRuns;
     this.runs = runs;
+  }
+
+  public async getEndpointUrl(context: ITaskContext): Promise<string> {
+    if (process.platform === 'darwin' || process.platform === 'win32') {
+      return this.endpointUrlRaw;
+    }
+    let gatewayIp = '172.17.0.1';
+    try {
+      const networkInfo = await context.docker.networkInspector.inspect('bridge');
+      gatewayIp = networkInfo.IPAM.Config[0].Gateway;
+    } catch (error: unknown) {
+      context.logger.info(`Error occurred while obtaining gateway IP from Docker bridge: ${(<any> error).message}`);
+    }
+    return this.endpointUrlRaw.replace('host.docker.internal', gatewayIp);
   }
 
   public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
@@ -115,7 +127,7 @@ export class ExperimentBsbm implements Experiment {
       String(this.warmupRuns),
       '-runs',
       String(this.runs),
-      this.endpointUrl,
+      await this.getEndpointUrl(context),
     ], network);
 
     // Wait for the experiment driver to end

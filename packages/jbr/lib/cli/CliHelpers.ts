@@ -12,6 +12,7 @@ import { DockerContainerCreator } from '../docker/DockerContainerCreator';
 import { DockerImageBuilder } from '../docker/DockerImageBuilder';
 import { DockerImagePuller } from '../docker/DockerImagePuller';
 import { DockerNetworkCreator } from '../docker/DockerNetworkCreator';
+import { DockerNetworkInspector } from '../docker/DockerNetworkInspector';
 import { ExperimentLoader } from '../task/ExperimentLoader';
 import type { IExperimentPaths, ITaskContext } from '../task/ITaskContext';
 
@@ -59,6 +60,7 @@ export async function wrapCommandHandler(
       imageBuilder: new DockerImageBuilder(dockerode),
       imagePuller: new DockerImagePuller(dockerode),
       networkCreator: new DockerNetworkCreator(dockerode),
+      networkInspector: new DockerNetworkInspector(dockerode),
     },
     // eslint-disable-next-line unicorn/no-process-exit
     closeExperiment: () => process.emit(<any>'SIGTERM'),

@@ -3,6 +3,7 @@ import type { DockerContainerCreator } from '../docker/DockerContainerCreator';
 import type { DockerImageBuilder } from '../docker/DockerImageBuilder';
 import type { DockerImagePuller } from '../docker/DockerImagePuller';
 import type { DockerNetworkCreator } from '../docker/DockerNetworkCreator';
+import type { DockerNetworkInspector } from '../docker/DockerNetworkInspector';
 
 /**
  * Common data when running a task.
@@ -19,6 +20,7 @@ export interface ITaskContext {
     imageBuilder: DockerImageBuilder;
     imagePuller: DockerImagePuller;
     networkCreator: DockerNetworkCreator;
+    networkInspector: DockerNetworkInspector;
   };
   /**
    * Function that will cleanly close the experiment.
