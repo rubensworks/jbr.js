@@ -102,8 +102,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_bsbm.ExperimentBsbm.html#endpointUrl" class="tsd-kind-icon">endpoint<wbr>Url</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_bsbm.ExperimentBsbm.html#endpointUrlExternal" class="tsd-kind-icon">endpoint<wbr>Url<wbr>External</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_bsbm.ExperimentBsbm.html#endpointUrlRaw" class="tsd-kind-icon">endpoint<wbr>Url<wbr>Raw</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_bsbm.ExperimentBsbm.html#generateHdt" class="tsd-kind-icon">generate<wbr>Hdt</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_bsbm.ExperimentBsbm.html#hookSparqlEndpoint" class="tsd-kind-icon">hook<wbr>Sparql<wbr>Endpoint</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="experiment_bsbm.ExperimentBsbm.html#httpAvailabilityLatch" class="tsd-kind-icon">http<wbr>Availability<wbr>Latch</a></li>
@@ -117,6 +117,7 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="experiment_bsbm.ExperimentBsbm.html#clean" class="tsd-kind-icon">clean</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="experiment_bsbm.ExperimentBsbm.html#getEndpointUrl" class="tsd-kind-icon">get<wbr>Endpoint<wbr>Url</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="experiment_bsbm.ExperimentBsbm.html#prepare" class="tsd-kind-icon">prepare</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="experiment_bsbm.ExperimentBsbm.html#run" class="tsd-kind-icon">run</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="experiment_bsbm.ExperimentBsbm.html#startTestDriver" class="tsd-kind-icon">start<wbr>Test<wbr>Driver</a></li>
@@ -132,13 +133,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Experiment<wbr>Bsbm<span class="tsd-signature-symbol">(</span>productCount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, generateHdt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, hookSparqlEndpoint<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.Hook.html" class="tsd-signature-type" data-tsd-kind="Interface">Hook</a>, endpointUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, endpointUrlExternal<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, warmupRuns<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, runs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="experiment_bsbm.ExperimentBsbm.html" class="tsd-signature-type" data-tsd-kind="Class">ExperimentBsbm</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Experiment<wbr>Bsbm<span class="tsd-signature-symbol">(</span>productCount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, generateHdt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, hookSparqlEndpoint<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.Hook.html" class="tsd-signature-type" data-tsd-kind="Interface">Hook</a>, endpointUrlRaw<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, endpointUrlExternal<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, warmupRuns<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, runs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="experiment_bsbm.ExperimentBsbm.html" class="tsd-signature-type" data-tsd-kind="Class">ExperimentBsbm</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L29">packages/experiment-bsbm/lib/ExperimentBsbm.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L29">packages/experiment-bsbm/lib/ExperimentBsbm.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -153,7 +154,7 @@
 									<h5>hookSparqlEndpoint: <a href="../interfaces/jbr.Hook.html" class="tsd-signature-type" data-tsd-kind="Interface">Hook</a></h5>
 								</li>
 								<li>
-									<h5>endpointUrl: <span class="tsd-signature-type">string</span></h5>
+									<h5>endpointUrlRaw: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5>endpointUrlExternal: <span class="tsd-signature-type">string</span></h5>
@@ -177,22 +178,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="endpointUrl" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> endpoint<wbr>Url</h3>
-					<div class="tsd-signature tsd-kind-icon">endpoint<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L15">packages/experiment-bsbm/lib/ExperimentBsbm.ts:15</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="endpointUrlExternal" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> endpoint<wbr>Url<wbr>External</h3>
 					<div class="tsd-signature tsd-kind-icon">endpoint<wbr>Url<wbr>External<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L16">packages/experiment-bsbm/lib/ExperimentBsbm.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L16">packages/experiment-bsbm/lib/ExperimentBsbm.ts:16</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="endpointUrlRaw" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> endpoint<wbr>Url<wbr>Raw</h3>
+					<div class="tsd-signature tsd-kind-icon">endpoint<wbr>Url<wbr>Raw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L15">packages/experiment-bsbm/lib/ExperimentBsbm.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -202,7 +203,7 @@
 					<div class="tsd-signature tsd-kind-icon">generate<wbr>Hdt<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L13">packages/experiment-bsbm/lib/ExperimentBsbm.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L13">packages/experiment-bsbm/lib/ExperimentBsbm.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -212,7 +213,7 @@
 					<div class="tsd-signature tsd-kind-icon">hook<wbr>Sparql<wbr>Endpoint<span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.Hook.html" class="tsd-signature-type" data-tsd-kind="Interface">Hook</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L14">packages/experiment-bsbm/lib/ExperimentBsbm.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L14">packages/experiment-bsbm/lib/ExperimentBsbm.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -222,7 +223,7 @@
 					<div class="tsd-signature tsd-kind-icon">http<wbr>Availability<wbr>Latch<span class="tsd-signature-symbol">:</span> <a href="jbr.HttpAvailabilityLatch.html" class="tsd-signature-type" data-tsd-kind="Class">HttpAvailabilityLatch</a><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L11">packages/experiment-bsbm/lib/ExperimentBsbm.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L11">packages/experiment-bsbm/lib/ExperimentBsbm.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -232,7 +233,7 @@
 					<div class="tsd-signature tsd-kind-icon">product<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L12">packages/experiment-bsbm/lib/ExperimentBsbm.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L12">packages/experiment-bsbm/lib/ExperimentBsbm.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -242,7 +243,7 @@
 					<div class="tsd-signature tsd-kind-icon">runs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L18">packages/experiment-bsbm/lib/ExperimentBsbm.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L18">packages/experiment-bsbm/lib/ExperimentBsbm.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -252,7 +253,7 @@
 					<div class="tsd-signature tsd-kind-icon">warmup<wbr>Runs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L17">packages/experiment-bsbm/lib/ExperimentBsbm.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L17">packages/experiment-bsbm/lib/ExperimentBsbm.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -262,7 +263,7 @@
 					<div class="tsd-signature tsd-kind-icon">DOCKER_<wbr>IMAGE_<wbr>BSBM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;vcity/bsbm:v1.0&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L10">packages/experiment-bsbm/lib/ExperimentBsbm.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L10">packages/experiment-bsbm/lib/ExperimentBsbm.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -280,7 +281,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/jbr.Experiment.html">Experiment</a>.<a href="../interfaces/jbr.Experiment.html#clean">clean</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L170">packages/experiment-bsbm/lib/ExperimentBsbm.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L182">packages/experiment-bsbm/lib/ExperimentBsbm.ts:182</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -302,6 +303,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getEndpointUrl" class="tsd-anchor"></a>
+					<h3>get<wbr>Endpoint<wbr>Url</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Endpoint<wbr>Url<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L47">packages/experiment-bsbm/lib/ExperimentBsbm.ts:47</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>context: <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="prepare" class="tsd-anchor"></a>
 					<h3>prepare</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -312,7 +336,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/jbr.Experiment.html">Experiment</a>.<a href="../interfaces/jbr.Experiment.html#prepare">prepare</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L49">packages/experiment-bsbm/lib/ExperimentBsbm.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L61">packages/experiment-bsbm/lib/ExperimentBsbm.ts:61</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -344,7 +368,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/jbr.Experiment.html">Experiment</a>.<a href="../interfaces/jbr.Experiment.html#run">run</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L85">packages/experiment-bsbm/lib/ExperimentBsbm.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L97">packages/experiment-bsbm/lib/ExperimentBsbm.ts:97</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -372,7 +396,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L149">packages/experiment-bsbm/lib/ExperimentBsbm.ts:149</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L161">packages/experiment-bsbm/lib/ExperimentBsbm.ts:161</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -401,7 +425,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/c7a39c6/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L180">packages/experiment-bsbm/lib/ExperimentBsbm.ts:180</a></li>
+									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/f5c6ea8/packages/experiment-bsbm/lib/ExperimentBsbm.ts#L192">packages/experiment-bsbm/lib/ExperimentBsbm.ts:192</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -474,10 +498,10 @@
 										<a href="experiment_bsbm.ExperimentBsbm.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="experiment_bsbm.ExperimentBsbm.html#endpointUrl" class="tsd-kind-icon">endpoint<wbr>Url</a>
+										<a href="experiment_bsbm.ExperimentBsbm.html#endpointUrlExternal" class="tsd-kind-icon">endpoint<wbr>Url<wbr>External</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="experiment_bsbm.ExperimentBsbm.html#endpointUrlExternal" class="tsd-kind-icon">endpoint<wbr>Url<wbr>External</a>
+										<a href="experiment_bsbm.ExperimentBsbm.html#endpointUrlRaw" class="tsd-kind-icon">endpoint<wbr>Url<wbr>Raw</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="experiment_bsbm.ExperimentBsbm.html#generateHdt" class="tsd-kind-icon">generate<wbr>Hdt</a>
@@ -502,6 +526,9 @@
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="experiment_bsbm.ExperimentBsbm.html#clean" class="tsd-kind-icon">clean</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="experiment_bsbm.ExperimentBsbm.html#getEndpointUrl" class="tsd-kind-icon">get<wbr>Endpoint<wbr>Url</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="experiment_bsbm.ExperimentBsbm.html#prepare" class="tsd-kind-icon">prepare</a>
