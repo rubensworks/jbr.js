@@ -30,7 +30,7 @@ export class ExperimentBsbm implements Experiment {
     productCount: number,
     generateHdt: boolean,
     hookSparqlEndpoint: Hook,
-    endpointUrlRaw: string,
+    endpointUrl: string,
     endpointUrlExternal: string,
     warmupRuns: number,
     runs: number,
@@ -38,7 +38,7 @@ export class ExperimentBsbm implements Experiment {
     this.productCount = productCount;
     this.generateHdt = generateHdt;
     this.hookSparqlEndpoint = hookSparqlEndpoint;
-    this.endpointUrlRaw = endpointUrlRaw;
+    this.endpointUrlRaw = endpointUrl;
     this.endpointUrlExternal = endpointUrlExternal;
     this.warmupRuns = warmupRuns;
     this.runs = runs;
