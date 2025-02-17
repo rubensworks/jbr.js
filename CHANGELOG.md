@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.4.2"></a>
+## [v5.4.2](https://github.com/rubensworks/jbr.js/compare/v5.4.1...v5.4.2) - 2025-02-17
+
+### Fixed
+* [Restore endpointUrl param name for backwards-compat](https://github.com/rubensworks/jbr.js/commit/c0b4729ad1db5651b771f3203a68b918bc639d59)
+
 <a name="v5.4.1"></a>
 ## [v5.4.1](https://github.com/rubensworks/jbr.js/compare/v5.4.0...v5.4.1) - 2025-01-31
 
