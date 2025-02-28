@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.5.0"></a>
+## [v5.5.0](https://github.com/rubensworks/jbr.js/compare/v5.4.2...v5.5.0) - 2025-02-28
+
+### Changed
+* [Send alive requests using GET instead of HEAD](https://github.com/rubensworks/jbr.js/commit/d84272ba26622d6f4d2d280ef289e06025253d37)
+
 <a name="v5.4.2"></a>
 ## [v5.4.2](https://github.com/rubensworks/jbr.js/compare/v5.4.1...v5.4.2) - 2025-02-17
 
