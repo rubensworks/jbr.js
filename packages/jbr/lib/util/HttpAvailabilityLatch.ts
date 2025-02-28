@@ -31,7 +31,7 @@ export class HttpAvailabilityLatch {
     });
     const promiseFetch = new Promise<boolean>(resolve => {
       fetch(url, {
-        method: 'HEAD',
+        method: 'GET',
       }).then(respose => resolve(respose.ok)).catch(() => resolve(false));
     });
     const available = await Promise.race([ promiseTimeout, promiseFetch ]);
