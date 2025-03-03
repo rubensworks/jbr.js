@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.6.0"></a>
+## [v5.6.0](https://github.com/rubensworks/jbr.js/compare/v5.5.0...v5.6.0) - 2025-03-03
+
+### Added
+* [Report SPARQL endpoint load time](https://github.com/rubensworks/jbr.js/commit/b7e54cf546ae60d146b4392087c49c9512007b9c)
+
 <a name="v5.5.0"></a>
 ## [v5.5.0](https://github.com/rubensworks/jbr.js/compare/v5.4.2...v5.5.0) - 2025-02-28
 

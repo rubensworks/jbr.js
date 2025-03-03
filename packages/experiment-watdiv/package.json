@@ -1,6 +1,6 @@
 {
   "name": "@jbr-experiment/watdiv",
-  "version": "5.5.0",
+  "version": "5.6.0",
   "description": "WatDiv experiment handler for JBR",
   "main": "index.js",
   "typings": "index",
