@@ -29,6 +29,9 @@ jest.mock('fs-extra', () => ({
   async move() {
     // No-op
   },
+  async writeFile(path: string) {
+    filesOut[path] = true;
+  },
 }));
 
 describe('ExperimentBsbm', () => {

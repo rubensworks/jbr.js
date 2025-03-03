@@ -43,6 +43,9 @@ jest.mock('fs-extra', () => ({
   async ensureDir(dirPath: string) {
     dirsOut[dirPath] = true;
   },
+  async writeFile(path: string) {
+    filesOut[path] = true;
+  },
 }));
 
 describe('ExperimentWatDiv', () => {

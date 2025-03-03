@@ -102,6 +102,7 @@ export class ExperimentBsbm implements Experiment {
     const network = networkHandler.network.id;
 
     // Setup SPARQL endpoint
+    const startTime = performance.now();
     const endpointProcessHandler = await this.hookSparqlEndpoint.start(context);
     const endpointProcessHandlerSafe = secureProcessHandler(endpointProcessHandler, context);
 
@@ -112,6 +113,9 @@ export class ExperimentBsbm implements Experiment {
     if (context.breakpointBarrier) {
       await context.breakpointBarrier();
     }
+
+    // Measure time it took to start the endpoint
+    await fs.writeFile(Path.join(context.experimentPaths.output, 'logs', 'load-time.csv'), `time\n${Math.round(performance.now() - startTime)}`, 'utf-8');
 
     // Run experiment
     context.logger.info(`Running experiment`);

@@ -100,6 +100,7 @@ export class ExperimentWatDiv implements Experiment {
 
   public async run(context: IRunTaskContext): Promise<void> {
     // Setup SPARQL endpoint
+    const startTime = performance.now();
     const endpointProcessHandler = await this.hookSparqlEndpoint.start(context);
     const closeProcess = secureProcessHandler(endpointProcessHandler, context);
 
@@ -130,6 +131,9 @@ export class ExperimentWatDiv implements Experiment {
       timeout: this.queryTimeoutFallback,
     }).run({
       async onStart() {
+        // Measure time it took to start the endpoint
+        await fs.writeFile(Path.join(context.experimentPaths.output, 'logs', 'load-time.csv'), `time\n${Math.round(performance.now() - startTime)}`, 'utf-8');
+
         // Collect stats
         stopEndpointStats = await endpointProcessHandler.startCollectingStats();
 
