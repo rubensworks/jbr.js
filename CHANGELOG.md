@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.7.0"></a>
+## [v5.7.0](https://github.com/rubensworks/jbr.js/compare/v5.6.0...v5.7.0) - 2025-04-02
+
+### Added
+* [Support queries with '.rq' extension](https://github.com/rubensworks/jbr.js/commit/203f5a2707aef87950883b5e4f7f8c9bb568f8db)
+
+### Changed
+* [Bump to sparql-benchmark-runner v5](https://github.com/rubensworks/jbr.js/commit/1d763b310a6fb09558637ee0a18980655b3eadbb)
+
 <a name="v5.6.0"></a>
 ## [v5.6.0](https://github.com/rubensworks/jbr.js/compare/v5.5.0...v5.6.0) - 2025-03-03
 
