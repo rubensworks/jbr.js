@@ -189,7 +189,7 @@ export class ExperimentSolidBench implements Experiment {
     // Set up the query loader
     const queryLoader = new QueryLoaderFile({
       path: Path.join(context.experimentPaths.generated, 'out-queries'),
-      extensions: [ '.sparql' ],
+      extensions: [ '.sparql', '.rq' ],
     });
 
     // Initiate SPARQL benchmark runner

@@ -67,7 +67,7 @@ export class ExperimentSparqlCustom implements Experiment {
     // Determine query sets
     const queryLoader = new QueryLoaderFile({
       path: Path.join(context.experimentPaths.root, this.queriesPath),
-      extensions: [ '.txt', '.sparql' ],
+      extensions: [ '.txt', '.sparql', '.rq' ],
     });
     let querySets = await queryLoader.loadQueries();
     if (context.filter) {
