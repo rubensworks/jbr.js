@@ -142,8 +142,9 @@ export class TaskInitialize {
     }
 
     // Copy template files
-    for (const file of [ '.gitignore', 'README.md' ]) {
-      await fs.copyFile(Path.join(__dirname, '..', 'templates', file), Path.join(this.targetDirectory, file));
+    for (const file of [ '_gitignore', 'README.md' ]) {
+      await fs.copyFile(Path.join(__dirname, '..', 'templates', file),
+        Path.join(this.targetDirectory, file.replace('_', '.')));
     }
     await fs.createFile(Path.join(this.targetDirectory, 'generated', '.keep'));
     await fs.createFile(Path.join(this.targetDirectory, 'output', '.keep'));
