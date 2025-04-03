@@ -129,7 +129,7 @@ describe('TaskInitialize', () => {
       });
       expect(filesOut).toEqual({
         [Path.join('CWD', 'TARGETDIR', '.gitignore')]:
-          Path.join(__dirname, '..', '..', 'lib', 'templates', '.gitignore'),
+          Path.join(__dirname, '..', '..', 'lib', 'templates', '_gitignore'),
         [Path.join('CWD', 'TARGETDIR', 'README.md')]:
           Path.join(__dirname, '..', '..', 'lib', 'templates', 'README.md'),
         [Path.join('CWD', 'TARGETDIR', 'generated', '.keep')]: 'TRUE',
@@ -251,7 +251,7 @@ describe('TaskInitialize', () => {
     });
     expect(filesOut).toEqual({
       [Path.join('CWD', 'TARGETDIR', '.gitignore')]:
-        Path.join(__dirname, '..', '..', 'lib', 'templates', '.gitignore'),
+        Path.join(__dirname, '..', '..', 'lib', 'templates', '_gitignore'),
       [Path.join('CWD', 'TARGETDIR', 'README.md')]:
         Path.join(__dirname, '..', '..', 'lib', 'templates', 'README.md'),
       [Path.join('CWD', 'TARGETDIR', 'generated', '.keep')]: 'TRUE',
