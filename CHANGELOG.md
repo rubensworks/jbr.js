@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.7.1"></a>
+## [v5.7.1](https://github.com/rubensworks/jbr.js/compare/v5.7.0...v5.7.1) - 2025-04-03
+
+### Fixed
+* [Fix .gitignore being converted to .npmignore, Closes #45](https://github.com/rubensworks/jbr.js/commit/4b6fdcae054096d4e4608e0e703571dd58b979a6)
+
 <a name="v5.7.0"></a>
 ## [v5.7.0](https://github.com/rubensworks/jbr.js/compare/v5.6.0...v5.7.0) - 2025-04-02
 
