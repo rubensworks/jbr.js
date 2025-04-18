@@ -17,7 +17,7 @@ export class ExperimentHandlerSolidBench extends ExperimentHandler<ExperimentSol
     return {
       scale: '0.1',
       configEnhance: 'input/config-enhancer.json',
-      configFragmenter: 'input/config-fragmenter.json',
+      configFragment: 'input/config-fragmenter.json',
       configQueries: 'input/config-queries.json',
       configServer: 'input/config-server.json',
       configValidation: 'input/config-validation.json',
