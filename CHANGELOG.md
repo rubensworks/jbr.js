@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v6.0.0"></a>
+## [v6.0.0](https://github.com/rubensworks/jbr.js/compare/v5.7.1...v6.0.0) - 2025-04-18
+
+### BREAKING CHANGE
+* [Update SolidBench to version 2.x (#69)](https://github.com/rubensworks/jbr.js/commit/675659e2dfca7e7f0aef60b20a623a3df365b170)
+	* Not a breaking change if you are not using the SolidBench experiment type.
+
 <a name="v5.7.1"></a>
 ## [v5.7.1](https://github.com/rubensworks/jbr.js/compare/v5.7.0...v5.7.1) - 2025-04-03
 
