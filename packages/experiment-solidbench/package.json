@@ -65,9 +65,9 @@
     "jbr": ">=2.0.0"
   },
   "dependencies": {
-    "@types/fs-extra": "^9.0.11",
+    "@types/fs-extra": "^11.0.0",
     "@types/yargs": "^17.0.0",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^11.0.0",
     "solidbench": "^2.1.0",
     "sparql-benchmark-runner": "^5.0.0"
   }
