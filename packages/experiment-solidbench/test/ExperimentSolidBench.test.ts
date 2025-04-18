@@ -153,29 +153,29 @@ describe('ExperimentSolidBench', () => {
     queryLoaderLoadQueries = jest.fn();
     resultSerializerSerialize = jest.fn();
     resourceConstraints = new StaticDockerResourceConstraints({}, {});
-    experiment = new ExperimentSolidBench(
-      '0.1',
-      'input/config-enhancer.json',
-      'input/config-fragmenter.json',
-      'input/config-queries.json',
-      'input/config-server.json',
-      'input/config-validation-params.json',
-      'input/config-validation-config.json',
-      '4G',
-      'input/dockerfiles/Dockerfile-server',
+    experiment = new ExperimentSolidBench({
+      scale: '0.1',
+      configEnhance: 'input/config-enhancer.json',
+      configFragment: 'input/config-fragmenter.json',
+      configQueries: 'input/config-queries.json',
+      configServer: 'input/config-server.json',
+      validationParamsUrl: 'input/config-validation-params.json',
+      configValidation: 'input/config-validation-config.json',
+      hadoopMemory: '4G',
+      dockerfileServer: 'input/dockerfiles/Dockerfile-server',
       hookSparqlEndpoint,
-      3_000,
-      'info',
-      'http://localhost:3000',
-      resourceConstraints,
-      'http://localhost:3001/sparql',
-      3,
-      1,
-      0,
-      1_000,
-      {},
-      600,
-    );
+      serverPort: 3_000,
+      serverLogLevel: 'info',
+      serverBaseUrl: 'http://localhost:3000',
+      serverResourceConstraints: resourceConstraints,
+      endpointUrl: 'http://localhost:3001/sparql',
+      queryRunnerReplication: 3,
+      queryRunnerWarmupRounds: 1,
+      queryRunnerRequestDelay: 0,
+      queryRunnerEndpointAvailabilityCheckTimeout: 1_000,
+      queryRunnerUrlParams: {},
+      queryTimeoutFallback: 600,
+    });
     files = {};
     dirsOut = {};
     filesOut = {};
@@ -201,6 +201,28 @@ describe('ExperimentSolidBench', () => {
 
   describe('prepare', () => {
     it('should prepare the experiment', async() => {
+      await experiment.prepare(context, false);
+
+      expect(context.logger.warn).not.toHaveBeenCalled();
+      expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context, false);
+      expect(generatorGenerate).toHaveBeenCalled();
+      expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
+        cwd: context.cwd,
+        dockerFile: 'input/dockerfiles/Dockerfile-server',
+        auxiliaryFiles: [ 'input/config-server.json' ],
+        imageName: 'IMG-solidbench-server',
+        buildArgs: {
+          CONFIG_SERVER: 'input/config-server.json',
+          BASE_URL: 'http://localhost:3000',
+          LOG_LEVEL: 'info',
+        },
+        logger,
+      });
+    });
+
+    it('should prepare the experiment without validation', async() => {
+      (<any>experiment).validationParamsUrl = undefined;
+      (<any>experiment).configValidation = undefined;
       await experiment.prepare(context, false);
 
       expect(context.logger.warn).not.toHaveBeenCalled();

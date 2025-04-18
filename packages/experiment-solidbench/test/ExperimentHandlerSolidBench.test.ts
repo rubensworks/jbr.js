@@ -104,5 +104,27 @@ describe('ExperimentHandlerSolidBench', () => {
         [Path.join('dir', 'input', 'dockerfiles', 'Dockerfile-server')]: expect.any(String),
       });
     });
+
+    it('initializes directories and files without validation', async() => {
+      await handler.init(experimentPaths, <any> {
+        configEnhance: 'configEnhance.json',
+        configFragment: 'configFragment.json',
+        configQueries: 'configQueries.json',
+        configServer: 'configServer.json',
+        directoryQueryTemplates: 'queryTemplates',
+        replaceBaseUrlInDir: jest.fn(),
+      });
+
+      expect(dirsOut).toEqual({
+        [Path.join('dir', 'input', 'dockerfiles')]: true,
+      });
+      expect(filesOut).toEqual({
+        [Path.join('dir', 'configEnhance.json')]: expect.any(String),
+        [Path.join('dir', 'configFragment.json')]: expect.any(String),
+        [Path.join('dir', 'configQueries.json')]: expect.any(String),
+        [Path.join('dir', 'configServer.json')]: expect.any(String),
+        [Path.join('dir', 'input', 'dockerfiles', 'Dockerfile-server')]: expect.any(String),
+      });
+    });
   });
 });

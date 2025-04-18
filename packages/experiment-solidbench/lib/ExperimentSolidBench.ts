@@ -17,8 +17,8 @@ export class ExperimentSolidBench implements Experiment {
   public readonly configFragment: string;
   public readonly configQueries: string;
   public readonly configServer: string;
-  public readonly validationParamsUrl: string;
-  public readonly configValidation: string;
+  public readonly validationParamsUrl: string | undefined;
+  public readonly configValidation: string | undefined;
   public readonly hadoopMemory: string;
   public readonly dockerfileServer: string;
   public readonly hookSparqlEndpoint: Hook;
@@ -34,74 +34,28 @@ export class ExperimentSolidBench implements Experiment {
   public readonly queryRunnerUrlParams: Record<string, any>;
   public readonly queryTimeoutFallback: number | undefined;
 
-  /**
-   * @param scale
-   * @param configGenerateAux
-   * @param configFragment
-   * @param configFragmentAux
-   * @param configQueries
-   * @param configServer
-   * @param validationParamsUrl
-   * @param configValidation
-   * @param hadoopMemory
-   * @param dockerfileServer
-   * @param hookSparqlEndpoint
-   * @param serverPort
-   * @param serverLogLevel
-   * @param serverBaseUrl
-   * @param serverResourceConstraints
-   * @param endpointUrl
-   * @param queryRunnerReplication
-   * @param queryRunnerWarmupRounds
-   * @param queryRunnerRequestDelay
-   * @param queryRunnerEndpointAvailabilityCheckTimeout
-   * @param queryRunnerUrlParams - @range {json}
-   * @param queryTimeoutFallback
-   */
-  public constructor(
-    scale: string,
-    configEnhance: string,
-    configFragment: string,
-    configQueries: string,
-    configServer: string,
-    validationParamsUrl: string,
-    configValidation: string,
-    hadoopMemory: string,
-    dockerfileServer: string,
-    hookSparqlEndpoint: Hook,
-    serverPort: number,
-    serverLogLevel: string,
-    serverBaseUrl: string,
-    serverResourceConstraints: DockerResourceConstraints,
-    endpointUrl: string,
-    queryRunnerReplication: number,
-    queryRunnerWarmupRounds: number,
-    queryRunnerRequestDelay: number,
-    queryRunnerEndpointAvailabilityCheckTimeout: number,
-    queryRunnerUrlParams: Record<string, any>,
-    queryTimeoutFallback: number | undefined,
-  ) {
-    this.scale = scale;
-    this.configEnhance = configEnhance;
-    this.configFragment = configFragment;
-    this.configQueries = configQueries;
-    this.configServer = configServer;
-    this.validationParamsUrl = validationParamsUrl;
-    this.configValidation = configValidation;
-    this.hadoopMemory = hadoopMemory;
-    this.dockerfileServer = dockerfileServer;
-    this.hookSparqlEndpoint = hookSparqlEndpoint;
-    this.endpointUrl = endpointUrl;
-    this.serverPort = serverPort;
-    this.serverLogLevel = serverLogLevel;
-    this.serverBaseUrl = serverBaseUrl;
-    this.serverResourceConstraints = serverResourceConstraints;
-    this.queryRunnerReplication = queryRunnerReplication;
-    this.queryRunnerWarmupRounds = queryRunnerWarmupRounds;
-    this.queryRunnerRequestDelay = queryRunnerRequestDelay;
-    this.queryRunnerEndpointAvailabilityCheckTimeout = queryRunnerEndpointAvailabilityCheckTimeout;
-    this.queryRunnerUrlParams = queryRunnerUrlParams;
-    this.queryTimeoutFallback = queryTimeoutFallback;
+  public constructor(options: IExperimentSolidBenchOptions) {
+    this.scale = options.scale;
+    this.configEnhance = options.configEnhance;
+    this.configFragment = options.configFragment;
+    this.configQueries = options.configQueries;
+    this.configServer = options.configServer;
+    this.validationParamsUrl = options.validationParamsUrl;
+    this.configValidation = options.configValidation;
+    this.hadoopMemory = options.hadoopMemory;
+    this.dockerfileServer = options.dockerfileServer;
+    this.hookSparqlEndpoint = options.hookSparqlEndpoint;
+    this.endpointUrl = options.endpointUrl;
+    this.serverPort = options.serverPort;
+    this.serverLogLevel = options.serverLogLevel;
+    this.serverBaseUrl = options.serverBaseUrl;
+    this.serverResourceConstraints = options.serverResourceConstraints;
+    this.queryRunnerReplication = options.queryRunnerReplication;
+    this.queryRunnerWarmupRounds = options.queryRunnerWarmupRounds;
+    this.queryRunnerRequestDelay = options.queryRunnerRequestDelay;
+    this.queryRunnerEndpointAvailabilityCheckTimeout = options.queryRunnerEndpointAvailabilityCheckTimeout;
+    this.queryRunnerUrlParams = options.queryRunnerUrlParams;
+    this.queryTimeoutFallback = options.queryTimeoutFallback;
   }
 
   public getDockerImageName(context: ITaskContext, type: string): string {
@@ -142,7 +96,7 @@ export class ExperimentSolidBench implements Experiment {
       fragmentConfig: Path.resolve(context.cwd, this.configFragment),
       queryConfig: Path.resolve(context.cwd, this.configQueries),
       validationParams: this.validationParamsUrl,
-      validationConfig: Path.resolve(context.cwd, this.configValidation),
+      validationConfig: this.configValidation ? Path.resolve(context.cwd, this.configValidation) : undefined,
       hadoopMemory: this.hadoopMemory,
     }).generate();
 
@@ -272,4 +226,31 @@ export class ExperimentSolidBench implements Experiment {
   public async waitForEndpoint(context: ITaskContext): Promise<void> {
     await this.httpAvailabilityLatch.sleepUntilAvailable(context, `${this.serverBaseUrl}dbpedia.org/`);
   }
+}
+
+export interface IExperimentSolidBenchOptions {
+  scale: string;
+  configEnhance: string;
+  configFragment: string;
+  configQueries: string;
+  configServer: string;
+  validationParamsUrl?: string;
+  configValidation?: string;
+  hadoopMemory: string;
+  dockerfileServer: string;
+  hookSparqlEndpoint: Hook;
+  serverPort: number;
+  serverLogLevel: string;
+  serverBaseUrl: string;
+  serverResourceConstraints: DockerResourceConstraints;
+  endpointUrl: string;
+  queryRunnerReplication: number;
+  queryRunnerWarmupRounds: number;
+  queryRunnerRequestDelay: number;
+  queryRunnerEndpointAvailabilityCheckTimeout: number;
+  /**
+   * @range {json}
+   */
+  queryRunnerUrlParams: Record<string, any>;
+  queryTimeoutFallback?: number;
 }

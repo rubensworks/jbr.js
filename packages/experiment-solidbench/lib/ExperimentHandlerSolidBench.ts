@@ -55,8 +55,9 @@ export class ExperimentHandlerSolidBench extends ExperimentHandler<ExperimentSol
         Path.join(experimentPaths.root, experiment.configQueries)),
       fs.copyFile(Templates.SERVER_CONFIG,
         Path.join(experimentPaths.root, experiment.configServer)),
-      fs.copyFile(Templates.VALIDATION_CONFIG,
-        Path.join(experimentPaths.root, experiment.configValidation)),
+      ...experiment.configValidation ?
+        [ fs.copyFile(Templates.VALIDATION_CONFIG, Path.join(experimentPaths.root, experiment.configValidation)) ] :
+        [],
     ]);
 
     // Create Dockerfile for server
