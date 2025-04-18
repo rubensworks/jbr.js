@@ -70,7 +70,7 @@ describe('ExperimentHandlerSolidBench', () => {
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
       expect(handler.getDefaultParams(experimentPaths)).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(20);
+      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(19);
     });
   });
 
@@ -83,9 +83,8 @@ describe('ExperimentHandlerSolidBench', () => {
   describe('init', () => {
     it('initializes directories and files', async() => {
       await handler.init(experimentPaths, <any> {
-        configGenerateAux: 'configGenerateAux.json',
+        configEnhance: 'configEnhance.json',
         configFragment: 'configFragment.json',
-        configFragmentAux: 'configFragmentAux.json',
         configQueries: 'configQueries.json',
         configServer: 'configServer.json',
         configValidation: 'configValidation.json',
@@ -97,12 +96,33 @@ describe('ExperimentHandlerSolidBench', () => {
         [Path.join('dir', 'input', 'dockerfiles')]: true,
       });
       expect(filesOut).toEqual({
-        [Path.join('dir', 'configGenerateAux.json')]: expect.any(String),
+        [Path.join('dir', 'configEnhance.json')]: expect.any(String),
         [Path.join('dir', 'configFragment.json')]: expect.any(String),
-        [Path.join('dir', 'configFragmentAux.json')]: expect.any(String),
         [Path.join('dir', 'configQueries.json')]: expect.any(String),
         [Path.join('dir', 'configServer.json')]: expect.any(String),
         [Path.join('dir', 'configValidation.json')]: expect.any(String),
+        [Path.join('dir', 'input', 'dockerfiles', 'Dockerfile-server')]: expect.any(String),
+      });
+    });
+
+    it('initializes directories and files without validation', async() => {
+      await handler.init(experimentPaths, <any> {
+        configEnhance: 'configEnhance.json',
+        configFragment: 'configFragment.json',
+        configQueries: 'configQueries.json',
+        configServer: 'configServer.json',
+        directoryQueryTemplates: 'queryTemplates',
+        replaceBaseUrlInDir: jest.fn(),
+      });
+
+      expect(dirsOut).toEqual({
+        [Path.join('dir', 'input', 'dockerfiles')]: true,
+      });
+      expect(filesOut).toEqual({
+        [Path.join('dir', 'configEnhance.json')]: expect.any(String),
+        [Path.join('dir', 'configFragment.json')]: expect.any(String),
+        [Path.join('dir', 'configQueries.json')]: expect.any(String),
+        [Path.join('dir', 'configServer.json')]: expect.any(String),
         [Path.join('dir', 'input', 'dockerfiles', 'Dockerfile-server')]: expect.any(String),
       });
     });

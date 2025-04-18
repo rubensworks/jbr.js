@@ -16,16 +16,14 @@ export class ExperimentHandlerSolidBench extends ExperimentHandler<ExperimentSol
   public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
     return {
       scale: '0.1',
-      configGenerateAux: 'input/config-enhancer.json',
+      configEnhance: 'input/config-enhancer.json',
       configFragment: 'input/config-fragmenter.json',
-      configFragmentAux: 'input/config-fragmenter-auxiliary.json',
       configQueries: 'input/config-queries.json',
       configServer: 'input/config-server.json',
-      validationParamsUrl: Templates.VALIDATION_PARAMS_URL,
       configValidation: 'input/config-validation.json',
+      validationParamsUrl: Templates.VALIDATION_PARAMS_URL,
       hadoopMemory: '4G',
       dockerfileServer: 'input/dockerfiles/Dockerfile-server',
-
       endpointUrl: 'http://localhost:3001/sparql',
       serverPort: 3_000,
       serverLogLevel: 'info',
@@ -50,17 +48,16 @@ export class ExperimentHandlerSolidBench extends ExperimentHandler<ExperimentSol
     // Copy config templates
     await Promise.all([
       fs.copyFile(Templates.ENHANCEMENT_CONFIG,
-        Path.join(experimentPaths.root, experiment.configGenerateAux)),
+        Path.join(experimentPaths.root, experiment.configEnhance)),
       fs.copyFile(Templates.FRAGMENT_CONFIG,
         Path.join(experimentPaths.root, experiment.configFragment)),
-      fs.copyFile(Templates.ENHANCEMENT_FRAGMENT_CONFIG,
-        Path.join(experimentPaths.root, experiment.configFragmentAux)),
       fs.copyFile(Templates.QUERY_CONFIG,
         Path.join(experimentPaths.root, experiment.configQueries)),
       fs.copyFile(Templates.SERVER_CONFIG,
         Path.join(experimentPaths.root, experiment.configServer)),
-      fs.copyFile(Templates.VALIDATION_CONFIG,
-        Path.join(experimentPaths.root, experiment.configValidation)),
+      ...experiment.configValidation ?
+        [ fs.copyFile(Templates.VALIDATION_CONFIG, Path.join(experimentPaths.root, experiment.configValidation)) ] :
+        [],
     ]);
 
     // Create Dockerfile for server
