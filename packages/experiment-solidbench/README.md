@@ -112,9 +112,8 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
   "@id": "urn:jrb:my-experiment",
   "@type": "ExperimentSolidBench",
   "scale": "0.1",
-  "configGenerateAux": "input/config-enhancer.json",
+  "configEnhance": "input/config-enhancer.json",
   "configFragment": "input/config-fragmenter.json",
-  "configFragmentAux": "input/config-fragmenter-auxiliary.json",
   "configQueries": "input/config-queries.json",
   "configServer": "input/config-server.json",
   "validationParamsUrl": "https://cloud.ilabt.imec.be/index.php/s/bBZZKb7cP95WgcD/download/validation_params.zip",
@@ -149,9 +148,8 @@ More background information on these config options can be found in the README o
 ### Configuration fields
 
 * `scale`: The SNB scale factor
-* `configGenerateAux`: Path to enhancement config for [`ldbc-snb-enhancer`](https://github.com/SolidBench/ldbc-snb-enhancer.js/).
+* `configEnhance`: Path to enhancement config for [`ldbc-snb-enhancer`](https://github.com/SolidBench/ldbc-snb-enhancer.js/).
 * `configFragment`: Path to fragmentation config for [`rdf-dataset-fragmenter`](https://github.com/SolidBench/rdf-dataset-fragmenter.js).
-* `configFragmentAux`: Path to enhancement's fragmentation config for [`rdf-dataset-fragmenter`](https://github.com/SolidBench/rdf-dataset-fragmenter.js).
 * `configQueries`: Path to query instantiation config for [`sparql-query-parameter-instantiator`](https://github.com/SolidBench/sparql-query-parameter-instantiator.js).
 * `configServer`: Path to server config for [Solid Community Server](https://github.com/solid/community-server/).
 * `validationParamsUrl`: Validation parameters URL.

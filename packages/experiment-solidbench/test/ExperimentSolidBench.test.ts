@@ -157,7 +157,6 @@ describe('ExperimentSolidBench', () => {
       '0.1',
       'input/config-enhancer.json',
       'input/config-fragmenter.json',
-      'input/config-fragmenter-auxiliary.json',
       'input/config-queries.json',
       'input/config-server.json',
       'input/config-validation-params.json',

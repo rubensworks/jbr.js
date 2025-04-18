@@ -13,9 +13,8 @@ import { SparqlBenchmarkRunner, QueryLoaderFile, ResultSerializerCsv } from 'spa
 export class ExperimentSolidBench implements Experiment {
   public readonly httpAvailabilityLatch = new HttpAvailabilityLatch();
   public readonly scale: string;
-  public readonly configGenerateAux: string;
+  public readonly configEnhance: string;
   public readonly configFragment: string;
-  public readonly configFragmentAux: string;
   public readonly configQueries: string;
   public readonly configServer: string;
   public readonly validationParamsUrl: string;
@@ -61,9 +60,8 @@ export class ExperimentSolidBench implements Experiment {
    */
   public constructor(
     scale: string,
-    configGenerateAux: string,
+    configEnhance: string,
     configFragment: string,
-    configFragmentAux: string,
     configQueries: string,
     configServer: string,
     validationParamsUrl: string,
@@ -84,9 +82,8 @@ export class ExperimentSolidBench implements Experiment {
     queryTimeoutFallback: number | undefined,
   ) {
     this.scale = scale;
-    this.configGenerateAux = configGenerateAux;
+    this.configEnhance = configEnhance;
     this.configFragment = configFragment;
-    this.configFragmentAux = configFragmentAux;
     this.configQueries = configQueries;
     this.configServer = configServer;
     this.validationParamsUrl = validationParamsUrl;
@@ -141,9 +138,8 @@ export class ExperimentSolidBench implements Experiment {
       cwd: context.experimentPaths.generated,
       overwrite: forceOverwriteGenerated,
       scale: this.scale,
-      enhancementConfig: Path.resolve(context.cwd, this.configGenerateAux),
+      enhancementConfig: Path.resolve(context.cwd, this.configEnhance),
       fragmentConfig: Path.resolve(context.cwd, this.configFragment),
-      enhancementFragmentConfig: Path.resolve(context.cwd, this.configFragmentAux),
       queryConfig: Path.resolve(context.cwd, this.configQueries),
       validationParams: this.validationParamsUrl,
       validationConfig: Path.resolve(context.cwd, this.configValidation),
