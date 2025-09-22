@@ -5,12 +5,17 @@ import type { Experiment, Hook, ITaskContext,
   DockerResourceConstraints, ICleanTargets, DockerContainerHandler, DockerNetworkHandler } from 'jbr';
 import { HttpAvailabilityLatch, ProcessHandlerComposite, secureProcessHandler } from 'jbr';
 import { Generator } from 'solidbench/lib/Generator';
-import { SparqlBenchmarkRunner, QueryLoaderFile, ResultSerializerCsv } from 'sparql-benchmark-runner';
+import {
+  SparqlBenchmarkRunner,
+  QueryLoaderFile,
+  ResultSerializerCsv,
+  // ResultSerializerRaw
+} from 'sparql-benchmark-runner';
 
 /**
  * An experiment instance for the SolidBench social network benchmark.
  */
-export class ExperimentSolidBench implements Experiment {
+export class ExperimentSolidBenchSequence implements Experiment {
   public readonly httpAvailabilityLatch = new HttpAvailabilityLatch();
   public readonly scale: string;
   public readonly configEnhance: string;
@@ -147,6 +152,7 @@ export class ExperimentSolidBench implements Experiment {
     const results = await new SparqlBenchmarkRunner({
       endpoint: this.endpointUrl,
       querySets: await queryLoader.loadQueries(),
+      querySetsMetadata: await queryLoader.loadQueriesMetadata(),
       replication: this.queryRunnerReplication,
       warmup: this.queryRunnerWarmupRounds,
       requestDelay: this.queryRunnerRequestDelay,
@@ -177,6 +183,9 @@ export class ExperimentSolidBench implements Experiment {
     }
     context.logger.info(`Writing results to ${resultsOutput}\n`);
     await resultSerializer.serialize(Path.join(resultsOutput, 'query-times.csv'), results.aggregateResults);
+
+    // const resultSerializerRaw: IResultSerializer = new ResultSerializerRaw();
+    // await resultSerializerRaw.serialize(Path.join(resultsOutput, 'query-results-raw.json'), results);
 
     // Close endpoint and server
     await closeProcess();

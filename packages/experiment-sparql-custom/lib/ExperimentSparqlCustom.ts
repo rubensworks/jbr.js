@@ -129,7 +129,7 @@ export class ExperimentSparqlCustom implements Experiment {
       await fs.mkdir(resultsOutput);
     }
     context.logger.info(`Writing results to ${resultsOutput}\n`);
-    await resultSerializer.serialize(Path.join(resultsOutput, 'query-times.csv'), results);
+    await resultSerializer.serialize(Path.join(resultsOutput, 'query-times.csv'), results.aggregateResults);
 
     // Close process safely
     await closeProcess();
