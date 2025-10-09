@@ -47,6 +47,26 @@ A value for this hook can be set as follows, such as [`sparql-endpoint-comunica`
 $ jbr set-hook hookSparqlEndpoint sparql-endpoint-comunica
 ```
 
+Setting the sparql-endpoint-comunica hook will create a `config-client.json` file that uses default Comunica. 
+This should be link traversal instead, using a configuration like this (the version may be out of date):
+```json
+{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/config-query-sparql-link-traversal/^0.0.0/components/context.jsonld"
+  ],
+  "import": [
+    "ccqslt:config/config-solid-default.json"
+  ]
+}
+```
+Furthermore, the file `context-client.json` will also not work for link traversal. This should be set to
+```json
+{
+  "sources": [ ],
+  "lenient": true
+}
+```
+
 ### 4. Prepare the experiment
 
 In order to run all preprocessing steps, such as creating all required datasets, invoke the prepare step:

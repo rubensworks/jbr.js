@@ -49,7 +49,7 @@ export class ExperimentHandlerSolidBenchSequence extends ExperimentHandler<Exper
     await Promise.all([
       fs.copyFile(Templates.ENHANCEMENT_SIMILARITIES_CONFIG,
         Path.join(experimentPaths.root, experiment.configEnhance)),
-      fs.copyFile(Templates.FRAGMENT_CONFIG,
+      fs.copyFile(Templates.FRAGMENT_CONFIG_SEQUENCES,
         Path.join(experimentPaths.root, experiment.configFragment)),
       fs.copyFile(Templates.QUERY_SEQUENCE_CONFIG,
         Path.join(experimentPaths.root, experiment.configQueries)),

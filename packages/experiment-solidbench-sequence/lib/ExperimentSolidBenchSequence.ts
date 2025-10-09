@@ -5,10 +5,14 @@ import type { Experiment, Hook, ITaskContext,
   DockerResourceConstraints, ICleanTargets, DockerContainerHandler, DockerNetworkHandler } from 'jbr';
 import { HttpAvailabilityLatch, ProcessHandlerComposite, secureProcessHandler } from 'jbr';
 import { Generator } from 'solidbench/lib/Generator';
+import type {
+  IResultSerializer,
+} from 'sparql-benchmark-runner';
 import {
   SparqlBenchmarkRunner,
   QueryLoaderFile,
   ResultSerializerCsv,
+  ResultSerializerRaw,
   // ResultSerializerRaw
 } from 'sparql-benchmark-runner';
 
@@ -184,8 +188,10 @@ export class ExperimentSolidBenchSequence implements Experiment {
     context.logger.info(`Writing results to ${resultsOutput}\n`);
     await resultSerializer.serialize(Path.join(resultsOutput, 'query-times.csv'), results.aggregateResults);
 
-    // const resultSerializerRaw: IResultSerializer = new ResultSerializerRaw();
-    // await resultSerializerRaw.serialize(Path.join(resultsOutput, 'query-results-raw.json'), results);
+    if (results.rawResults) {
+      const resultSerializerRaw: IResultSerializer = new ResultSerializerRaw();
+      await resultSerializerRaw.serialize(Path.join(resultsOutput, 'query-results-raw.json'), results.rawResults);
+    }
 
     // Close endpoint and server
     await closeProcess();
