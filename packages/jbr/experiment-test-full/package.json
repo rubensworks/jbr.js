@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "experiment-test-discover-full",
+  "name": "experiment-test-full",
   "dependencies": {
     "cross-env": "^7.0.3"
   },

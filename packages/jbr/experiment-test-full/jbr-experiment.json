@@ -4,7 +4,7 @@
     "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/solidbench-sequence/^6.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-hook/sparql-endpoint-comunica/^6.0.0/components/context.jsonld"
   ],
-  "@id": "urn:jbr:experiment-test-discover-full",
+  "@id": "urn:jbr:experiment-test-full",
   "@type": "ExperimentSolidBenchSequence",
   "scale": "0.1",
   "configEnhance": "input/config-enhancer.json",
@@ -29,7 +29,7 @@
   "queryRunnerEndpointAvailabilityCheckTimeout": 1000,
   "queryRunnerUrlParams": {},
   "hookSparqlEndpoint": {
-    "@id": "urn:jbr:experiment-test-discover-full:hookSparqlEndpoint",
+    "@id": "urn:jbr:experiment-test-full:hookSparqlEndpoint",
     "@type": "HookSparqlEndpointComunica",
     "dockerfileClient": "input/dockerfiles/Dockerfile-client",
     "resourceConstraints": {
