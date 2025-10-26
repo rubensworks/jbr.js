@@ -8755,6 +8755,32 @@ jake@^10.8.5:
     filelist "^1.0.4"
     picocolors "^1.1.1"
 
+jbr@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/jbr/-/jbr-6.0.0.tgz#14ba6c18eeba14d2e6638dc960d8d47c837fb1cf"
+  integrity sha512-D87ki7bLz6BjzrnqkGDk+kVS5MkSww+wqR6SjaRMQFN/nRUsPUukvwMEJhtbsKXDJa3BRqXjc45CZAlmLRAqyA==
+  dependencies:
+    "@types/cli-progress" "^3.9.1"
+    "@types/cross-spawn" "^6.0.2"
+    "@types/dockerode" "^3.2.3"
+    "@types/fs-extra" "^9.0.11"
+    "@types/pidusage" "^2.0.5"
+    "@types/semver" "^7.5.1"
+    "@types/tar" "^6.1.13"
+    "@types/yargs" "^17.0.0"
+    cli-progress "^3.9.0"
+    componentsjs "^6.3.0"
+    cross-fetch "^4.0.0"
+    cross-spawn "^7.0.3"
+    dockerode "^3.3.0"
+    fs-extra "^10.0.0"
+    ora "^5.4.0"
+    pidusage "^3.0.2"
+    semver "^7.5.4"
+    tar "^6.1.7"
+    winston "^3.3.3"
+    yargs "^17.0.0"
+
 jest-changed-files@^29.7.0:
   version "29.7.0"
   resolved "https://registry.yarnpkg.com/jest-changed-files/-/jest-changed-files-29.7.0.tgz#1c06d07e77c78e1585d020424dedc10d6e17ac3a"

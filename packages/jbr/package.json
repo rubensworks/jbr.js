@@ -1,5 +1,5 @@
 {
-  "name": "jbr",
+  "name": "@rubeneschauzier/jbr",
   "version": "6.0.0",
   "description": "Just a Benchmark Runner",
   "main": "index.js",
