@@ -9419,6 +9419,20 @@ kuler@^2.0.0:
     rdf-terms "^2.0.0"
     relative-to-absolute-iri "^1.0.0"
 
+"ldbc-snb-enhancer@npm:@rubeneschauzier/ldbc-snb-enhancer@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@rubeneschauzier/ldbc-snb-enhancer/-/ldbc-snb-enhancer-2.6.1.tgz#1e8f8a026704adf87aae7f6210a1ce46992eef0b"
+  integrity sha512-+/F1WDMl/ea1G6osMv0qoOE9lpQyd/7XDe29RLcI8J54Uorxc9FANe2XwmVPZyNFa3rA7Wefz8f0Ll4s7WkeXA==
+  dependencies:
+    "@rdfjs/types" "*"
+    componentsjs "^6.0.0"
+    rdf-object "^3.0.0"
+    rdf-parse "^3.0.0"
+    rdf-serialize "^3.0.0"
+    rdf-string "^1.6.0"
+    rdf-terms "^2.0.0"
+    relative-to-absolute-iri "^1.0.0"
+
 "ldbc-snb-validation-generator@npm:@rubeneschauzier/ldbc-snb-validation-generator@^1.2.14":
   version "1.2.14"
   resolved "https://registry.yarnpkg.com/@rubeneschauzier/ldbc-snb-validation-generator/-/ldbc-snb-validation-generator-1.2.14.tgz#27b3347c62158c2fe055d16a8f102f7f644465de"
@@ -12171,7 +12185,7 @@ socks@^2.6.2:
     ip-address "^10.0.1"
     smart-buffer "^4.2.0"
 
-"solidbench@npm:@rubeneschauzier/solidbench", "solidbench@npm:@rubeneschauzier/solidbench@^2.1.19":
+"solidbench@npm:@rubeneschauzier/solidbench":
   version "2.1.19"
   resolved "https://registry.yarnpkg.com/@rubeneschauzier/solidbench/-/solidbench-2.1.19.tgz#fb9dfde87a9a6dc66df18e2609088f1b2238216d"
   integrity sha512-xk64afAK+QIlZFXOGVJPhsL1ONCM+wm83sLw1FkJfIMovMlheLbyIqZqSnxnBIkb+an1WXbwdcDT1HCGPwijHw==
@@ -12181,6 +12195,22 @@ socks@^2.6.2:
     "@types/unzipper" "^0.10.0"
     dockerode "^4.0.0"
     ldbc-snb-enhancer "npm:@rubeneschauzier/ldbc-snb-enhancer@^2.6.0"
+    ldbc-snb-validation-generator "npm:@rubeneschauzier/ldbc-snb-validation-generator@^1.2.14"
+    rdf-dataset-fragmenter "npm:@rubeneschauzier/rdf-dataset-fragmenter@^2.9.2"
+    sparql-query-parameter-instantiator "npm:@rubeneschauzier/sparql-query-parameter-instantiator@^2.8.10"
+    unzipper "^0.12.0"
+    yargs "^17.0.0"
+
+"solidbench@npm:@rubeneschauzier/solidbench@^2.1.21":
+  version "2.1.21"
+  resolved "https://registry.yarnpkg.com/@rubeneschauzier/solidbench/-/solidbench-2.1.21.tgz#c2a76e813f64a552bdc3d15adcbebfe8d2d35d1c"
+  integrity sha512-wjjBqEMNILoxWrsnNX1fjAeQ3hTLtvDLt1r6hE7hfXqM+qDIrnmDC6xDLYdWZ/NztdKWIWjtnSDwVnfDs88nEg==
+  dependencies:
+    "@solid/community-server" "^7.0.0"
+    "@types/dockerode" "^3.0.0"
+    "@types/unzipper" "^0.10.0"
+    dockerode "^4.0.0"
+    ldbc-snb-enhancer "npm:@rubeneschauzier/ldbc-snb-enhancer@^2.6.1"
     ldbc-snb-validation-generator "npm:@rubeneschauzier/ldbc-snb-validation-generator@^1.2.14"
     rdf-dataset-fragmenter "npm:@rubeneschauzier/rdf-dataset-fragmenter@^2.9.2"
     sparql-query-parameter-instantiator "npm:@rubeneschauzier/sparql-query-parameter-instantiator@^2.8.10"
@@ -12223,6 +12253,15 @@ spark-md5@^3.0.1:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@rubeneschauzier/sparql-benchmark-runner/-/sparql-benchmark-runner-5.0.0.tgz#9c3cbf482f806922a0d20557eae7b6824a110926"
   integrity sha512-ibBW79c0+Sql3sWzEpaqpCeCm3KoikpnHWUKt16+8eSV+Y9A59tJDQhHlrqGBwNqXMhMmzdljirXuUmek2v4YQ==
+  dependencies:
+    fetch-sparql-endpoint "^5.1.0"
+    rdf-string "^1.0.0"
+    yargs "^17.0.0"
+
+"sparql-benchmark-runner@npm:@rubeneschauzier/sparql-benchmark-runner@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@rubeneschauzier/sparql-benchmark-runner/-/sparql-benchmark-runner-5.0.1.tgz#48eae35b3819ef2a8af8865b0b3168561740a7b8"
+  integrity sha512-TO+XgKCLb7vgvKefl2aLT9TQcjpFTDU9Ov/bE2O8qnguk9TS5R9yLiQM8rpGXdVeHyDKbDirm8oiC3OerAVuKw==
   dependencies:
     fetch-sparql-endpoint "^5.1.0"
     rdf-string "^1.0.0"
