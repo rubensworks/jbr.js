@@ -1,6 +1,6 @@
 {
   "name": "@rubeneschauzier/solidbench-sequence",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "description": "SolidBench experiment handler for JBR",
   "main": "index.js",
   "typings": "index",
@@ -69,6 +69,6 @@
     "@types/yargs": "^17.0.0",
     "fs-extra": "^10.0.0",
     "solidbench":  "npm:@rubeneschauzier/solidbench@^2.1.21",
-    "sparql-benchmark-runner":  "npm:@rubeneschauzier/sparql-benchmark-runner@^5.0.1"
+    "sparql-benchmark-runner":  "npm:@rubeneschauzier/sparql-benchmark-runner@^5.0.2"
   }
 }
