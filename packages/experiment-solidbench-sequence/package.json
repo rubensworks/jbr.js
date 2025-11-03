@@ -59,7 +59,7 @@
     "validate": "npm ls"
   },
   "devDependencies": {
-    "jbr": "npm:@rubeneschauzier/jbr@^6.0.1"
+    "jbr": "^6.0.0"
   },
   "peerDependencies": {
     "jbr": ">=2.0.0"
