@@ -12258,10 +12258,10 @@ spark-md5@^3.0.1:
     rdf-string "^1.0.0"
     yargs "^17.0.0"
 
-"sparql-benchmark-runner@npm:@rubeneschauzier/sparql-benchmark-runner@^5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@rubeneschauzier/sparql-benchmark-runner/-/sparql-benchmark-runner-5.0.2.tgz#fe50bd57994bdc106f7dae2a485a794f50579c43"
-  integrity sha512-CzNcNsNzv2oujFQcL8tNAwzeR1J6+rGHMSowjIPzhNT38CqvlvmhlMy7ckjIxTjw9Awmt+a+5zEcdXmV1TYhXA==
+"sparql-benchmark-runner@npm:@rubeneschauzier/sparql-benchmark-runner@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@rubeneschauzier/sparql-benchmark-runner/-/sparql-benchmark-runner-5.0.3.tgz#571b148dba559251eed1a573bd31d1adcb55e21c"
+  integrity sha512-BwV7JddSE8ktamfbrj1NVZ6YGyhqBxPDqLdw2kIJ1DbZfPjXs5Ai5uAWkxDVr4r+K+1NWLkSnKguyWAcP+A1Cg==
   dependencies:
     fetch-sparql-endpoint "^5.1.0"
     rdf-string "^1.0.0"
