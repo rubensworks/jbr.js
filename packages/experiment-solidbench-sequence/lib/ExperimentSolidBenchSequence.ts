@@ -164,6 +164,7 @@ export class ExperimentSolidBenchSequence implements Experiment {
       logger: (message: string) => process.stderr.write(`${message}\n`),
       additionalUrlParams: new URLSearchParams(this.queryRunnerUrlParams),
       timeout: this.queryTimeoutFallback,
+      resetCacheBetweenSetExecutions: true,
     }).run({
       async onStart() {
         // Collect stats
