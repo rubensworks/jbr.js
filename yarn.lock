@@ -12374,10 +12374,10 @@ socks@^2.6.2:
     unzipper "^0.12.0"
     yargs "^17.0.0"
 
-"solidbench@npm:@rubeneschauzier/solidbench@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@rubeneschauzier/solidbench/-/solidbench-2.2.0.tgz#777ec02f1b6e80ae3aa20c0963f3a1fbc4585002"
-  integrity sha512-y/mTBLcZxU1R870vssrbYmFWJTJ9F0MnR8unB+KsvW6FfsvVzH3qHIQq7oqoqgZzboRAbu+fiXsuiYk49sPiSQ==
+"solidbench@npm:@rubeneschauzier/solidbench@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@rubeneschauzier/solidbench/-/solidbench-2.2.5.tgz#32aafc6bbd824d0bc383985600df88ab18594e6b"
+  integrity sha512-61XoEMRgSZLTuFpTb2oSZ9pdaat/hW7C/I0F3tmJfGHA1a7Wrzg5bqegCTNGN9BWDJPcYmBmuzqScBaMJxudpA==
   dependencies:
     "@solid/community-server" "^7.0.0"
     "@types/dockerode" "^3.0.0"
@@ -12386,7 +12386,7 @@ socks@^2.6.2:
     ldbc-snb-enhancer "npm:@rubeneschauzier/ldbc-snb-enhancer@^2.6.1"
     ldbc-snb-validation-generator "npm:@rubeneschauzier/ldbc-snb-validation-generator@^1.2.14"
     rdf-dataset-fragmenter "npm:@rubeneschauzier/rdf-dataset-fragmenter@^2.9.2"
-    sparql-query-parameter-instantiator "npm:@rubeneschauzier/sparql-query-parameter-instantiator@^2.9.0"
+    sparql-query-parameter-instantiator "npm:@rubeneschauzier/sparql-query-parameter-instantiator@^2.9.2"
     unzipper "^0.12.0"
     yargs "^17.0.0"
 
@@ -12431,10 +12431,10 @@ spark-md5@^3.0.1:
     rdf-string "^1.0.0"
     yargs "^17.0.0"
 
-"sparql-benchmark-runner@npm:@rubeneschauzier/sparql-benchmark-runner@^5.0.4":
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/@rubeneschauzier/sparql-benchmark-runner/-/sparql-benchmark-runner-5.0.4.tgz#5973ff914e9140085634d48f4edd204c262c219d"
-  integrity sha512-g5xYqtn4HW2w7+uD7Jay59df6bot4AK4sJysvN4n2Yt72mJ5SfopWdN8r/O8poJzH2sF5K4F5wplW5iMrL+wkg==
+"sparql-benchmark-runner@npm:@rubeneschauzier/sparql-benchmark-runner@^5.0.6":
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/@rubeneschauzier/sparql-benchmark-runner/-/sparql-benchmark-runner-5.0.6.tgz#b6bd3cdfc13f618c7318b6976db72d8d6401d66f"
+  integrity sha512-EUxzihBjx+TwxfaFvXOU6PlrlB/UfIuw3gK4OTU4iO6mOMuu1fcM3jURd1CI2JKxULcobtZmoT4b4fRrYg/lQA==
   dependencies:
     fetch-sparql-endpoint "^5.1.0"
     rdf-string "^1.0.0"
@@ -12453,10 +12453,10 @@ spark-md5@^3.0.1:
     seedrandom "^3.0.5"
     sparqljs "^3.7.0"
 
-"sparql-query-parameter-instantiator@npm:@rubeneschauzier/sparql-query-parameter-instantiator@^2.9.0":
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/@rubeneschauzier/sparql-query-parameter-instantiator/-/sparql-query-parameter-instantiator-2.9.0.tgz#e9a76e3827e4effe6867d706bffc767891d08579"
-  integrity sha512-pB2rFFQ8NEsI2AXEXXknoFH3OaAHxqLFWBKx8xdAjObeR40TJJeZL+UGsA3v1BB7RnFF7CMyLrtYBlW8wFX5dg==
+"sparql-query-parameter-instantiator@npm:@rubeneschauzier/sparql-query-parameter-instantiator@^2.9.2":
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/@rubeneschauzier/sparql-query-parameter-instantiator/-/sparql-query-parameter-instantiator-2.9.2.tgz#ec7c26c2c1e8eff54a43548ad2b4cbb478cc8b84"
+  integrity sha512-CKJeU0FqLlPqO/4iVNlrKWv+af6ANEC+p0RNfUCG5sMFdvRHgi5kq58hhuHYzfu4b10ds2At4EJavP/Q4ZbwZA==
   dependencies:
     "@comunica/types" "^5.0.0"
     "@comunica/utils-bindings-factory" "^5.0.3"
