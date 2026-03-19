@@ -12,6 +12,7 @@ export class HdtConverter {
     public readonly context: ITaskContext,
     public readonly forceOverwriteGenerated: boolean,
     public readonly scope: string,
+    public readonly path: string = Path.join(context.experimentPaths.generated, 'dataset.hdt'),
   ) {}
 
   public async generate(): Promise<void> {
@@ -19,14 +20,14 @@ export class HdtConverter {
     this.context.logger.info(`Converting WatDiv dataset to HDT`);
 
     if (!this.forceOverwriteGenerated &&
-      await fs.pathExists(Path.join(this.context.experimentPaths.generated, 'dataset.hdt'))) {
+      await fs.pathExists(this.path)) {
       this.context.logger.info(`  Skipped`);
     } else {
       // Pull HDT Docker image
       await this.context.docker.imagePuller.pull({ repoTag: HdtConverter.DOCKER_IMAGE_HDT });
 
       // Remove any existing index files
-      await fs.rm(Path.join(this.context.experimentPaths.generated, 'dataset.hdt.index.v1-1'), { force: true });
+      await fs.rm(`${this.path}.index.v1-1`, { force: true });
 
       // Convert dataset to HDT
       await (await this.context.docker.containerCreator.start({
