@@ -1,6 +1,6 @@
 {
   "name": "@rubeneschauzier/solidbench-sequence",
-  "version": "6.1.6",
+  "version": "6.1.7",
   "description": "SolidBench experiment handler for JBR",
   "main": "index.js",
   "typings": "index",
