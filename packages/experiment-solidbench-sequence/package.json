@@ -68,7 +68,7 @@
     "@types/fs-extra": "^9.0.11",
     "@types/yargs": "^17.0.0",
     "fs-extra": "^10.0.0",
-    "solidbench":  "npm:@rubeneschauzier/solidbench@^2.2.5",
+    "solidbench":  "npm:@rubeneschauzier/solidbench@^2.2.6",
     "sparql-benchmark-runner":  "npm:@rubeneschauzier/sparql-benchmark-runner@^5.0.6"
   }
 }
