@@ -1,6 +1,6 @@
 {
   "name": "@rubeneschauzier/solidbench-sequence",
-  "version": "6.2.3",
+  "version": "6.2.4",
   "description": "SolidBench experiment handler for JBR",
   "main": "index.js",
   "typings": "index",
@@ -27,7 +27,7 @@
     "social network",
     "jbr",
     "benchmarking"
-  ],
+  ], 
   "files": [
     "lib/**/*.d.ts",
     "lib/**/*.js",
@@ -68,7 +68,7 @@
     "@types/fs-extra": "^9.0.11",
     "@types/yargs": "^17.0.0",
     "fs-extra": "^10.0.0",
-    "solidbench":  "npm:@rubeneschauzier/solidbench@^2.3.3",
+    "solidbench":  "npm:@rubeneschauzier/solidbench@^2.3.5",
     "sparql-benchmark-runner":  "npm:@rubeneschauzier/sparql-benchmark-runner@^5.0.5"
   }
 }
