@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master)](https://coveralls.io/github/rubensworks/jbr.js?branch=master)
 [![npm version](https://badge.fury.io/js/%40jbr-experiment%2Fsolidbench.svg)](https://www.npmjs.com/package/@jbr-experiment/solidbench)
 
-A [jbr](https://github.com/rubensworks/jbr.js/tree/master/packages/jbr) experiment type for the [SolidBench social network benchmark](https://github.com/SolidBench/SolidBench.js).
+A [jbr](https://github.com/rubensworks/jbr.js/tree/master/packages/jbr) experiment type for the [SolidSessionBench social network benchmark](https://github.com/SolidBench/SolidBench.js).
 
 ## Requirements
 
@@ -32,7 +32,7 @@ $ yarn global add jbr
 Using the `jbr` CLI tool, initialize a new experiment:
 
 ```bash
-$ jbr init solidbench my-experiment
+$ jbr init solidbench-sequence my-experiment
 $ cd my-experiment
 ```
 
@@ -59,6 +59,7 @@ This should be link traversal instead, using a configuration like this (the vers
   ]
 }
 ```
+
 Furthermore, the file `context-client.json` will also not work for link traversal. This should be set to
 ```json
 {
