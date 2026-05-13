@@ -1,6 +1,6 @@
 {
   "name": "solid-session-bench",
-  "version": "6.2.5",
+  "version": "6.0.0",
   "description": "SolidBench experiment handler for JBR",
   "main": "index.js",
   "typings": "index",
