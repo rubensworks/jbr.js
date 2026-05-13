@@ -67,6 +67,8 @@ Furthermore, the file `context-client.json` will also not work for link traversa
   "lenient": true
 }
 ```
+Finally, the `Dockerfile-client` will use this base Docker image: `FROM comunica/query-sparql:v2.5.0`.
+This should be changed to a version of `comunica/query-sparql-link-traversal-solid`.
 
 ### 4. Prepare the experiment
 
