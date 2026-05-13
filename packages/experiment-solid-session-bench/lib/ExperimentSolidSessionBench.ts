@@ -13,13 +13,12 @@ import {
   QueryLoaderFile,
   ResultSerializerCsv,
   ResultSerializerRaw,
-  // ResultSerializerRaw
 } from 'sparql-benchmark-runner';
 
 /**
  * An experiment instance for the SolidBench social network benchmark.
  */
-export class ExperimentSolidBenchSequence implements Experiment {
+export class ExperimentSolidSessionBench implements Experiment {
   public readonly httpAvailabilityLatch = new HttpAvailabilityLatch();
   public readonly scale: string;
   public readonly configEnhance: string;
@@ -164,8 +163,8 @@ export class ExperimentSolidBenchSequence implements Experiment {
       logger: (message: string) => process.stderr.write(`${message}\n`),
       additionalUrlParams: new URLSearchParams(this.queryRunnerUrlParams),
       timeout: this.queryTimeoutFallback,
-      resetCacheBetweenSetExecutions: true,
-    }).run({
+      invalidateCacheBetweenSetExecutions: true,
+    }).runWithRawResults({
       async onStart() {
         // Collect stats
         stopStats = await processHandler.startCollectingStats();

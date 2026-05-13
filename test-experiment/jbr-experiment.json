@@ -1,7 +1,7 @@
 {
   "@context": [
     "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^6.0.0/components/context.jsonld",
-    "https://linkedsoftwaredependencies.org/bundles/npm/solidbench-sequence/^6.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/solid-session-bench/^6.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-hook/sparql-endpoint-comunica/^6.0.0/components/context.jsonld"
   ],
   "@id": "urn:jbr:test-experiment",

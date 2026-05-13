@@ -7,11 +7,13 @@ import { ExperimentSparqlCustom } from '../lib/ExperimentSparqlCustom';
 
 let sparqlBenchmarkRun: any;
 let resultSerializerSerialize: any;
+let resultSerializerRawSerialize: any;
+
 jest.mock('sparql-benchmark-runner', () => ({
   SparqlBenchmarkRunner: jest.fn().mockImplementation((options: any) => {
     options.logger('Test logger');
     return {
-      run: sparqlBenchmarkRun,
+      runWithRawResults: sparqlBenchmarkRun,
       endpointFetcher: {},
     };
   }),
@@ -24,6 +26,9 @@ jest.mock('sparql-benchmark-runner', () => ({
   })),
   ResultSerializerCsv: jest.fn().mockImplementation(() => ({
     serialize: resultSerializerSerialize,
+  })),
+  ResultSerializerRaw: jest.fn().mockImplementation(() => ({
+    serialize: resultSerializerRawSerialize,
   })),
 }));
 
@@ -93,8 +98,15 @@ SELECT DISTINCT ?entity WHERE {
           dbpprop:cityServed dbpedia:Italy.
 }`);
       await onStop();
+
+      // Return the object structure expected by runWithRawResults
+      return {
+        aggregateResults: {},
+        rawResults: {}, // Include if line 134 evaluates this property
+      };
     });
     resultSerializerSerialize = jest.fn();
+    resultSerializerRawSerialize = jest.fn();
     experiment = new ExperimentSparqlCustom(
       'input/queries/',
       hookSparqlEndpoint,
@@ -128,7 +140,12 @@ SELECT DISTINCT ?entity WHERE {
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
       // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), undefined);
+      expect(resultSerializerSerialize).toHaveBeenCalledWith(
+        Path.normalize('CWD/output/query-times.csv'), {},
+      );
+      expect(resultSerializerRawSerialize).toHaveBeenCalledWith(
+        Path.normalize('CWD/output/query-results-raw.json'), {},
+      );
 
       expect(dirsOut).toEqual({
         'CWD/output': true,
@@ -164,7 +181,12 @@ SELECT DISTINCT ?entity WHERE {
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
       // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), undefined);
+      expect(resultSerializerSerialize).toHaveBeenCalledWith(
+        Path.normalize('CWD/output/query-times.csv'), {},
+      );
+      expect(resultSerializerRawSerialize).toHaveBeenCalledWith(
+        Path.normalize('CWD/output/query-results-raw.json'), {},
+      );
 
       expect(dirsOut).toEqual({
         'CWD/output': true,
@@ -263,7 +285,12 @@ SELECT DISTINCT ?entity WHERE {
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
       // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), undefined);
+      expect(resultSerializerSerialize).toHaveBeenCalledWith(
+        Path.normalize('CWD/output/query-times.csv'), {},
+      );
+      expect(resultSerializerRawSerialize).toHaveBeenCalledWith(
+        Path.normalize('CWD/output/query-results-raw.json'), {},
+      );
 
       expect(dirsOut).toEqual({
         'CWD/output': true,

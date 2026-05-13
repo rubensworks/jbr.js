@@ -17,15 +17,20 @@ jest.mock('solidbench/lib/Generator', () => ({
 let sparqlBenchmarkRun: any;
 let queryLoaderLoadQueries: any;
 let resultSerializerSerialize: any;
+let resultSerializerRawSerialize: any;
+
 jest.mock('sparql-benchmark-runner', () => ({
   SparqlBenchmarkRunner: jest.fn().mockImplementation((options: any) => {
     options.logger('Test logger');
     return {
-      run: sparqlBenchmarkRun,
+      runWithRawResults: sparqlBenchmarkRun,
     };
   }),
   ResultSerializerCsv: jest.fn().mockImplementation(() => ({
     serialize: resultSerializerSerialize,
+  })),
+  ResultSerializerRaw: jest.fn().mockImplementation(() => ({
+    serialize: resultSerializerRawSerialize,
   })),
   QueryLoaderFile: jest.fn().mockImplementation(() => ({
     loadQueries: queryLoaderLoadQueries,
@@ -149,9 +154,14 @@ describe('ExperimentSolidBench', () => {
     sparqlBenchmarkRun = jest.fn(async({ onStart, onStop }) => {
       await onStart();
       await onStop();
+      return {
+        aggregateResults: {},
+        rawResults: {},
+      };
     });
     queryLoaderLoadQueries = jest.fn();
     resultSerializerSerialize = jest.fn();
+    resultSerializerRawSerialize = jest.fn();
     resourceConstraints = new StaticDockerResourceConstraints({}, {});
     experiment = new ExperimentSolidBench({
       scale: '0.1',
@@ -309,7 +319,10 @@ This can be configured using Node's --max_old_space_size option.`);
       expect(serverHandlerStopCollectingStats).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
       // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), undefined);
+      expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), {});
+      expect(resultSerializerRawSerialize).toHaveBeenCalledWith(
+        Path.normalize('CWD/output/query-results-raw.json'), {},
+      );
 
       expect(dirsOut).toEqual({
         'CWD/output': true,

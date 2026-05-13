@@ -3,14 +3,14 @@ import * as fs from 'fs-extra';
 import type { IExperimentPaths } from 'jbr';
 import { ExperimentHandler } from 'jbr';
 import { Templates } from 'solidbench';
-import { ExperimentSolidBenchSequence } from './ExperimentSolidBenchSequence';
+import { ExperimentSolidSessionBench } from './ExperimentSolidSessionBench';
 
 /**
  * An experiment handler for the SolidBench social network benchmark.
  */
-export class ExperimentHandlerSolidBenchSequence extends ExperimentHandler<ExperimentSolidBenchSequence> {
+export class ExperimentHandlerSolidSessionBench extends ExperimentHandler<ExperimentSolidSessionBench> {
   public constructor() {
-    super('solidbench-sequence', ExperimentSolidBenchSequence.name);
+    super('solid-session-bench', ExperimentSolidSessionBench.name);
   }
 
   public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
@@ -44,7 +44,7 @@ export class ExperimentHandlerSolidBenchSequence extends ExperimentHandler<Exper
     return [ 'hookSparqlEndpoint' ];
   }
 
-  public async init(experimentPaths: IExperimentPaths, experiment: ExperimentSolidBenchSequence): Promise<void> {
+  public async init(experimentPaths: IExperimentPaths, experiment: ExperimentSolidSessionBench): Promise<void> {
     // Copy config templates
     await Promise.all([
       fs.copyFile(Templates.ENHANCEMENT_SIMILARITIES_CONFIG,

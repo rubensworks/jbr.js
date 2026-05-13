@@ -4,8 +4,8 @@ import type { Hook, ITaskContext,
   DockerContainerHandler,
   DockerResourceConstraints, ProcessHandler } from 'jbr';
 import { StaticDockerResourceConstraints, createExperimentPaths } from 'jbr';
-import { TestLogger } from '../../jbr/test/TestLogger';
-import { ExperimentSolidBench } from '../lib/ExperimentSolidBench';
+import { TestLogger } from 'jbr/test/TestLogger';
+import { ExperimentSolidSessionBench } from '../lib/ExperimentSolidSessionBench';
 
 let generatorGenerate: any;
 jest.mock('solidbench/lib/Generator', () => ({
@@ -16,19 +16,26 @@ jest.mock('solidbench/lib/Generator', () => ({
 
 let sparqlBenchmarkRun: any;
 let queryLoaderLoadQueries: any;
+let queryLoaderLoadMetadata: any;
 let resultSerializerSerialize: any;
+let resultSerializerRawSerialize: any;
+
 jest.mock('sparql-benchmark-runner', () => ({
   SparqlBenchmarkRunner: jest.fn().mockImplementation((options: any) => {
     options.logger('Test logger');
     return {
-      run: sparqlBenchmarkRun,
+      runWithRawResults: sparqlBenchmarkRun,
     };
   }),
   ResultSerializerCsv: jest.fn().mockImplementation(() => ({
     serialize: resultSerializerSerialize,
   })),
+  ResultSerializerRaw: jest.fn().mockImplementation(() => ({
+    serialize: resultSerializerRawSerialize,
+  })),
   QueryLoaderFile: jest.fn().mockImplementation(() => ({
     loadQueries: queryLoaderLoadQueries,
+    loadQueriesMetadata: queryLoaderLoadMetadata,
   })),
 }));
 
@@ -80,7 +87,7 @@ jest.mock('fs-extra', () => ({
   },
 }));
 
-describe('ExperimentSolidBench', () => {
+describe('ExperimentSolidSessionBench', () => {
   let serverHandlerStopCollectingStats: any;
   let serverHandler: DockerContainerHandler;
   let logger: any;
@@ -89,7 +96,7 @@ describe('ExperimentSolidBench', () => {
   let endpointHandlerStopCollectingStats: any;
   let endpointHandler: ProcessHandler;
   let resourceConstraints: DockerResourceConstraints;
-  let experiment: ExperimentSolidBench;
+  let experiment: ExperimentSolidSessionBench;
   beforeEach(() => {
     serverHandlerStopCollectingStats = jest.fn();
     serverHandler = <any> {
@@ -149,11 +156,17 @@ describe('ExperimentSolidBench', () => {
     sparqlBenchmarkRun = jest.fn(async({ onStart, onStop }) => {
       await onStart();
       await onStop();
+      return {
+        aggregateResults: {},
+        rawResults: {},
+      };
     });
     queryLoaderLoadQueries = jest.fn();
+    queryLoaderLoadMetadata = jest.fn();
     resultSerializerSerialize = jest.fn();
+    resultSerializerRawSerialize = jest.fn();
     resourceConstraints = new StaticDockerResourceConstraints({}, {});
-    experiment = new ExperimentSolidBench({
+    experiment = new ExperimentSolidSessionBench({
       scale: '0.1',
       configEnhance: 'input/config-enhancer.json',
       configFragment: 'input/config-fragmenter.json',
@@ -309,7 +322,10 @@ This can be configured using Node's --max_old_space_size option.`);
       expect(serverHandlerStopCollectingStats).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
       // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), undefined);
+      expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), {});
+      expect(resultSerializerRawSerialize).toHaveBeenCalledWith(
+        Path.normalize('CWD/output/query-results-raw.json'), {},
+      );
 
       expect(dirsOut).toEqual({
         'CWD/output': true,

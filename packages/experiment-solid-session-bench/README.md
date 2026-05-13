@@ -32,7 +32,7 @@ $ yarn global add jbr
 Using the `jbr` CLI tool, initialize a new experiment:
 
 ```bash
-$ jbr init solidbench-sequence my-experiment
+$ jbr init solid-session-bench my-experiment
 $ cd my-experiment
 ```
 

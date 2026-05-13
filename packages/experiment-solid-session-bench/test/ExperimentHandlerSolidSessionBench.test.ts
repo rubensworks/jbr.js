@@ -1,7 +1,7 @@
 import * as Path from 'path';
 import type { IExperimentPaths } from 'jbr';
 import { createExperimentPaths } from 'jbr';
-import { ExperimentHandlerSolidBench } from '../lib/ExperimentHandlerSolidBench';
+import { ExperimentHandlerSolidSessionBench } from '../lib/ExperimentHandlerSolidSessionBench';
 
 let filesOut: Record<string, string> = {};
 let dirsOut: Record<string, boolean | string> = {};
@@ -46,11 +46,11 @@ jest.mock('fs-extra', () => ({
   },
 }));
 
-describe('ExperimentHandlerSolidBench', () => {
-  let handler: ExperimentHandlerSolidBench;
+describe('ExperimentHandlerSolidSessionBench', () => {
+  let handler: ExperimentHandlerSolidSessionBench;
   let experimentPaths: IExperimentPaths;
   beforeEach(() => {
-    handler = new ExperimentHandlerSolidBench();
+    handler = new ExperimentHandlerSolidSessionBench();
     experimentPaths = createExperimentPaths('dir');
 
     filesOut = {};
@@ -59,11 +59,11 @@ describe('ExperimentHandlerSolidBench', () => {
 
   describe('exposes public fields', () => {
     it('should expose an id', () => {
-      expect(handler.id).toEqual('solidbench');
+      expect(handler.id).toEqual('solid-session-bench');
     });
 
     it('should expose an experimentClassName', () => {
-      expect(handler.experimentClassName).toEqual('ExperimentSolidBench');
+      expect(handler.experimentClassName).toEqual('ExperimentSolidSessionBench');
     });
   });
 

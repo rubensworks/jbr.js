@@ -2,7 +2,13 @@ import * as Path from 'path';
 import * as fs from 'fs-extra';
 import { HdtConverter, secureProcessHandler } from 'jbr';
 import type { Experiment, Hook, ICleanTargets, ITaskContext, IRunTaskContext } from 'jbr';
-import { SparqlBenchmarkRunner, QueryLoaderFile, ResultSerializerCsv } from 'sparql-benchmark-runner';
+import type { IResultSerializer } from 'sparql-benchmark-runner';
+import {
+  SparqlBenchmarkRunner,
+  QueryLoaderFile,
+  ResultSerializerCsv,
+  ResultSerializerRaw,
+} from 'sparql-benchmark-runner';
 
 /**
  * An experiment instance for WatDiv.
@@ -129,7 +135,7 @@ export class ExperimentWatDiv implements Experiment {
       logger: (message: string) => process.stderr.write(`${message}\n`),
       additionalUrlParams: new URLSearchParams(this.queryRunnerUrlParams),
       timeout: this.queryTimeoutFallback,
-    }).run({
+    }).runWithRawResults({
       async onStart() {
         // Measure time it took to start the endpoint
         await fs.writeFile(Path.join(context.experimentPaths.output, 'logs', 'load-time.csv'), `time\n${Math.round(performance.now() - startTime)}`, 'utf-8');
@@ -155,6 +161,11 @@ export class ExperimentWatDiv implements Experiment {
     }
     context.logger.info(`Writing results to ${resultsOutput}\n`);
     await resultSerializer.serialize(Path.join(resultsOutput, 'query-times.csv'), results.aggregateResults);
+
+    if (results.rawResults) {
+      const resultSerializerRaw: IResultSerializer = new ResultSerializerRaw();
+      await resultSerializerRaw.serialize(Path.join(resultsOutput, 'query-results-raw.json'), results.rawResults);
+    }
 
     // Close process safely
     await closeProcess();

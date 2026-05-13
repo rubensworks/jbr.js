@@ -2,7 +2,13 @@ import * as Path from 'path';
 import * as fs from 'fs-extra';
 import { secureProcessHandler } from 'jbr';
 import type { Experiment, Hook, ICleanTargets, ITaskContext, IRunTaskContext } from 'jbr';
-import { SparqlBenchmarkRunner, QueryLoaderFile, ResultSerializerCsv } from 'sparql-benchmark-runner';
+import type { IResultSerializer } from 'sparql-benchmark-runner';
+import {
+  SparqlBenchmarkRunner,
+  QueryLoaderFile,
+  ResultSerializerCsv,
+  ResultSerializerRaw,
+} from 'sparql-benchmark-runner';
 
 /**
  * An experiment instance for WatDiv.
@@ -91,7 +97,7 @@ export class ExperimentSparqlCustom implements Experiment {
     });
     // eslint-disable-next-line @typescript-eslint/no-this-alias,consistent-this
     const self = this;
-    const results = await runner.run({
+    const results = await runner.runWithRawResults({
       async onStart() {
         // Collect stats
         stopEndpointStats = await endpointProcessHandler.startCollectingStats();
@@ -130,6 +136,11 @@ export class ExperimentSparqlCustom implements Experiment {
     }
     context.logger.info(`Writing results to ${resultsOutput}\n`);
     await resultSerializer.serialize(Path.join(resultsOutput, 'query-times.csv'), results.aggregateResults);
+
+    if (results.rawResults) {
+      const resultSerializerRaw: IResultSerializer = new ResultSerializerRaw();
+      await resultSerializerRaw.serialize(Path.join(resultsOutput, 'query-results-raw.json'), results.rawResults);
+    }
 
     // Close process safely
     await closeProcess();

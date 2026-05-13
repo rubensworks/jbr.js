@@ -7,11 +7,13 @@ import { ExperimentWatDiv } from '../lib/ExperimentWatDiv';
 
 let sparqlBenchmarkRun: any;
 let resultSerializerSerialize: any;
+let resultSerializerRawSerialize: any;
+
 jest.mock('sparql-benchmark-runner', () => ({
   SparqlBenchmarkRunner: jest.fn().mockImplementation((options: any) => {
     options.logger('Test logger');
     return {
-      run: sparqlBenchmarkRun,
+      runWithRawResults: sparqlBenchmarkRun,
     };
   }),
   QueryLoaderFile: jest.fn().mockImplementation(() => ({
@@ -23,6 +25,9 @@ jest.mock('sparql-benchmark-runner', () => ({
   })),
   ResultSerializerCsv: jest.fn().mockImplementation(() => ({
     serialize: resultSerializerSerialize,
+  })),
+  ResultSerializerRaw: jest.fn().mockImplementation(() => ({
+    serialize: resultSerializerRawSerialize,
   })),
 }));
 
@@ -89,8 +94,13 @@ describe('ExperimentWatDiv', () => {
     sparqlBenchmarkRun = jest.fn(async({ onStart, onStop }) => {
       await onStart();
       await onStop();
+      return {
+        aggregateResults: {},
+        rawResults: {},
+      };
     });
     resultSerializerSerialize = jest.fn();
+    resultSerializerRawSerialize = jest.fn();
     experiment = new ExperimentWatDiv(
       1,
       5,
@@ -337,7 +347,12 @@ describe('ExperimentWatDiv', () => {
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
       // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), undefined);
+      expect(resultSerializerSerialize).toHaveBeenCalledWith(
+        Path.normalize('CWD/output/query-times.csv'), {},
+      );
+      expect(resultSerializerRawSerialize).toHaveBeenCalledWith(
+        Path.normalize('CWD/output/query-results-raw.json'), {},
+      );
 
       expect(dirsOut).toEqual({
         'CWD/output': true,
@@ -436,7 +451,12 @@ describe('ExperimentWatDiv', () => {
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
       // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), undefined);
+      expect(resultSerializerSerialize).toHaveBeenCalledWith(
+        Path.normalize('CWD/output/query-times.csv'), {},
+      );
+      expect(resultSerializerRawSerialize).toHaveBeenCalledWith(
+        Path.normalize('CWD/output/query-results-raw.json'), {},
+      );
 
       expect(dirsOut).toEqual({
         'CWD/output': true,

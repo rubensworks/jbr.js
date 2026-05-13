@@ -9161,10 +9161,10 @@ kuler@^2.0.0:
   resolved "https://registry.yarnpkg.com/kuler/-/kuler-2.0.0.tgz#e2c570a3800388fb44407e851531c1d670b061b3"
   integrity sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==
 
-ldbc-snb-enhancer@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/ldbc-snb-enhancer/-/ldbc-snb-enhancer-2.7.0.tgz#cedd60b466abba5ddd57dc204fb978cae43041c5"
-  integrity sha512-OgI2/h+TNQNot1T4P1afBtEeG4XxfFuG41DsG0F3jAfd28+g3v5eRWhC0h5HrhagqVtDps5VyVfxffL73dZlmQ==
+ldbc-snb-enhancer@^2.7.1:
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/ldbc-snb-enhancer/-/ldbc-snb-enhancer-2.7.1.tgz#0f5982921118a2a42d2f91f11f0679869fd2aaf6"
+  integrity sha512-ZBm7i4TzZPRO6yznyDhq9vOJUM6Hfwii2wZkr4ALDrdvK/GGEs0I1/MQ62mOYWVYxOIQ/D7rYf6AKMqAjSU/4w==
   dependencies:
     "@rdfjs/types" "*"
     componentsjs "^6.0.0"
@@ -12027,16 +12027,16 @@ socks@^2.6.2:
     ip-address "^10.1.1"
     smart-buffer "^4.2.0"
 
-solidbench@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/solidbench/-/solidbench-2.2.0.tgz#4b993ba8f86e794836ce667e320d9442a25fc277"
-  integrity sha512-dguTzAL1z+yeJ9A8jzk82IdbPoLuiAXxtd3qmd9bL8U4zQlSdge1MC2k8J40cvGabchJI0vXKAYSfW/mkqqE9A==
+solidbench@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/solidbench/-/solidbench-2.2.1.tgz#e924d97942352fda4ebe039c8d7ae096f7a0fecf"
+  integrity sha512-Z4d8eTn1PIHy1ujQ3NBxBqjdfWShp05uLrTVIORk6V5GFFx0l85+2BsmTYVNqgtppsoj2gNJh7g2RnrwDZeA7g==
   dependencies:
     "@solid/community-server" "^7.0.0"
     "@types/dockerode" "^3.0.0"
     "@types/unzipper" "^0.10.0"
     dockerode "^4.0.0"
-    ldbc-snb-enhancer "^2.7.0"
+    ldbc-snb-enhancer "^2.7.1"
     ldbc-snb-validation-generator "^1.2.0"
     rdf-dataset-fragmenter "^2.10.0"
     sparql-query-parameter-instantiator "^2.8.0"
@@ -12075,10 +12075,10 @@ spark-md5@^3.0.1:
   resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-3.0.2.tgz#7952c4a30784347abcee73268e473b9c0167e3fc"
   integrity sha512-wcFzz9cDfbuqe0FZzfi2or1sgyIrsDwmPwfZC4hiNidPdPINjeUwNfv5kldczoEAcjl9Y1L3SM7Uz2PUEQzxQw==
 
-"sparql-benchmark-runner@npm:@rubeneschauzier/sparql-benchmark-runner", "sparql-benchmark-runner@npm:@rubeneschauzier/sparql-benchmark-runner@^5.0.5":
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/@rubeneschauzier/sparql-benchmark-runner/-/sparql-benchmark-runner-5.0.6.tgz#b6bd3cdfc13f618c7318b6976db72d8d6401d66f"
-  integrity sha512-EUxzihBjx+TwxfaFvXOU6PlrlB/UfIuw3gK4OTU4iO6mOMuu1fcM3jURd1CI2JKxULcobtZmoT4b4fRrYg/lQA==
+sparql-benchmark-runner@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/sparql-benchmark-runner/-/sparql-benchmark-runner-5.1.0.tgz#a68fae5b21d2b0ebbe2986b33b4bb58620132d81"
+  integrity sha512-BJJpcx9JIjMal6fBsovtyd8pO0PGyGkr9O2au1rL7+gW9Dz27+PqmwwZ6vS/MKvBfGGAKsHgI0GCQsErVRvbCA==
   dependencies:
     fetch-sparql-endpoint "^5.1.0"
     rdf-string "^1.0.0"
