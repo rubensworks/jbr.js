@@ -1,5 +1,5 @@
 {
-  "name": "solid-session-bench",
+  "name": "@jbr-experiment/solid-session-bench",
   "version": "6.0.0",
   "description": "SolidBench experiment handler for JBR",
   "main": "index.js",
@@ -69,6 +69,7 @@
     "@types/yargs": "^17.0.0",
     "fs-extra": "^10.0.0",
     "solidbench": "^2.2.1",
-    "sparql-benchmark-runner":  "^5.1.0"
+    "sparql-benchmark-runner":  "^5.1.0",
+    "@jbr-experiment/solidbench": "^6.0.0"
   }
 }

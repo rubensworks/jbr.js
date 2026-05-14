@@ -1,4 +1,6 @@
 import * as Path from 'path';
+import type { IExperimentSolidBenchOptions } from '@jbr-experiment/solidbench';
+import { ExperimentSolidBench } from '@jbr-experiment/solidbench';
 import * as fs from 'fs-extra';
 import type { ITaskContext } from 'jbr';
 import { ProcessHandlerComposite, secureProcessHandler } from 'jbr';
@@ -11,8 +13,6 @@ import {
   ResultSerializerCsv,
   ResultSerializerRaw,
 } from 'sparql-benchmark-runner';
-import type { IExperimentSolidBenchOptions } from '../../experiment-solidbench';
-import { ExperimentSolidBench } from '../../experiment-solidbench';
 
 /**
  * An experiment instance for the SolidBench social network benchmark.
