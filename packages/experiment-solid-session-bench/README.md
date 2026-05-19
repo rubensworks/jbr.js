@@ -67,8 +67,32 @@ Furthermore, the file `context-client.json` will also not work for link traversa
   "lenient": true
 }
 ```
+
 Finally, the `Dockerfile-client` will use this base Docker image: `FROM comunica/query-sparql:v2.5.0`.
-This should be changed to a version of `comunica/query-sparql-link-traversal-solid`.
+This should be changed to a version of `comunica/query-sparql-link-traversal-solid`. In addition,
+you should add `--idp void` to the CMD line. So a working `Dockerfile-client` should look like:
+
+```docker
+FROM comunica/query-sparql-link-traversal-solid:dev
+
+ARG CONFIG_CLIENT
+ARG QUERY_TIMEOUT
+ARG MAX_MEMORY
+ARG LOG_LEVEL
+
+ADD $CONFIG_CLIENT /tmp/config.json
+
+ENV COMUNICA_CONFIG=/tmp/config.json
+ENV NODE_ENV=production
+ENV MAX_MEMORY=$MAX_MEMORY
+ENV QUERY_TIMEOUT=$QUERY_TIMEOUT
+ENV LOG_LEVEL=$LOG_LEVEL
+
+EXPOSE 3000
+
+ENTRYPOINT []
+CMD [ "/bin/sh", "-c", "node --max-old-space-size=$MAX_MEMORY ./bin/http.js -c /tmp/context.json -p 3000 -t $QUERY_TIMEOUT -l $LOG_LEVEL -i --idp void" ]
+```
 
 ### 4. Prepare the experiment
 

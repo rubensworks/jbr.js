@@ -8,9 +8,10 @@ import { ExperimentSolidBench } from './ExperimentSolidBench';
 /**
  * An experiment handler for the SolidBench social network benchmark.
  */
-export class ExperimentHandlerSolidBench extends ExperimentHandler<ExperimentSolidBench> {
-  public constructor() {
-    super('solidbench', ExperimentSolidBench.name);
+export class ExperimentHandlerSolidBench<T extends ExperimentSolidBench = ExperimentSolidBench> extends ExperimentHandler<T> {
+  
+  public constructor(id: string = 'solidbench', experimentClassName: string = ExperimentSolidBench.name) {
+    super(id, experimentClassName);
   }
 
   public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
@@ -44,14 +45,27 @@ export class ExperimentHandlerSolidBench extends ExperimentHandler<ExperimentSol
     return [ 'hookSparqlEndpoint' ];
   }
 
-  public async init(experimentPaths: IExperimentPaths, experiment: ExperimentSolidBench): Promise<void> {
+  /**
+   * Isolates template paths to facilitate straightforward overrides in subclasses.
+   */
+  protected getTemplates(): Record<'enhance' | 'fragment' | 'queries', string> {
+    return {
+      enhance: Templates.ENHANCEMENT_CONFIG,
+      fragment: Templates.FRAGMENT_CONFIG,
+      queries: Templates.QUERY_CONFIG,
+    };
+  }
+
+  public async init(experimentPaths: IExperimentPaths, experiment: T): Promise<void> {
+    const templates = this.getTemplates();
+
     // Copy config templates
     await Promise.all([
-      fs.copyFile(Templates.ENHANCEMENT_CONFIG,
+      fs.copyFile(templates.enhance,
         Path.join(experimentPaths.root, experiment.configEnhance)),
-      fs.copyFile(Templates.FRAGMENT_CONFIG,
+      fs.copyFile(templates.fragment,
         Path.join(experimentPaths.root, experiment.configFragment)),
-      fs.copyFile(Templates.QUERY_CONFIG,
+      fs.copyFile(templates.queries,
         Path.join(experimentPaths.root, experiment.configQueries)),
       fs.copyFile(Templates.SERVER_CONFIG,
         Path.join(experimentPaths.root, experiment.configServer)),

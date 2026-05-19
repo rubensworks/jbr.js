@@ -150,17 +150,9 @@ export class ExperimentSolidBench implements Experiment {
 
     // Initiate SPARQL benchmark runner
     let stopStats: () => void;
-    const results = await new SparqlBenchmarkRunner({
-      endpoint: this.endpointUrl,
-      querySets: await queryLoader.loadQueries(),
-      replication: this.queryRunnerReplication,
-      warmup: this.queryRunnerWarmupRounds,
-      requestDelay: this.queryRunnerRequestDelay,
-      availabilityCheckTimeout: this.queryRunnerEndpointAvailabilityCheckTimeout,
-      logger: (message: string) => process.stderr.write(`${message}\n`),
-      additionalUrlParams: new URLSearchParams(this.queryRunnerUrlParams),
-      timeout: this.queryTimeoutFallback,
-    }).runWithRawResults({
+    const runner = await this.createSparqlBenchmarkRunner(queryLoader);
+    
+    const results = await runner.runWithRawResults({
       async onStart() {
         // Collect stats
         stopStats = await processHandler.startCollectingStats();
@@ -236,6 +228,21 @@ export class ExperimentSolidBench implements Experiment {
 
   public async waitForEndpoint(context: ITaskContext): Promise<void> {
     await this.httpAvailabilityLatch.sleepUntilAvailable(context, `${this.serverBaseUrl}dbpedia.org/`);
+  }
+
+  protected async createSparqlBenchmarkRunner(queryLoader: QueryLoaderFile){
+    const runner = new SparqlBenchmarkRunner({
+      endpoint: this.endpointUrl,
+      querySets: await queryLoader.loadQueries(),
+      replication: this.queryRunnerReplication,
+      warmup: this.queryRunnerWarmupRounds,
+      requestDelay: this.queryRunnerRequestDelay,
+      availabilityCheckTimeout: this.queryRunnerEndpointAvailabilityCheckTimeout,
+      logger: (message: string) => process.stderr.write(`${message}\n`),
+      additionalUrlParams: new URLSearchParams(this.queryRunnerUrlParams),
+      timeout: this.queryTimeoutFallback,
+    });
+    return runner;
   }
 }
 
