@@ -151,7 +151,7 @@ export class ExperimentSolidBench implements Experiment {
     // Initiate SPARQL benchmark runner
     let stopStats: () => void;
     const runner = await this.createSparqlBenchmarkRunner(queryLoader);
-    
+
     const results = await runner.runWithRawResults({
       async onStart() {
         // Collect stats
@@ -230,7 +230,8 @@ export class ExperimentSolidBench implements Experiment {
     await this.httpAvailabilityLatch.sleepUntilAvailable(context, `${this.serverBaseUrl}dbpedia.org/`);
   }
 
-  protected async createSparqlBenchmarkRunner(queryLoader: QueryLoaderFile){
+  protected async createSparqlBenchmarkRunner(queryLoader: QueryLoaderFile):
+  Promise<SparqlBenchmarkRunner> {
     const runner = new SparqlBenchmarkRunner({
       endpoint: this.endpointUrl,
       querySets: await queryLoader.loadQueries(),

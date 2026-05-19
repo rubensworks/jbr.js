@@ -1,8 +1,8 @@
 import type { IExperimentSolidBenchOptions } from '@jbr-experiment/solidbench';
 import { ExperimentSolidBench } from '@jbr-experiment/solidbench';
+import type { QueryLoaderFile } from 'sparql-benchmark-runner';
 import {
   SparqlBenchmarkRunner,
-  QueryLoaderFile,
 } from 'sparql-benchmark-runner';
 
 /**
@@ -13,7 +13,8 @@ export class ExperimentSolidSessionBench extends ExperimentSolidBench {
     super(options);
   }
 
-  protected override async createSparqlBenchmarkRunner(queryLoader: QueryLoaderFile){
+  protected override async createSparqlBenchmarkRunner(queryLoader: QueryLoaderFile):
+  Promise<SparqlBenchmarkRunner> {
     return new SparqlBenchmarkRunner({
       endpoint: this.endpointUrl,
       querySets: await queryLoader.loadQueries(),

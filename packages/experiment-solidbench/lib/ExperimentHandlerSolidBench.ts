@@ -8,9 +8,9 @@ import { ExperimentSolidBench } from './ExperimentSolidBench';
 /**
  * An experiment handler for the SolidBench social network benchmark.
  */
-export class ExperimentHandlerSolidBench<T extends ExperimentSolidBench = ExperimentSolidBench> extends ExperimentHandler<T> {
-  
-  public constructor(id: string = 'solidbench', experimentClassName: string = ExperimentSolidBench.name) {
+export class ExperimentHandlerSolidBench<T extends ExperimentSolidBench = ExperimentSolidBench>
+  extends ExperimentHandler<T> {
+  public constructor(id = 'solidbench', experimentClassName: string = ExperimentSolidBench.name) {
     super(id, experimentClassName);
   }
 
