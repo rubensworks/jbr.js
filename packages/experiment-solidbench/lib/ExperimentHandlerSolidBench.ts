@@ -56,6 +56,13 @@ export class ExperimentHandlerSolidBench<T extends ExperimentSolidBench = Experi
     };
   }
 
+  /**
+   * Returns the absolute path to the Dockerfile template.
+   */
+  protected getDockerfilePath(): string {
+    return Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-server');
+  }
+
   public async init(experimentPaths: IExperimentPaths, experiment: T): Promise<void> {
     const templates = this.getTemplates();
 
@@ -76,7 +83,7 @@ export class ExperimentHandlerSolidBench<T extends ExperimentSolidBench = Experi
 
     // Create Dockerfile for server
     await fs.mkdir(Path.join(experimentPaths.input, 'dockerfiles'));
-    await fs.copyFile(Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-server'),
+    await fs.copyFile(this.getDockerfilePath(),
       Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-server'));
 
     await experiment.replaceBaseUrlInDir(experimentPaths.root);
