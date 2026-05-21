@@ -3,10 +3,11 @@
   "compilerOptions": {
     "module": "commonjs",
     "lib": [
-      "es2019",
+      "es2021",
       "dom"
     ],
     "target": "es2017",
+    "skipLibCheck": true,
     "noImplicitAny": true,
     "removeComments": false,
     "preserveConstEnums": true,
@@ -25,6 +26,7 @@
   ],
   "exclude": [
     "**/node_modules",
+    "/node_modules",
     "**/test/*"
   ]
 }

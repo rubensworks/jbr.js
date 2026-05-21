@@ -4,8 +4,8 @@ import type { Hook, ITaskContext,
   DockerContainerHandler,
   DockerResourceConstraints, ProcessHandler } from 'jbr';
 import { StaticDockerResourceConstraints, createExperimentPaths } from 'jbr';
-import { TestLogger } from '../../jbr/test/TestLogger';
-import { ExperimentSolidBench } from '../lib/ExperimentSolidBench';
+import { TestLogger } from 'jbr/test/TestLogger';
+import { ExperimentSolidSessionBench } from '../lib/ExperimentSolidSessionBench';
 
 let generatorGenerate: any;
 jest.mock('solidbench/lib/Generator', () => ({
@@ -16,6 +16,7 @@ jest.mock('solidbench/lib/Generator', () => ({
 
 let sparqlBenchmarkRun: any;
 let queryLoaderLoadQueries: any;
+let queryLoaderLoadMetadata: any;
 let resultSerializerSerialize: any;
 let resultSerializerRawSerialize: any;
 
@@ -34,6 +35,7 @@ jest.mock('sparql-benchmark-runner', () => ({
   })),
   QueryLoaderFile: jest.fn().mockImplementation(() => ({
     loadQueries: queryLoaderLoadQueries,
+    loadQueriesMetadata: queryLoaderLoadMetadata,
   })),
 }));
 
@@ -85,7 +87,7 @@ jest.mock('fs-extra', () => ({
   },
 }));
 
-describe('ExperimentSolidBench', () => {
+describe('ExperimentSolidSessionBench', () => {
   let serverHandlerStopCollectingStats: any;
   let serverHandler: DockerContainerHandler;
   let logger: any;
@@ -94,7 +96,7 @@ describe('ExperimentSolidBench', () => {
   let endpointHandlerStopCollectingStats: any;
   let endpointHandler: ProcessHandler;
   let resourceConstraints: DockerResourceConstraints;
-  let experiment: ExperimentSolidBench;
+  let experiment: ExperimentSolidSessionBench;
   beforeEach(() => {
     serverHandlerStopCollectingStats = jest.fn();
     serverHandler = <any> {
@@ -160,10 +162,11 @@ describe('ExperimentSolidBench', () => {
       };
     });
     queryLoaderLoadQueries = jest.fn();
+    queryLoaderLoadMetadata = jest.fn();
     resultSerializerSerialize = jest.fn();
     resultSerializerRawSerialize = jest.fn();
     resourceConstraints = new StaticDockerResourceConstraints({}, {});
-    experiment = new ExperimentSolidBench({
+    experiment = new ExperimentSolidSessionBench({
       scale: '0.1',
       configEnhance: 'input/config-enhancer.json',
       configFragment: 'input/config-fragmenter.json',

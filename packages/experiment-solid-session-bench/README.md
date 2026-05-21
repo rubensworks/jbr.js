@@ -1,10 +1,10 @@
-# JBR Experiment - SolidBench
+# JBR Experiment - SolidSessionBench
 
 [![Build status](https://github.com/rubensworks/jbr.js/workflows/CI/badge.svg)](https://github.com/rubensworks/jbr.js/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master)](https://coveralls.io/github/rubensworks/jbr.js?branch=master)
-[![npm version](https://badge.fury.io/js/%40jbr-experiment%2Fsolidbench.svg)](https://www.npmjs.com/package/@jbr-experiment/solidbench)
+[![npm version](https://badge.fury.io/js/%40jbr-experiment%2Fsolid-session-bench.svg)](https://www.npmjs.com/package/@jbr-experiment/solid-session-bench)
 
-A [jbr](https://github.com/rubensworks/jbr.js/tree/master/packages/jbr) experiment type for the [SolidBench social network benchmark](https://github.com/SolidBench/SolidBench.js).
+A [jbr](https://github.com/rubensworks/jbr.js/tree/master/packages/jbr) experiment type for the [SolidSessionBench social network benchmark](https://github.com/SolidBench/SolidBench.js).
 
 ## Requirements
 
@@ -32,7 +32,7 @@ $ yarn global add jbr
 Using the `jbr` CLI tool, initialize a new experiment:
 
 ```bash
-$ jbr init solidbench my-experiment
+$ jbr init solid-session-bench my-experiment
 $ cd my-experiment
 ```
 
@@ -67,6 +67,7 @@ Furthermore, the file `context-client.json` will also not work for link traversa
   "lenient": true
 }
 ```
+
 Finally, the `Dockerfile-client` will use this base Docker image: `FROM comunica/query-sparql:v2.5.0`.
 This should be changed to a version of `comunica/query-sparql-link-traversal-solid`. In addition,
 you should add `--idp void` to the CMD line. So a working `Dockerfile-client` should look like:
@@ -152,36 +153,35 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
 ```json
 {
   "@context": [
-    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld",
-    "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/solidbench/^1.0.0/components/context.jsonld"
+    "https://linkedsoftwaredependencies.org/bundles/npm/jbr/^6.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/solid-session-bench/^6.0.0/components/context.jsonld"
   ],
-  "@id": "urn:jrb:my-experiment",
-  "@type": "ExperimentSolidBench",
+  "@id": "urn:jbr:test-experiment",
+  "@type": "ExperimentSolidSessionBench",
   "scale": "0.1",
   "configEnhance": "input/config-enhancer.json",
   "configFragment": "input/config-fragmenter.json",
   "configQueries": "input/config-queries.json",
   "configServer": "input/config-server.json",
-  "validationParamsUrl": "https://cloud.ilabt.imec.be/index.php/s/bBZZKb7cP95WgcD/download/validation_params.zip",
   "configValidation": "input/config-validation.json",
+  "validationParamsUrl": "https://cloud.ilabt.imec.be/index.php/s/bBZZKb7cP95WgcD/download/validation_params.zip",
   "hadoopMemory": "4G",
   "dockerfileServer": "input/dockerfiles/Dockerfile-server",
+  "endpointUrl": "http://localhost:3001/sparql",
   "serverPort": 3000,
   "serverLogLevel": "info",
   "serverBaseUrl": "http://solidbench-server:3000/",
   "serverResourceConstraints": {
-    "@type": "DockerResourceConstraints",
-    "cpu_percentage": 10
+    "@type": "StaticDockerResourceConstraints",
+    "cpu_percentage": 100
   },
-  "endpointUrl": "http://localhost:3001/sparql",
   "queryRunnerReplication": 3,
   "queryRunnerWarmupRounds": 1,
   "queryRunnerRequestDelay": 0,
   "queryRunnerEndpointAvailabilityCheckTimeout": 1000,
   "queryRunnerUrlParams": {},
-  "queryTimeoutFallback": 240000,
   "hookSparqlEndpoint": {
-    "@id": "urn:jrb:cc:hookSparqlEndpoint",
+    "@id": "urn:jbr:test-experiment:hookSparqlEndpoint",
     "@type": "HookNonConfigured"
   }
 }
