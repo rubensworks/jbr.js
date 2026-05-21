@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v6.1.0"></a>
+## [v6.1.0](https://github.com/rubensworks/jbr.js/compare/v6.0.0...v6.1.0) - 2026-05-21
+
+### Added
+* [Add Experiment for SolidSessionBench (#74)](https://github.com/rubensworks/jbr.js/commit/f07e3c91da6a3952ba76ebb3304daabc7311437a)
+
 <a name="v6.0.0"></a>
 ## [v6.0.0](https://github.com/rubensworks/jbr.js/compare/v5.7.1...v6.0.0) - 2025-04-18
 
