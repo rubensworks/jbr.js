@@ -28,7 +28,7 @@ export class DockerContainerCreator {
       AttachStdout: true,
       AttachStderr: true,
       HostConfig: {
-        ...options.hostConfig || {},
+        ...options.hostConfig,
         ...options.resourceConstraints?.toHostConfig(),
       },
     });

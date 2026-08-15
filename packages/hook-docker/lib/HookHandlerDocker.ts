@@ -21,8 +21,8 @@ export class HookHandlerDocker extends HookHandler<HookDocker> {
       },
       additionalBinds: [],
       additionalBindsPrepare: [],
-      innerPort: 3000,
-      outerPort: 3000,
+      innerPort: 3_000,
+      outerPort: 3_000,
     };
   }
 

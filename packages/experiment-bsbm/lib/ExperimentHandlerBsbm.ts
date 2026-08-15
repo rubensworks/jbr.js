@@ -12,7 +12,7 @@ export class ExperimentHandlerBsbm extends ExperimentHandler<ExperimentBsbm> {
 
   public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
     return {
-      productCount: 1000,
+      productCount: 1_000,
       generateHdt: false,
       endpointUrl: 'http://localhost:3001/sparql',
       endpointUrlExternal: 'http://localhost:3001/sparql',

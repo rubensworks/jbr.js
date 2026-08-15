@@ -139,7 +139,6 @@ SELECT DISTINCT ?entity WHERE {
       expect(sparqlBenchmarkRun).toHaveBeenCalled();
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(resultSerializerSerialize).toHaveBeenCalledWith(
         Path.normalize('CWD/output/query-times.csv'), {},
       );
@@ -180,7 +179,6 @@ SELECT DISTINCT ?entity WHERE {
       expect(sparqlBenchmarkRun).toHaveBeenCalled();
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(resultSerializerSerialize).toHaveBeenCalledWith(
         Path.normalize('CWD/output/query-times.csv'), {},
       );
@@ -284,7 +282,6 @@ SELECT DISTINCT ?entity WHERE {
       expect(sparqlBenchmarkRun).toHaveBeenCalled();
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(resultSerializerSerialize).toHaveBeenCalledWith(
         Path.normalize('CWD/output/query-times.csv'), {},
       );

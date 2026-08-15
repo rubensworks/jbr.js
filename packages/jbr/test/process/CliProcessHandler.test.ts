@@ -140,7 +140,7 @@ describe('CliProcessHandler', () => {
   describe('startCollectingStats', () => {
     it('handles a valid stream', async() => {
       const stop = await handler.startCollectingStats();
-      jest.advanceTimersByTime(2000);
+      jest.advanceTimersByTime(2_000);
 
       expect(write).toHaveBeenCalledTimes(3);
       expect(write).toHaveBeenCalledWith(`cpu_percentage,memory\n`);
@@ -172,7 +172,6 @@ describe('CliProcessHandler', () => {
 
       childProcess.emit('close');
 
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(termHandler).toHaveBeenCalledWith(`CLI process (123)`, undefined);
     });
 
@@ -183,7 +182,6 @@ describe('CliProcessHandler', () => {
 
       childProcess.emit('error', new Error('my error'));
 
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(termHandler).toHaveBeenCalledWith(`CLI process (123)`, new Error('my error'));
     });
 
@@ -196,7 +194,6 @@ describe('CliProcessHandler', () => {
       childProcess.emit('error', new Error('my error'));
 
       expect(termHandler).toHaveBeenCalledTimes(1);
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(termHandler).toHaveBeenCalledWith(`CLI process (123)`, undefined);
     });
 
@@ -209,7 +206,6 @@ describe('CliProcessHandler', () => {
       childProcess.emit('end');
 
       expect(termHandler).toHaveBeenCalledTimes(1);
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(termHandler).toHaveBeenCalledWith(`CLI process (123)`, new Error('my error'));
     });
 

@@ -51,7 +51,7 @@ export class CliProcessHandler implements ProcessHandler {
 
       const timeout = setTimeout(() => {
         this.childProcess.kill('SIGKILL');
-      }, 3000);
+      }, 3_000);
       const promise = new Promise<void>((resolve, reject) => {
         this.childProcess.on('close', () => {
           clearTimeout(timeout);
@@ -97,7 +97,7 @@ export class CliProcessHandler implements ProcessHandler {
           out.write(`${stats.cpu},${stats.memory}\n`);
         }
       });
-    }, 1000);
+    }, 1_000);
 
     // Stop the interval and close the file when done
     return () => {

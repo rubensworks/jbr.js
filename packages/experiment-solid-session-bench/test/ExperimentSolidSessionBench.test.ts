@@ -193,7 +193,7 @@ describe('ExperimentSolidSessionBench', () => {
     dirsOut = {};
     filesOut = {};
     (<any> process).on = jest.fn();
-    jest.spyOn(v8, 'getHeapStatistics').mockImplementation(() => (<any>{ heap_size_limit: 8192 * 1024 * 1024 }));
+    jest.spyOn(v8, 'getHeapStatistics').mockImplementation(() => (<any>{ heap_size_limit: 8_192 * 1_024 * 1_024 }));
   });
 
   describe('replaceBaseUrlInDir', () => {
@@ -256,7 +256,7 @@ describe('ExperimentSolidSessionBench', () => {
     });
 
     it('should warn when not enough memory for preparing', async() => {
-      jest.spyOn(v8, 'getHeapStatistics').mockImplementation(() => (<any>{ heap_size_limit: 4096 * 1024 * 1024 }));
+      jest.spyOn(v8, 'getHeapStatistics').mockImplementation(() => (<any>{ heap_size_limit: 4_096 * 1_024 * 1_024 }));
 
       await experiment.prepare(context, false);
 
@@ -321,7 +321,6 @@ This can be configured using Node's --max_old_space_size option.`);
       expect(endpointHandler.close).toHaveBeenCalled();
       expect(serverHandlerStopCollectingStats).toHaveBeenCalled();
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), {});
       expect(resultSerializerRawSerialize).toHaveBeenCalledWith(
         Path.normalize('CWD/output/query-results-raw.json'), {},

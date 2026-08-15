@@ -95,13 +95,13 @@ export class TaskInitialize {
     // Create config
     const experimentIri = ExperimentLoader.getDefaultExperimentIri(this.experimentName);
     const hookNames = experimentType.getHookNames();
-    const hookEntries = hookNames.reduce<Record<string, any>>((acc, hookName) => {
-      acc[hookName] = {
+    const hookEntries: Record<string, any> = Object.fromEntries(hookNames.map(hookName => [
+      hookName,
+      {
         '@id': `${experimentIri}:${hookName}`,
         '@type': HookNonConfigured.name,
-      };
-      return acc;
-    }, {});
+      },
+    ]));
     const experimentPaths = createExperimentPaths(this.targetDirectory);
     const experimentConfig = {
       '@context': [

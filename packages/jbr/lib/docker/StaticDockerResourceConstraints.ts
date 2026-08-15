@@ -65,3 +65,4 @@ export interface IDockerMemoryConstraints {
    */
   limit?: string;
 }
+/* eslint-enable no-bitwise,id-length */

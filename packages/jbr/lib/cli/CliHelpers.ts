@@ -45,7 +45,6 @@ export async function wrapCommandHandler(
 
   // Create context
   const dockerode = new Dockerode(argv.dockerOptions ?
-    // eslint-disable-next-line no-sync
     JSON.parse(await fs.readFile(argv.dockerOptions, 'utf8')) :
     undefined);
   const context: ITaskContext = {
@@ -62,7 +61,6 @@ export async function wrapCommandHandler(
       networkCreator: new DockerNetworkCreator(dockerode),
       networkInspector: new DockerNetworkInspector(dockerode),
     },
-    // eslint-disable-next-line unicorn/no-process-exit
     closeExperiment: () => process.emit(<any>'SIGTERM'),
     cleanupHandlers: [],
     ...argv.breakpoints ? { breakpointBarrier } : {},

@@ -46,7 +46,7 @@ describe('HookDocker', () => {
       [ '/generated/dataset.nt:/tmp/dataset.nt' ],
       [ '/input/file.js' ],
       3_001,
-      3000,
+      3_000,
     );
   });
 

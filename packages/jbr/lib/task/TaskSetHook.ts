@@ -54,13 +54,13 @@ export class TaskSetHook {
 
     // Prepare sub-hooks
     const subHookNames = handlerType.getSubHookNames();
-    const subHookEntries = subHookNames.reduce<Record<string, any>>((acc, hookName) => {
-      acc[hookName] = {
+    const subHookEntries: Record<string, any> = Object.fromEntries(subHookNames.map(hookName => [
+      hookName,
+      {
         '@id': `${experimentIri}:${hookName}`,
         '@type': HookNonConfigured.name,
-      };
-      return acc;
-    }, {});
+      },
+    ]));
 
     // Find hook
     TaskSetHook.getObjectPath(configPath, config, this.hookPathName);

@@ -150,7 +150,6 @@ describe('DockerContainerHandler', () => {
 
       out.emit('end');
 
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(termHandler).toHaveBeenCalledWith(`Docker container ID`, undefined);
     });
 
@@ -161,7 +160,6 @@ describe('DockerContainerHandler', () => {
 
       out.emit('error', new Error('my error'));
 
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(termHandler).toHaveBeenCalledWith(`Docker container ID`, new Error('my error'));
     });
 
@@ -174,7 +172,6 @@ describe('DockerContainerHandler', () => {
       out.emit('error', new Error('my error'));
 
       expect(termHandler).toHaveBeenCalledTimes(1);
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(termHandler).toHaveBeenCalledWith(`Docker container ID`, undefined);
     });
 
@@ -187,7 +184,6 @@ describe('DockerContainerHandler', () => {
       out.emit('end');
 
       expect(termHandler).toHaveBeenCalledTimes(1);
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(termHandler).toHaveBeenCalledWith(`Docker container ID`, new Error('my error'));
     });
 
