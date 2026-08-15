@@ -17,7 +17,10 @@ export function builder(yargs: Argv<any>): Argv<any> {
 export function handler(argv: Record<string, any>): Promise<void> {
   return wrapCommandHandler(argv, async(context: ITaskContext) => {
     const npmInstaller = await createNpmInstaller(context, argv.next);
-    const output = await wrapVisualProgress('Setting hook in experiment', async() => new TaskSetHook(context, argv.hook.split('/'), argv.handler, npmInstaller).set());
+    const output = await wrapVisualProgress(
+      'Setting hook in experiment',
+      async() => new TaskSetHook(context, argv.hook.split('/'), argv.handler, npmInstaller).set(),
+    );
     context.logger.info(`Handler '${argv.handler}' has been set for hook '${argv.hook}' in experiment '${context.experimentName}'`);
 
     if (output.subHookNames.length > 0) {

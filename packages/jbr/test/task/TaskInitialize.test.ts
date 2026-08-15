@@ -6,9 +6,10 @@ import type { NpmInstaller } from '../../lib/npm/NpmInstaller';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
 import type { ITaskContext } from '../../lib/task/ITaskContext';
 import { TaskInitialize } from '../../lib/task/TaskInitialize';
+import pJson from '../../package.json';
 import { TestLogger } from '../TestLogger';
 
-const MAJOR_VERSION = semverMajor(require('../../package.json').version);
+const MAJOR_VERSION = semverMajor(pJson.version);
 
 let files: Record<string, string> = {};
 let filesOut: Record<string, string> = {};

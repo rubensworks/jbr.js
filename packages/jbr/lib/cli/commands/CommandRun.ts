@@ -21,5 +21,8 @@ export function builder(yargs: Argv<any>): Argv<any> {
     });
 }
 export function handler(argv: Record<string, any>): Promise<void> {
-  return wrapCommandHandler(argv, async(context: ITaskContext) => new TaskRun(context, argv.combination, argv.filter).run());
+  return wrapCommandHandler(
+    argv,
+    async(context: ITaskContext) => new TaskRun(context, argv.combination, argv.filter).run(),
+  );
 }

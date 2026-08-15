@@ -38,15 +38,30 @@ export class HookHandlerSparqlEndpointLdf extends HookHandler<HookSparqlEndpoint
     if (!await fs.pathExists(Path.join(experimentPaths.input, 'dockerfiles'))) {
       await fs.mkdir(Path.join(experimentPaths.input, 'dockerfiles'));
     }
-    await fs.copyFile(Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-ldf-server'), Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-ldf-server'));
-    await fs.copyFile(Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-ldf-server-cache'), Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-ldf-server-cache'));
+    await fs.copyFile(
+      Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-ldf-server'),
+      Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-ldf-server'),
+    );
+    await fs.copyFile(
+      Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-ldf-server-cache'),
+      Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-ldf-server-cache'),
+    );
 
     // Create config for server
     if (!await fs.pathExists(Path.join(experimentPaths.input))) {
       await fs.mkdir(Path.join(experimentPaths.input));
     }
-    await fs.copyFile(Path.join(__dirname, 'templates', 'input', 'config-ldf-server.json'), Path.join(experimentPaths.input, 'config-ldf-server.json'));
-    await fs.copyFile(Path.join(__dirname, 'templates', 'input', 'nginx.conf'), Path.join(experimentPaths.input, 'nginx.conf'));
-    await fs.copyFile(Path.join(__dirname, 'templates', 'input', 'nginx-default'), Path.join(experimentPaths.input, 'nginx-default'));
+    await fs.copyFile(
+      Path.join(__dirname, 'templates', 'input', 'config-ldf-server.json'),
+      Path.join(experimentPaths.input, 'config-ldf-server.json'),
+    );
+    await fs.copyFile(
+      Path.join(__dirname, 'templates', 'input', 'nginx.conf'),
+      Path.join(experimentPaths.input, 'nginx.conf'),
+    );
+    await fs.copyFile(
+      Path.join(__dirname, 'templates', 'input', 'nginx-default'),
+      Path.join(experimentPaths.input, 'nginx-default'),
+    );
   }
 }

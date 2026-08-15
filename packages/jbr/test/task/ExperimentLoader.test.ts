@@ -152,9 +152,18 @@ describe('ExperimentLoader', () => {
           ],
           combinationProvider: expect.anything(),
         });
-      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(1, 'path/to/experiment/jbr-combinations.json');
-      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(2, Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json'));
-      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(3, Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json'));
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(
+        1,
+        'path/to/experiment/jbr-combinations.json',
+      );
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(
+        2,
+        Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json'),
+      );
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(
+        3,
+        Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json'),
+      );
       expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jbr:experiment:combination_0');
       expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jbr:experiment:combination_1');
     });
@@ -194,9 +203,18 @@ describe('ExperimentLoader', () => {
           ],
           combinationProvider: expect.anything(),
         });
-      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(1, 'path/to/experiment/jbr-combinations.json');
-      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(2, Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json'));
-      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(3, Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json'));
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(
+        1,
+        'path/to/experiment/jbr-combinations.json',
+      );
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(
+        2,
+        Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json'),
+      );
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(
+        3,
+        Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json'),
+      );
       expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jbr:experiment:combination_0');
       expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jbr:experiment:combination_1');
     });

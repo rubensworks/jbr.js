@@ -146,5 +146,7 @@ export function createCliLogger(logLevel: string): Logger {
 }
 
 export async function createNpmInstaller(context: ITaskContext, nextVersion: boolean): Promise<NpmInstaller> {
-  return await fs.pathExists(`${__dirname}/../../test`) && Path.join(process.cwd(), Path.sep).startsWith(Path.join(__dirname, '../../../../')) ? new VoidNpmInstaller() : new CliNpmInstaller(context, nextVersion);
+  const inTestCheckout = await fs.pathExists(Path.join(__dirname, '..', '..', 'test')) &&
+    Path.join(process.cwd(), Path.sep).startsWith(Path.join(__dirname, '../../../../'));
+  return inTestCheckout ? new VoidNpmInstaller() : new CliNpmInstaller(context, nextVersion);
 }

@@ -49,7 +49,7 @@ export class HookSparqlEndpointLdf implements Hook {
     this.maxMemory = maxMemory;
     this.dataset = dataset;
     this.hookSparqlEndpointLdfEngine = hookSparqlEndpointLdfEngine;
-    this.cacheUrl = cacheUrl || `http://localhost:${this.portCache}/dataset`;
+    this.cacheUrl = cacheUrl ?? `http://localhost:${this.portCache}/dataset`;
   }
 
   public getDockerImageName(context: ITaskContext, type: string): string {
@@ -91,7 +91,7 @@ export class HookSparqlEndpointLdf implements Hook {
     const networkHandler = options?.docker?.network ?
       undefined :
       await context.docker.networkCreator.create({ Name: this.getDockerImageName(context, 'network') });
-    const network = options?.docker?.network || networkHandler!.network.id;
+    const network = options?.docker?.network ?? networkHandler!.network.id;
 
     // Determine dataset path
     let datasetPath = this.dataset;

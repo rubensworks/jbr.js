@@ -68,6 +68,29 @@ describe('HookSparqlEndpointLdf', () => {
     );
   });
 
+  describe('constructor', () => {
+    it('should default cacheUrl to the cache port', () => {
+      expect(hook.cacheUrl).toBe('http://localhost:3000/dataset');
+    });
+
+    it('should use an explicit cacheUrl when given', () => {
+      const hookWithCacheUrl = new HookSparqlEndpointLdf(
+        'input/dockerfiles/Dockerfile-ldf-server',
+        'input/dockerfiles/Dockerfile-ldf-server-cache',
+        resourceConstraints,
+        'input/config-ldf-server.json',
+        3_001,
+        3_000,
+        4,
+        8_192,
+        'generated/dataset.hdt',
+        subHook,
+        'http://example.org/cache',
+      );
+      expect(hookWithCacheUrl.cacheUrl).toBe('http://example.org/cache');
+    });
+  });
+
   describe('prepare', () => {
     it('should prepare the hook', async() => {
       await hook.prepare(context, false);

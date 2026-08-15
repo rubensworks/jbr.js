@@ -19,7 +19,7 @@ export class DockerImageBuilder {
   public async build(options: IDockerImageBuilderArgs): Promise<void> {
     const buildStream = await this.dockerode.buildImage({
       context: options.cwd,
-      src: [ options.dockerFile, ...options.auxiliaryFiles || [] ],
+      src: [ options.dockerFile, ...options.auxiliaryFiles ?? [] ],
     }, {
 
       t: options.imageName,

@@ -7,14 +7,13 @@ import {
 import * as fs from 'fs-extra';
 import { major } from 'semver';
 import type { CombinationProvider } from '../..';
+import pJson from '../../package.json';
 import { createExperimentPaths } from '../cli/CliHelpers';
 import { ErrorHandled } from '../cli/ErrorHandled';
 import type { Experiment } from '../experiment/Experiment';
 import type { ExperimentHandler } from '../experiment/ExperimentHandler';
 import type { HookHandler } from '../hook/HookHandler';
 import type { IExperimentPaths } from './ITaskContext';
-
-const pJson = require('../../package.json');
 
 /**
  * Loads and instantiates an experiment by config.

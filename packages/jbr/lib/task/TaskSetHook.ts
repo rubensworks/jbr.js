@@ -94,7 +94,10 @@ export class TaskSetHook {
 
     // Invoke the handler type's init logic
     for (const experiment of experiments) {
-      await handlerType.init(this.context.experimentPaths, TaskSetHook.getObjectPath(configPath, experiment, this.hookPathName));
+      await handlerType.init(
+        this.context.experimentPaths,
+        TaskSetHook.getObjectPath(configPath, experiment, this.hookPathName),
+      );
     }
 
     // Remove hidden prepared marker file if it exists

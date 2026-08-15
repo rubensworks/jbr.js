@@ -35,6 +35,9 @@ export class HookHandlerDocker extends HookHandler<HookDocker> {
     if (!await fs.pathExists(Path.join(experimentPaths.input, 'dockerfiles'))) {
       await fs.mkdir(Path.join(experimentPaths.input, 'dockerfiles'));
     }
-    await fs.copyFile(Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile'), Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile'));
+    await fs.copyFile(
+      Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile'),
+      Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile'),
+    );
   }
 }

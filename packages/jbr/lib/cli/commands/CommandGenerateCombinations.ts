@@ -10,7 +10,10 @@ export function builder(yargs: Argv<any>): Argv<any> {
 }
 export function handler(argv: Record<string, any>): Promise<void> {
   return wrapCommandHandler(argv, async(context: ITaskContext) => {
-    const combinations = await wrapVisualProgress('Generating experiment combinations', async() => new TaskGenerateCombinations(context).generate());
+    const combinations = await wrapVisualProgress(
+      'Generating experiment combinations',
+      async() => new TaskGenerateCombinations(context).generate(),
+    );
     context.logger.info(`Generated ${combinations.length} experiment combinations`);
   });
 }
