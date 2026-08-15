@@ -96,6 +96,7 @@ export class ExperimentWatDiv implements Experiment {
           ],
         },
         logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-generation.txt'),
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       })).join();
     }
 

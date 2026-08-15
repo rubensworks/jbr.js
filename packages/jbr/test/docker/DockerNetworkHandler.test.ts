@@ -29,6 +29,7 @@ describe('DockerNetworkHandler', () => {
 
   describe('join', () => {
     it('does nothing', async() => {
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       await handler.join();
     });
   });

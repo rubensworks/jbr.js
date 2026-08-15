@@ -86,6 +86,7 @@ export class ExperimentBsbm implements Experiment {
           ],
         },
         logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-generation.txt'),
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       })).join();
     }
 
@@ -135,6 +136,7 @@ export class ExperimentBsbm implements Experiment {
     ], network);
 
     // Wait for the experiment driver to end
+    // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
     await testDriverHandler.join();
     stopEndpointStats();
 

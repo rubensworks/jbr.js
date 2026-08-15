@@ -38,6 +38,7 @@ export class HdtConverter {
           ],
         },
         logFilePath: Path.join(this.context.experimentPaths.output, 'logs', `${this.scope}-hdt.txt`),
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       })).join();
 
       // Generate HDT index file
@@ -50,6 +51,7 @@ export class HdtConverter {
           ],
         },
         logFilePath: Path.join(this.context.experimentPaths.output, 'logs', `${this.scope}-hdt-index.txt`),
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       })).join();
     }
   }

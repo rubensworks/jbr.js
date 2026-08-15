@@ -26,6 +26,7 @@ export class ProcessHandlerComposite implements ProcessHandler {
 
   public async join(): Promise<void> {
     for (const handler of this.processHandlers) {
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       await handler.join();
     }
   }

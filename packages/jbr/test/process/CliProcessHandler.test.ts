@@ -78,6 +78,7 @@ describe('CliProcessHandler', () => {
       const onResolve = jest.fn();
       const onReject = jest.fn();
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await singleTick();
 
@@ -95,6 +96,7 @@ describe('CliProcessHandler', () => {
       const onResolve = jest.fn();
       const onReject = jest.fn();
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await singleTick();
 
@@ -115,6 +117,7 @@ describe('CliProcessHandler', () => {
       childProcess.emit('close');
       await singleTick();
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await singleTick();
 
@@ -129,6 +132,7 @@ describe('CliProcessHandler', () => {
       childProcess.emit('error', new Error('CliProcessHandler test error'));
       await singleTick();
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await singleTick();
 

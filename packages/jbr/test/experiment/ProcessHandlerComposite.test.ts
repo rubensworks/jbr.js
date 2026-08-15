@@ -62,6 +62,7 @@ describe('ProcessHandlerComposite', () => {
 
   describe('join', () => {
     it('joins all sub handlers', async() => {
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       await handler.join();
       expect(subHandler1.join).toHaveBeenCalledTimes(1);
       expect(subHandler2.join).toHaveBeenCalledTimes(1);
@@ -71,6 +72,7 @@ describe('ProcessHandlerComposite', () => {
     it('with a single erroring handler stops further joins', async() => {
       subHandler2.join = jest.fn(() => Promise.reject(new Error('Fail sub handler 2')));
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       await expect(handler.join()).rejects.toThrowError('Fail sub handler 2');
 
       expect(subHandler1.join).toHaveBeenCalledTimes(1);
