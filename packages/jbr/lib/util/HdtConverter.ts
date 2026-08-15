@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import type { ITaskContext } from '../task/ITaskContext';
 

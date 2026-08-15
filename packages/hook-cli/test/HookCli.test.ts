@@ -5,8 +5,8 @@ import { HookCli } from '../lib/HookCli';
 
 const execSpy = jest.spyOn(require('node:child_process'), 'spawn');
 
-jest.mock('fs', () => ({
-  ...jest.requireActual('fs'),
+jest.mock<any>('node:fs', () => ({
+  ...jest.requireActual('node:fs'),
   createWriteStream: jest.fn(() => ({
     on: jest.fn(),
     once: jest.fn(),

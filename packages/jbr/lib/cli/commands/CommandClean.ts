@@ -5,8 +5,8 @@ import { wrapCommandHandler } from '../CliHelpers';
 
 export const command = 'clean';
 export const desc = 'Cleans up an experiment';
-export const builder = (yargs: Argv<any>): Argv<any> =>
-  yargs
+export function builder(yargs: Argv<any>): Argv<any> {
+  return yargs
     .options({
       docker: { type: 'boolean', describe: 'Clean up any Docker entities' },
     })
@@ -16,5 +16,7 @@ export const builder = (yargs: Argv<any>): Argv<any> =>
       }
       throw new Error('At least one clean option is required');
     });
-export const handler = (argv: Record<string, any>): Promise<void> => wrapCommandHandler(argv,
-  async(context: ITaskContext) => new TaskClean(context, argv).clean());
+}
+export function handler(argv: Record<string, any>): Promise<void> {
+  return wrapCommandHandler(argv, async(context: ITaskContext) => new TaskClean(context, argv).clean());
+}

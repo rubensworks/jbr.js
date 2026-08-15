@@ -4,12 +4,12 @@ import { createExperimentPaths } from '../..';
 import { CliNpmInstaller } from '../../lib/npm/CliNpmInstaller';
 import { TestLogger } from '../TestLogger';
 
-jest.mock('cross-spawn', () => ({
+jest.mock<any>('cross-spawn', () => ({
   sync: jest.fn(() => ({ error: undefined, status: 0 })),
 }));
 
 let fetchError: Error | undefined;
-jest.mock('cross-fetch', () => ({
+jest.mock<any>('cross-fetch', () => ({
   async fetch() {
     if (fetchError) {
       throw fetchError;
@@ -73,13 +73,13 @@ describe('CliNpmInstaller', () => {
 
       it('should reject on spawn errors', async() => {
         (<any> spawn.sync).mockImplementation(() => ({ error: new Error('NPM INSTALL FAILURE') }));
-        await expect(installer.install('CWD', [ 'package' ], 'scope')).rejects.toThrowError('NPM INSTALL FAILURE');
+        await expect(installer.install('CWD', [ 'package' ], 'scope')).rejects.toThrow('NPM INSTALL FAILURE');
       });
 
       it('should reject on shell errors', async() => {
         (<any> spawn.sync).mockImplementation(() => ({ status: 1, stderr: 'MY ERROR' }));
         await expect(installer.install('CWD', [ 'package' ], 'scope')).rejects
-          .toThrowError(`Npm installation failed for package:\nMY ERROR`);
+          .toThrow(`Npm installation failed for package:\nMY ERROR`);
       });
     });
   });
@@ -97,14 +97,14 @@ describe('CliNpmInstaller', () => {
       it('should reject on spawn errors', async() => {
         (<any> spawn.sync).mockImplementation(() => ({ error: new Error('NPM INSTALL FAILURE') }));
         await expect(installer.install('CWD', [ 'package' ], 'scope')).rejects
-          .toThrowError('NPM INSTALL FAILURE');
+          .toThrow('NPM INSTALL FAILURE');
       });
 
       it('should reject on shell errors', async() => {
         (<any> spawn.sync).mockImplementation(() => ({ status: 1, stderr: 'MY ERROR' }));
 
         await expect(installer.install('CWD', [ 'package' ], 'scope')).rejects
-          .toThrowError(`Npm installation failed for package@next:\nMY ERROR`);
+          .toThrow(`Npm installation failed for package@next:\nMY ERROR`);
 
         expect(context.logger.warn).toHaveBeenCalledTimes(4);
         expect(context.logger.warn).toHaveBeenCalledWith(`\nInstalling package failed.\nAvailable types on npm:\n`);
@@ -118,7 +118,7 @@ describe('CliNpmInstaller', () => {
         fetchError = new Error('FETCH ERROR');
 
         await expect(installer.install('CWD', [ 'package' ], 'scope')).rejects
-          .toThrowError(`Npm installation failed for package@next:\nMY ERROR`);
+          .toThrow(`Npm installation failed for package@next:\nMY ERROR`);
 
         expect(context.logger.warn).toHaveBeenCalledTimes(0);
       });

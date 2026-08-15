@@ -1,7 +1,13 @@
-import Path from 'path';
+import Path from 'node:path';
 import { ProcessHandlerComposite, HttpAvailabilityLatch } from 'jbr';
-import type { ITaskContext, DockerResourceConstraints,
-  ProcessHandler, Hook, IHookStartOptions, ICleanTargets } from 'jbr';
+import type {
+  ITaskContext,
+  DockerResourceConstraints,
+  ProcessHandler,
+  Hook,
+  IHookStartOptions,
+  ICleanTargets,
+} from 'jbr';
 
 /**
  * A hook instance for a LDF server-based SPARQL endpoint.

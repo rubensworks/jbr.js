@@ -1,4 +1,4 @@
-import Path from 'path';
+import Path from 'node:path';
 import * as fs from 'fs-extra';
 import type { IExperimentPaths } from 'jbr';
 import { HookHandler } from 'jbr';
@@ -12,7 +12,7 @@ export class HookHandlerSparqlEndpointComunica extends HookHandler<HookSparqlEnd
     super('sparql-endpoint-comunica', HookSparqlEndpointComunica.name);
   }
 
-  public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
+  public getDefaultParams(_experimentPaths: IExperimentPaths): Record<string, any> {
     return {
       dockerfileClient: 'input/dockerfiles/Dockerfile-client',
       resourceConstraints: {
@@ -33,21 +33,18 @@ export class HookHandlerSparqlEndpointComunica extends HookHandler<HookSparqlEnd
     return [];
   }
 
-  public async init(experimentPaths: IExperimentPaths, hookHandler: HookSparqlEndpointComunica): Promise<void> {
+  public async init(experimentPaths: IExperimentPaths, _hookHandler: HookSparqlEndpointComunica): Promise<void> {
     // Create Dockerfile for client
     if (!await fs.pathExists(Path.join(experimentPaths.input, 'dockerfiles'))) {
       await fs.mkdir(Path.join(experimentPaths.input, 'dockerfiles'));
     }
-    await fs.copyFile(Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-client'),
-      Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-client'));
+    await fs.copyFile(Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-client'), Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-client'));
 
     // Create config for client
     if (!await fs.pathExists(Path.join(experimentPaths.input))) {
       await fs.mkdir(Path.join(experimentPaths.input));
     }
-    await fs.copyFile(Path.join(__dirname, 'templates', 'input', 'config-client.json'),
-      Path.join(experimentPaths.input, 'config-client.json'));
-    await fs.copyFile(Path.join(__dirname, 'templates', 'input', 'context-client.json'),
-      Path.join(experimentPaths.input, 'context-client.json'));
+    await fs.copyFile(Path.join(__dirname, 'templates', 'input', 'config-client.json'), Path.join(experimentPaths.input, 'config-client.json'));
+    await fs.copyFile(Path.join(__dirname, 'templates', 'input', 'context-client.json'), Path.join(experimentPaths.input, 'context-client.json'));
   }
 }

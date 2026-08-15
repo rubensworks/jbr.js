@@ -1,4 +1,4 @@
-import Path from 'path';
+import Path from 'node:path';
 import * as fs from 'fs-extra';
 import type { IExperimentPaths } from 'jbr';
 import { HookHandler } from 'jbr';
@@ -12,7 +12,7 @@ export class HookHandlerDocker extends HookHandler<HookDocker> {
     super('docker', HookDocker.name);
   }
 
-  public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
+  public getDefaultParams(_experimentPaths: IExperimentPaths): Record<string, any> {
     return {
       dockerfile: 'input/dockerfiles/Dockerfile',
       resourceConstraints: {
@@ -30,12 +30,11 @@ export class HookHandlerDocker extends HookHandler<HookDocker> {
     return [];
   }
 
-  public async init(experimentPaths: IExperimentPaths, hookHandler: HookDocker): Promise<void> {
+  public async init(experimentPaths: IExperimentPaths, _hookHandler: HookDocker): Promise<void> {
     // Create Dockerfile
     if (!await fs.pathExists(Path.join(experimentPaths.input, 'dockerfiles'))) {
       await fs.mkdir(Path.join(experimentPaths.input, 'dockerfiles'));
     }
-    await fs.copyFile(Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile'),
-      Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile'));
+    await fs.copyFile(Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile'), Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile'));
   }
 }

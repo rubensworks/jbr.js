@@ -33,7 +33,7 @@ describe('secureProcessHandler', () => {
     expect(context.logger.error).toHaveBeenCalledWith(`A process (CLI process (123)) exited prematurely.
 This may be caused by a software error or insufficient memory being allocated to the system or Docker.
 Please inspect the output logs for more details.`);
-    expect(context.closeExperiment).toHaveBeenCalled();
+    expect(context.closeExperiment).toHaveBeenCalledWith();
   });
 
   it('handles error terminations', () => {
@@ -44,6 +44,6 @@ Please inspect the output logs for more details.`);
     expect(context.logger.error).toHaveBeenCalledWith(`A process (CLI process (123)) exited prematurely with error 'ERROR'.
 This may be caused by a software error or insufficient memory being allocated to the system or Docker.
 Please inspect the output logs for more details.`);
-    expect(context.closeExperiment).toHaveBeenCalled();
+    expect(context.closeExperiment).toHaveBeenCalledWith();
   });
 });

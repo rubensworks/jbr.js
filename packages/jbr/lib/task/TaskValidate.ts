@@ -1,4 +1,4 @@
-import Path from 'path';
+import Path from 'node:path';
 import * as fs from 'fs-extra';
 import { ErrorHandled } from '../cli/ErrorHandled';
 import { ExperimentLoader } from './ExperimentLoader';

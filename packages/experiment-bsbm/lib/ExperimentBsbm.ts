@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import { secureProcessHandler, HttpAvailabilityLatch, HdtConverter } from 'jbr';
 import type { Experiment, Hook, ICleanTargets, ITaskContext, IRunTaskContext, DockerContainerHandler } from 'jbr';
@@ -77,7 +77,8 @@ export class ExperimentBsbm implements Experiment {
           'generate',
           '-dir',
           '/data/td_data',
-          '-pc', String(this.productCount),
+          '-pc',
+          String(this.productCount),
           '-fc',
         ],
         hostConfig: {

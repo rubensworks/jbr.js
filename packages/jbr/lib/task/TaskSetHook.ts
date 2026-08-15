@@ -1,5 +1,5 @@
-import * as Path from 'path';
-import { inspect } from 'util';
+import * as Path from 'node:path';
+import { inspect } from 'node:util';
 import * as fs from 'fs-extra';
 import { ErrorHandled } from '../cli/ErrorHandled';
 import { HookNonConfigured } from '../hook/HookNonConfigured';
@@ -94,8 +94,7 @@ export class TaskSetHook {
 
     // Invoke the handler type's init logic
     for (const experiment of experiments) {
-      await handlerType.init(this.context.experimentPaths,
-        TaskSetHook.getObjectPath(configPath, experiment, this.hookPathName));
+      await handlerType.init(this.context.experimentPaths, TaskSetHook.getObjectPath(configPath, experiment, this.hookPathName));
     }
 
     // Remove hidden prepared marker file if it exists

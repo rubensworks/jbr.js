@@ -1,9 +1,8 @@
 import { DockerNetworkHandler } from '../../lib/docker/DockerNetworkHandler';
-const streamifyString = require('streamify-string');
 
 let write: any;
 let streamEnd: any;
-jest.mock('fs', () => ({
+jest.mock<any>('node:fs', () => ({
   createWriteStream: () => ({
     write,
     end: streamEnd,
@@ -23,7 +22,7 @@ describe('DockerNetworkHandler', () => {
   describe('close', () => {
     it('kills and removes a container', async() => {
       await handler.close();
-      expect(network.remove).toHaveBeenCalled();
+      expect(network.remove).toHaveBeenCalledWith({ force: true });
     });
   });
 

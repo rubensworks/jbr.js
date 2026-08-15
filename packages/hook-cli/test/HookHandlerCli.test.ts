@@ -12,18 +12,18 @@ describe('HookHandlerCli', () => {
 
   describe('exposes public fields', () => {
     it('should expose an id', () => {
-      expect(handler.id).toEqual('cli');
+      expect(handler.id).toBe('cli');
     });
 
     it('should expose an experimentClassName', () => {
-      expect(handler.hookClassName).toEqual('HookCli');
+      expect(handler.hookClassName).toBe('HookCli');
     });
   });
 
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
       expect(handler.getDefaultParams(experimentPaths)).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(1);
+      expect(Object.entries(handler.getDefaultParams(experimentPaths))).toHaveLength(1);
     });
   });
 

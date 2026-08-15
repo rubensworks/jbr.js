@@ -5,8 +5,8 @@ import { wrapCommandHandler } from '../CliHelpers';
 
 export const command = 'pack';
 export const desc = 'Create an archive of the experiment output';
-export const builder = (yargs: Argv<any>): Argv<any> =>
-  yargs
+export function builder(yargs: Argv<any>): Argv<any> {
+  return yargs
     .options({
       output: {
         type: 'string',
@@ -14,5 +14,7 @@ export const builder = (yargs: Argv<any>): Argv<any> =>
         describe: 'The output file name',
       },
     });
-export const handler = (argv: Record<string, any>): Promise<void> => wrapCommandHandler(argv,
-  async(context: ITaskContext) => new TaskPack(context, argv.output).pack());
+}
+export function handler(argv: Record<string, any>): Promise<void> {
+  return wrapCommandHandler(argv, async(context: ITaskContext) => new TaskPack(context, argv.output).pack());
+}

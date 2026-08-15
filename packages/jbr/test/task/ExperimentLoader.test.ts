@@ -1,11 +1,11 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import { ComponentsManagerBuilder } from 'componentsjs';
 import type { RdfObjectLoader } from 'rdf-object';
 import { createExperimentPaths } from '../../lib/cli/CliHelpers';
 import { ExperimentLoader } from '../../lib/task/ExperimentLoader';
 
 let componentsManager: any;
-jest.mock('componentsjs', () => ({
+jest.mock<any>('componentsjs', () => ({
   ...jest.requireActual('componentsjs'),
   ComponentsManager: {
     build: jest.fn(async(options: any) => {
@@ -16,7 +16,7 @@ jest.mock('componentsjs', () => ({
 }));
 
 let files: Record<string, string | boolean> = {};
-jest.mock('fs-extra', () => ({
+jest.mock<any>('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
   async pathExists(filePath: string) {
     return filePath in files;
@@ -41,13 +41,13 @@ describe('ExperimentLoader', () => {
         register: jest.fn(),
       },
       configConstructorPool: {
-        instantiate: jest.fn(component => {
+        instantiate: jest.fn((component) => {
           return {
             id: `id-${component.property.types}`,
           };
         }),
       },
-      instantiate: jest.fn(iri => {
+      instantiate: jest.fn((iri) => {
         if (iri === 'urn:jbr:experiment-combinations') {
           return {
             getFactorCombinations: () => [{}, {}],
@@ -80,17 +80,17 @@ describe('ExperimentLoader', () => {
   describe('getExperimentName', () => {
     it('handles an experiment with valid package.json', async() => {
       files[Path.join('path', 'package.json')] = `{"name":"exp-name"}`;
-      expect(await ExperimentLoader.getExperimentName('path')).toEqual('exp-name');
+      await expect(ExperimentLoader.getExperimentName('path')).resolves.toBe('exp-name');
     });
 
     it('handles an experiment with invalid package.json', async() => {
-      expect(await ExperimentLoader.getExperimentName('path')).toEqual('dummy');
+      await expect(ExperimentLoader.getExperimentName('path')).resolves.toBe('dummy');
     });
   });
 
   describe('buildComponentsManager', () => {
     it('returns a new ComponentsManager', async() => {
-      expect(await ExperimentLoader.buildComponentsManager('path'))
+      await expect(ExperimentLoader.buildComponentsManager('path')).resolves
         .toBe(componentsManager);
     });
   });
@@ -98,13 +98,13 @@ describe('ExperimentLoader', () => {
   describe('getDefaultExperimentIri', () => {
     it('returns an IRI', () => {
       expect(ExperimentLoader.getDefaultExperimentIri('experiment'))
-        .toEqual('urn:jbr:experiment');
+        .toBe('urn:jbr:experiment');
     });
   });
 
   describe('instantiateFromConfig', () => {
     it('instantiates a config', async() => {
-      expect(await loader.instantiateFromConfig('configpath', 'configiri'))
+      await expect(loader.instantiateFromConfig('configpath', 'configiri')).resolves
         .toEqual({ CONFIG: 'configiri' });
       expect(componentsManager.configRegistry.register).toHaveBeenCalledWith('configpath');
       expect(componentsManager.instantiate).toHaveBeenCalledWith('configiri');
@@ -114,7 +114,7 @@ describe('ExperimentLoader', () => {
   describe('instantiateExperiments', () => {
     it('instantiates a config', async() => {
       files['path/to/experiment/jbr-experiment.json'] = `TRUE`;
-      expect(await loader.instantiateExperiments('experiment', 'path/to/experiment'))
+      await expect(loader.instantiateExperiments('experiment', 'path/to/experiment')).resolves
         .toEqual({
           experiments: [
             { CONFIG: 'urn:jbr:experiment' },
@@ -130,7 +130,7 @@ describe('ExperimentLoader', () => {
 
     it('throws when config file does not exist', async() => {
       await expect(loader.instantiateExperiments('experiment', 'path/to/experiment'))
-        .rejects.toThrowError(`Experiment config file could not be found at 'path/to/experiment/jbr-experiment.json'`);
+        .rejects.toThrow(`Experiment config file could not be found at 'path/to/experiment/jbr-experiment.json'`);
     });
 
     it('instantiates a combinations-based config', async() => {
@@ -140,7 +140,7 @@ describe('ExperimentLoader', () => {
       files[Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json')] = true;
       files[Path.join('path/to/experiment', 'combinations', 'combination_1')] = true;
       files[Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json')] = true;
-      expect(await loader.instantiateExperiments('experiment', 'path/to/experiment'))
+      await expect(loader.instantiateExperiments('experiment', 'path/to/experiment')).resolves
         .toEqual({
           experiments: [
             { CONFIG: 'urn:jbr:experiment:combination_0' },
@@ -152,18 +152,15 @@ describe('ExperimentLoader', () => {
           ],
           combinationProvider: expect.anything(),
         });
-      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(1,
-        'path/to/experiment/jbr-combinations.json');
-      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(2,
-        Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json'));
-      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(3,
-        Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json'));
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(1, 'path/to/experiment/jbr-combinations.json');
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(2, Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json'));
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(3, Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json'));
       expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jbr:experiment:combination_0');
       expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jbr:experiment:combination_1');
     });
 
     it('instantiates a combinations-based config with common generated', async() => {
-      (componentsManager).instantiate = jest.fn(iri => {
+      jest.spyOn(componentsManager, 'instantiate').mockImplementation((iri) => {
         if (iri === 'urn:jbr:experiment-combinations') {
           return {
             commonGenerated: true,
@@ -179,7 +176,7 @@ describe('ExperimentLoader', () => {
       files[Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json')] = true;
       files[Path.join('path/to/experiment', 'combinations', 'combination_1')] = true;
       files[Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json')] = true;
-      expect(await loader.instantiateExperiments('experiment', 'path/to/experiment'))
+      await expect(loader.instantiateExperiments('experiment', 'path/to/experiment')).resolves
         .toEqual({
           experiments: [
             { CONFIG: 'urn:jbr:experiment:combination_0' },
@@ -197,12 +194,9 @@ describe('ExperimentLoader', () => {
           ],
           combinationProvider: expect.anything(),
         });
-      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(1,
-        'path/to/experiment/jbr-combinations.json');
-      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(2,
-        Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json'));
-      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(3,
-        Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json'));
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(1, 'path/to/experiment/jbr-combinations.json');
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(2, Path.join('path/to/experiment', 'combinations', 'combination_0', 'jbr-experiment.json'));
+      expect(componentsManager.configRegistry.register).toHaveBeenNthCalledWith(3, Path.join('path/to/experiment', 'combinations', 'combination_1', 'jbr-experiment.json'));
       expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jbr:experiment:combination_0');
       expect(componentsManager.instantiate).toHaveBeenCalledWith('urn:jbr:experiment:combination_1');
     });
@@ -211,7 +205,7 @@ describe('ExperimentLoader', () => {
       files['path/to/experiment/jbr-experiment.json.template'] = `TRUE`;
       files['path/to/experiment/jbr-combinations.json'] = `TRUE`;
       await expect(loader.instantiateExperiments('experiment', 'path/to/experiment'))
-        .rejects.toThrowError(`Detected invalid combination-based experiment. It is required to (re-)run 'jbr generate-combinations' first.`);
+        .rejects.toThrow(`Detected invalid combination-based experiment. It is required to (re-)run 'jbr generate-combinations' first.`);
     });
   });
 
@@ -250,7 +244,7 @@ describe('ExperimentLoader', () => {
         }),
       };
 
-      expect(await loader.discoverExperimentHandlers())
+      await expect(loader.discoverExperimentHandlers()).resolves
         .toEqual({
           'id-urn:Experiment1': {
             contexts: [
@@ -307,7 +301,7 @@ describe('ExperimentLoader', () => {
         }),
       };
 
-      expect(await loader.discoverExperimentHandlers())
+      await expect(loader.discoverExperimentHandlers()).resolves
         .toEqual({
           'id-urn:Experiment1': {
             contexts: [
@@ -410,7 +404,7 @@ describe('ExperimentLoader', () => {
         }),
       };
 
-      expect(await loader.discoverHookHandlers())
+      await expect(loader.discoverHookHandlers()).resolves
         .toEqual({
           'id-urn:Hook1': {
             contexts: [
@@ -443,19 +437,19 @@ describe('ExperimentLoader', () => {
 
   describe('isExperimentPrepared', () => {
     it('returns false if the marker does not exist', async() => {
-      expect(await ExperimentLoader.isExperimentPrepared('path')).toBeFalsy();
+      await expect(ExperimentLoader.isExperimentPrepared('path')).resolves.toBeFalsy();
     });
 
     it('returns true if the marker exists', async() => {
       files[Path.join('path', 'generated', '.prepared')] = true;
-      expect(await ExperimentLoader.isExperimentPrepared('path')).toBeTruthy();
+      await expect(ExperimentLoader.isExperimentPrepared('path')).resolves.toBeTruthy();
     });
   });
 
   describe('requireExperimentPrepared', () => {
     it('throws if the marker does not exist', async() => {
       await expect(ExperimentLoader.requireExperimentPrepared('path')).rejects
-        .toThrowError(`The experiment at 'path' has not been prepared successfully yet, invoke 'jbr prepare' first.`);
+        .toThrow(`The experiment at 'path' has not been prepared successfully yet, invoke 'jbr prepare' first.`);
     });
 
     it('resolves if the marker exists', async() => {
@@ -466,32 +460,32 @@ describe('ExperimentLoader', () => {
 
   describe('isCombinationsExperiment', () => {
     it('returns false if no files exists', async() => {
-      expect(await ExperimentLoader.isCombinationsExperiment('path')).toBeFalsy();
+      await expect(ExperimentLoader.isCombinationsExperiment('path')).resolves.toBeFalsy();
     });
 
     it('returns true if all required files exists', async() => {
       files[Path.join('path', 'jbr-combinations.json')] = `true`;
       files[Path.join('path', 'jbr-experiment.json.template')] = `true`;
-      expect(await ExperimentLoader.isCombinationsExperiment('path')).toBeTruthy();
+      await expect(ExperimentLoader.isCombinationsExperiment('path')).resolves.toBeTruthy();
     });
 
     it('throws if only jbr-combinations.json exists', async() => {
       files[Path.join('path', 'jbr-combinations.json')] = `true`;
       await expect(ExperimentLoader.isCombinationsExperiment('path')).rejects
-        .toThrowError(`Found 'jbr-combinations.json' for a combinations-based experiment, but 'jbr-experiment.json.template' is missing.`);
+        .toThrow(`Found 'jbr-combinations.json' for a combinations-based experiment, but 'jbr-experiment.json.template' is missing.`);
     });
 
     it('throws if only jbr-experiment.json.template exists', async() => {
       files[Path.join('path', 'jbr-experiment.json.template')] = `true`;
       await expect(ExperimentLoader.isCombinationsExperiment('path')).rejects
-        .toThrowError(`Found 'jbr-experiment.json.template' for a combinations-based experiment, but 'jbr-combinations.json' is missing.`);
+        .toThrow(`Found 'jbr-experiment.json.template' for a combinations-based experiment, but 'jbr-combinations.json' is missing.`);
     });
   });
 
   describe('requireCombinationsExperiment', () => {
     it('throws if not all required files exist', async() => {
       await expect(ExperimentLoader.requireCombinationsExperiment('path')).rejects
-        .toThrowError(`A combinations-based experiments requires the files 'jbr-experiment.json.template' and 'jbr-combinations.json'.`);
+        .toThrow(`A combinations-based experiments requires the files 'jbr-experiment.json.template' and 'jbr-combinations.json'.`);
     });
 
     it('does not throw if all required files exist', async() => {

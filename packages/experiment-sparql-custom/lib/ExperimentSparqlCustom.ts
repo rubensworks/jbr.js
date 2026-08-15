@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import { secureProcessHandler } from 'jbr';
 import type { Experiment, Hook, ICleanTargets, ITaskContext, IRunTaskContext } from 'jbr';
@@ -95,7 +95,7 @@ export class ExperimentSparqlCustom implements Experiment {
       additionalUrlParams: new URLSearchParams(this.queryRunnerUrlParams),
       timeout: this.queryTimeoutFallback,
     });
-    // eslint-disable-next-line @typescript-eslint/no-this-alias,consistent-this
+    // eslint-disable-next-line ts/no-this-alias
     const self = this;
     const results = await runner.runWithRawResults({
       async onStart() {
@@ -153,7 +153,7 @@ export class ExperimentSparqlCustom implements Experiment {
   public getQuerySources(query: string): string[] | undefined {
     let sources: string[] | undefined;
 
-    query.split('\n').forEach((line, index) => {
+    for (const line of query.split('\n')) {
       // The line might be a key/value pair
       const keyValue = /^#\s*(\w+)\s*:\s*(.*)\s*/u.exec(line);
       if (keyValue) {
@@ -162,17 +162,17 @@ export class ExperimentSparqlCustom implements Experiment {
         switch (key) {
           case 'datasource':
           case 'datasources':
-            value.split(/\s+/u).forEach(source => {
+            for (const source of value.split(/\s+/u)) {
               if (source.length > 0) {
                 if (!sources) {
                   sources = [];
                 }
                 sources.push(source);
               }
-            });
+            }
         }
       }
-    });
+    }
 
     return sources;
   }

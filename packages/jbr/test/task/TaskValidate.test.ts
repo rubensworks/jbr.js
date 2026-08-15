@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import { createExperimentPaths } from '../../lib/cli/CliHelpers';
 import type { Experiment } from '../../lib/experiment/Experiment';
 import { ExperimentLoader } from '../../lib/task/ExperimentLoader';
@@ -6,7 +6,7 @@ import { TaskValidate } from '../../lib/task/TaskValidate';
 import { TestLogger } from '../TestLogger';
 
 let experimentLoader: ExperimentLoader;
-jest.mock('../../lib/task/ExperimentLoader', () => ({
+jest.mock<typeof import('../../lib/task/ExperimentLoader')>('../../lib/task/ExperimentLoader', () => ({
   ExperimentLoader: {
     ...jest.requireActual('../../lib/task/ExperimentLoader').ExperimentLoader,
     build: jest.fn(() => experimentLoader),
@@ -15,7 +15,7 @@ jest.mock('../../lib/task/ExperimentLoader', () => ({
 }));
 
 let files: Record<string, boolean> = {};
-jest.mock('fs-extra', () => ({
+jest.mock<typeof import('fs-extra')>('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
   async pathExists(filePath: string) {
     return filePath in files;
@@ -57,7 +57,7 @@ describe('TaskValidate', () => {
     });
 
     it('for missing files', async() => {
-      await expect(task.validate()).rejects.toThrowError(`Experiment validation failed:
+      await expect(task.validate()).rejects.toThrow(`Experiment validation failed:
   - Missing 'jbr-experiment.json' file
   - Missing 'package.json' file
 
@@ -68,7 +68,7 @@ Make sure you invoke this command in a directory created with 'jbr init'`);
       experimentLoader.instantiateExperiments = async() => {
         throw new Error('Instantiation error in TaskValidate test');
       };
-      await expect(task.validate()).rejects.toThrowError(`Experiment validation failed:
+      await expect(task.validate()).rejects.toThrow(`Experiment validation failed:
   - Missing 'jbr-experiment.json' file
   - Missing 'package.json' file
   - Invalid jbr-experiment.json file: Instantiation error in TaskValidate test
@@ -85,7 +85,7 @@ Make sure you invoke this command in a directory created with 'jbr init'`);
 
     it('for missing files in a combinations-based experiment', async() => {
       files[Path.join('CWD', ExperimentLoader.CONFIG_TEMPLATE_NAME)] = true;
-      await expect(task.validate()).rejects.toThrowError(`Combinations-based experiment validation failed:
+      await expect(task.validate()).rejects.toThrow(`Combinations-based experiment validation failed:
   - Missing 'jbr-combinations.json' file
   - Missing 'package.json' file
 

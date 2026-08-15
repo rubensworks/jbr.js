@@ -1,5 +1,5 @@
-import fs from 'fs';
 import type { ChildProcess } from 'node:child_process';
+import fs from 'node:fs';
 import type { ProcessHandler } from '../experiment/ProcessHandler';
 
 const pidusage = require('pidusage');

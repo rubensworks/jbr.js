@@ -1,5 +1,5 @@
-import * as Path from 'path';
-import * as util from 'util';
+import * as Path from 'node:path';
+import * as util from 'node:util';
 import Dockerode from 'dockerode';
 import * as fs from 'fs-extra';
 import ora from 'ora';
@@ -27,7 +27,7 @@ export function createExperimentPaths(basePath: string, combination?: number): I
 }
 
 export function breakpointBarrier(): Promise<void> {
-  return new Promise<void>(resolve => {
+  return new Promise<void>((resolve) => {
     process.stdout.write('BREAKPOINT: Press any key to continue\n');
     process.stdin.setRawMode(true);
     process.stdin.on('data', () => {
@@ -45,7 +45,7 @@ export async function wrapCommandHandler(
 
   // Create context
   const dockerode = new Dockerode(argv.dockerOptions ?
-    // eslint-disable-next-line no-sync
+
     JSON.parse(await fs.readFile(argv.dockerOptions, 'utf8')) :
     undefined);
   const context: ITaskContext = {
@@ -62,7 +62,7 @@ export async function wrapCommandHandler(
       networkCreator: new DockerNetworkCreator(dockerode),
       networkInspector: new DockerNetworkInspector(dockerode),
     },
-    // eslint-disable-next-line unicorn/no-process-exit
+
     closeExperiment: () => process.emit(<any>'SIGTERM'),
     cleanupHandlers: [],
     ...argv.breakpoints ? { breakpointBarrier } : {},

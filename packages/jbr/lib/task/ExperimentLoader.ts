@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import { ComponentsManager } from 'componentsjs';
 import { GenericsContext } from 'componentsjs/lib/preprocess/GenericsContext';
 import {

@@ -5,8 +5,8 @@ import { wrapCommandHandler } from '../CliHelpers';
 
 export const command = 'run';
 export const desc = 'Run the current experiment';
-export const builder = (yargs: Argv<any>): Argv<any> =>
-  yargs
+export function builder(yargs: Argv<any>): Argv<any> {
+  return yargs
     .options({
       combination: {
         type: 'number',
@@ -19,5 +19,7 @@ export const builder = (yargs: Argv<any>): Argv<any> =>
         describe: 'An optional filter that will be passed to the experiment.',
       },
     });
-export const handler = (argv: Record<string, any>): Promise<void> => wrapCommandHandler(argv,
-  async(context: ITaskContext) => new TaskRun(context, argv.combination, argv.filter).run());
+}
+export function handler(argv: Record<string, any>): Promise<void> {
+  return wrapCommandHandler(argv, async(context: ITaskContext) => new TaskRun(context, argv.combination, argv.filter).run());
+}

@@ -1,8 +1,15 @@
-import * as Path from 'path';
-import * as v8 from 'v8';
+import * as Path from 'node:path';
+import * as v8 from 'node:v8';
 import * as fs from 'fs-extra';
-import type { Experiment, Hook, ITaskContext,
-  DockerResourceConstraints, ICleanTargets, DockerContainerHandler, DockerNetworkHandler } from 'jbr';
+import type {
+  Experiment,
+  Hook,
+  ITaskContext,
+  DockerResourceConstraints,
+  ICleanTargets,
+  DockerContainerHandler,
+  DockerNetworkHandler,
+} from 'jbr';
 import { HttpAvailabilityLatch, ProcessHandlerComposite, secureProcessHandler } from 'jbr';
 import { Generator } from 'solidbench/lib/Generator';
 import type { IResultSerializer } from 'sparql-benchmark-runner';
@@ -73,7 +80,7 @@ export class ExperimentSolidBench implements Experiment {
       if (entry.isFile()) {
         const file = Path.join(path, entry.name);
         await fs.writeFile(file, (await fs.readFile(file, 'utf8'))
-          .replace(/localhost:3000/ug, 'solidbench-server:3000'));
+          .replaceAll('localhost:3000', 'solidbench-server:3000'));
       } else if (entry.isDirectory()) {
         await this.replaceBaseUrlInDir(Path.join(path, entry.name));
       }
@@ -83,7 +90,7 @@ export class ExperimentSolidBench implements Experiment {
   public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
     // Validate memory limit
     const minimumMemory = 8192;
-    // eslint-disable-next-line no-bitwise
+
     const currentMemory = v8.getHeapStatistics().heap_size_limit / 1024 / 1024;
     if (currentMemory < minimumMemory) {
       context.logger.warn(`SolidBench recommends allocating at least ${minimumMemory} MB of memory, while only ${currentMemory} was allocated.\nThis can be configured using Node's --max_old_space_size option.`);

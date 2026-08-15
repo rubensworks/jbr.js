@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import semverMajor = require('semver/functions/major');
 import { createExperimentPaths } from '../../lib/cli/CliHelpers';
 import type { ExperimentHandler } from '../../lib/experiment/ExperimentHandler';
@@ -14,7 +14,7 @@ let files: Record<string, string> = {};
 let filesOut: Record<string, string> = {};
 let filesDeleted: Record<string, boolean> = {};
 let dirsOut: Record<string, boolean> = {};
-jest.mock('fs-extra', () => ({
+jest.mock<any>('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
   async writeFile(filePath: string, contents: string) {
     filesOut[filePath] = contents;
@@ -37,7 +37,7 @@ jest.mock('fs-extra', () => ({
 }));
 
 let experimentLoader: ExperimentLoader;
-jest.mock('../../lib/task/ExperimentLoader', () => ({
+jest.mock<typeof import('../../lib/task/ExperimentLoader')>('../../lib/task/ExperimentLoader', () => ({
   ExperimentLoader: {
     ...jest.requireActual('../../lib/task/ExperimentLoader').ExperimentLoader,
     build: jest.fn(() => experimentLoader),
@@ -48,7 +48,7 @@ jest.mock('../../lib/task/ExperimentLoader', () => ({
 }));
 
 let taskGenerateCombinations: any;
-jest.mock('../../lib/task/TaskGenerateCombinations', () => ({
+jest.mock<any>('../../lib/task/TaskGenerateCombinations', () => ({
   TaskGenerateCombinations: jest.fn().mockImplementation(() => ({
     generate: taskGenerateCombinations,
   })),
@@ -113,7 +113,7 @@ describe('TaskInitialize', () => {
 
   describe('init', () => {
     it('initializes a valid experiment', async() => {
-      expect(await task.init()).toEqual({
+      await expect(task.init()).resolves.toEqual({
         experimentDirectory: Path.join('CWD', 'TARGETDIR'),
         hookNames: [ 'hook1', 'hook2' ],
       });
@@ -216,7 +216,7 @@ describe('TaskInitialize', () => {
       npmInstaller,
     );
 
-    expect(await task.init()).toBeTruthy();
+    await expect(task.init()).resolves.toBeTruthy();
 
     expect(npmInstaller.install)
       .toHaveBeenCalledWith('CWD/TARGETDIR', [ 'jbr', '@jbr-experiment/TYPE' ], 'jbr-experiment');
@@ -233,12 +233,12 @@ describe('TaskInitialize', () => {
       npmInstaller,
     );
 
-    expect(await task.init()).toEqual({
+    await expect(task.init()).resolves.toEqual({
       experimentDirectory: Path.join('CWD', 'TARGETDIR'),
       hookNames: [ 'hook1', 'hook2' ],
     });
 
-    expect(taskGenerateCombinations).toHaveBeenCalled();
+    expect(taskGenerateCombinations).toHaveBeenCalledWith();
 
     expect(handler.init)
       .toHaveBeenCalledWith(createExperimentPaths(Path.join('CWD', 'TARGETDIR')), { CONFIG: 'EXP-NAME' });

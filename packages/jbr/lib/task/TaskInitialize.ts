@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import { createExperimentPaths } from '../cli/CliHelpers';
 import { ErrorHandled } from '../cli/ErrorHandled';
@@ -143,8 +143,7 @@ export class TaskInitialize {
 
     // Copy template files
     for (const file of [ '_gitignore', 'README.md' ]) {
-      await fs.copyFile(Path.join(__dirname, '..', 'templates', file),
-        Path.join(this.targetDirectory, file.replace('_', '.')));
+      await fs.copyFile(Path.join(__dirname, '..', 'templates', file), Path.join(this.targetDirectory, file.replace('_', '.')));
     }
     await fs.createFile(Path.join(this.targetDirectory, 'generated', '.keep'));
     await fs.createFile(Path.join(this.targetDirectory, 'output', '.keep'));

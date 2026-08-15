@@ -1,10 +1,11 @@
-import { Readable } from 'stream';
+import { Readable } from 'node:stream';
 import { DockerContainerHandler } from '../../lib/docker/DockerContainerHandler';
+
 const streamifyString = require('streamify-string');
 
 let write: any;
 let streamEnd: any;
-jest.mock('fs', () => ({
+jest.mock<any>('node:fs', () => ({
   createWriteStream: () => ({
     write,
     end: streamEnd,
@@ -38,8 +39,8 @@ describe('DockerContainerHandler', () => {
   describe('close', () => {
     it('kills and removes a container', async() => {
       await handler.close();
-      expect(container.kill).toHaveBeenCalled();
-      expect(container.remove).toHaveBeenCalled();
+      expect(container.kill).toHaveBeenCalledWith();
+      expect(container.remove).toHaveBeenCalledWith();
     });
   });
 
@@ -57,7 +58,7 @@ describe('DockerContainerHandler', () => {
       out.emit('end');
       await new Promise(setImmediate);
 
-      expect(onResolve).toHaveBeenCalled();
+      expect(onResolve).toHaveBeenCalledWith(undefined);
       expect(onReject).not.toHaveBeenCalled();
     });
 
@@ -75,7 +76,7 @@ describe('DockerContainerHandler', () => {
       await new Promise(setImmediate);
 
       expect(onResolve).not.toHaveBeenCalled();
-      expect(onReject).toHaveBeenCalled();
+      expect(onReject).toHaveBeenCalledWith(new Error('DockerContainerHandler test error'));
     });
 
     it('returns immediately if a container is already finished', async() => {
@@ -88,7 +89,7 @@ describe('DockerContainerHandler', () => {
       handler.join().then(onResolve, onReject);
       await new Promise(setImmediate);
 
-      expect(onResolve).toHaveBeenCalled();
+      expect(onResolve).toHaveBeenCalledWith(undefined);
       expect(onReject).not.toHaveBeenCalled();
     });
 
@@ -103,7 +104,7 @@ describe('DockerContainerHandler', () => {
       await new Promise(setImmediate);
 
       expect(onResolve).not.toHaveBeenCalled();
-      expect(onReject).toHaveBeenCalled();
+      expect(onReject).toHaveBeenCalledWith(new Error('DockerContainerHandler test error'));
     });
   });
 
@@ -121,8 +122,8 @@ describe('DockerContainerHandler', () => {
       expect(statsStream.removeAllListeners).not.toHaveBeenCalled();
       expect(streamEnd).not.toHaveBeenCalled();
       stop();
-      expect(statsStream.removeAllListeners).toHaveBeenCalled();
-      expect(streamEnd).toHaveBeenCalled();
+      expect(statsStream.removeAllListeners).toHaveBeenCalledWith('data');
+      expect(streamEnd).toHaveBeenCalledWith();
     });
 
     it('handles a valid stream without statsFilePath', async() => {
@@ -137,7 +138,7 @@ describe('DockerContainerHandler', () => {
       expect(statsStream.removeAllListeners).not.toHaveBeenCalled();
       expect(streamEnd).not.toHaveBeenCalled();
       stop();
-      expect(statsStream.removeAllListeners).toHaveBeenCalled();
+      expect(statsStream.removeAllListeners).toHaveBeenCalledWith('data');
       expect(streamEnd).not.toHaveBeenCalled();
     });
   });
@@ -150,7 +151,6 @@ describe('DockerContainerHandler', () => {
 
       out.emit('end');
 
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(termHandler).toHaveBeenCalledWith(`Docker container ID`, undefined);
     });
 
@@ -161,7 +161,6 @@ describe('DockerContainerHandler', () => {
 
       out.emit('error', new Error('my error'));
 
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(termHandler).toHaveBeenCalledWith(`Docker container ID`, new Error('my error'));
     });
 
@@ -174,7 +173,7 @@ describe('DockerContainerHandler', () => {
       out.emit('error', new Error('my error'));
 
       expect(termHandler).toHaveBeenCalledTimes(1);
-      // eslint-disable-next-line unicorn/no-useless-undefined
+
       expect(termHandler).toHaveBeenCalledWith(`Docker container ID`, undefined);
     });
 
@@ -187,7 +186,7 @@ describe('DockerContainerHandler', () => {
       out.emit('end');
 
       expect(termHandler).toHaveBeenCalledTimes(1);
-      // eslint-disable-next-line unicorn/no-useless-undefined
+
       expect(termHandler).toHaveBeenCalledWith(`Docker container ID`, new Error('my error'));
     });
 

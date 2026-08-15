@@ -21,7 +21,7 @@ export class DockerImageBuilder {
       context: options.cwd,
       src: [ options.dockerFile, ...options.auxiliaryFiles || [] ],
     }, {
-      // eslint-disable-next-line id-length
+
       t: options.imageName,
       buildargs: options.buildArgs,
       dockerfile: options.dockerFile,
@@ -37,8 +37,8 @@ export class DockerImageBuilder {
         },
       );
     });
-    if (output.length > 0 && output[output.length - 1].error) {
-      throw new Error(output[output.length - 1].error);
+    if (output.length > 0 && output.at(-1).error) {
+      throw new Error(output.at(-1).error);
     }
   }
 

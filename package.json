@@ -1,6 +1,7 @@
 {
-  "private": true,
   "name": "jbr-monorepo",
+  "private": true,
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
   "repository": "https://github.com/rubensworks/jbr.js/",
   "workspaces": [
     "packages/*"
@@ -47,7 +48,7 @@
     "publish-canary": "yarn run build && lerna version prerelease --preid alpha.$(git rev-parse --short HEAD) --ignore-scripts --force-publish --no-push --no-git-tag-version --yes && git update-index --assume-unchanged $(git ls-files | tr '\\n' ' ') && lerna publish from-package --no-git-reset --pre-dist-tag next --force-publish --no-push --no-git-tag-version --yes && git update-index --no-assume-unchanged $(git ls-files | tr '\\n' ' ') && git checkout .",
     "test": "jest --runInBand",
     "test-ci": "jest --ci --maxWorkers=4 --coverage",
-    "lint": "eslint . --ext .ts --cache",
+    "lint": "eslint . --cache",
     "clean": "rm -rf ./node_modules && rm -rf ./packages/*/node_modules",
     "postinstall": "yarn run build && lerna run prepare",
     "version": "manual-git-changelog onversion",
@@ -63,7 +64,7 @@
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "componentsjs-generator": "^4.3.0",
-    "eslint": "^7.9.0",
+    "eslint": "^8.57.0",
     "eslint-config-es": "3.23.0",
     "eslint-import-resolver-typescript": "^2.3.0",
     "eslint-plugin-import": "^2.22.0",
@@ -86,7 +87,6 @@
     "lint",
     "test"
   ],
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
   "resolutions": {
     "@rdfjs/types": "1.1.2",
     "cross-fetch": "4.1.0"

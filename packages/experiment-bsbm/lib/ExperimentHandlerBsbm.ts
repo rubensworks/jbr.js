@@ -10,7 +10,7 @@ export class ExperimentHandlerBsbm extends ExperimentHandler<ExperimentBsbm> {
     super('bsbm', ExperimentBsbm.name);
   }
 
-  public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
+  public getDefaultParams(_experimentPaths: IExperimentPaths): Record<string, any> {
     return {
       productCount: 1000,
       generateHdt: false,
@@ -25,7 +25,7 @@ export class ExperimentHandlerBsbm extends ExperimentHandler<ExperimentBsbm> {
     return [ 'hookSparqlEndpoint' ];
   }
 
-  public async init(experimentPaths: IExperimentPaths, experiment: ExperimentBsbm): Promise<void> {
+  public async init(_experimentPaths: IExperimentPaths, _experiment: ExperimentBsbm): Promise<void> {
     // Do nothing
   }
 }
