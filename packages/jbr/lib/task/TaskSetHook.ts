@@ -1,3 +1,4 @@
+/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import * as Path from 'node:path';
 import { inspect } from 'node:util';
 import * as fs from 'fs-extra';
@@ -49,7 +50,9 @@ export class TaskSetHook {
       this.context.experimentPaths.root,
       combinationsExperiment ? ExperimentLoader.CONFIG_TEMPLATE_NAME : ExperimentLoader.CONFIG_NAME,
     );
+    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
     const config = JSON.parse(await fs.readFile(configPath, 'utf8'));
+    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
     const experimentIri = config['@id'];
 
     // Prepare sub-hooks
@@ -114,6 +117,7 @@ export class TaskSetHook {
     if (path.length === 0) {
       return object;
     }
+    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
     const child = object[path[0]];
     if (!child) {
       throw new Error(`Illegal hook path: could not find '${path[0]}' in '${configPath}' on ${inspect(object)}`);
@@ -125,8 +129,10 @@ export class TaskSetHook {
     if (path.length === 0) {
       throw new Error(`Illegal hook path of length 0`);
     } else if (path.length === 1) {
+      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
       object[path[0]] = value;
     } else {
+      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
       const child = object[path[0]];
       if (!child) {
         throw new Error(`Illegal hook path: could not set a child for '${path[0]}' in '${configPath}' on ${inspect(object)}`);

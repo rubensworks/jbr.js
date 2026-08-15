@@ -1,3 +1,4 @@
+/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import type { ITaskContext } from '../task/ITaskContext';
@@ -38,6 +39,7 @@ export class HdtConverter {
           ],
         },
         logFilePath: Path.join(this.context.experimentPaths.output, 'logs', `${this.scope}-hdt.txt`),
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       })).join();
 
       // Generate HDT index file
@@ -50,6 +52,7 @@ export class HdtConverter {
           ],
         },
         logFilePath: Path.join(this.context.experimentPaths.output, 'logs', `${this.scope}-hdt-index.txt`),
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       })).join();
     }
   }

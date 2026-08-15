@@ -38,6 +38,7 @@ export class DockerImageBuilder {
       );
     });
     if (output.length > 0 && output.at(-1).error) {
+      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
       throw new Error(output.at(-1).error);
     }
   }

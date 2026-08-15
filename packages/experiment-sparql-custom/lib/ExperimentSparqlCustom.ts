@@ -1,3 +1,4 @@
+/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import { secureProcessHandler } from 'jbr';
@@ -117,6 +118,7 @@ export class ExperimentSparqlCustom implements Experiment {
         if (sources) {
           let ctx: Record<string, any>;
           if (params.context) {
+            // eslint-disable-next-line ts/no-unsafe-assignment, ts/no-unsafe-argument
             ctx = JSON.parse(params.context);
           } else {
             ctx = {};

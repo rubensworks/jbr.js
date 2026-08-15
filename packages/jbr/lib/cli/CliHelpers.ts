@@ -1,3 +1,4 @@
+/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import * as Path from 'node:path';
 import * as util from 'node:util';
 import Dockerode from 'dockerode';
@@ -44,15 +45,22 @@ export async function wrapCommandHandler(
   const startTime = process.hrtime();
 
   // Create context
+  // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
   const dockerode = new Dockerode(argv.dockerOptions ?
 
+    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
     JSON.parse(await fs.readFile(argv.dockerOptions, 'utf8')) :
     undefined);
   const context: ITaskContext = {
+    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
     cwd: argv.cwd,
+    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
     experimentPaths: createExperimentPaths(argv.cwd),
+    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
     experimentName: await ExperimentLoader.getExperimentName(argv.cwd),
+    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
     mainModulePath: argv.mainModulePath || argv.cwd,
+    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
     verbose: argv.verbose,
     logger: createCliLogger(argv.verbose ? 'verbose' : 'info'),
     docker: {
@@ -63,6 +71,7 @@ export async function wrapCommandHandler(
       networkInspector: new DockerNetworkInspector(dockerode),
     },
 
+    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
     closeExperiment: () => process.emit(<any>'SIGTERM'),
     cleanupHandlers: [],
     ...argv.breakpoints ? { breakpointBarrier } : {},
@@ -90,8 +99,11 @@ export async function wrapCommandHandler(
     // eslint-disable-next-line unicorn/no-process-exit
     process.exit(1);
   };
+  // eslint-disable-next-line ts/no-misused-promises -- process.on listener; the handler settles on its own
   process.on('SIGINT', globalCleanupHandler);
+  // eslint-disable-next-line ts/no-misused-promises -- process.on listener; the handler settles on its own
   process.on('SIGTERM', globalCleanupHandler);
+  // eslint-disable-next-line ts/no-misused-promises -- process.on listener; the handler settles on its own
   process.on('uncaughtException', globalCleanupHandler);
 
   // Run handler

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import { secureProcessHandler, HttpAvailabilityLatch, HdtConverter } from 'jbr';
@@ -50,7 +51,9 @@ export class ExperimentBsbm implements Experiment {
     }
     let gatewayIp = '172.17.0.1';
     try {
+      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
       const networkInfo = await context.docker.networkInspector.inspect('bridge');
+      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
       gatewayIp = networkInfo.IPAM.Config[0].Gateway;
     } catch (error: unknown) {
       context.logger.info(`Error occurred while obtaining gateway IP from Docker bridge: ${(<any> error).message}`);
@@ -87,6 +90,7 @@ export class ExperimentBsbm implements Experiment {
           ],
         },
         logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-generation.txt'),
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       })).join();
     }
 
@@ -136,6 +140,7 @@ export class ExperimentBsbm implements Experiment {
     ], network);
 
     // Wait for the experiment driver to end
+    // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
     await testDriverHandler.join();
     stopEndpointStats();
 

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import { createExperimentPaths } from '../cli/CliHelpers';
@@ -89,6 +90,7 @@ export class TaskInitialize {
     const { handler: experimentType, contexts } = experimentTypeWrapped;
 
     // Determine jbr context url
+    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
     const jbrContextUrl = JSON.parse(await fs
       .readFile(Path.join(__dirname, '../../components/components.jsonld'), 'utf8'))['@context'][0];
 

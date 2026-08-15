@@ -1,3 +1,4 @@
+/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import Path from 'node:path';
 import * as fs from 'fs-extra';
 import type { FactorCombination } from '../factor/CombinationProvider';
@@ -101,6 +102,7 @@ export class TaskGenerateCombinations {
       ExperimentLoader.getCombinationExperimentIri(experimentId, combinationId),
     );
     for (const [ key, value ] of Object.entries(combination)) {
+      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
       content = content.replaceAll(new RegExp(`%FACTOR-${key}%`, 'gu'), value);
     }
     return content;

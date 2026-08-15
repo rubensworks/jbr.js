@@ -23,6 +23,7 @@ export function builder(yargs: Argv<any>): Argv<any> {
 export function handler(argv: Record<string, any>): Promise<void> {
   return wrapCommandHandler(
     argv,
+    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
     async(context: ITaskContext) => new TaskRun(context, argv.combination, argv.filter).run(),
   );
 }

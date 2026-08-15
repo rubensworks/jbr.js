@@ -16,9 +16,11 @@ export function builder(yargs: Argv<any>): Argv<any> {
 }
 export function handler(argv: Record<string, any>): Promise<void> {
   return wrapCommandHandler(argv, async(context: ITaskContext) => {
+    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
     const npmInstaller = await createNpmInstaller(context, argv.next);
     const output = await wrapVisualProgress(
       'Setting hook in experiment',
+      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
       async() => new TaskSetHook(context, argv.hook.split('/'), argv.handler, npmInstaller).set(),
     );
     context.logger.info(`Handler '${argv.handler}' has been set for hook '${argv.hook}' in experiment '${context.experimentName}'`);

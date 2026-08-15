@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions, import/no-nodejs-modules */
 import * as Path from 'node:path';
 import semverMajor = require('semver/functions/major');
 import { createExperimentPaths } from '../../lib/cli/CliHelpers';

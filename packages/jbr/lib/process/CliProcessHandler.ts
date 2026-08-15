@@ -1,7 +1,9 @@
+/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import type { ChildProcess } from 'node:child_process';
 import fs from 'node:fs';
 import type { ProcessHandler } from '../experiment/ProcessHandler';
 
+// eslint-disable-next-line ts/no-unsafe-assignment, ts/no-var-requires, ts/no-require-imports
 const pidusage = require('pidusage');
 
 export class CliProcessHandler implements ProcessHandler {

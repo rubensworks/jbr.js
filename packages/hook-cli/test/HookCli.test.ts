@@ -1,3 +1,4 @@
+/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import type { ITaskContext } from 'jbr';
 import { CliProcessHandler, createExperimentPaths } from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';

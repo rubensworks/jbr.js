@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions, import/no-nodejs-modules */
 import * as Path from 'node:path';
 import { ComponentsManager } from 'componentsjs';
 import { GenericsContext } from 'componentsjs/lib/preprocess/GenericsContext';
@@ -49,7 +50,9 @@ export class ExperimentLoader {
 
   public static async getExperimentName(experimentRoot: string): Promise<string> {
     try {
+      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
       const data = JSON.parse(await fs.readFile(Path.join(experimentRoot, 'package.json'), 'utf8'));
+      // eslint-disable-next-line ts/no-unsafe-return -- TODO: type properly, tracked as follow-up typing work
       return data.name;
     } catch {
       return 'dummy';
@@ -171,6 +174,7 @@ export class ExperimentLoader {
     // Index available package.json by package name
     const packageJsons: Record<string, { contents: any; path: string }> = {};
     for (const [ path, packageJson ] of Object.entries(this.componentsManager.moduleState.packageJsons)) {
+      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
       packageJsons[packageJson.name] = { contents: packageJson, path };
     }
 
@@ -189,6 +193,7 @@ export class ExperimentLoader {
       );
 
       if (!hasTypeError && component.value !== componentType) {
+        // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
         const handler = await this.componentsManager.configConstructorPool
           .instantiate(this.componentsManager.objectLoader.createCompactedResource({
             types: component,
@@ -203,8 +208,10 @@ export class ExperimentLoader {
         if (!packageJson) {
           throw new ErrorHandled(`Could not find a package.json for '${packageName}'`);
         }
+        // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
         const contexts = Object.keys(packageJson.contents['lsd:contexts']);
 
+        // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
         handlers[handler.id] = { handler, contexts };
       }
     }

@@ -50,10 +50,15 @@ export class CliNpmInstaller implements NpmInstaller {
 
   public async fetchPackageNames(scope: string): Promise<{ name: string; description: string; link: string }[]> {
     const response = await fetch(`https://api.npms.io/v2/search?q=scope:${scope}`);
+    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
     const data = await response.json();
+    // eslint-disable-next-line ts/no-unsafe-return -- TODO: type properly, tracked as follow-up typing work
     return data.results.map((result: any) => ({
+      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
       name: result.package.name,
+      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
       description: result.package.description,
+      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
       link: result.package.links.npm,
     }));
   }

@@ -29,14 +29,21 @@ export function builder(yargs: Argv<any>): Argv<any> {
 }
 export function handler(argv: Record<string, any>): Promise<void> {
   return wrapCommandHandler(argv, async(context: ITaskContext) => {
+    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
     const target = argv.target || argv.name;
+    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
     const npmInstaller = await createNpmInstaller(context, argv.next);
     const output = await wrapVisualProgress(`Initializing new${argv.combinations ? ' combinations-based' : ''} experiment`, async() => new TaskInitialize(
       context,
+      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
       argv.type,
+      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
       argv.name,
+      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
       target,
+      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
       argv.force,
+      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
       argv.combinations,
       npmInstaller,
     ).init());

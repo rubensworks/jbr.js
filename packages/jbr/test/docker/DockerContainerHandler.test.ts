@@ -1,3 +1,4 @@
+/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import { Readable } from 'node:stream';
 import { DockerContainerHandler } from '../../lib/docker/DockerContainerHandler';
 
@@ -49,6 +50,7 @@ describe('DockerContainerHandler', () => {
       const onResolve = jest.fn();
       const onReject = jest.fn();
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await new Promise(setImmediate);
 
@@ -66,6 +68,7 @@ describe('DockerContainerHandler', () => {
       const onResolve = jest.fn();
       const onReject = jest.fn();
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await new Promise(setImmediate);
 
@@ -86,6 +89,7 @@ describe('DockerContainerHandler', () => {
       out.emit('end');
       await new Promise(setImmediate);
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await new Promise(setImmediate);
 
@@ -100,6 +104,7 @@ describe('DockerContainerHandler', () => {
       out.emit('error', new Error('DockerContainerHandler test error'));
       await new Promise(setImmediate);
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await new Promise(setImmediate);
 

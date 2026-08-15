@@ -16,5 +16,6 @@ export function builder(yargs: Argv<any>): Argv<any> {
     });
 }
 export function handler(argv: Record<string, any>): Promise<void> {
+  // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
   return wrapCommandHandler(argv, async(context: ITaskContext) => new TaskPack(context, argv.output).pack());
 }

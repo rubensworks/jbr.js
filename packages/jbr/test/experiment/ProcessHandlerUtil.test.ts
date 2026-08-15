@@ -1,3 +1,4 @@
+/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import type { ChildProcess } from 'node:child_process';
 import EventEmitter from 'node:events';
 import { secureProcessHandler } from '../../lib/experiment/ProcessHandlerUtil';
@@ -11,6 +12,7 @@ describe('secureProcessHandler', () => {
 
   beforeEach(() => {
     childProcess = <any> new EventEmitter();
+    // eslint-disable-next-line jest/prefer-spy-on -- the property does not exist yet, so spyOn would throw
     (<any> childProcess).kill = jest.fn(() => {
       setImmediate(() => {
         childProcess.emit('close');

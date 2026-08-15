@@ -1,3 +1,4 @@
+/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import type { ChildProcess } from 'node:child_process';
 import EventEmitter from 'node:events';
 import { CliProcessHandler } from '../../lib/process/CliProcessHandler';
@@ -22,6 +23,7 @@ describe('CliProcessHandler', () => {
 
   beforeEach(() => {
     childProcess = <any> new EventEmitter();
+    // eslint-disable-next-line jest/prefer-spy-on -- the property does not exist yet, so spyOn would throw
     (<any> childProcess).kill = jest.fn(() => {
       setImmediate(() => {
         childProcess.emit('close');
@@ -57,6 +59,7 @@ describe('CliProcessHandler', () => {
     });
 
     it('kills a process if SIGTERM has no effect', async() => {
+      // eslint-disable-next-line jest/prefer-spy-on -- the property does not exist yet, so spyOn would throw
       (<any> childProcess).kill = jest.fn((signal) => {
         if (signal === 'SIGKILL') {
           setImmediate(() => {
@@ -78,6 +81,7 @@ describe('CliProcessHandler', () => {
       const onResolve = jest.fn();
       const onReject = jest.fn();
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await singleTick();
 
@@ -95,6 +99,7 @@ describe('CliProcessHandler', () => {
       const onResolve = jest.fn();
       const onReject = jest.fn();
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await singleTick();
 
@@ -115,6 +120,7 @@ describe('CliProcessHandler', () => {
       childProcess.emit('close');
       await singleTick();
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await singleTick();
 
@@ -129,6 +135,7 @@ describe('CliProcessHandler', () => {
       childProcess.emit('error', new Error('CliProcessHandler test error'));
       await singleTick();
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await singleTick();
 
