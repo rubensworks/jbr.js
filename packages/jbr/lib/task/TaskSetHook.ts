@@ -50,9 +50,7 @@ export class TaskSetHook {
       this.context.experimentPaths.root,
       combinationsExperiment ? ExperimentLoader.CONFIG_TEMPLATE_NAME : ExperimentLoader.CONFIG_NAME,
     );
-    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
-    const config = JSON.parse(await fs.readFile(configPath, 'utf8'));
-    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
+    const config = <IExperimentConfig> JSON.parse(await fs.readFile(configPath, 'utf8'));
     const experimentIri = config['@id'];
 
     // Prepare sub-hooks
@@ -117,7 +115,7 @@ export class TaskSetHook {
     if (path.length === 0) {
       return object;
     }
-    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
+    // eslint-disable-next-line ts/no-unsafe-assignment -- dynamic JSON path walker, see PR notes
     const child = object[path[0]];
     if (!child) {
       throw new Error(`Illegal hook path: could not find '${path[0]}' in '${configPath}' on ${inspect(object)}`);
@@ -129,10 +127,10 @@ export class TaskSetHook {
     if (path.length === 0) {
       throw new Error(`Illegal hook path of length 0`);
     } else if (path.length === 1) {
-      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
+      // eslint-disable-next-line ts/no-unsafe-assignment -- dynamic JSON path walker, see PR notes
       object[path[0]] = value;
     } else {
-      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
+      // eslint-disable-next-line ts/no-unsafe-assignment -- dynamic JSON path walker, see PR notes
       const child = object[path[0]];
       if (!child) {
         throw new Error(`Illegal hook path: could not set a child for '${path[0]}' in '${configPath}' on ${inspect(object)}`);
@@ -144,4 +142,12 @@ export class TaskSetHook {
 
 export interface ITaskSetHookOutput {
   subHookNames: string[];
+}
+
+/**
+ * The subset of an experiment config file that is read and updated here.
+ */
+interface IExperimentConfig {
+  '@id': string;
+  '@context': string[];
 }

@@ -72,8 +72,7 @@ export class DockerContainerHandler implements ProcessHandler {
   public async startCollectingStats(): Promise<() => void> {
     // Just consume the stats stream if we don't have a statsFilePath
     if (!this.statsFilePath) {
-      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
-      const statsStream: NodeJS.ReadableStream = <any> await this.container.stats({});
+      const statsStream = <NodeJS.ReadableStream><unknown> await this.container.stats({});
       statsStream.resume();
       return () => {
         statsStream.removeAllListeners('data');
@@ -85,8 +84,7 @@ export class DockerContainerHandler implements ProcessHandler {
     out.write('cpu_percentage,memory,memory_percentage,received,transmitted\n');
 
     // Read the stats stream
-    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
-    const statsStream: NodeJS.ReadableStream = <any> await this.container.stats({});
+    const statsStream = <NodeJS.ReadableStream><unknown> await this.container.stats({});
     statsStream.setEncoding('utf8');
     let first = true;
     statsStream.on('data', (stats: string) => {
@@ -99,10 +97,9 @@ export class DockerContainerHandler implements ProcessHandler {
             continue;
           }
 
-          let data;
+          let data: IDockerContainerStats;
           try {
-            // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
-            data = JSON.parse(line);
+            data = <IDockerContainerStats> JSON.parse(line);
           } catch {
             continue;
           }
@@ -121,14 +118,12 @@ export class DockerContainerHandler implements ProcessHandler {
           }
 
           // Calculate memory usage
-          // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
           const memory = data.memory_stats.usage;
           const memoryPercentage = data.memory_stats.usage / data.memory_stats.limit * 100;
 
           // Calculate I/O
           let receivedBytes = 0;
           let transmittedBytes = 0;
-          // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
           for (const network of Object.keys(data.networks)) {
             receivedBytes += data.networks[network].rx_bytes;
             transmittedBytes += data.networks[network].tx_bytes;
@@ -158,4 +153,20 @@ export class DockerContainerHandler implements ProcessHandler {
       terminationListener(`Docker container ${this.container.id}`, error);
     }
   }
+}
+
+/**
+ * The subset of a Docker container stats entry that is used here.
+ * Field names follow the Docker API payload.
+ */
+interface IDockerContainerStats {
+  networks?: Record<string, { rx_bytes: number; tx_bytes: number }>;
+  cpu_stats: IDockerCpuStats;
+  precpu_stats: IDockerCpuStats;
+  memory_stats: { usage: number; limit: number };
+}
+
+interface IDockerCpuStats {
+  cpu_usage: { total_usage: number };
+  system_cpu_usage: number;
 }

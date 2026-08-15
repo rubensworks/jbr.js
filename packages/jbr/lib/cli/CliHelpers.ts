@@ -43,26 +43,20 @@ export async function wrapCommandHandler(
   handler: (context: ITaskContext) => Promise<void>,
 ): Promise<void> {
   const startTime = process.hrtime();
+  const { cwd, dockerOptions, mainModulePath, verbose, breakpoints } = <ICommonCliArgs> argv;
 
   // Create context
-  // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-  const dockerode = new Dockerode(argv.dockerOptions ?
+  const dockerode = new Dockerode(dockerOptions ?
 
-    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-    JSON.parse(await fs.readFile(argv.dockerOptions, 'utf8')) :
+    <Dockerode.DockerOptions> JSON.parse(await fs.readFile(dockerOptions, 'utf8')) :
     undefined);
   const context: ITaskContext = {
-    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
-    cwd: argv.cwd,
-    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-    experimentPaths: createExperimentPaths(argv.cwd),
-    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-    experimentName: await ExperimentLoader.getExperimentName(argv.cwd),
-    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
-    mainModulePath: argv.mainModulePath || argv.cwd,
-    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
-    verbose: argv.verbose,
-    logger: createCliLogger(argv.verbose ? 'verbose' : 'info'),
+    cwd,
+    experimentPaths: createExperimentPaths(cwd),
+    experimentName: await ExperimentLoader.getExperimentName(cwd),
+    mainModulePath: mainModulePath ?? cwd,
+    verbose,
+    logger: createCliLogger(verbose ? 'verbose' : 'info'),
     docker: {
       containerCreator: new DockerContainerCreator(dockerode),
       imageBuilder: new DockerImageBuilder(dockerode),
@@ -71,10 +65,9 @@ export async function wrapCommandHandler(
       networkInspector: new DockerNetworkInspector(dockerode),
     },
 
-    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-    closeExperiment: () => process.emit(<any>'SIGTERM'),
+    closeExperiment: () => process.emit('SIGTERM'),
     cleanupHandlers: [],
-    ...argv.breakpoints ? { breakpointBarrier } : {},
+    ...breakpoints ? { breakpointBarrier } : {},
   };
 
   // Register cleanup handling
@@ -161,4 +154,15 @@ export async function createNpmInstaller(context: ITaskContext, nextVersion: boo
   const inTestCheckout = await fs.pathExists(Path.join(__dirname, '..', '..', 'test')) &&
     Path.join(process.cwd(), Path.sep).startsWith(Path.join(__dirname, '../../../../'));
   return inTestCheckout ? new VoidNpmInstaller() : new CliNpmInstaller(context, nextVersion);
+}
+
+/**
+ * The global CLI options that every command handler receives.
+ */
+export interface ICommonCliArgs {
+  cwd: string;
+  dockerOptions: string | undefined;
+  mainModulePath: string | undefined;
+  verbose: boolean;
+  breakpoints: boolean | undefined;
 }

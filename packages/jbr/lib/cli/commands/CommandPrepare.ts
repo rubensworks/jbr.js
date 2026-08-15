@@ -22,9 +22,14 @@ export function builder(yargs: Argv<any>): Argv<any> {
     });
 }
 export function handler(argv: Record<string, any>): Promise<void> {
+  const { force, combination } = <ICommandPrepareArgs> argv;
   return wrapCommandHandler(
     argv,
-    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-    async(context: ITaskContext) => new TaskPrepare(context, argv.force, argv.combination).prepare(),
+    async(context: ITaskContext) => new TaskPrepare(context, force, combination).prepare(),
   );
+}
+
+interface ICommandPrepareArgs {
+  force: boolean;
+  combination: number | undefined;
 }

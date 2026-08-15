@@ -15,22 +15,27 @@ export function builder(yargs: Argv<any>): Argv<any> {
     });
 }
 export function handler(argv: Record<string, any>): Promise<void> {
+  const { next, hook, handler: handlerId } = <ICommandSetHookArgs> argv;
   return wrapCommandHandler(argv, async(context: ITaskContext) => {
-    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-    const npmInstaller = await createNpmInstaller(context, argv.next);
+    const npmInstaller = await createNpmInstaller(context, next);
     const output = await wrapVisualProgress(
       'Setting hook in experiment',
-      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-      async() => new TaskSetHook(context, argv.hook.split('/'), argv.handler, npmInstaller).set(),
+      async() => new TaskSetHook(context, hook.split('/'), handlerId, npmInstaller).set(),
     );
-    context.logger.info(`Handler '${argv.handler}' has been set for hook '${argv.hook}' in experiment '${context.experimentName}'`);
+    context.logger.info(`Handler '${handlerId}' has been set for hook '${hook}' in experiment '${context.experimentName}'`);
 
     if (output.subHookNames.length > 0) {
       context.logger.warn(`\nThis hook requires the following sub-hooks before it can be used:`);
       for (const hookName of output.subHookNames) {
-        context.logger.warn(`  - ${argv.hook}/${hookName}`);
+        context.logger.warn(`  - ${hook}/${hookName}`);
       }
       context.logger.warn(`Initialize these hooks by calling 'jbr ${command}'\n`);
     }
   });
+}
+
+interface ICommandSetHookArgs {
+  next: boolean;
+  hook: string;
+  handler: string;
 }

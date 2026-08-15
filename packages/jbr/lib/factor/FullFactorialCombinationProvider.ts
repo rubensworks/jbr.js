@@ -21,14 +21,13 @@ export class FullFactorialCombinationProvider implements CombinationProvider {
     let combinations: FactorCombination[] = [{}];
     for (const [ factor, values ] of Object.entries(this.factors)) {
       const combinationsCopies: FactorCombination[][] = [];
-      for (const value of values) {
+      for (const value of <unknown[]> values) {
         // Make a deep copy of the combinations array
         const combinationsCopy = combinations.map(factorCombination => ({ ...factorCombination }));
         combinationsCopies.push(combinationsCopy);
 
         // Set the value in all copies
         for (const combinationCopy of combinationsCopy) {
-          // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
           combinationCopy[factor] = value;
         }
       }

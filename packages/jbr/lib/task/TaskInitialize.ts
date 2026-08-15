@@ -90,9 +90,9 @@ export class TaskInitialize {
     const { handler: experimentType, contexts } = experimentTypeWrapped;
 
     // Determine jbr context url
-    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
-    const jbrContextUrl = JSON.parse(await fs
-      .readFile(Path.join(__dirname, '../../components/components.jsonld'), 'utf8'))['@context'][0];
+    const jbrComponents = <{ '@context': string[] }> JSON.parse(await fs
+      .readFile(Path.join(__dirname, '../../components/components.jsonld'), 'utf8'));
+    const jbrContextUrl = jbrComponents['@context'][0];
 
     // Create config
     const experimentIri = ExperimentLoader.getDefaultExperimentIri(this.experimentName);

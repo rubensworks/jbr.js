@@ -102,8 +102,7 @@ export class TaskGenerateCombinations {
       ExperimentLoader.getCombinationExperimentIri(experimentId, combinationId),
     );
     for (const [ key, value ] of Object.entries(combination)) {
-      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-      content = content.replaceAll(new RegExp(`%FACTOR-${key}%`, 'gu'), value);
+      content = content.replaceAll(new RegExp(`%FACTOR-${key}%`, 'gu'), String(value));
     }
     return content;
   }

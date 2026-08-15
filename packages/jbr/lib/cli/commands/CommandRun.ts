@@ -21,9 +21,14 @@ export function builder(yargs: Argv<any>): Argv<any> {
     });
 }
 export function handler(argv: Record<string, any>): Promise<void> {
+  const { combination, filter } = <ICommandRunArgs> argv;
   return wrapCommandHandler(
     argv,
-    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-    async(context: ITaskContext) => new TaskRun(context, argv.combination, argv.filter).run(),
+    async(context: ITaskContext) => new TaskRun(context, combination, filter).run(),
   );
+}
+
+interface ICommandRunArgs {
+  combination: number | undefined;
+  filter: string | undefined;
 }

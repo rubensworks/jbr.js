@@ -28,27 +28,21 @@ export function builder(yargs: Argv<any>): Argv<any> {
     });
 }
 export function handler(argv: Record<string, any>): Promise<void> {
+  const { target: targetArg, type, name, force, combinations, next } = <ICommandInitArgs> argv;
   return wrapCommandHandler(argv, async(context: ITaskContext) => {
-    // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
-    const target = argv.target || argv.name;
-    // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-    const npmInstaller = await createNpmInstaller(context, argv.next);
-    const output = await wrapVisualProgress(`Initializing new${argv.combinations ? ' combinations-based' : ''} experiment`, async() => new TaskInitialize(
+    const target = targetArg ?? name;
+    const npmInstaller = await createNpmInstaller(context, next);
+    const output = await wrapVisualProgress(`Initializing new${combinations ? ' combinations-based' : ''} experiment`, async() => new TaskInitialize(
       context,
-      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-      argv.type,
-      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-      argv.name,
-      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
+      type,
+      name,
       target,
-      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-      argv.force,
-      // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
-      argv.combinations,
+      force,
+      combinations,
       npmInstaller,
     ).init());
 
-    context.logger.info(`Initialized new${argv.combinations ? ' combinations-based' : ''} experiment in ${output.experimentDirectory}`);
+    context.logger.info(`Initialized new${combinations ? ' combinations-based' : ''} experiment in ${output.experimentDirectory}`);
     if (output.hookNames.length > 0) {
       context.logger.warn(`\nThis experiment requires handlers for the following hooks before it can be used:`);
       for (const hookName of output.hookNames) {
@@ -57,4 +51,13 @@ export function handler(argv: Record<string, any>): Promise<void> {
       context.logger.warn(`Initialize these hooks by calling 'jbr ${commandSetHook}'\n`);
     }
   });
+}
+
+interface ICommandInitArgs {
+  target: string | undefined;
+  type: string;
+  name: string;
+  force: boolean;
+  combinations: boolean;
+  next: boolean;
 }

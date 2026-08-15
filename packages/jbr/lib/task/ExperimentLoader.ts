@@ -50,9 +50,8 @@ export class ExperimentLoader {
 
   public static async getExperimentName(experimentRoot: string): Promise<string> {
     try {
-      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
-      const data = JSON.parse(await fs.readFile(Path.join(experimentRoot, 'package.json'), 'utf8'));
-      // eslint-disable-next-line ts/no-unsafe-return -- TODO: type properly, tracked as follow-up typing work
+      const data = <{ name: string }> JSON
+        .parse(await fs.readFile(Path.join(experimentRoot, 'package.json'), 'utf8'));
       return data.name;
     } catch {
       return 'dummy';
@@ -172,10 +171,10 @@ export class ExperimentLoader {
   protected async discoverComponents<C extends { id: string }>(componentType: string):
   Promise<Record<string, { handler: C; contexts: string[] }>> {
     // Index available package.json by package name
-    const packageJsons: Record<string, { contents: any; path: string }> = {};
+    const packageJsons: Record<string, { contents: IComponentsPackageJson; path: string }> = {};
     for (const [ path, packageJson ] of Object.entries(this.componentsManager.moduleState.packageJsons)) {
-      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
-      packageJsons[packageJson.name] = { contents: packageJson, path };
+      const contents = <IComponentsPackageJson> packageJson;
+      packageJsons[contents.name] = { contents, path };
     }
 
     const rangeHandler = new ParameterPropertyHandlerRange(this.componentsManager.objectLoader, false);
@@ -193,8 +192,7 @@ export class ExperimentLoader {
       );
 
       if (!hasTypeError && component.value !== componentType) {
-        // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
-        const handler = await this.componentsManager.configConstructorPool
+        const handler = <C> await this.componentsManager.configConstructorPool
           .instantiate(this.componentsManager.objectLoader.createCompactedResource({
             types: component,
           }), {});
@@ -208,10 +206,8 @@ export class ExperimentLoader {
         if (!packageJson) {
           throw new ErrorHandled(`Could not find a package.json for '${packageName}'`);
         }
-        // eslint-disable-next-line ts/no-unsafe-argument -- TODO: type properly, tracked as follow-up typing work
         const contexts = Object.keys(packageJson.contents['lsd:contexts']);
 
-        // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
         handlers[handler.id] = { handler, contexts };
       }
     }
@@ -300,4 +296,12 @@ export class ExperimentLoader {
   public static getCombinationExperimentIri(experimentIri: string, combinationIdString: string): string {
     return `${experimentIri}:${combinationIdString}`;
   }
+}
+
+/**
+ * The subset of a Components.js module package.json that is used here.
+ */
+interface IComponentsPackageJson {
+  name: string;
+  'lsd:contexts': Record<string, string>;
 }

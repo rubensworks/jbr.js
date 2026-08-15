@@ -51,9 +51,7 @@ export class ExperimentBsbm implements Experiment {
     }
     let gatewayIp = '172.17.0.1';
     try {
-      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
-      const networkInfo = await context.docker.networkInspector.inspect('bridge');
-      // eslint-disable-next-line ts/no-unsafe-assignment -- TODO: type properly, tracked as follow-up typing work
+      const networkInfo = <IDockerNetworkInfo> await context.docker.networkInspector.inspect('bridge');
       gatewayIp = networkInfo.IPAM.Config[0].Gateway;
     } catch (error: unknown) {
       context.logger.info(`Error occurred while obtaining gateway IP from Docker bridge: ${(<any> error).message}`);
@@ -202,4 +200,11 @@ export class ExperimentBsbm implements Experiment {
   public async waitForEndpoint(context: ITaskContext): Promise<void> {
     await this.httpAvailabilityLatch.sleepUntilAvailable(context, this.endpointUrlExternal);
   }
+}
+
+/**
+ * The subset of a Docker network inspection result that is used here.
+ */
+interface IDockerNetworkInfo {
+  IPAM: { Config: { Gateway: string }[] };
 }

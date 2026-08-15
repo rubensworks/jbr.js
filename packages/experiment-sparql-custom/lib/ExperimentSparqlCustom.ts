@@ -116,10 +116,10 @@ export class ExperimentSparqlCustom implements Experiment {
         const sources = self.getQuerySources(query);
         const params: Record<string, any> = { ...self.queryRunnerUrlParams };
         if (sources) {
+          const contextParam = <string | undefined> params.context;
           let ctx: Record<string, any>;
-          if (params.context) {
-            // eslint-disable-next-line ts/no-unsafe-assignment, ts/no-unsafe-argument
-            ctx = JSON.parse(params.context);
+          if (contextParam) {
+            ctx = <Record<string, any>> JSON.parse(contextParam);
           } else {
             ctx = {};
           }
