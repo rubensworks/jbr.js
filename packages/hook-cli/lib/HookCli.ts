@@ -1,4 +1,3 @@
-/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import Path from 'node:path';

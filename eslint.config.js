@@ -10,6 +10,9 @@ module.exports = config([
       },
     },
     rules: {
+      // jbr is a Node CLI benchmark runner; it cannot avoid fs/path/child_process.
+      'import/no-nodejs-modules': 'off',
+
       'ts/naming-convention': [
         'error',
         {

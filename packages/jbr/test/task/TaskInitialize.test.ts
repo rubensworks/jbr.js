@@ -1,4 +1,4 @@
-/* eslint-disable import/extensions, import/no-nodejs-modules */
+/* eslint-disable import/extensions -- resolveJsonModule requires the .json extension */
 import * as Path from 'node:path';
 import semverMajor = require('semver/functions/major');
 import { createExperimentPaths } from '../../lib/cli/CliHelpers';

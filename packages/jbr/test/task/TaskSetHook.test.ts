@@ -1,4 +1,3 @@
-/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import * as Path from 'node:path';
 import { createExperimentPaths } from '../../lib/cli/CliHelpers';
 import type { HookHandler } from '../../lib/hook/HookHandler';

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import type { ChildProcess } from 'node:child_process';
 import fs from 'node:fs';
 import type { ProcessHandler } from '../experiment/ProcessHandler';

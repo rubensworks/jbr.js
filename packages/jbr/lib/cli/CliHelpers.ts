@@ -1,4 +1,3 @@
-/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import * as Path from 'node:path';
 import * as util from 'node:util';
 import Dockerode from 'dockerode';

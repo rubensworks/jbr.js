@@ -1,4 +1,3 @@
-/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import type { ChildProcess } from 'node:child_process';
 import EventEmitter from 'node:events';
 import { secureProcessHandler } from '../../lib/experiment/ProcessHandlerUtil';

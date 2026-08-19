@@ -1,4 +1,3 @@
-/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import { Readable } from 'node:stream';
 import { DockerContainerHandler } from '../../lib/docker/DockerContainerHandler';
 

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import * as Path from 'node:path';
 import { inspect } from 'node:util';
 import * as fs from 'fs-extra';
@@ -115,7 +114,7 @@ export class TaskSetHook {
     if (path.length === 0) {
       return object;
     }
-    // eslint-disable-next-line ts/no-unsafe-assignment -- dynamic JSON path walker, see PR notes
+    // eslint-disable-next-line ts/no-unsafe-assignment
     const child = object[path[0]];
     if (!child) {
       throw new Error(`Illegal hook path: could not find '${path[0]}' in '${configPath}' on ${inspect(object)}`);
@@ -127,10 +126,10 @@ export class TaskSetHook {
     if (path.length === 0) {
       throw new Error(`Illegal hook path of length 0`);
     } else if (path.length === 1) {
-      // eslint-disable-next-line ts/no-unsafe-assignment -- dynamic JSON path walker, see PR notes
+      // eslint-disable-next-line ts/no-unsafe-assignment
       object[path[0]] = value;
     } else {
-      // eslint-disable-next-line ts/no-unsafe-assignment -- dynamic JSON path walker, see PR notes
+      // eslint-disable-next-line ts/no-unsafe-assignment
       const child = object[path[0]];
       if (!child) {
         throw new Error(`Illegal hook path: could not set a child for '${path[0]}' in '${configPath}' on ${inspect(object)}`);

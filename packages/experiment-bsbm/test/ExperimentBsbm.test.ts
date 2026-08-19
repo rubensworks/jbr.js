@@ -1,4 +1,3 @@
-/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import Path from 'node:path';
 import { HdtConverter, createExperimentPaths } from 'jbr';
 import type { Hook, ITaskContext, ProcessHandler } from 'jbr';

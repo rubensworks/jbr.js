@@ -1,4 +1,3 @@
-/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import fs from 'node:fs';
 import type Dockerode from 'dockerode';
 import type { ProcessHandler } from '../experiment/ProcessHandler';

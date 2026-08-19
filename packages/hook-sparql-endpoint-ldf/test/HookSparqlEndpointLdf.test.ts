@@ -1,4 +1,3 @@
-/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import Path from 'node:path';
 import { createExperimentPaths, ProcessHandlerComposite, StaticDockerResourceConstraints } from 'jbr';
 import type { ITaskContext, DockerContainerHandler, DockerResourceConstraints, Hook } from 'jbr';

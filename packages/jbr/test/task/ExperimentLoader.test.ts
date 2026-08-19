@@ -1,4 +1,3 @@
-/* eslint-disable import/no-nodejs-modules -- jbr is a Node CLI benchmark runner */
 import * as Path from 'node:path';
 import { ComponentsManagerBuilder } from 'componentsjs';
 import type { RdfObjectLoader } from 'rdf-object';

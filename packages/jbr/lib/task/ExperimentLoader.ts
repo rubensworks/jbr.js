@@ -1,4 +1,4 @@
-/* eslint-disable import/extensions, import/no-nodejs-modules */
+/* eslint-disable import/extensions -- resolveJsonModule requires the .json extension */
 import * as Path from 'node:path';
 import { ComponentsManager } from 'componentsjs';
 import { GenericsContext } from 'componentsjs/lib/preprocess/GenericsContext';
