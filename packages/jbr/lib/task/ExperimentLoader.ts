@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions -- resolveJsonModule requires the .json extension */
 import * as Path from 'node:path';
 import { ComponentsManager } from 'componentsjs';
 import { GenericsContext } from 'componentsjs/lib/preprocess/GenericsContext';
@@ -8,7 +7,10 @@ import {
 import * as fs from 'fs-extra';
 import { major } from 'semver';
 import type { CombinationProvider } from '../..';
+
+// eslint-disable-next-line import/extensions -- resolveJsonModule requires the .json extension
 import pJson from '../../package.json';
+
 import { createExperimentPaths } from '../cli/CliHelpers';
 import { ErrorHandled } from '../cli/ErrorHandled';
 import type { Experiment } from '../experiment/Experiment';

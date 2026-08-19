@@ -71,7 +71,7 @@ export async function wrapCommandHandler(
 
   // Register cleanup handling
   let performingGlobalCleanup = false;
-  const globalCleanupHandler = async(uncaughtException: any): Promise<void> => {
+  const performGlobalCleanup = async(uncaughtException: unknown): Promise<void> => {
     // Print error if uncaught exception
     if (uncaughtException instanceof Error) {
       // eslint-disable-next-line no-console
@@ -91,11 +91,13 @@ export async function wrapCommandHandler(
     // eslint-disable-next-line unicorn/no-process-exit
     process.exit(1);
   };
-  // eslint-disable-next-line ts/no-misused-promises -- process.on listener; the handler settles on its own
+  const globalCleanupHandler = (uncaughtException?: unknown): void => {
+    performGlobalCleanup(uncaughtException).catch((error: unknown) => {
+      context.logger.error(`${util.format(error)}`);
+    });
+  };
   process.on('SIGINT', globalCleanupHandler);
-  // eslint-disable-next-line ts/no-misused-promises -- process.on listener; the handler settles on its own
   process.on('SIGTERM', globalCleanupHandler);
-  // eslint-disable-next-line ts/no-misused-promises -- process.on listener; the handler settles on its own
   process.on('uncaughtException', globalCleanupHandler);
 
   // Run handler

@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions -- resolveJsonModule requires the .json extension */
 import * as Path from 'node:path';
 import semverMajor = require('semver/functions/major');
 import { createExperimentPaths } from '../../lib/cli/CliHelpers';
@@ -7,7 +6,10 @@ import type { NpmInstaller } from '../../lib/npm/NpmInstaller';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
 import type { ITaskContext } from '../../lib/task/ITaskContext';
 import { TaskInitialize } from '../../lib/task/TaskInitialize';
+
+// eslint-disable-next-line import/extensions -- resolveJsonModule requires the .json extension
 import pJson from '../../package.json';
+
 import { TestLogger } from '../TestLogger';
 
 const MAJOR_VERSION = semverMajor(pJson.version);

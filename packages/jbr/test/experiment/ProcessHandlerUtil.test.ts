@@ -10,14 +10,16 @@ describe('secureProcessHandler', () => {
   let context: ITaskContext;
 
   beforeEach(() => {
-    childProcess = <any> new EventEmitter();
-    // eslint-disable-next-line jest/prefer-spy-on -- the property does not exist yet, so spyOn would throw
-    (<any> childProcess).kill = jest.fn(() => {
+    childProcess = <any> Object.assign(new EventEmitter(), {
+      kill: () => true,
+      pid: 123,
+    });
+    jest.spyOn(childProcess, 'kill').mockImplementation(() => {
       setImmediate(() => {
         childProcess.emit('close');
       });
+      return true;
     });
-    (<any> childProcess).pid = 123;
     handler = new CliProcessHandler(childProcess, 'out.csv');
     context = <any> {
       logger: { error: jest.fn() },
