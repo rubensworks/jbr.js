@@ -1,5 +1,5 @@
-import * as Path from 'path';
-import { inspect } from 'util';
+import * as Path from 'node:path';
+import { inspect } from 'node:util';
 import * as fs from 'fs-extra';
 import { ErrorHandled } from '../cli/ErrorHandled';
 import { HookNonConfigured } from '../hook/HookNonConfigured';
@@ -49,7 +49,7 @@ export class TaskSetHook {
       this.context.experimentPaths.root,
       combinationsExperiment ? ExperimentLoader.CONFIG_TEMPLATE_NAME : ExperimentLoader.CONFIG_NAME,
     );
-    const config = JSON.parse(await fs.readFile(configPath, 'utf8'));
+    const config = <IExperimentConfig> JSON.parse(await fs.readFile(configPath, 'utf8'));
     const experimentIri = config['@id'];
 
     // Prepare sub-hooks
@@ -94,8 +94,10 @@ export class TaskSetHook {
 
     // Invoke the handler type's init logic
     for (const experiment of experiments) {
-      await handlerType.init(this.context.experimentPaths,
-        TaskSetHook.getObjectPath(configPath, experiment, this.hookPathName));
+      await handlerType.init(
+        this.context.experimentPaths,
+        TaskSetHook.getObjectPath(configPath, experiment, this.hookPathName),
+      );
     }
 
     // Remove hidden prepared marker file if it exists
@@ -112,6 +114,7 @@ export class TaskSetHook {
     if (path.length === 0) {
       return object;
     }
+    // eslint-disable-next-line ts/no-unsafe-assignment
     const child = object[path[0]];
     if (!child) {
       throw new Error(`Illegal hook path: could not find '${path[0]}' in '${configPath}' on ${inspect(object)}`);
@@ -123,8 +126,10 @@ export class TaskSetHook {
     if (path.length === 0) {
       throw new Error(`Illegal hook path of length 0`);
     } else if (path.length === 1) {
+      // eslint-disable-next-line ts/no-unsafe-assignment
       object[path[0]] = value;
     } else {
+      // eslint-disable-next-line ts/no-unsafe-assignment
       const child = object[path[0]];
       if (!child) {
         throw new Error(`Illegal hook path: could not set a child for '${path[0]}' in '${configPath}' on ${inspect(object)}`);
@@ -136,4 +141,12 @@ export class TaskSetHook {
 
 export interface ITaskSetHookOutput {
   subHookNames: string[];
+}
+
+/**
+ * The subset of an experiment config file that is read and updated here.
+ */
+interface IExperimentConfig {
+  '@id': string;
+  '@context': string[];
 }

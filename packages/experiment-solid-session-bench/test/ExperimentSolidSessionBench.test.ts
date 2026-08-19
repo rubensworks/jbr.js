@@ -1,14 +1,12 @@
-import * as Path from 'path';
-import v8 from 'v8';
-import type { Hook, ITaskContext,
-  DockerContainerHandler,
-  DockerResourceConstraints, ProcessHandler } from 'jbr';
+import * as Path from 'node:path';
+import v8 from 'node:v8';
+import type { Hook, ITaskContext, DockerContainerHandler, DockerResourceConstraints, ProcessHandler } from 'jbr';
 import { StaticDockerResourceConstraints, createExperimentPaths } from 'jbr';
 import { TestLogger } from 'jbr/test/TestLogger';
 import { ExperimentSolidSessionBench } from '../lib/ExperimentSolidSessionBench';
 
 let generatorGenerate: any;
-jest.mock('solidbench/lib/Generator', () => ({
+jest.mock<any>('solidbench/lib/Generator', () => ({
   Generator: jest.fn().mockImplementation(() => ({
     generate: generatorGenerate,
   })),
@@ -20,7 +18,7 @@ let queryLoaderLoadMetadata: any;
 let resultSerializerSerialize: any;
 let resultSerializerRawSerialize: any;
 
-jest.mock('sparql-benchmark-runner', () => ({
+jest.mock<any>('sparql-benchmark-runner', () => ({
   SparqlBenchmarkRunner: jest.fn().mockImplementation((options: any) => {
     options.logger('Test logger');
     return {
@@ -42,9 +40,8 @@ jest.mock('sparql-benchmark-runner', () => ({
 let files: Record<string, boolean | string> = {};
 let filesOut: Record<string, boolean | string> = {};
 let dirsOut: Record<string, boolean | string> = {};
-jest.mock('fs-extra', () => ({
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-  ...<any>jest.requireActual('fs-extra'),
+jest.mock<any>('fs-extra', () => ({
+  ...jest.requireActual('fs-extra'),
   async pathExists(path: string) {
     return path in files;
   },
@@ -192,7 +189,7 @@ describe('ExperimentSolidSessionBench', () => {
     files = {};
     dirsOut = {};
     filesOut = {};
-    (<any> process).on = jest.fn();
+    jest.spyOn(<any> process, 'on').mockImplementation();
     jest.spyOn(v8, 'getHeapStatistics').mockImplementation(() => (<any>{ heap_size_limit: 8192 * 1024 * 1024 }));
   });
 
@@ -205,10 +202,10 @@ describe('ExperimentSolidSessionBench', () => {
 
       await experiment.replaceBaseUrlInDir('dir');
 
-      expect(filesOut['dir/a.ttl']).toEqual('');
-      expect(filesOut['dir/b.ttl']).toEqual('solidbench-server:3000');
-      expect(filesOut['dir/c/c.ttl']).toEqual('');
-      expect(filesOut['dir/c/d.ttl']).toEqual('');
+      expect(filesOut['dir/a.ttl']).toBe('');
+      expect(filesOut['dir/b.ttl']).toBe('solidbench-server:3000');
+      expect(filesOut['dir/c/c.ttl']).toBe('');
+      expect(filesOut['dir/c/d.ttl']).toBe('');
     });
   });
 
@@ -218,7 +215,7 @@ describe('ExperimentSolidSessionBench', () => {
 
       expect(context.logger.warn).not.toHaveBeenCalled();
       expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context, false);
-      expect(generatorGenerate).toHaveBeenCalled();
+      expect(generatorGenerate).toHaveBeenCalledWith();
       expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
         cwd: context.cwd,
         dockerFile: 'input/dockerfiles/Dockerfile-server',
@@ -240,7 +237,7 @@ describe('ExperimentSolidSessionBench', () => {
 
       expect(context.logger.warn).not.toHaveBeenCalled();
       expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context, false);
-      expect(generatorGenerate).toHaveBeenCalled();
+      expect(generatorGenerate).toHaveBeenCalledWith();
       expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
         cwd: context.cwd,
         dockerFile: 'input/dockerfiles/Dockerfile-server',
@@ -268,7 +265,7 @@ This can be configured using Node's --max_old_space_size option.`);
       await experiment.prepare(context, true);
 
       expect(hookSparqlEndpoint.prepare).toHaveBeenCalledWith(context, true);
-      expect(generatorGenerate).toHaveBeenCalled();
+      expect(generatorGenerate).toHaveBeenCalledWith();
       expect(context.docker.imageBuilder.build).toHaveBeenCalledWith({
         cwd: context.cwd,
         dockerFile: 'input/dockerfiles/Dockerfile-server',
@@ -314,17 +311,18 @@ This can be configured using Node's --max_old_space_size option.`);
         },
       });
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context, { docker: { network: 'NETWORK' }});
-      expect(serverHandler.startCollectingStats).toHaveBeenCalled();
-      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
-      expect(sparqlBenchmarkRun).toHaveBeenCalled();
-      expect(serverHandler.close).toHaveBeenCalled();
-      expect(endpointHandler.close).toHaveBeenCalled();
-      expect(serverHandlerStopCollectingStats).toHaveBeenCalled();
-      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
-      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(serverHandler.startCollectingStats).toHaveBeenCalledWith();
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalledWith();
+      expect(sparqlBenchmarkRun).toHaveBeenCalledWith(expect.anything());
+      expect(serverHandler.close).toHaveBeenCalledWith();
+      expect(endpointHandler.close).toHaveBeenCalledWith();
+      expect(serverHandlerStopCollectingStats).toHaveBeenCalledWith();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalledWith();
+
       expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), {});
       expect(resultSerializerRawSerialize).toHaveBeenCalledWith(
-        Path.normalize('CWD/output/query-results-raw.json'), {},
+        Path.normalize('CWD/output/query-results-raw.json'),
+        {},
       );
 
       expect(dirsOut).toEqual({
@@ -343,45 +341,56 @@ This can be configured using Node's --max_old_space_size option.`);
     });
 
     it('should gracefully close services on SIGINT', async() => {
-      (<any> process).on = jest.fn((event, cb) => {
+      jest.spyOn(<any> process, 'on').mockImplementation((event, cb) => {
         if (event === 'SIGINT') {
-          cb();
+          (<() => void> cb)();
         }
       });
 
       await experiment.run(context);
 
-      expect(context.docker.networkCreator.create).toHaveBeenCalled();
-      expect(context.docker.networkCreator.create).toHaveBeenCalled();
-      expect(context.docker.containerCreator.start).toHaveBeenCalled();
+      expect(context.docker.networkCreator.create).toHaveBeenCalledWith({ Name: 'IMG-solidbench-network' });
+      expect(context.docker.networkCreator.create).toHaveBeenCalledWith({ Name: 'IMG-solidbench-network' });
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        containerName: 'solidbench-server',
+        hostConfig: {
+          Binds: [ 'CWD/generated/out-fragments/http/localhost_3000/:/data' ],
+          NetworkMode: 'NETWORK',
+          PortBindings: { '3000/tcp': [{ HostPort: '3000' }]},
+        },
+        imageName: 'IMG-solidbench-server',
+        logFilePath: 'CWD/output/logs/server.txt',
+        resourceConstraints: { cpu: {}, memory: {}},
+        statsFilePath: 'CWD/output/stats-server.csv',
+      });
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context, { docker: { network: 'NETWORK' }});
-      expect(serverHandler.close).toHaveBeenCalled();
-      expect(endpointHandler.close).toHaveBeenCalled();
+      expect(serverHandler.close).toHaveBeenCalledWith();
+      expect(endpointHandler.close).toHaveBeenCalledWith();
     });
 
     it('should run the experiment with breakpoint', async() => {
       let breakpointBarrierResolver: any;
-      const breakpointBarrier: any = () => new Promise(resolve => {
+      const breakpointBarrier: any = () => new Promise((resolve) => {
         breakpointBarrierResolver = resolve;
       });
       const experimentEnd = experiment.run({ ...context, breakpointBarrier });
 
       await new Promise(setImmediate);
 
-      expect(context.docker.networkCreator.create).toHaveBeenCalled();
-      expect(hookSparqlEndpoint.start).toHaveBeenCalled();
-      expect(serverHandler.startCollectingStats).toHaveBeenCalled();
-      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
-      expect(sparqlBenchmarkRun).toHaveBeenCalled();
+      expect(context.docker.networkCreator.create).toHaveBeenCalledWith({ Name: 'IMG-solidbench-network' });
+      expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(expect.anything(), { docker: { network: 'NETWORK' }});
+      expect(serverHandler.startCollectingStats).toHaveBeenCalledWith();
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalledWith();
+      expect(sparqlBenchmarkRun).toHaveBeenCalledWith(expect.anything());
       expect(serverHandler.close).not.toHaveBeenCalled();
 
       breakpointBarrierResolver();
       await experimentEnd;
 
-      expect(serverHandler.close).toHaveBeenCalled();
-      expect(endpointHandler.close).toHaveBeenCalled();
-      expect(serverHandlerStopCollectingStats).toHaveBeenCalled();
-      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
+      expect(serverHandler.close).toHaveBeenCalledWith();
+      expect(endpointHandler.close).toHaveBeenCalledWith();
+      expect(serverHandlerStopCollectingStats).toHaveBeenCalledWith();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalledWith();
 
       expect(dirsOut).toEqual({
         'CWD/output': true,
@@ -391,18 +400,18 @@ This can be configured using Node's --max_old_space_size option.`);
 
     it('should run the experiment with breakpoint and termination handler', async() => {
       let breakpointBarrierResolver: any;
-      const breakpointBarrier: any = () => new Promise(resolve => {
+      const breakpointBarrier: any = () => new Promise((resolve) => {
         breakpointBarrierResolver = resolve;
       });
       const experimentEnd = experiment.run({ ...context, breakpointBarrier });
 
       await new Promise(setImmediate);
 
-      expect(context.docker.networkCreator.create).toHaveBeenCalled();
-      expect(hookSparqlEndpoint.start).toHaveBeenCalled();
-      expect(serverHandler.startCollectingStats).toHaveBeenCalled();
-      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
-      expect(sparqlBenchmarkRun).toHaveBeenCalled();
+      expect(context.docker.networkCreator.create).toHaveBeenCalledWith({ Name: 'IMG-solidbench-network' });
+      expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(expect.anything(), { docker: { network: 'NETWORK' }});
+      expect(serverHandler.startCollectingStats).toHaveBeenCalledWith();
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalledWith();
+      expect(sparqlBenchmarkRun).toHaveBeenCalledWith(expect.anything());
       expect(serverHandler.close).not.toHaveBeenCalled();
 
       const termHandler = jest.mocked(serverHandler.addTerminationHandler).mock.calls[0][0];
@@ -413,10 +422,10 @@ This can be configured using Node's --max_old_space_size option.`);
       breakpointBarrierResolver();
       await experimentEnd;
 
-      expect(serverHandler.close).toHaveBeenCalled();
-      expect(endpointHandler.close).toHaveBeenCalled();
-      expect(serverHandlerStopCollectingStats).toHaveBeenCalled();
-      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
+      expect(serverHandler.close).toHaveBeenCalledWith();
+      expect(endpointHandler.close).toHaveBeenCalledWith();
+      expect(serverHandlerStopCollectingStats).toHaveBeenCalledWith();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalledWith();
 
       expect(dirsOut).toEqual({
         'CWD/output': true,

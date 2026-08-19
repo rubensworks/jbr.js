@@ -10,7 +10,7 @@ export class HookHandlerCli extends HookHandler<HookCli> {
     super('cli', HookCli.name);
   }
 
-  public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
+  public getDefaultParams(_experimentPaths: IExperimentPaths): Record<string, any> {
     return {
       command: 'echo "TODO: start a SPARQL endpoint here"',
     };
@@ -20,7 +20,7 @@ export class HookHandlerCli extends HookHandler<HookCli> {
     return [];
   }
 
-  public async init(experimentPaths: IExperimentPaths, hookHandler: HookCli): Promise<void> {
+  public async init(_experimentPaths: IExperimentPaths, _hookHandler: HookCli): Promise<void> {
     // Nothing to init
   }
 }

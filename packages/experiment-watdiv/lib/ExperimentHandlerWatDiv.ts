@@ -10,7 +10,7 @@ export class ExperimentHandlerWatDiv extends ExperimentHandler<ExperimentWatDiv>
     super('watdiv', ExperimentWatDiv.name);
   }
 
-  public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
+  public getDefaultParams(_experimentPaths: IExperimentPaths): Record<string, any> {
     return {
       datasetScale: 1,
       queryCount: 5,
@@ -32,7 +32,7 @@ export class ExperimentHandlerWatDiv extends ExperimentHandler<ExperimentWatDiv>
     return [ 'hookSparqlEndpoint' ];
   }
 
-  public async init(experimentPaths: IExperimentPaths, experiment: ExperimentWatDiv): Promise<void> {
+  public async init(_experimentPaths: IExperimentPaths, _experiment: ExperimentWatDiv): Promise<void> {
     // Do nothing
   }
 }

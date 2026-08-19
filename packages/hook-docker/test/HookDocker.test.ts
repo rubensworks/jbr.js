@@ -1,4 +1,4 @@
-import Path from 'path';
+import Path from 'node:path';
 import type { ITaskContext, DockerContainerHandler, DockerResourceConstraints } from 'jbr';
 import { createExperimentPaths, StaticDockerResourceConstraints } from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';

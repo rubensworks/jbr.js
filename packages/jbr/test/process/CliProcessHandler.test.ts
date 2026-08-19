@@ -4,15 +4,16 @@ import { CliProcessHandler } from '../../lib/process/CliProcessHandler';
 
 let write: any;
 let streamEnd: any;
-jest.mock('fs', () => ({
-  existsSync: jest.requireActual('fs').existsSync,
+let pidusageError: Error | undefined;
+jest.mock<any>('node:fs', () => ({
+  existsSync: jest.requireActual('node:fs').existsSync,
   createWriteStream: () => ({
     write,
     end: streamEnd,
   }),
 }));
-jest.mock('pidusage', () => (pid: any, cb: any) => {
-  return cb(undefined, { cpu: 1, memory: 100 });
+jest.mock<any>('pidusage', () => (pid: any, cb: any) => {
+  return cb(pidusageError, { cpu: 1, memory: 100 });
 });
 jest.useFakeTimers();
 
@@ -21,16 +22,20 @@ describe('CliProcessHandler', () => {
   let handler: CliProcessHandler;
 
   beforeEach(() => {
-    childProcess = <any> new EventEmitter();
-    (<any> childProcess).kill = jest.fn(() => {
+    childProcess = <any> Object.assign(new EventEmitter(), {
+      kill: () => true,
+      pid: 123,
+    });
+    jest.spyOn(childProcess, 'kill').mockImplementation(() => {
       setImmediate(() => {
         childProcess.emit('close');
       });
+      return true;
     });
-    (<any> childProcess).pid = 123;
     handler = new CliProcessHandler(childProcess, 'out.csv');
     write = jest.fn();
     streamEnd = jest.fn();
+    pidusageError = undefined;
   });
 
   describe('close', () => {
@@ -38,7 +43,7 @@ describe('CliProcessHandler', () => {
       const p = handler.close();
       jest.runAllTimers();
       await p;
-      expect(childProcess.kill).toHaveBeenCalled();
+      expect(childProcess.kill).toHaveBeenCalledWith('SIGTERM');
     });
 
     it('stops a process and stops streams', async() => {
@@ -49,21 +54,22 @@ describe('CliProcessHandler', () => {
       const p = handler.close();
       jest.runAllTimers();
       await p;
-      expect(childProcess.kill).toHaveBeenCalled();
+      expect(childProcess.kill).toHaveBeenCalledWith('SIGTERM');
 
-      expect(childProcess.stdin!.end).toHaveBeenCalled();
-      expect(childProcess.stdout!.unpipe).toHaveBeenCalled();
-      expect(childProcess.stderr!.unpipe).toHaveBeenCalled();
+      expect(childProcess.stdin!.end).toHaveBeenCalledWith();
+      expect(childProcess.stdout!.unpipe).toHaveBeenCalledWith();
+      expect(childProcess.stderr!.unpipe).toHaveBeenCalledWith();
     });
 
     it('kills a process if SIGTERM has no effect', async() => {
-      (<any> childProcess).kill = jest.fn(signal => {
+      jest.spyOn(childProcess, 'kill').mockImplementation((signal) => {
         if (signal === 'SIGKILL') {
           setImmediate(() => {
             childProcess.emit('close');
           });
         }
         jest.runAllTimers();
+        return true;
       });
 
       const p = handler.close();
@@ -78,6 +84,7 @@ describe('CliProcessHandler', () => {
       const onResolve = jest.fn();
       const onReject = jest.fn();
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await singleTick();
 
@@ -87,7 +94,7 @@ describe('CliProcessHandler', () => {
       childProcess.emit('close');
       await singleTick();
 
-      expect(onResolve).toHaveBeenCalled();
+      expect(onResolve).toHaveBeenCalledWith(undefined);
       expect(onReject).not.toHaveBeenCalled();
     });
 
@@ -95,6 +102,7 @@ describe('CliProcessHandler', () => {
       const onResolve = jest.fn();
       const onReject = jest.fn();
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await singleTick();
 
@@ -105,7 +113,7 @@ describe('CliProcessHandler', () => {
       await singleTick();
 
       expect(onResolve).not.toHaveBeenCalled();
-      expect(onReject).toHaveBeenCalled();
+      expect(onReject).toHaveBeenCalledWith(new Error('CliProcessHandler test error'));
     });
 
     it('returns immediately if a process is already finished', async() => {
@@ -115,10 +123,11 @@ describe('CliProcessHandler', () => {
       childProcess.emit('close');
       await singleTick();
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await singleTick();
 
-      expect(onResolve).toHaveBeenCalled();
+      expect(onResolve).toHaveBeenCalledWith(undefined);
       expect(onReject).not.toHaveBeenCalled();
     });
 
@@ -129,11 +138,12 @@ describe('CliProcessHandler', () => {
       childProcess.emit('error', new Error('CliProcessHandler test error'));
       await singleTick();
 
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       handler.join().then(onResolve, onReject);
       await singleTick();
 
       expect(onResolve).not.toHaveBeenCalled();
-      expect(onReject).toHaveBeenCalled();
+      expect(onReject).toHaveBeenCalledWith(new Error('CliProcessHandler test error'));
     });
   });
 
@@ -149,7 +159,20 @@ describe('CliProcessHandler', () => {
 
       expect(streamEnd).not.toHaveBeenCalled();
       stop();
-      expect(streamEnd).toHaveBeenCalled();
+      expect(streamEnd).toHaveBeenCalledWith();
+    });
+
+    it('ignores pidusage errors', async() => {
+      pidusageError = new Error('pidusage error');
+
+      const stop = await handler.startCollectingStats();
+      jest.advanceTimersByTime(2000);
+
+      expect(write).toHaveBeenCalledTimes(1);
+      expect(write).toHaveBeenCalledWith(`cpu_percentage,memory\n`);
+
+      stop();
+      expect(streamEnd).toHaveBeenCalledWith();
     });
 
     it('is a no-op for no statsFilePath', async() => {
@@ -172,7 +195,6 @@ describe('CliProcessHandler', () => {
 
       childProcess.emit('close');
 
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(termHandler).toHaveBeenCalledWith(`CLI process (123)`, undefined);
     });
 
@@ -183,7 +205,6 @@ describe('CliProcessHandler', () => {
 
       childProcess.emit('error', new Error('my error'));
 
-      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(termHandler).toHaveBeenCalledWith(`CLI process (123)`, new Error('my error'));
     });
 
@@ -196,7 +217,7 @@ describe('CliProcessHandler', () => {
       childProcess.emit('error', new Error('my error'));
 
       expect(termHandler).toHaveBeenCalledTimes(1);
-      // eslint-disable-next-line unicorn/no-useless-undefined
+
       expect(termHandler).toHaveBeenCalledWith(`CLI process (123)`, undefined);
     });
 
@@ -209,7 +230,7 @@ describe('CliProcessHandler', () => {
       childProcess.emit('end');
 
       expect(termHandler).toHaveBeenCalledTimes(1);
-      // eslint-disable-next-line unicorn/no-useless-undefined
+
       expect(termHandler).toHaveBeenCalledWith(`CLI process (123)`, new Error('my error'));
     });
 

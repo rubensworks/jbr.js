@@ -7,7 +7,7 @@ import { TaskClean } from '../../lib/task/TaskClean';
 import { TestLogger } from '../TestLogger';
 
 let experimentLoader: ExperimentLoader;
-jest.mock('../../lib/task/ExperimentLoader', () => ({
+jest.mock<typeof import('../../lib/task/ExperimentLoader')>('../../lib/task/ExperimentLoader', () => ({
   ExperimentLoader: {
     ...jest.requireActual('../../lib/task/ExperimentLoader').ExperimentLoader,
     build: jest.fn(() => experimentLoader),

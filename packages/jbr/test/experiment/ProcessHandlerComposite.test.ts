@@ -50,9 +50,9 @@ describe('ProcessHandlerComposite', () => {
     });
 
     it('with a single erroring handler still closes all', async() => {
-      subHandler1.close = jest.fn(() => Promise.reject(new Error('Fail sub handler 1')));
+      jest.spyOn(subHandler1, 'close').mockRejectedValue(new Error('Fail sub handler 1'));
 
-      await expect(handler.close()).rejects.toThrowError('Fail sub handler 1');
+      await expect(handler.close()).rejects.toThrow('Fail sub handler 1');
 
       expect(subHandler1.close).toHaveBeenCalledTimes(1);
       expect(subHandler2.close).toHaveBeenCalledTimes(1);
@@ -62,6 +62,7 @@ describe('ProcessHandlerComposite', () => {
 
   describe('join', () => {
     it('joins all sub handlers', async() => {
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       await handler.join();
       expect(subHandler1.join).toHaveBeenCalledTimes(1);
       expect(subHandler2.join).toHaveBeenCalledTimes(1);
@@ -69,9 +70,10 @@ describe('ProcessHandlerComposite', () => {
     });
 
     it('with a single erroring handler stops further joins', async() => {
-      subHandler2.join = jest.fn(() => Promise.reject(new Error('Fail sub handler 2')));
+      jest.spyOn(subHandler2, 'join').mockRejectedValue(new Error('Fail sub handler 2'));
 
-      await expect(handler.join()).rejects.toThrowError('Fail sub handler 2');
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
+      await expect(handler.join()).rejects.toThrow('Fail sub handler 2');
 
       expect(subHandler1.join).toHaveBeenCalledTimes(1);
       expect(subHandler2.join).toHaveBeenCalledTimes(1);

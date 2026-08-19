@@ -10,7 +10,7 @@ export class ExperimentHandlerSparqlCustom extends ExperimentHandler<ExperimentS
     super('sparql-custom', ExperimentSparqlCustom.name);
   }
 
-  public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
+  public getDefaultParams(_experimentPaths: IExperimentPaths): Record<string, any> {
     return {
       queriesPath: 'input/queries/',
       endpointUrl: 'http://localhost:3001/sparql',
@@ -26,7 +26,7 @@ export class ExperimentHandlerSparqlCustom extends ExperimentHandler<ExperimentS
     return [ 'hookSparqlEndpoint' ];
   }
 
-  public async init(experimentPaths: IExperimentPaths, experiment: ExperimentSparqlCustom): Promise<void> {
+  public async init(_experimentPaths: IExperimentPaths, _experiment: ExperimentSparqlCustom): Promise<void> {
     // Do nothing
   }
 }

@@ -21,7 +21,7 @@ export class FullFactorialCombinationProvider implements CombinationProvider {
     let combinations: FactorCombination[] = [{}];
     for (const [ factor, values ] of Object.entries(this.factors)) {
       const combinationsCopies: FactorCombination[][] = [];
-      for (const value of values) {
+      for (const value of <unknown[]> values) {
         // Make a deep copy of the combinations array
         const combinationsCopy = combinations.map(factorCombination => ({ ...factorCombination }));
         combinationsCopies.push(combinationsCopy);

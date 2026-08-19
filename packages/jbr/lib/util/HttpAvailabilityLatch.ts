@@ -26,10 +26,10 @@ export class HttpAvailabilityLatch {
    */
   public async isEndpointAvailable(url: string): Promise<boolean> {
     let timeoutHandle: NodeJS.Timeout | undefined;
-    const promiseTimeout = new Promise<boolean>(resolve => {
+    const promiseTimeout = new Promise<boolean>((resolve) => {
       timeoutHandle = setTimeout(() => resolve(false), 1_000);
     });
-    const promiseFetch = new Promise<boolean>(resolve => {
+    const promiseFetch = new Promise<boolean>((resolve) => {
       fetch(url, {
         method: 'GET',
       }).then(respose => resolve(respose.ok)).catch(() => resolve(false));

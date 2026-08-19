@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import { createExperimentPaths } from '../../lib/cli/CliHelpers';
 import type { HookHandler } from '../../lib/hook/HookHandler';
 import type { NpmInstaller } from '../../lib/npm/NpmInstaller';
@@ -10,7 +10,7 @@ import { TestLogger } from '../TestLogger';
 let files: Record<string, string | boolean> = {};
 let filesOut: Record<string, string> = {};
 let filesUnlinked: Record<string, boolean> = {};
-jest.mock('fs-extra', () => ({
+jest.mock<any>('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
   async readFile(filePath: string) {
     if (!(filePath in files)) {
@@ -31,7 +31,7 @@ jest.mock('fs-extra', () => ({
 
 let experimentLoader: ExperimentLoader;
 let isCombinationsExperiment = false;
-jest.mock('../../lib/task/ExperimentLoader', () => ({
+jest.mock<typeof import('../../lib/task/ExperimentLoader')>('../../lib/task/ExperimentLoader', () => ({
   ExperimentLoader: {
     ...jest.requireActual('../../lib/task/ExperimentLoader').ExperimentLoader,
     build: jest.fn(() => experimentLoader),
@@ -42,7 +42,7 @@ jest.mock('../../lib/task/ExperimentLoader', () => ({
 }));
 
 let taskGenerateCombinations: any;
-jest.mock('../../lib/task/TaskGenerateCombinations', () => ({
+jest.mock<any>('../../lib/task/TaskGenerateCombinations', () => ({
   TaskGenerateCombinations: jest.fn().mockImplementation(() => ({
     generate: taskGenerateCombinations,
   })),
@@ -139,7 +139,7 @@ describe('TaskSetHook', () => {
 
   describe('set', () => {
     it('sets a valid hook', async() => {
-      expect(await task.set()).toEqual({ subHookNames: []});
+      await expect(task.set()).resolves.toEqual({ subHookNames: []});
 
       expect(handler.init).toHaveBeenCalledWith(context.experimentPaths, { hook2: 'abc' });
       expect(filesOut).toEqual({
@@ -189,9 +189,9 @@ describe('TaskSetHook', () => {
 
     it('sets a valid hook for a combinations-based experiment', async() => {
       isCombinationsExperiment = true;
-      expect(await task.set()).toEqual({ subHookNames: []});
+      await expect(task.set()).resolves.toEqual({ subHookNames: []});
 
-      expect(taskGenerateCombinations).toHaveBeenCalled();
+      expect(taskGenerateCombinations).toHaveBeenCalledWith();
       expect(filesOut).toEqual({
         [Path.join('CWD', 'jbr-experiment.json.template')]: `{
   "@context": [
@@ -250,7 +250,7 @@ describe('TaskSetHook', () => {
     it('sets a valid hook with sub-hooks', async() => {
       handler.getSubHookNames = () => [ 'subHook1', 'subHook2' ];
 
-      expect(await task.set()).toEqual({ subHookNames: [ 'subHook1', 'subHook2' ]});
+      await expect(task.set()).resolves.toEqual({ subHookNames: [ 'subHook1', 'subHook2' ]});
 
       expect(filesOut).toEqual({
         [Path.join('CWD', 'jbr-experiment.json')]: `{
@@ -306,7 +306,7 @@ describe('TaskSetHook', () => {
   }
 }`;
 
-      expect(await task.set()).toEqual({ subHookNames: []});
+      await expect(task.set()).resolves.toEqual({ subHookNames: []});
 
       expect(filesOut).toEqual({
         [Path.join('CWD', 'jbr-experiment.json')]: `{
@@ -339,7 +339,7 @@ describe('TaskSetHook', () => {
         'TYPE',
         npmInstaller,
       );
-      await expect(task.set()).rejects.toThrowError(`Illegal hook path: could not find 'hook2' in 'CWD/jbr-experiment.json' on`);
+      await expect(task.set()).rejects.toThrow(`Illegal hook path: could not find 'hook2' in 'CWD/jbr-experiment.json' on`);
     });
 
     it('should throw on empty hook path', async() => {
@@ -349,14 +349,14 @@ describe('TaskSetHook', () => {
         'TYPE',
         npmInstaller,
       );
-      await expect(task.set()).rejects.toThrowError(`Illegal hook path of length 0`);
+      await expect(task.set()).rejects.toThrow(`Illegal hook path of length 0`);
     });
   });
 
   describe('setObjectPath', () => {
     it('should throw on non existing path element', () => {
       expect(() => TaskSetHook.setObjectPath('CONFIG', { a: {}}, [ 'a', 'b', 'c' ], 'V'))
-        .toThrowError(`Illegal hook path: could not set a child for 'b' in 'CONFIG' on {}`);
+        .toThrow(`Illegal hook path: could not set a child for 'b' in 'CONFIG' on {}`);
     });
   });
 });

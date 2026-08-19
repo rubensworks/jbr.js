@@ -15,17 +15,17 @@ describe('FractionalCombinationProvider', () => {
   describe('commonGenerated', () => {
     it('defaults to false', () => {
       const provider = new FractionalCombinationProvider([]);
-      expect(provider.commonGenerated).toEqual(false);
+      expect(provider.commonGenerated).toBe(false);
     });
 
     it('can be overridden to false', () => {
       const provider = new FractionalCombinationProvider([], false);
-      expect(provider.commonGenerated).toEqual(false);
+      expect(provider.commonGenerated).toBe(false);
     });
 
     it('can be overridden to true', () => {
       const provider = new FractionalCombinationProvider([], true);
-      expect(provider.commonGenerated).toEqual(true);
+      expect(provider.commonGenerated).toBe(true);
     });
   });
 });

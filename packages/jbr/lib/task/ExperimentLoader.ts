@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import { ComponentsManager } from 'componentsjs';
 import { GenericsContext } from 'componentsjs/lib/preprocess/GenericsContext';
 import {
@@ -7,14 +7,16 @@ import {
 import * as fs from 'fs-extra';
 import { major } from 'semver';
 import type { CombinationProvider } from '../..';
+
+// eslint-disable-next-line import/extensions -- resolveJsonModule requires the .json extension
+import pJson from '../../package.json';
+
 import { createExperimentPaths } from '../cli/CliHelpers';
 import { ErrorHandled } from '../cli/ErrorHandled';
 import type { Experiment } from '../experiment/Experiment';
 import type { ExperimentHandler } from '../experiment/ExperimentHandler';
 import type { HookHandler } from '../hook/HookHandler';
 import type { IExperimentPaths } from './ITaskContext';
-
-const pJson = require('../../package.json');
 
 /**
  * Loads and instantiates an experiment by config.
@@ -50,7 +52,8 @@ export class ExperimentLoader {
 
   public static async getExperimentName(experimentRoot: string): Promise<string> {
     try {
-      const data = JSON.parse(await fs.readFile(Path.join(experimentRoot, 'package.json'), 'utf8'));
+      const data = <{ name: string }> JSON
+        .parse(await fs.readFile(Path.join(experimentRoot, 'package.json'), 'utf8'));
       return data.name;
     } catch {
       return 'dummy';
@@ -170,9 +173,10 @@ export class ExperimentLoader {
   protected async discoverComponents<C extends { id: string }>(componentType: string):
   Promise<Record<string, { handler: C; contexts: string[] }>> {
     // Index available package.json by package name
-    const packageJsons: Record<string, { contents: any; path: string }> = {};
+    const packageJsons: Record<string, { contents: IComponentsPackageJson; path: string }> = {};
     for (const [ path, packageJson ] of Object.entries(this.componentsManager.moduleState.packageJsons)) {
-      packageJsons[packageJson.name] = { contents: packageJson, path };
+      const contents = <IComponentsPackageJson> packageJson;
+      packageJsons[contents.name] = { contents, path };
     }
 
     const rangeHandler = new ParameterPropertyHandlerRange(this.componentsManager.objectLoader, false);
@@ -190,7 +194,7 @@ export class ExperimentLoader {
       );
 
       if (!hasTypeError && component.value !== componentType) {
-        const handler = await this.componentsManager.configConstructorPool
+        const handler = <C> await this.componentsManager.configConstructorPool
           .instantiate(this.componentsManager.objectLoader.createCompactedResource({
             types: component,
           }), {});
@@ -294,4 +298,12 @@ export class ExperimentLoader {
   public static getCombinationExperimentIri(experimentIri: string, combinationIdString: string): string {
     return `${experimentIri}:${combinationIdString}`;
   }
+}
+
+/**
+ * The subset of a Components.js module package.json that is used here.
+ */
+interface IComponentsPackageJson {
+  name: string;
+  'lsd:contexts': Record<string, string>;
 }

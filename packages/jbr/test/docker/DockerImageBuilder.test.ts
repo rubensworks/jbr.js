@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import type * as Dockerode from 'dockerode';
 import type { Logger } from 'winston';
 import { DockerImageBuilder } from '../../lib/docker/DockerImageBuilder';
@@ -70,7 +70,7 @@ describe('DockerImageBuilder', () => {
     });
 
     it('should propagate modem errors', async() => {
-      dockerode.modem.followProgress = jest.fn((stream, cb) => {
+      jest.spyOn(dockerode.modem, 'followProgress').mockImplementation((stream, cb) => {
         cb(new Error('Container modem error'), []);
       });
 
@@ -84,11 +84,11 @@ describe('DockerImageBuilder', () => {
           arg2: 'b',
         },
         logger,
-      })).rejects.toThrowError('Container modem error');
+      })).rejects.toThrow('Container modem error');
     });
 
     it('should propagate modem output errors', async() => {
-      dockerode.modem.followProgress = jest.fn((stream, cb) => {
+      jest.spyOn(dockerode.modem, 'followProgress').mockImplementation((stream, cb) => {
         cb(null, [{ error: 'Some container modem error' }]);
       });
 
@@ -102,11 +102,11 @@ describe('DockerImageBuilder', () => {
           arg2: 'b',
         },
         logger,
-      })).rejects.toThrowError('Some container modem error');
+      })).rejects.toThrow('Some container modem error');
     });
 
     it('should invoke the logger on progress', async() => {
-      dockerode.modem.followProgress = jest.fn((stream, cb, progressCb) => {
+      jest.spyOn(dockerode.modem, 'followProgress').mockImplementation((stream, cb, progressCb) => {
         cb(null, []);
         progressCb!({});
         progressCb!({ stream: '' });
@@ -139,7 +139,7 @@ describe('DockerImageBuilder', () => {
           generated: Path.join('a', 'b', 'c'),
         },
         experimentName: 'EXP',
-      }, 'suffix')).toEqual('jbr-experiment-EXP-suffix');
+      }, 'suffix')).toBe('jbr-experiment-EXP-suffix');
     });
 
     it('for a combination', async() => {
@@ -149,14 +149,14 @@ describe('DockerImageBuilder', () => {
           combination: 0,
         },
         experimentName: 'EXP',
-      }, 'suffix')).toEqual('jbr-experiment-EXP-combination_0-suffix');
+      }, 'suffix')).toBe('jbr-experiment-EXP-combination_0-suffix');
       expect(builder.getImageName(<ITaskContext> {
         experimentPaths: {
           generated: Path.join('a', 'b', 'c'),
           combination: 1,
         },
         experimentName: 'EXP',
-      }, 'suffix')).toEqual('jbr-experiment-EXP-combination_1-suffix');
+      }, 'suffix')).toBe('jbr-experiment-EXP-combination_1-suffix');
     });
 
     it('for a non-combination with uppercase characters', async() => {
@@ -165,7 +165,7 @@ describe('DockerImageBuilder', () => {
           generated: Path.join('a', 'BBB', 'c'),
         },
         experimentName: 'EXP',
-      }, 'suffix')).toEqual('jbr-experiment-EXP-suffix');
+      }, 'suffix')).toBe('jbr-experiment-EXP-suffix');
     });
   });
 });

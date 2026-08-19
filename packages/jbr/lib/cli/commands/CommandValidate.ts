@@ -5,7 +5,9 @@ import { wrapCommandHandler } from '../CliHelpers';
 
 export const command = 'validate';
 export const desc = 'Validate the current experiment';
-export const builder = (yargs: Argv<any>): Argv<any> =>
-  yargs;
-export const handler = (argv: Record<string, any>): Promise<void> => wrapCommandHandler(argv,
-  async(context: ITaskContext) => new TaskValidate(context).validate());
+export function builder(yargs: Argv<any>): Argv<any> {
+  return yargs;
+}
+export function handler(argv: Record<string, any>): Promise<void> {
+  return wrapCommandHandler(argv, async(context: ITaskContext) => new TaskValidate(context).validate());
+}

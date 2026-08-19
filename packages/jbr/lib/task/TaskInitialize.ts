@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import { createExperimentPaths } from '../cli/CliHelpers';
 import { ErrorHandled } from '../cli/ErrorHandled';
@@ -89,8 +89,9 @@ export class TaskInitialize {
     const { handler: experimentType, contexts } = experimentTypeWrapped;
 
     // Determine jbr context url
-    const jbrContextUrl = JSON.parse(await fs
-      .readFile(Path.join(__dirname, '../../components/components.jsonld'), 'utf8'))['@context'][0];
+    const jbrComponents = <{ '@context': string[] }> JSON.parse(await fs
+      .readFile(Path.join(__dirname, '../../components/components.jsonld'), 'utf8'));
+    const jbrContextUrl = jbrComponents['@context'][0];
 
     // Create config
     const experimentIri = ExperimentLoader.getDefaultExperimentIri(this.experimentName);
@@ -143,8 +144,10 @@ export class TaskInitialize {
 
     // Copy template files
     for (const file of [ '_gitignore', 'README.md' ]) {
-      await fs.copyFile(Path.join(__dirname, '..', 'templates', file),
-        Path.join(this.targetDirectory, file.replace('_', '.')));
+      await fs.copyFile(
+        Path.join(__dirname, '..', 'templates', file),
+        Path.join(this.targetDirectory, file.replace('_', '.')),
+      );
     }
     await fs.createFile(Path.join(this.targetDirectory, 'generated', '.keep'));
     await fs.createFile(Path.join(this.targetDirectory, 'output', '.keep'));

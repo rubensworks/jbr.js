@@ -1,4 +1,4 @@
-import Path from 'path';
+import Path from 'node:path';
 import * as fs from 'fs-extra';
 import type { IExperimentPaths } from 'jbr';
 import { HookHandler } from 'jbr';
@@ -12,7 +12,7 @@ export class HookHandlerSparqlEndpointLdf extends HookHandler<HookSparqlEndpoint
     super('sparql-endpoint-ldf', HookSparqlEndpointLdf.name);
   }
 
-  public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
+  public getDefaultParams(_experimentPaths: IExperimentPaths): Record<string, any> {
     return {
       dockerfile: 'input/dockerfiles/Dockerfile-ldf-server',
       dockerfileCache: 'input/dockerfiles/Dockerfile-ldf-server-cache',
@@ -33,25 +33,35 @@ export class HookHandlerSparqlEndpointLdf extends HookHandler<HookSparqlEndpoint
     return [ 'hookSparqlEndpointLdfEngine' ];
   }
 
-  public async init(experimentPaths: IExperimentPaths, hookHandler: HookSparqlEndpointLdf): Promise<void> {
+  public async init(experimentPaths: IExperimentPaths, _hookHandler: HookSparqlEndpointLdf): Promise<void> {
     // Create Dockerfile for server
     if (!await fs.pathExists(Path.join(experimentPaths.input, 'dockerfiles'))) {
       await fs.mkdir(Path.join(experimentPaths.input, 'dockerfiles'));
     }
-    await fs.copyFile(Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-ldf-server'),
-      Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-ldf-server'));
-    await fs.copyFile(Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-ldf-server-cache'),
-      Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-ldf-server-cache'));
+    await fs.copyFile(
+      Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-ldf-server'),
+      Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-ldf-server'),
+    );
+    await fs.copyFile(
+      Path.join(__dirname, 'templates', 'dockerfiles', 'Dockerfile-ldf-server-cache'),
+      Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-ldf-server-cache'),
+    );
 
     // Create config for server
     if (!await fs.pathExists(Path.join(experimentPaths.input))) {
       await fs.mkdir(Path.join(experimentPaths.input));
     }
-    await fs.copyFile(Path.join(__dirname, 'templates', 'input', 'config-ldf-server.json'),
-      Path.join(experimentPaths.input, 'config-ldf-server.json'));
-    await fs.copyFile(Path.join(__dirname, 'templates', 'input', 'nginx.conf'),
-      Path.join(experimentPaths.input, 'nginx.conf'));
-    await fs.copyFile(Path.join(__dirname, 'templates', 'input', 'nginx-default'),
-      Path.join(experimentPaths.input, 'nginx-default'));
+    await fs.copyFile(
+      Path.join(__dirname, 'templates', 'input', 'config-ldf-server.json'),
+      Path.join(experimentPaths.input, 'config-ldf-server.json'),
+    );
+    await fs.copyFile(
+      Path.join(__dirname, 'templates', 'input', 'nginx.conf'),
+      Path.join(experimentPaths.input, 'nginx.conf'),
+    );
+    await fs.copyFile(
+      Path.join(__dirname, 'templates', 'input', 'nginx-default'),
+      Path.join(experimentPaths.input, 'nginx-default'),
+    );
   }
 }

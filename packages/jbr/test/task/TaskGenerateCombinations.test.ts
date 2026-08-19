@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import { createExperimentPaths } from '../../lib/cli/CliHelpers';
 import type { Experiment } from '../../lib/experiment/Experiment';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
@@ -7,7 +7,7 @@ import { TaskGenerateCombinations } from '../../lib/task/TaskGenerateCombination
 import { TestLogger } from '../TestLogger';
 
 let experimentLoader: ExperimentLoader;
-jest.mock('../../lib/task/ExperimentLoader', () => ({
+jest.mock<typeof import('../../lib/task/ExperimentLoader')>('../../lib/task/ExperimentLoader', () => ({
   ExperimentLoader: {
     ...jest.requireActual('../../lib/task/ExperimentLoader').ExperimentLoader,
     build: jest.fn(() => experimentLoader),
@@ -25,7 +25,7 @@ jest.mock('../../lib/task/ExperimentLoader', () => ({
 let files: Record<string, string | boolean> = {};
 let symlinks: Record<string, string> = {};
 let filesUnlinked: Record<string, boolean> = {};
-jest.mock('fs-extra', () => ({
+jest.mock<any>('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
   async readdir(sourceDirectory: string) {
     const entries: any[] = [];
@@ -113,19 +113,19 @@ describe('TaskGenerateCombinations', () => {
       const combinations = await task.generate();
       expect(combinations).toEqual([{ a: 0 }, { a: 1 }]);
 
-      expect(files[Path.join('CWD', 'combinations')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_0')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'input')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'input', 'file.txt')]).toEqual('FILE 0');
-      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'generated')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'output')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'jbr-experiment.json')]).toEqual(`TEMPLATE 0`);
-      expect(files[Path.join('CWD', 'combinations', 'combination_1')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'input')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'input', 'file.txt')]).toEqual('FILE 1');
-      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'generated')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'output')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'jbr-experiment.json')]).toEqual(`TEMPLATE 1`);
+      expect(files[Path.join('CWD', 'combinations')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_0')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'input')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'input', 'file.txt')]).toBe('FILE 0');
+      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'generated')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'output')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'jbr-experiment.json')]).toBe(`TEMPLATE 0`);
+      expect(files[Path.join('CWD', 'combinations', 'combination_1')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'input')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'input', 'file.txt')]).toBe('FILE 1');
+      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'generated')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'output')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'jbr-experiment.json')]).toBe(`TEMPLATE 1`);
 
       expect(symlinks[Path.join('CWD', 'combinations', 'combination_0', 'output')])
         .toEqual(Path.join('CWD', 'output', 'combination_0'));
@@ -137,7 +137,7 @@ describe('TaskGenerateCombinations', () => {
 
     it('throws on an invalid combinations experiment', async() => {
       await expect(task.generate()).rejects
-        .toThrowError(`A combinations-based experiments requires the files 'jbr-experiment.json.template' and 'jbr-combinations.json'.`);
+        .toThrow(`A combinations-based experiments requires the files 'jbr-experiment.json.template' and 'jbr-combinations.json'.`);
     });
 
     it('regenerates combinations when the files already exists', async() => {
@@ -165,19 +165,19 @@ describe('TaskGenerateCombinations', () => {
       const combinations = await task.generate();
       expect(combinations).toEqual([{ a: 0 }, { a: 1 }]);
 
-      expect(files[Path.join('CWD', 'combinations')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_0')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'input')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'input', 'file.txt')]).toEqual('FILE 0');
-      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'generated')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'output')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'jbr-experiment.json')]).toEqual(`TEMPLATE 0`);
-      expect(files[Path.join('CWD', 'combinations', 'combination_1')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'input')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'input', 'file.txt')]).toEqual('FILE 1');
-      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'generated')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'output')]).toEqual(true);
-      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'jbr-experiment.json')]).toEqual(`TEMPLATE 1`);
+      expect(files[Path.join('CWD', 'combinations')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_0')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'input')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'input', 'file.txt')]).toBe('FILE 0');
+      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'generated')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'output')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_0', 'jbr-experiment.json')]).toBe(`TEMPLATE 0`);
+      expect(files[Path.join('CWD', 'combinations', 'combination_1')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'input')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'input', 'file.txt')]).toBe('FILE 1');
+      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'generated')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'output')]).toBe(true);
+      expect(files[Path.join('CWD', 'combinations', 'combination_1', 'jbr-experiment.json')]).toBe(`TEMPLATE 1`);
 
       expect(symlinks[Path.join('CWD', 'combinations', 'combination_0', 'output')])
         .toEqual(Path.join('CWD', 'output', 'combination_0'));
@@ -191,22 +191,22 @@ describe('TaskGenerateCombinations', () => {
   describe('applyFactorCombination', () => {
     it('should handle the experiment id', () => {
       expect(TaskGenerateCombinations.applyFactorCombination({}, 'EXP', 'COMB', `ABC urn:jrb:EXP  urn:jrb:EXP`))
-        .toEqual(`ABC urn:jrb:EXP:COMB  urn:jrb:EXP:COMB`);
+        .toBe(`ABC urn:jrb:EXP:COMB  urn:jrb:EXP:COMB`);
     });
 
     it('should handle an empty combination', () => {
       expect(TaskGenerateCombinations.applyFactorCombination({}, 'EXP', 'COMB', `ABC`))
-        .toEqual(`ABC`);
+        .toBe(`ABC`);
     });
 
     it('should handle a single combination entry', () => {
       expect(TaskGenerateCombinations.applyFactorCombination({ key1: 'a' }, 'EXP', 'COMB', `ABC: %FACTOR-key1%`))
-        .toEqual(`ABC: a`);
+        .toBe(`ABC: a`);
     });
 
     it('should handle multiple occurrences of a single combination entry', () => {
       expect(TaskGenerateCombinations.applyFactorCombination({ key1: 'a' }, 'EXP', 'COMB', `ABC: %FACTOR-key1% %FACTOR-key1% %FACTOR-key1%`))
-        .toEqual(`ABC: a a a`);
+        .toBe(`ABC: a a a`);
     });
 
     it('should handle multiple occurrences of a multiple combination entries', () => {
@@ -220,7 +220,7 @@ A: %FACTOR-key1% %FACTOR-key1%
 B: %FACTOR-key2% %FACTOR-key2%
 C: %FACTOR-key3% %FACTOR-key3%
 `))
-        .toEqual(`
+        .toBe(`
 A: a a
 B: b b
 C: c c
