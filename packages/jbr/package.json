@@ -76,7 +76,7 @@
     "dockerode": "^3.3.0",
     "fs-extra": "^11.0.0",
     "ora": "^5.4.0",
-    "pidusage": "^3.0.2",
+    "pidusage": "^4.0.0",
     "semver": "^7.5.4",
     "tar": "^7.0.0",
     "winston": "^3.3.3",
