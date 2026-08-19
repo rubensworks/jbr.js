@@ -1,0 +1,193 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@jbr-experiment/solid-session-bench | jbr</title><meta name="description" content="Documentation for jbr"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container"><a href="../index.html" class="title">jbr</a>
+<div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/>
+<ul role="listbox" id="tsd-search-results"></ul>
+<div id="tsd-search-status" aria-live="polite" aria-atomic="true">
+<div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header>
+<div class="container container-main">
+<div class="col-content">
+<div class="tsd-page-title">
+<ul class="tsd-breadcrumb" aria-label="Breadcrumb">
+<li><a href="" aria-current="page">@jbr-experiment/solid-session-bench</a></li></ul>
+<h1>Module @jbr-experiment/solid-session-bench</h1></div>
+<section class="tsd-panel tsd-typography"><h1 id="jbr-experiment-solidsessionbench" class="tsd-anchor-link">JBR Experiment - SolidSessionBench<a href="#jbr-experiment-solidsessionbench" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p><a href="https://github.com/rubensworks/jbr.js/actions?query=workflow%3ACI"><img src="https://github.com/rubensworks/jbr.js/workflows/CI/badge.svg" alt="Build status"></a>
+<a href="https://coveralls.io/github/rubensworks/jbr.js?branch=master"><img src="https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://www.npmjs.com/package/@jbr-experiment/solid-session-bench"><img src="https://badge.fury.io/js/%40jbr-experiment%2Fsolid-session-bench.svg" alt="npm version"></a></p>
+<p>A <a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> experiment type for the <a href="https://github.com/SolidBench/SolidBench.js">SolidSessionBench social network benchmark</a>.</p>
+<h2 id="requirements" class="tsd-anchor-link">Requirements<a href="#requirements" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li><a href="https://nodejs.org/en/">Node.js</a> <em>(1.12 or higher)</em></li>
+<li><a href="https://www.docker.com/">Docker</a> <em>(required for invoking <a href="https://github.com/ldbc/ldbc_snb_datagen_hadoop">LDBC SNB generator</a>)</em></li>
+<li><a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> <em>(required for initializing, preparing, and running experiments on the command line)</em></li>
+</ul>
+<h2 id="quick-start" class="tsd-anchor-link">Quick start<a href="#quick-start" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="1-install-jbr" class="tsd-anchor-link">1. Install jbr<a href="#1-install-jbr" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p><a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> is a command line tool that enables experiments to be initialized, prepared, and started.
+It can be installed from the npm registry:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-3">-g</span><span class="hl-1"> </span><span class="hl-2">jbr</span>
+</code><button type="button">Copy</button></pre>
+
+<p>or</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">yarn</span><span class="hl-1"> </span><span class="hl-2">global</span><span class="hl-1"> </span><span class="hl-2">add</span><span class="hl-1"> </span><span class="hl-2">jbr</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="2-initialize-a-new-experiment" class="tsd-anchor-link">2. Initialize a new experiment<a href="#2-initialize-a-new-experiment" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Using the <code>jbr</code> CLI tool, initialize a new experiment:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">init</span><span class="hl-1"> </span><span class="hl-2">solid-session-bench</span><span class="hl-1"> </span><span class="hl-2">my-experiment</span><br/><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">cd</span><span class="hl-1"> </span><span class="hl-2">my-experiment</span>
+</code><button type="button">Copy</button></pre>
+
+<p>This will create a new <code>my-experiment</code> directory with default configs for this experiment type.</p>
+<h3 id="3-configure-the-required-hooks" class="tsd-anchor-link">3. Configure the required hooks<a href="#3-configure-the-required-hooks" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>This experiment type requires you to configure a certain SPARQL endpoint to send queries to for the <code>hookSparqlEndpoint</code>.
+A value for this hook can be set as follows, such as <a href="https://github.com/rubensworks/jbr.js/tree/master/packages/hook-sparql-endpoint-comunica"><code>sparql-endpoint-comunica</code></a>:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">set-hook</span><span class="hl-1"> </span><span class="hl-2">hookSparqlEndpoint</span><span class="hl-1"> </span><span class="hl-2">sparql-endpoint-comunica</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Setting the sparql-endpoint-comunica hook will create a <code>config-client.json</code> file that uses default Comunica.
+This should be link traversal instead, using a configuration like this (the version may be out of date):</p>
+<pre><code class="json"><span class="hl-1">{</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;@context&quot;</span><span class="hl-1">: [</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;https://linkedsoftwaredependencies.org/bundles/npm/@comunica/config-query-sparql-link-traversal/^0.0.0/components/context.jsonld&quot;</span><br/><span class="hl-1">  ],</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;import&quot;</span><span class="hl-1">: [</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;ccqslt:config/config-solid-default.json&quot;</span><br/><span class="hl-1">  ]</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Furthermore, the file <code>context-client.json</code> will also not work for link traversal. This should be set to</p>
+<pre><code class="json"><span class="hl-1">{</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;sources&quot;</span><span class="hl-1">: [ ],</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;lenient&quot;</span><span class="hl-1">: </span><span class="hl-3">true</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Finally, the <code>Dockerfile-client</code> will use this base Docker image: <code>FROM comunica/query-sparql:v2.5.0</code>.
+This should be changed to a version of <code>comunica/query-sparql-link-traversal-solid</code>. In addition,
+you should add <code>--idp void</code> to the CMD line. So a working <code>Dockerfile-client</code> should look like:</p>
+<pre><code class="docker">FROM comunica/query-sparql-link-traversal-solid:dev
+
+ARG CONFIG_CLIENT
+ARG QUERY_TIMEOUT
+ARG MAX_MEMORY
+ARG LOG_LEVEL
+
+ADD $CONFIG_CLIENT /tmp/config.json
+
+ENV COMUNICA_CONFIG=/tmp/config.json
+ENV NODE_ENV=production
+ENV MAX_MEMORY=$MAX_MEMORY
+ENV QUERY_TIMEOUT=$QUERY_TIMEOUT
+ENV LOG_LEVEL=$LOG_LEVEL
+
+EXPOSE 3000
+
+ENTRYPOINT []
+CMD [ "/bin/sh", "-c", "node --max-old-space-size=$MAX_MEMORY ./bin/http.js -c /tmp/context.json -p 3000 -t $QUERY_TIMEOUT -l $LOG_LEVEL -i --idp void" ]
+</code><button type="button">Copy</button></pre>
+
+<h3 id="4-prepare-the-experiment" class="tsd-anchor-link">4. Prepare the experiment<a href="#4-prepare-the-experiment" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>In order to run all preprocessing steps, such as creating all required datasets, invoke the prepare step:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">prepare</span>
+</code><button type="button">Copy</button></pre>
+
+<p>All prepared files will be contained in the <code>generated/</code> directory.</p>
+<h3 id="5-run-the-experiment" class="tsd-anchor-link">5. Run the experiment<a href="#5-run-the-experiment" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Once the experiment has been fully configured and prepared, you can run it:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">run</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Once the run step completes, results will be present in the <code>output/</code> directory.</p>
+<h2 id="output" class="tsd-anchor-link">Output<a href="#output" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>The following output is generated after an experiment has run.</p>
+<p><code>output/query-times.csv</code>:</p>
+<pre><code class="csv">name;id;results;time;timestamps
+interactive-short-4;0;0;7;
+interactive-short-4;1;0;5;
+interactive-short-4;2;0;6;
+interactive-short-4;3;0;3;
+interactive-short-4;4;0;3;
+interactive-short-5;0;0;0;
+interactive-short-5;1;0;0;
+interactive-short-5;2;0;0;
+interactive-short-5;3;0;0;
+interactive-short-5;4;0;0;
+</code><button type="button">Copy</button></pre>
+
+<p><code>output/stats-server.csv</code>: Per second of the experiment: CPU percentage, memory usage (bytes), memory percentage, received bytes, transmitted bytes.</p>
+<pre><code class="csv">cpu_percentage,memory,memory_percentage,received,transmitted
+9.915362228116711,10489856,0.5024267940030527,488,0
+9.863725050505051,17354752,0.8312308965993495,648,0
+9.64850952141058,19116032,0.915589944401502,738,0
+9.345685076142132,23072768,1.105103526208198,738,0
+10.029959365079364,26759168,1.2816689750964243,738,0
+10.25411566137566,30363648,1.45431074734269,738,0
+</code><button type="button">Copy</button></pre>
+
+<p><code>output/logs/server.txt</code>: Logs of the <a href="https://github.com/solid/community-server/">Solid Community Server</a>.</p>
+<h2 id="configuration" class="tsd-anchor-link">Configuration<a href="#configuration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>The default generated configuration file (<code>jbr-experiment.json</code>) for this experiment looks as follows:</p>
+<pre><code class="json"><span class="hl-1">{</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;@context&quot;</span><span class="hl-1">: [</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;https://linkedsoftwaredependencies.org/bundles/npm/jbr/^6.0.0/components/context.jsonld&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/solid-session-bench/^6.0.0/components/context.jsonld&quot;</span><br/><span class="hl-1">  ],</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;@id&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;urn:jbr:test-experiment&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;@type&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;ExperimentSolidSessionBench&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;scale&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;0.1&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;configEnhance&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;input/config-enhancer.json&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;configFragment&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;input/config-fragmenter.json&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;configQueries&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;input/config-queries.json&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;configServer&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;input/config-server.json&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;configValidation&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;input/config-validation.json&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;validationParamsUrl&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;https://cloud.ilabt.imec.be/index.php/s/bBZZKb7cP95WgcD/download/validation_params.zip&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;hadoopMemory&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;4G&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;dockerfileServer&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;input/dockerfiles/Dockerfile-server&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;endpointUrl&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;http://localhost:3001/sparql&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;serverPort&quot;</span><span class="hl-1">: </span><span class="hl-5">3000</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;serverLogLevel&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;info&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;serverBaseUrl&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;http://solidbench-server:3000/&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;serverResourceConstraints&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;@type&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;StaticDockerResourceConstraints&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;cpu_percentage&quot;</span><span class="hl-1">: </span><span class="hl-5">100</span><br/><span class="hl-1">  },</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;queryRunnerReplication&quot;</span><span class="hl-1">: </span><span class="hl-5">3</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;queryRunnerWarmupRounds&quot;</span><span class="hl-1">: </span><span class="hl-5">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;queryRunnerRequestDelay&quot;</span><span class="hl-1">: </span><span class="hl-5">0</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;queryRunnerEndpointAvailabilityCheckTimeout&quot;</span><span class="hl-1">: </span><span class="hl-5">1000</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;queryRunnerUrlParams&quot;</span><span class="hl-1">: {},</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;hookSparqlEndpoint&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;@id&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;urn:jbr:test-experiment:hookSparqlEndpoint&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;@type&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;HookNonConfigured&quot;</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Any config changes require re-running the prepare step.</p>
+<p>More background information on these config options can be found in the README of the <a href="https://github.com/SolidBench/SolidBench.js">SolidBench social network benchmark</a>.</p>
+<h3 id="configuration-fields" class="tsd-anchor-link">Configuration fields<a href="#configuration-fields" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li><code>scale</code>: The SNB scale factor</li>
+<li><code>configEnhance</code>: Path to enhancement config for <a href="https://github.com/SolidBench/ldbc-snb-enhancer.js/"><code>ldbc-snb-enhancer</code></a>.</li>
+<li><code>configFragment</code>: Path to fragmentation config for <a href="https://github.com/SolidBench/rdf-dataset-fragmenter.js"><code>rdf-dataset-fragmenter</code></a>.</li>
+<li><code>configQueries</code>: Path to query instantiation config for <a href="https://github.com/SolidBench/sparql-query-parameter-instantiator.js"><code>sparql-query-parameter-instantiator</code></a>.</li>
+<li><code>configServer</code>: Path to server config for <a href="https://github.com/solid/community-server/">Solid Community Server</a>.</li>
+<li><code>validationParamsUrl</code>: Validation parameters URL.</li>
+<li><code>configValidation</code>: Config for the SolidBench validator.</li>
+<li><code>hadoopMemory</code>: Memory limit for Hadoop for <a href="https://github.com/ldbc/ldbc_snb_datagen_hadoop">LDBC SNB</a>.</li>
+<li><code>dockerfileServer</code>: Path to a Dockerfile for <a href="https://github.com/CommunitySolidServer/CommunitySolidServer">Solid Community Server</a>.</li>
+<li><code>serverPort</code>: HTTP Port for <a href="https://github.com/CommunitySolidServer/CommunitySolidServer">Solid Community Server</a>.</li>
+<li><code>serverLogLevel</code>: Logging level for <a href="https://github.com/CommunitySolidServer/CommunitySolidServer">Solid Community Server</a>.</li>
+<li><code>serverBaseUrl</code>: Base URL for the Solid Community Server.</li>
+<li><code>serverResourceConstraints</code>: Resource constraints for the <a href="https://github.com/CommunitySolidServer/CommunitySolidServer">Solid Community Server</a> Docker container.</li>
+<li><code>endpointUrl</code>: URL through which the SPARQL endpoint of the <code>hookSparqlEndpoint</code> hook will be exposed.</li>
+<li><code>queryRunnerReplication</code>: Number of replication runs for <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
+<li><code>queryRunnerWarmupRounds</code>: Number of warmup runs for <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
+<li><code>queryRunnerRequestDelay</code>: Delay between requests in milliseconds.</li>
+<li><code>queryRunnerUrlParams</code>: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint.</li>
+<li><code>queryTimeoutFallback</code>: An optional timeout value for a single query in milliseconds, to be used as fallback in case the SPARQL endpoint hook's timeout fails. This should always be higher than the timeout value configured in the SPARQL endpoint hook.</li>
+</ul>
+<h2 id="license" class="tsd-anchor-link">License<a href="#license" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>jbr.js is written by <a href="http://www.rubensworks.net/">Ruben Taelman</a>.</p>
+<p>This code is copyrighted by <a href="http://idlab.ugent.be/">Ghent University – imec</a>
+and released under the <a href="http://opensource.org/licenses/MIT">MIT license</a>.</p>
+</section>
+<details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Classes"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h2 class="tsd-anchor-link" id="classes">Classes<a href="#classes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary><dl class="tsd-member-summaries"><dt class="tsd-member-summary" id="experimenthandlersolidsessionbench"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/_jbr-experiment_solid-session-bench.ExperimentHandlerSolidSessionBench.html">ExperimentHandlerSolidSessionBench</a><a href="#experimenthandlersolidsessionbench" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="experimentsolidsessionbench"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/_jbr-experiment_solid-session-bench.ExperimentSolidSessionBench.html">ExperimentSolidSessionBench</a><a href="#experimentsolidsessionbench" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd></dl></details></div>
+<div class="col-sidebar">
+<div class="page-menu">
+<div class="tsd-navigation settings">
+<details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div>
+<div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>On This Page</h3></summary>
+<div class="tsd-accordion-details"><a href="#jbr-experiment-solidsessionbench"><span>JBR <wbr/>Experiment -<wbr/> <wbr/>Solid<wbr/>Session<wbr/>Bench</span></a>
+<ul>
+<li><a href="#requirements"><span>Requirements</span></a></li>
+<li><a href="#quick-start"><span>Quick start</span></a></li>
+<li>
+<ul>
+<li><a href="#1-install-jbr"><span>1. <wbr/>Install jbr</span></a></li>
+<li><a href="#2-initialize-a-new-experiment"><span>2. <wbr/>Initialize a new experiment</span></a></li>
+<li><a href="#3-configure-the-required-hooks"><span>3. <wbr/>Configure the required hooks</span></a></li>
+<li><a href="#4-prepare-the-experiment"><span>4. <wbr/>Prepare the experiment</span></a></li>
+<li><a href="#5-run-the-experiment"><span>5. <wbr/>Run the experiment</span></a></li></ul></li>
+<li><a href="#output"><span>Output</span></a></li>
+<li><a href="#configuration"><span>Configuration</span></a></li>
+<li>
+<ul>
+<li><a href="#configuration-fields"><span>Configuration fields</span></a></li></ul></li>
+<li><a href="#license"><span>License</span></a></li></ul>
+<details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Classes"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Classes</summary>
+<div><a href="#experimenthandlersolidsessionbench"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Experiment<wbr/>Handler<wbr/>Solid<wbr/>Session<wbr/>Bench</span></a><a href="#experimentsolidsessionbench"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Experiment<wbr/>Solid<wbr/>Session<wbr/>Bench</span></a></div></details></div></details></div>
+<div class="site-menu">
+<nav class="tsd-navigation"><a href="../modules.html">jbr</a>
+<ul class="tsd-small-nested-navigation" id="tsd-nav-container">
+<li>Loading...</li></ul></nav></div></div></div><footer>
+<p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer>
+<div class="overlay"></div></body></html>

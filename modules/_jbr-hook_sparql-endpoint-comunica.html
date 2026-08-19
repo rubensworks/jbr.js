@@ -1,0 +1,166 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@jbr-hook/sparql-endpoint-comunica | jbr</title><meta name="description" content="Documentation for jbr"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container"><a href="../index.html" class="title">jbr</a>
+<div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/>
+<ul role="listbox" id="tsd-search-results"></ul>
+<div id="tsd-search-status" aria-live="polite" aria-atomic="true">
+<div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header>
+<div class="container container-main">
+<div class="col-content">
+<div class="tsd-page-title">
+<ul class="tsd-breadcrumb" aria-label="Breadcrumb">
+<li><a href="" aria-current="page">@jbr-hook/sparql-endpoint-comunica</a></li></ul>
+<h1>Module @jbr-hook/sparql-endpoint-comunica</h1></div>
+<section class="tsd-panel tsd-typography"><h1 id="jbr-hook-sparql-endpoint-comunica" class="tsd-anchor-link">JBR Hook - SPARQL Endpoint Comunica<a href="#jbr-hook-sparql-endpoint-comunica" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p><a href="https://github.com/rubensworks/jbr.js/actions?query=workflow%3ACI"><img src="https://github.com/rubensworks/jbr.js/workflows/CI/badge.svg" alt="Build status"></a>
+<a href="https://coveralls.io/github/rubensworks/jbr.js?branch=master"><img src="https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://www.npmjs.com/package/@jbr-hoopk/sparql-endpoint-comunica"><img src="https://badge.fury.io/js/%40jbr-hook%2Fsparql-endpoint-comunica.svg" alt="npm version"></a></p>
+<p>A <a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> hook type for a <a href="https://github.com/comunica/comunica">Comunica</a>-based SPARQL endpoint.</p>
+<h2 id="requirements" class="tsd-anchor-link">Requirements<a href="#requirements" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li><a href="https://nodejs.org/en/">Node.js</a> <em>(1.12 or higher)</em></li>
+<li><a href="https://www.docker.com/">Docker</a> <em>(required for starting a Comunica SPARQL endpoint inside a Docker container)</em></li>
+<li>An existing <a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> experiment that requires a SPARQL endpoint hook.</li>
+</ul>
+<h2 id="configure-an-experiment-hook" class="tsd-anchor-link">Configure an experiment hook<a href="#configure-an-experiment-hook" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>If an experiment requires a hook for a SPARQL endpoint,
+then you can install this Comunica-based SPARQL endpoint as follows.</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">set-hook</span><span class="hl-1"> </span><span class="hl-2">someHookSparqlEndpoint</span><span class="hl-1"> </span><span class="hl-2">sparql-endpoint-comunica</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="output" class="tsd-anchor-link">Output<a href="#output" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>The following output is generated after an experiment with this hook has run.</p>
+<p><code>output/stats-sparql-endpoint-comunica.csv</code>: Per second of the experiment: CPU percentage, memory usage (bytes), memory percentage, received bytes, transmitted bytes.</p>
+<pre><code class="csv">cpu_percentage,memory,memory_percentage,received,transmitted
+9.915362228116711,10489856,0.5024267940030527,488,0
+9.863725050505051,17354752,0.8312308965993495,648,0
+9.64850952141058,19116032,0.915589944401502,738,0
+9.345685076142132,23072768,1.105103526208198,738,0
+10.029959365079364,26759168,1.2816689750964243,738,0
+10.25411566137566,30363648,1.45431074734269,738,0
+</code><button type="button">Copy</button></pre>
+
+<p><code>output/logs/sparql-endpoint-comunica.txt</code>: Logs of the Comunica SPARQL endpoint.</p>
+<h2 id="configuration" class="tsd-anchor-link">Configuration<a href="#configuration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>When installing this hook, your configuration file (<code>jbr-experiment.json</code>) will contain the following:</p>
+<pre><code class="text">...
+  &quot;someHookSparqlEndpoint&quot;: {
+    &quot;@id&quot;: &quot;urn:jrb:bb:hookSparqlEndpoint&quot;,
+    &quot;@type&quot;: &quot;HookSparqlEndpointComunica&quot;,
+    &quot;dockerfileClient&quot;: &quot;input/dockerfiles/Dockerfile-client&quot;,
+    &quot;resourceConstraints&quot;: {
+      &quot;@type&quot;: &quot;DockerResourceConstraints&quot;,
+      &quot;cpu_percentage&quot;: 90
+    },
+    &quot;configClient&quot;: &quot;input/config-client.json&quot;,
+    &quot;additionalBinds&quot;: [ ],
+    &quot;clientPort&quot;: 3001,
+    &quot;clientLogLevel&quot;: &quot;info&quot;,
+    &quot;queryTimeout&quot;: 300,
+    &quot;maxMemory&quot;: 8192
+  }
+...
+</code><button type="button">Copy</button></pre>
+
+<p>Any config changes require re-running the prepare step.</p>
+<p>More background information on these config options can be found on <a href="https://comunica.dev/">https://comunica.dev/</a>.</p>
+<h3 id="configuration-fields" class="tsd-anchor-link">Configuration fields<a href="#configuration-fields" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li><code>dockerfileClient</code>: Path to the Dockerfile of Comunica.</li>
+<li><code>resourceConstraints</code>: Resource constraints for the Docker container.</li>
+<li><code>configClient</code>: Path to the configuration file of a Comunica engine.</li>
+<li><code>clientPort</code>: HTTP port on which the SPARQL endpoint will be exposed.</li>
+<li><code>clientLogLevel</code>: Logging level for Comunica engine.</li>
+<li><code>queryTimeout</code>: Timeout in seconds for a single SPARQL query execution.</li>
+<li><code>maxMemory</code>: Maximum amount of Memory for the Comunica Node.js process in MB.</li>
+<li><code>additionalBinds</code>: The Local file bindings to the client dockerfile.</li>
+</ul>
+<h2 id="querying-local-files" class="tsd-anchor-link">Querying local files<a href="#querying-local-files" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>By default, the hook handler sparql-endpoint-comunica expects the dataset to be served through http.
+If you want to use a local file as source for the comunica endpoint you can bind a local dataset to comunica docker container.
+To do so, follow these steps:</p>
+<p>First, use <a href="https://github.com/rubensworks/lerna-docker">lerna-docker</a> to create a docker image of <a href="https://github.com/comunica/comunica/tree/master/engines/query-sparql-file">engines/query-sparql-file</a>. For this use the dockerfile in <a href="https://github.com/comunica/comunica/blob/master/engines/query-sparql/Dockerfile">engines/query-sparql</a>.
+Then generate an experiment and add the sparql-endpoint-comunica hook like explained above.
+In the generated experiment, you should change the client dockerfile:</p>
+<pre><code class="text">my-experiment/
+  input/
+    dockerfiles
+      Dockerfile-client
+</code><button type="button">Copy</button></pre>
+
+<p>Change the default docker image to your newly created docker image. For example:</p>
+<pre><code><span class="hl-6">FROM</span><span class="hl-1"> </span><span class="hl-7">comunica</span><span class="hl-1">/</span><span class="hl-7">query</span><span class="hl-1">-</span><span class="hl-8">sparql</span><span class="hl-1">:</span><span class="hl-7">v2</span><span class="hl-1">.</span><span class="hl-5">5.0</span><span class="hl-1"> -&gt; </span><span class="hl-6">FROM</span><span class="hl-1"> </span><span class="hl-7">comunica</span><span class="hl-1">/</span><span class="hl-7">query</span><span class="hl-1">-</span><span class="hl-7">sparql</span><span class="hl-1">-</span><span class="hl-8">file</span><span class="hl-1">:</span><span class="hl-7">v2</span><span class="hl-1">.</span><span class="hl-5">5.0</span>
+</code><button>Copy</button></pre>
+
+<p>Furthermore, change the config-client.json and context-client.json</p>
+<pre><code class="text">my-experiment/
+  input/
+    config-client.json
+    context-client.json
+</code><button type="button">Copy</button></pre>
+
+<p>In the config-client.json change the import of</p>
+<pre><code><span class="hl-8">ccqs</span><span class="hl-1">:</span><span class="hl-7">config</span><span class="hl-1">/</span><span class="hl-7">config</span><span class="hl-1">-</span><span class="hl-7">default</span><span class="hl-1">.</span><span class="hl-7">json</span>
+</code><button>Copy</button></pre>
+
+<p>to</p>
+<pre><code><span class="hl-8">ccqs</span><span class="hl-1">:</span><span class="hl-7">config</span><span class="hl-1">/</span><span class="hl-7">config</span><span class="hl-1">-</span><span class="hl-7">file</span><span class="hl-1">.</span><span class="hl-7">json</span>
+</code><button>Copy</button></pre>
+
+<p>Then in the context-client.json set sources to</p>
+<pre><code><span class="hl-2">&quot;sources&quot;</span><span class="hl-1">: [ </span><span class="hl-2">&quot;/tmp/dataset.nt&quot;</span><span class="hl-1"> ]</span>
+</code><button>Copy</button></pre>
+
+<p>This path should point to where you want your dataset to be available in the Docker image.</p>
+<p>Finally, we want to bind our dataset to the sources path we've specified above. This is done in the jbr-experiment.json</p>
+<pre><code><span class="hl-1">  </span><span class="hl-7">my</span><span class="hl-1">-</span><span class="hl-7">experiment</span><span class="hl-1">/</span><br/><span class="hl-1">    </span><span class="hl-7">jbr</span><span class="hl-1">-</span><span class="hl-7">experiment</span><span class="hl-1">.</span><span class="hl-7">json</span>
+</code><button>Copy</button></pre>
+
+<p>By default the entry for the hookSparqlEndpoint should look like this</p>
+<pre><code><span class="hl-1">  </span><span class="hl-2">&quot;hookSparqlEndpoint&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;@id&quot;</span><span class="hl-7">:</span><span class="hl-1"> </span><span class="hl-2">&quot;urn:jbr:testerdetest:hookSparqlEndpoint&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;@type&quot;</span><span class="hl-7">:</span><span class="hl-1"> </span><span class="hl-2">&quot;HookSparqlEndpointComunica&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;dockerfileClient&quot;</span><span class="hl-7">:</span><span class="hl-1"> </span><span class="hl-2">&quot;input/dockerfiles/Dockerfile-client&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;resourceConstraints&quot;</span><span class="hl-7">:</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-2">&quot;@type&quot;</span><span class="hl-7">:</span><span class="hl-1"> </span><span class="hl-2">&quot;StaticDockerResourceConstraints&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-2">&quot;cpu_percentage&quot;</span><span class="hl-7">:</span><span class="hl-1"> </span><span class="hl-5">100</span><br/><span class="hl-1">    },</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;configClient&quot;</span><span class="hl-7">:</span><span class="hl-1"> </span><span class="hl-2">&quot;input/config-client.json&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;contextClient&quot;</span><span class="hl-7">:</span><span class="hl-1"> </span><span class="hl-2">&quot;input/context-client.json&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;additionalBinds&quot;</span><span class="hl-7">:</span><span class="hl-1"> [],</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;clientPort&quot;</span><span class="hl-7">:</span><span class="hl-1"> </span><span class="hl-5">3001</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;clientLogLevel&quot;</span><span class="hl-7">:</span><span class="hl-1"> </span><span class="hl-2">&quot;info&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;queryTimeout&quot;</span><span class="hl-7">:</span><span class="hl-1"> </span><span class="hl-5">300</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;maxMemory&quot;</span><span class="hl-7">:</span><span class="hl-1"> </span><span class="hl-5">8192</span><br/><span class="hl-1">  }</span>
+</code><button>Copy</button></pre>
+
+<p>In this, we set</p>
+<pre><code><span class="hl-1">  </span><span class="hl-2">&quot;additionalBinds&quot;</span><span class="hl-1">: [</span><span class="hl-2">&quot;/generated/dataset.nt:/tmp/dataset.nt&quot;</span><span class="hl-1">] </span>
+</code><button>Copy</button></pre>
+
+<p>The first part before the <code>:</code> denotes where our dataset is found locally, while the second part shows where the dataset will be available in the Docker image.</p>
+<h2 id="license" class="tsd-anchor-link">License<a href="#license" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>jbr.js is written by <a href="http://www.rubensworks.net/">Ruben Taelman</a>.</p>
+<p>This code is copyrighted by <a href="http://idlab.ugent.be/">Ghent University – imec</a>
+and released under the <a href="http://opensource.org/licenses/MIT">MIT license</a>.</p>
+</section>
+<details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Classes"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h2 class="tsd-anchor-link" id="classes">Classes<a href="#classes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary><dl class="tsd-member-summaries"><dt class="tsd-member-summary" id="hookhandlersparqlendpointcomunica"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/_jbr-hook_sparql-endpoint-comunica.HookHandlerSparqlEndpointComunica.html">HookHandlerSparqlEndpointComunica</a><a href="#hookhandlersparqlendpointcomunica" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="hooksparqlendpointcomunica"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/_jbr-hook_sparql-endpoint-comunica.HookSparqlEndpointComunica.html">HookSparqlEndpointComunica</a><a href="#hooksparqlendpointcomunica" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd></dl></details></div>
+<div class="col-sidebar">
+<div class="page-menu">
+<div class="tsd-navigation settings">
+<details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div>
+<div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>On This Page</h3></summary>
+<div class="tsd-accordion-details"><a href="#jbr-hook-sparql-endpoint-comunica"><span>JBR <wbr/>Hook -<wbr/> <wbr/>SPARQL <wbr/>Endpoint <wbr/>Comunica</span></a>
+<ul>
+<li><a href="#requirements"><span>Requirements</span></a></li>
+<li><a href="#configure-an-experiment-hook"><span>Configure an experiment hook</span></a></li>
+<li><a href="#output"><span>Output</span></a></li>
+<li><a href="#configuration"><span>Configuration</span></a></li>
+<li>
+<ul>
+<li><a href="#configuration-fields"><span>Configuration fields</span></a></li></ul></li>
+<li><a href="#querying-local-files"><span>Querying local files</span></a></li>
+<li><a href="#license"><span>License</span></a></li></ul>
+<details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Classes"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Classes</summary>
+<div><a href="#hookhandlersparqlendpointcomunica"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Hook<wbr/>Handler<wbr/>Sparql<wbr/>Endpoint<wbr/>Comunica</span></a><a href="#hooksparqlendpointcomunica"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Hook<wbr/>Sparql<wbr/>Endpoint<wbr/>Comunica</span></a></div></details></div></details></div>
+<div class="site-menu">
+<nav class="tsd-navigation"><a href="../modules.html">jbr</a>
+<ul class="tsd-small-nested-navigation" id="tsd-nav-container">
+<li>Loading...</li></ul></nav></div></div></div><footer>
+<p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer>
+<div class="overlay"></div></body></html>

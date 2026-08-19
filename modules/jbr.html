@@ -1,115 +1,50 @@
-<!doctype html>
-<html class="default no-js">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>jbr</title>
-	<meta name="description" content="Documentation for jbr">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="../assets/css/main.css">
-	<script async src="../assets/js/search.js" id="search-script"></script>
-</head>
-<body>
-<header>
-	<div class="tsd-page-toolbar">
-		<div class="container">
-			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
-					<div class="field">
-						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-						<input id="tsd-search-field" type="text" />
-					</div>
-					<ul class="results">
-						<li class="state loading">Preparing search index...</li>
-						<li class="state failure">The search index is not available</li>
-					</ul>
-					<a href="../index.html" class="title">jbr</a>
-				</div>
-				<div class="table-cell" id="tsd-widgets">
-					<div id="tsd-filter">
-						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-						<div class="tsd-filter-group">
-							<div class="tsd-select" id="tsd-filter-visibility">
-								<span class="tsd-select-label">All</span>
-								<ul class="tsd-select-list">
-									<li data-value="public">Public</li>
-									<li data-value="protected">Public/Protected</li>
-									<li data-value="private" class="selected">All</li>
-								</ul>
-							</div>
-							<input type="checkbox" id="tsd-filter-inherited" checked />
-							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-						</div>
-					</div>
-					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tsd-page-title">
-		<div class="container">
-			<ul class="tsd-breadcrumb">
-				<li>
-					<a href="../modules.html">jbr</a>
-				</li>
-				<li>
-					<a href="jbr.html">jbr</a>
-				</li>
-			</ul>
-			<h1>Module jbr</h1>
-		</div>
-	</div>
-</header>
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>jbr | jbr</title><meta name="description" content="Documentation for jbr"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container"><a href="../index.html" class="title">jbr</a>
+<div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/>
+<ul role="listbox" id="tsd-search-results"></ul>
+<div id="tsd-search-status" aria-live="polite" aria-atomic="true">
+<div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header>
 <div class="container container-main">
-	<div class="row">
-		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<a href="#jbrjs--just-a-benchmark-runner" id="jbrjs--just-a-benchmark-runner" style="color: inherit; text-decoration: none;">
-						<h1>jbr.js – Just a Benchmark Runner</h1>
-					</a>
-					<p><a href="https://github.com/rubensworks/jbr.js/actions?query=workflow%3ACI"><img src="https://github.com/rubensworks/jbr.js/workflows/CI/badge.svg" alt="Build status"></a>
-						<a href="https://coveralls.io/github/rubensworks/jbr.js?branch=master"><img src="https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master" alt="Coverage Status"></a>
-					<a href="https://www.npmjs.com/package/jbr"><img src="https://badge.fury.io/js/jbr.svg" alt="npm version"></a></p>
-					<p>A simple tool to initialize benchmarking experiments, run them, and analyze their results.</p>
-					<p>Experiments that are created and executed with this tool are <a href="https://linkedsoftwaredependencies.org/articles/reproducibility/">fully reproducible</a>,
-						as experiments are fully <em>deterministic</em>,
-					and metadata on all exact installed dependency versions is emitted together with the results.</p>
-					<a href="#guides" id="guides" style="color: inherit; text-decoration: none;">
-						<h2>Guides</h2>
-					</a>
-					<ul>
-						<li><a href="https://github.com/rubensworks/jbr.js/wiki/Example:-setting-up-a-Linked-Data-Fragments-experiment">Setting up a single Linked Data Fragments experiment</a></li>
-						<li><a href="https://github.com/rubensworks/jbr.js/wiki/Example:-setting-up-a-combinations-based-Linked-Data-Fragments-experiment">Setting up a factorial Linked Data Fragments experiment</a></li>
-					</ul>
-					<a href="#requirements" id="requirements" style="color: inherit; text-decoration: none;">
-						<h2>Requirements</h2>
-					</a>
-					<ul>
-						<li><a href="https://nodejs.org/en/">Node.js</a> <em>(1.12 or higher)</em></li>
-					</ul>
-					<p>For certain experiment types, you may also require <a href="https://www.docker.com/">Docker</a>.</p>
-					<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
-						<h2>Installation</h2>
-					</a>
-					<pre><code class="language-bash"><span style="color: #000000">$ npm install -g jbr</span>
-</code></pre>
-					<p>or</p>
-					<pre><code class="language-bash"><span style="color: #000000">$ yarn global add jbr</span>
-</code></pre>
-					<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
-						<h2>Usage</h2>
-					</a>
-					<p>This tool offers commands for executing the whole experimentation chain:</p>
-					<ol>
-						<li><a href="#1-initialization"><strong>Initialization</strong></a>: Create a new experiment. This should be done only once.</li>
-						<li><a href="#2-data-preparation"><strong>Data Preparation</strong></a>: Generating a dataset and query set. This should be done only once.</li>
-						<li><a href="#3-running-experiments"><strong>Running Experiments</strong></a>: Starting the required machines and running the benchmark.</li>
-					</ol>
-					<p><strong>Full usage</strong>:</p>
-					<pre><code class="language-text">jbr &lt;command&gt;
+<div class="col-content">
+<div class="tsd-page-title">
+<ul class="tsd-breadcrumb" aria-label="Breadcrumb">
+<li><a href="" aria-current="page">jbr</a></li></ul>
+<h1>Module jbr</h1></div>
+<section class="tsd-panel tsd-typography"><h1 id="jbrjs-just-a-benchmark-runner" class="tsd-anchor-link">jbr.js – Just a Benchmark Runner<a href="#jbrjs-just-a-benchmark-runner" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p><a href="https://github.com/rubensworks/jbr.js/actions?query=workflow%3ACI"><img src="https://github.com/rubensworks/jbr.js/workflows/CI/badge.svg" alt="Build status"></a>
+<a href="https://coveralls.io/github/rubensworks/jbr.js?branch=master"><img src="https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://www.npmjs.com/package/jbr"><img src="https://badge.fury.io/js/jbr.svg" alt="npm version"></a></p>
+<p>A simple tool to initialize benchmarking experiments, run them, and analyze their results.</p>
+<p>Experiments that are created and executed with this tool are <a href="https://linkedsoftwaredependencies.org/articles/reproducibility/">fully reproducible</a>,
+as experiments are fully <em>deterministic</em>,
+and metadata on all exact installed dependency versions is emitted together with the results.</p>
+<h2 id="guides" class="tsd-anchor-link">Guides<a href="#guides" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li><a href="https://github.com/rubensworks/jbr.js/wiki/Example:-setting-up-a-Linked-Data-Fragments-experiment">Setting up a single Linked Data Fragments experiment</a></li>
+<li><a href="https://github.com/rubensworks/jbr.js/wiki/Example:-setting-up-a-combinations-based-Linked-Data-Fragments-experiment">Setting up a factorial Linked Data Fragments experiment</a></li>
+</ul>
+<h2 id="requirements" class="tsd-anchor-link">Requirements<a href="#requirements" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li><a href="https://nodejs.org/en/">Node.js</a> <em>(1.12 or higher)</em></li>
+</ul>
+<p>For certain experiment types, you may also require <a href="https://www.docker.com/">Docker</a>.</p>
+<h2 id="installation" class="tsd-anchor-link">Installation<a href="#installation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-3">-g</span><span class="hl-1"> </span><span class="hl-2">jbr</span>
+</code><button type="button">Copy</button></pre>
+
+<p>or</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">yarn</span><span class="hl-1"> </span><span class="hl-2">global</span><span class="hl-1"> </span><span class="hl-2">add</span><span class="hl-1"> </span><span class="hl-2">jbr</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="usage" class="tsd-anchor-link">Usage<a href="#usage" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>This tool offers commands for executing the whole experimentation chain:</p>
+<ol>
+<li><a href="#1-initialization"><strong>Initialization</strong></a>: Create a new experiment. This should be done only once.</li>
+<li><a href="#2-data-preparation"><strong>Data Preparation</strong></a>: Generating a dataset and query set. This should be done only once.</li>
+<li><a href="#3-running-experiments"><strong>Running Experiments</strong></a>: Starting the required machines and running the benchmark.</li>
+</ol>
+<p><strong>Full usage</strong>:</p>
+<pre><code class="text">jbr &lt;command&gt;
 
 Commands:
   jbr clean                      Cleans up an experiment
@@ -129,59 +64,50 @@ Options:
   -d, --dockerOptions   Path to a file with custom Docker options       [string]
   -b, --breakpoints     If experiment breakpoints are enabled          [boolean]
       --help            Show help
-</code></pre>
-					<a href="#1-initialization" id="1-initialization" style="color: inherit; text-decoration: none;">
-						<h3>1. Initialization</h3>
-					</a>
-					<pre><code class="language-bash"><span style="color: #000000">$ jbr init experiment-type my-experiment</span>
-<span style="color: #000000">$ </span><span style="color: #795E26">cd</span><span style="color: #000000"> my-experiment</span>
-</code></pre>
-					<p>Running this command will initialize a new experiment of the given type (<code>experiment-type</code>)
-					in a new directory of the provided experiment name (<code>my-experiment</code>).</p>
-					<p>The experiment type must exist on npm under the <code>@jbr-experiment/*</code> scope.
-						<a href="https://www.npmjs.com/search?q=jbr-experiment">Click here for a full list of available experiment types.</a>
-					For example, the <code>watdiv</code> experiment can be used because the <code>@jbr-experiment/watdiv</code> package exists on npm.</p>
-					<p>The created directory will contain all default required files for running an experiment.
-					You can initialize this directory as a <a href="https://git-scm.com/">git</a> repository.</p>
-					<p>In most cases, you will have to configure at least one <a href="#hooks">hook handler</a> for your experiment,
-						such as defining the SPARQL query engine you want to evaluate for a given benchmark experiment.
-					Furthermore, you will usually need to edit the <code>jbr-experiment.json</code> file to <a href="#configurability">configure your experiment</a>.</p>
-					<a href="#2-data-preparation" id="2-data-preparation" style="color: inherit; text-decoration: none;">
-						<h3>2. Data Preparation</h3>
-					</a>
-					<p>In order to run all preprocessing steps, such as creating all required datasets, invoke the prepare step:</p>
-					<pre><code class="language-bash"><span style="color: #000000">$ jbr prepare</span>
-</code></pre>
-					<p>All prepared files will be contained in the <code>generated/</code> directory.</p>
-					<p>When running this command, existing files within <code>generated/</code> will not be overwritten by default.
-					These can be forcefully overwritten by passing the <code>-f</code> option.</p>
-					<a href="#3-running-experiments" id="3-running-experiments" style="color: inherit; text-decoration: none;">
-						<h3>3. Running Experiments</h3>
-					</a>
-					<p>Once the experiment has been fully configured and prepared, you can run it:</p>
-					<pre><code class="language-bash"><span style="color: #000000">$ jbr run</span>
-</code></pre>
-					<p>Once the run step completes, results will be present in the <code>output/</code> directory.</p>
-					<a href="#configurability" id="configurability" style="color: inherit; text-decoration: none;">
-						<h2>Configurability</h2>
-					</a>
-					<p>All experiments will have a <code>jbr-experiment.json</code> in which the properties of an experiment can be set.
-					The parameters of such a config file are dependent on the type of experiment that is being initialized.</p>
-					<p>Depending on the experiment type, you may also need to change certain files within the <code>input/</code> directory.</p>
-					<a href="#hooks" id="hooks" style="color: inherit; text-decoration: none;">
-						<h2>Hooks</h2>
-					</a>
-					<p>Most experiment types expose certain <em>hooks</em>, which allow you to plug in certain hook handlers.
-						For example, the <a href="https://www.npmjs.com/package/@jbr-experiment/watdiv">WatDiv</a> experiment type exposes the <code>hookSparqlEndpoint</code> hook.
-					This hook is used to plug in a certain SPARQL query engine, which is what WatDiv will use to run its benchmark over.</p>
-					<p>Hook handler types must exist on npm under the <code>@jbr-hook/*</code> scope.
-						<a href="https://www.npmjs.com/search?q=jbr-hook">Click here for a full list of available hook handler types.</a>
-					For example, the <code>sparql-endpoint-comunica</code> hook handler can be used because the <code>@jbr-hook/sparql-endpoint-comunica</code> package exists on npm.</p>
-					<a href="#directory-structure" id="directory-structure" style="color: inherit; text-decoration: none;">
-						<h2>Directory structure</h2>
-					</a>
-					<p>A jbr experiment typically has the following directory structure:</p>
-					<pre><code class="language-text">my-experiment/
+</code><button type="button">Copy</button></pre>
+
+<h3 id="1-initialization" class="tsd-anchor-link">1. Initialization<a href="#1-initialization" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">init</span><span class="hl-1"> </span><span class="hl-2">experiment-type</span><span class="hl-1"> </span><span class="hl-2">my-experiment</span><br/><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">cd</span><span class="hl-1"> </span><span class="hl-2">my-experiment</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Running this command will initialize a new experiment of the given type (<code>experiment-type</code>)
+in a new directory of the provided experiment name (<code>my-experiment</code>).</p>
+<p>The experiment type must exist on npm under the <code>@jbr-experiment/*</code> scope.
+<a href="https://www.npmjs.com/search?q=jbr-experiment">Click here for a full list of available experiment types.</a>
+For example, the <code>watdiv</code> experiment can be used because the <code>@jbr-experiment/watdiv</code> package exists on npm.</p>
+<p>The created directory will contain all default required files for running an experiment.
+You can initialize this directory as a <a href="https://git-scm.com/">git</a> repository.</p>
+<p>In most cases, you will have to configure at least one <a href="#hooks">hook handler</a> for your experiment,
+such as defining the SPARQL query engine you want to evaluate for a given benchmark experiment.
+Furthermore, you will usually need to edit the <code>jbr-experiment.json</code> file to <a href="#configurability">configure your experiment</a>.</p>
+<h3 id="2-data-preparation" class="tsd-anchor-link">2. Data Preparation<a href="#2-data-preparation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>In order to run all preprocessing steps, such as creating all required datasets, invoke the prepare step:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">prepare</span>
+</code><button type="button">Copy</button></pre>
+
+<p>All prepared files will be contained in the <code>generated/</code> directory.</p>
+<p>When running this command, existing files within <code>generated/</code> will not be overwritten by default.
+These can be forcefully overwritten by passing the <code>-f</code> option.</p>
+<h3 id="3-running-experiments" class="tsd-anchor-link">3. Running Experiments<a href="#3-running-experiments" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Once the experiment has been fully configured and prepared, you can run it:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">run</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Once the run step completes, results will be present in the <code>output/</code> directory.</p>
+<h2 id="configurability" class="tsd-anchor-link">Configurability<a href="#configurability" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>All experiments will have a <code>jbr-experiment.json</code> in which the properties of an experiment can be set.
+The parameters of such a config file are dependent on the type of experiment that is being initialized.</p>
+<p>Depending on the experiment type, you may also need to change certain files within the <code>input/</code> directory.</p>
+<h2 id="hooks" class="tsd-anchor-link">Hooks<a href="#hooks" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Most experiment types expose certain <em>hooks</em>, which allow you to plug in certain hook handlers.
+For example, the <a href="https://www.npmjs.com/package/@jbr-experiment/watdiv">WatDiv</a> experiment type exposes the <code>hookSparqlEndpoint</code> hook.
+This hook is used to plug in a certain SPARQL query engine, which is what WatDiv will use to run its benchmark over.</p>
+<p>Hook handler types must exist on npm under the <code>@jbr-hook/*</code> scope.
+<a href="https://www.npmjs.com/search?q=jbr-hook">Click here for a full list of available hook handler types.</a>
+For example, the <code>sparql-endpoint-comunica</code> hook handler can be used because the <code>@jbr-hook/sparql-endpoint-comunica</code> package exists on npm.</p>
+<h2 id="directory-structure" class="tsd-anchor-link">Directory structure<a href="#directory-structure" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>A jbr experiment typically has the following directory structure:</p>
+<pre><code class="text">my-experiment/
   .gitignore
   jbr-experiment.json  # Main config of your experiment
   package.json
@@ -189,39 +115,37 @@ Options:
   input/               # More indirect configuration
   output/              # Raw output of the experiment
   node_modules/
-</code></pre>
-					<p>To enable reproducibility, it is highly recommended to place these experiments under version control, e.g. via a <a href="https://git-scm.com/">git</a> repository.</p>
-					<p>The following files and directories do <strong>not have to be added</strong> to this repository,
-					as they are derived and can be reproduced:</p>
-					<pre><code class="language-text">my-experiment/
+</code><button type="button">Copy</button></pre>
+
+<p>To enable reproducibility, it is highly recommended to place these experiments under version control, e.g. via a <a href="https://git-scm.com/">git</a> repository.</p>
+<p>The following files and directories do <strong>not have to be added</strong> to this repository,
+as they are derived and can be reproduced:</p>
+<pre><code class="text">my-experiment/
   generated/
   output/
   node_modules/
-</code></pre>
-					<a href="#advanced" id="advanced" style="color: inherit; text-decoration: none;">
-						<h2>Advanced</h2>
-					</a>
-					<a href="#combinations-based-experiments" id="combinations-based-experiments" style="color: inherit; text-decoration: none;">
-						<h3>Combinations-based Experiments</h3>
-					</a>
-					<p>Certain experiments may be designed to <em>compare</em> the effect different <em>factors</em> to each other,
-						such as full factorial experiments, or fractional experiments.
-						For instance, this may be used to compare the effect of running a certain system once with algorithm A and once with B,
-					and measuring the effects.</p>
-					<p>Using jbr, you can easily setup and handle such combination-based experiments as follows:</p>
-					<p><strong>1. Initialize experiment</strong></p>
-					<p>Experiments that should be combinations-based must be initialized using the <code>-c</code> flag:</p>
-					<pre><code class="language-bash"><span style="color: #000000">$ jbr init -c experiment-type my-experiment</span>
-<span style="color: #000000">$ </span><span style="color: #795E26">cd</span><span style="color: #000000"> my-experiment</span>
-</code></pre>
-					<p>Instead of creating a <code>jbr-experiment.json</code> file,
-						this will create a <code>jbr-experiment.json.template</code> file,
-					together with an accompanying <code>jbr-combinations.json</code> file.</p>
-					<p><strong>2. Define combinations</strong></p>
-					<p>Inside the <code>jbr-experiment.json.template</code> file (and input text files), you may define any number of variables using the <code>%FACTOR-variableName%</code> syntax.
-					Inside the <code>jbr-combinations.json</code> file, you can define corresponding values for the given variables.</p>
-					<p>For example, <code>jbr-experiment.json.template</code> can look like:</p>
-					<pre><code class="language-text">{
+</code><button type="button">Copy</button></pre>
+
+<h2 id="advanced" class="tsd-anchor-link">Advanced<a href="#advanced" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="combinations-based-experiments" class="tsd-anchor-link">Combinations-based Experiments<a href="#combinations-based-experiments" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Certain experiments may be designed to <em>compare</em> the effect different <em>factors</em> to each other,
+such as full factorial experiments, or fractional experiments.
+For instance, this may be used to compare the effect of running a certain system once with algorithm A and once with B,
+and measuring the effects.</p>
+<p>Using jbr, you can easily setup and handle such combination-based experiments as follows:</p>
+<p><strong>1. Initialize experiment</strong></p>
+<p>Experiments that should be combinations-based must be initialized using the <code>-c</code> flag:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">init</span><span class="hl-1"> </span><span class="hl-3">-c</span><span class="hl-1"> </span><span class="hl-2">experiment-type</span><span class="hl-1"> </span><span class="hl-2">my-experiment</span><br/><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">cd</span><span class="hl-1"> </span><span class="hl-2">my-experiment</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Instead of creating a <code>jbr-experiment.json</code> file,
+this will create a <code>jbr-experiment.json.template</code> file,
+together with an accompanying <code>jbr-combinations.json</code> file.</p>
+<p><strong>2. Define combinations</strong></p>
+<p>Inside the <code>jbr-experiment.json.template</code> file (and input text files), you may define any number of variables using the <code>%FACTOR-variableName%</code> syntax.
+Inside the <code>jbr-combinations.json</code> file, you can define corresponding values for the given variables.</p>
+<p>For example, <code>jbr-experiment.json.template</code> can look like:</p>
+<pre><code class="text">{
   &quot;@context&quot;: [
     &quot;https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld&quot;,
     &quot;https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/ldbc-snb-decentralized/^1.0.0/components/context.jsonld&quot;,
@@ -232,824 +156,119 @@ Options:
   &quot;cpu_percentage&quot;: %FACTOR-cpu%,
   &quot;memory_percentage&quot;: %FACTOR-memory%
 }
-</code></pre>
-					<p>Variable values can be assigned in <code>jbr-combinations.json</code>:</p>
-					<pre><code class="language-json"><span style="color: #000000">{</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@context&quot;</span><span style="color: #000000">: [</span>
-<span style="color: #000000">    </span><span style="color: #A31515">&quot;https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld&quot;</span>
-<span style="color: #000000">  ],</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@id&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;urn:jrb:experimentname-combinations&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;FullFactorialCombinationProvider&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;commonGenerated&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">false</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;factors&quot;</span><span style="color: #000000">: {</span>
-<span style="color: #000000">    </span><span style="color: #0451A5">&quot;cpu&quot;</span><span style="color: #000000">: [ </span><span style="color: #098658">50</span><span style="color: #000000">, </span><span style="color: #098658">100</span><span style="color: #000000"> ],</span>
-<span style="color: #000000">    </span><span style="color: #0451A5">&quot;memory&quot;</span><span style="color: #000000">: [ </span><span style="color: #098658">50</span><span style="color: #000000">, </span><span style="color: #098658">100</span><span style="color: #000000"> ]</span>
-<span style="color: #000000">  }</span>
-<span style="color: #000000">}</span>
-</code></pre>
-					<p>Because <code>FullFactorialCombinationProvider</code> is used in <code>jbr-combinations.json</code>, all combinations (4) of the <code>cpu</code> and <code>memory</code> variable will apply to this experiment.</p>
-					<p><em>If the generated directory can be reused across combinations, then <code>commonGenerated</code> can be set to true.</em></p>
-					<p><em><code>FractionalCombinationProvider</code> may also be used if only select combinations should apply.</em></p>
-					<p><strong>3. Regenerate combinations</strong></p>
-					<p>Each time you make a change inside your input files, <code>jbr-combinations.json</code>, or <code>jbr-experiment.json.template</code>,
-					you should (re)generate the instantiated combinations by running the following command:</p>
-					<pre><code class="language-bash"><span style="color: #000000">$ jbr generate-combinations</span>
-</code></pre>
-					<p>This will create a new <code>combinations/</code> directory, containing sub-directories for all experiment combinations.
-					Files in this directory should not be modified manually, but should only be managed via the template files and <code>jbr generate-combinations</code>.</p>
-					<p><strong>4. Handle like any other experiment</strong></p>
-					<p>From this point on, you can manage this combinations-based experiment like any other jbr experiment.</p>
-					<p>Concretely, <code>jbr prepare</code> will prepare <em>all</em> combinations,
-					and <code>jbr run</code> will also run <em>all</em> combinations.</p>
-					<p>If you just want to run a single combination, you can specify its combination id via the <code>-c</code> option:</p>
-					<pre><code class="language-bash"><span style="color: #000000">$ jbr run -c 3</span>
-</code></pre>
-					<a href="#docker-resource-constraint" id="docker-resource-constraint" style="color: inherit; text-decoration: none;">
-						<h3>Docker Resource Constraint</h3>
-					</a>
-					<p>Some experiments or hooks may be executed in Docker containers.
-					For these cases, jbr exposes a reusable helper component for defining Docker resource constraints.</p>
-					<p>For example, the following experiment is configured to use at most 90% of the CPU, and 10MB of memory.</p>
-					<pre><code class="language-json"><span style="color: #000000">{</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;SomeExperiment&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;resourceConstraints&quot;</span><span style="color: #000000">: {</span>
-<span style="color: #000000">    </span><span style="color: #0451A5">&quot;@type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;StaticDockerResourceConstraints&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #0451A5">&quot;cpu_percentage&quot;</span><span style="color: #000000">: </span><span style="color: #098658">90</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #0451A5">&quot;memory_limit&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;10m&quot;</span>
-<span style="color: #000000">  }</span>
-<span style="color: #000000">}</span>
-</code></pre>
-					<p>All possible parameters (all are optional):</p>
-					<ul>
-						<li><code>cpu_percentage</code>: Percentage (0-100) of the total CPU power that can be used. E.g. when fully consuming 4 cores, this value must be set to 100.</li>
-						<li><code>memory_limit</code>: Memory usage limit, e.g. &#39;10m&#39;, &#39;1g&#39;.</li>
-					</ul>
-					<a href="#running-against-a-different-docker-instance" id="running-against-a-different-docker-instance" style="color: inherit; text-decoration: none;">
-						<h3>Running against a different Docker instance</h3>
-					</a>
-					<p>By default, Docker-based experiment will look for and use the Docker installation on your local machine.
-						In some cases, you may want to run experiments within remote Docker instances.
-					In such cases, you can use the <code>-d</code> or <code>--dockerOptions</code> option to pass a custom Docker options file.</p>
-					<p>For example, Docker options can be set when running an experiment as follows:</p>
-					<pre><code class="language-bash"><span style="color: #000000">$ jbr run -d docker-options.json</span>
-</code></pre>
-					<p><code>docker-options.json</code> for the default socket:</p>
-					<pre><code class="language-json"><span style="color: #000000">{</span>
-<span style="color: #000000">    </span><span style="color: #0451A5">&quot;socketPath&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;/var/run/docker.sock&quot;</span>
-<span style="color: #000000">}</span>
-</code></pre>
-					<p><code>docker-options.json</code> for running against a different host:</p>
-					<pre><code class="language-json"><span style="color: #000000">{</span>
-<span style="color: #000000">    </span><span style="color: #0451A5">&quot;host&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;http://192.168.1.10&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #0451A5">&quot;port&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3000</span>
-<span style="color: #000000">}</span>
-</code></pre>
-					<p>More configuration options can be found at <a href="https://github.com/apocas/dockerode#getting-started">https://github.com/apocas/dockerode#getting-started</a></p>
-					<a href="#license" id="license" style="color: inherit; text-decoration: none;">
-						<h2>License</h2>
-					</a>
-					<p>jbr.js is written by <a href="http://www.rubensworks.net/">Ruben Taelman</a>.</p>
-					<p>This code is copyrighted by <a href="http://idlab.ugent.be/">Ghent University – imec</a>
-					and released under the <a href="http://opensource.org/licenses/MIT">MIT license</a>.</p>
-				</div>
-			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Classes</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.CliNpmInstaller.html" class="tsd-kind-icon">Cli<wbr>Npm<wbr>Installer</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.CliProcessHandler.html" class="tsd-kind-icon">Cli<wbr>Process<wbr>Handler</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.DockerContainerCreator.html" class="tsd-kind-icon">Docker<wbr>Container<wbr>Creator</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.DockerContainerHandler.html" class="tsd-kind-icon">Docker<wbr>Container<wbr>Handler</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.DockerImageBuilder.html" class="tsd-kind-icon">Docker<wbr>Image<wbr>Builder</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.DockerImagePuller.html" class="tsd-kind-icon">Docker<wbr>Image<wbr>Puller</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.DockerNetworkCreator.html" class="tsd-kind-icon">Docker<wbr>Network<wbr>Creator</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.DockerNetworkHandler.html" class="tsd-kind-icon">Docker<wbr>Network<wbr>Handler</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.DockerNetworkInspector.html" class="tsd-kind-icon">Docker<wbr>Network<wbr>Inspector</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.ErrorHandled.html" class="tsd-kind-icon">Error<wbr>Handled</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter"><a href="../classes/jbr.ExperimentHandler.html" class="tsd-kind-icon">Experiment<wbr>Handler</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.ExperimentLoader.html" class="tsd-kind-icon">Experiment<wbr>Loader</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.FractionalCombinationProvider.html" class="tsd-kind-icon">Fractional<wbr>Combination<wbr>Provider</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.FullFactorialCombinationProvider.html" class="tsd-kind-icon">Full<wbr>Factorial<wbr>Combination<wbr>Provider</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.HdtConverter.html" class="tsd-kind-icon">Hdt<wbr>Converter</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter"><a href="../classes/jbr.HookHandler.html" class="tsd-kind-icon">Hook<wbr>Handler</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.HookNonConfigured.html" class="tsd-kind-icon">Hook<wbr>Non<wbr>Configured</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.HttpAvailabilityLatch.html" class="tsd-kind-icon">Http<wbr>Availability<wbr>Latch</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.ProcessHandlerComposite.html" class="tsd-kind-icon">Process<wbr>Handler<wbr>Composite</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.StaticDockerResourceConstraints.html" class="tsd-kind-icon">Static<wbr>Docker<wbr>Resource<wbr>Constraints</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskClean.html" class="tsd-kind-icon">Task<wbr>Clean</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskGenerateCombinations.html" class="tsd-kind-icon">Task<wbr>Generate<wbr>Combinations</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskInitialize.html" class="tsd-kind-icon">Task<wbr>Initialize</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskPack.html" class="tsd-kind-icon">Task<wbr>Pack</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskPrepare.html" class="tsd-kind-icon">Task<wbr>Prepare</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskRun.html" class="tsd-kind-icon">Task<wbr>Run</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskSetHook.html" class="tsd-kind-icon">Task<wbr>Set<wbr>Hook</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.TaskValidate.html" class="tsd-kind-icon">Task<wbr>Validate</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/jbr.VoidNpmInstaller.html" class="tsd-kind-icon">Void<wbr>Npm<wbr>Installer</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Interfaces</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.CombinationProvider.html" class="tsd-kind-icon">Combination<wbr>Provider</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.DockerResourceConstraints.html" class="tsd-kind-icon">Docker<wbr>Resource<wbr>Constraints</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.Experiment.html" class="tsd-kind-icon">Experiment</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.Hook.html" class="tsd-kind-icon">Hook</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.ICleanTargets.html" class="tsd-kind-icon">IClean<wbr>Targets</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.IDockerContainerCreatorArgs.html" class="tsd-kind-icon">IDocker<wbr>Container<wbr>Creator<wbr>Args</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.IDockerCpuConstraints.html" class="tsd-kind-icon">IDocker<wbr>Cpu<wbr>Constraints</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.IDockerImageBuilderArgs.html" class="tsd-kind-icon">IDocker<wbr>Image<wbr>Builder<wbr>Args</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.IDockerImagePullerArgs.html" class="tsd-kind-icon">IDocker<wbr>Image<wbr>Puller<wbr>Args</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.IDockerMemoryConstraints.html" class="tsd-kind-icon">IDocker<wbr>Memory<wbr>Constraints</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.IExperimentPaths.html" class="tsd-kind-icon">IExperiment<wbr>Paths</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.IHookStartOptions.html" class="tsd-kind-icon">IHook<wbr>Start<wbr>Options</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.ITaskContext.html" class="tsd-kind-icon">ITask<wbr>Context</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.ITaskInitializeOutput.html" class="tsd-kind-icon">ITask<wbr>Initialize<wbr>Output</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.ITaskSetHookOutput.html" class="tsd-kind-icon">ITask<wbr>Set<wbr>Hook<wbr>Output</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.NpmInstaller.html" class="tsd-kind-icon">Npm<wbr>Installer</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/jbr.ProcessHandler.html" class="tsd-kind-icon">Process<wbr>Handler</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Type aliases</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="jbr.html#FactorCombination" class="tsd-kind-icon">Factor<wbr>Combination</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="jbr.html#IRunTaskContext" class="tsd-kind-icon">IRun<wbr>Task<wbr>Context</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Variables</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="jbr.html#command" class="tsd-kind-icon">command</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="jbr.html#desc" class="tsd-kind-icon">desc</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Functions</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#breakpointBarrier" class="tsd-kind-icon">breakpoint<wbr>Barrier</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#builder" class="tsd-kind-icon">builder</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#createCliLogger" class="tsd-kind-icon">create<wbr>Cli<wbr>Logger</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#createExperimentPaths" class="tsd-kind-icon">create<wbr>Experiment<wbr>Paths</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#createNpmInstaller" class="tsd-kind-icon">create<wbr>Npm<wbr>Installer</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#handler" class="tsd-kind-icon">handler</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#runCli" class="tsd-kind-icon">run<wbr>Cli</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#secureProcessHandler" class="tsd-kind-icon">secure<wbr>Process<wbr>Handler</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="jbr.html#wrapCommandHandler" class="tsd-kind-icon">wrap<wbr>Command<wbr>Handler</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="jbr.html#wrapVisualProgress" class="tsd-kind-icon">wrap<wbr>Visual<wbr>Progress</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="FactorCombination" class="tsd-anchor"></a>
-					<h3>Factor<wbr>Combination</h3>
-					<div class="tsd-signature tsd-kind-icon">Factor<wbr>Combination<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/119e49d/packages/jbr/lib/factor/CombinationProvider.ts#L12">packages/jbr/lib/factor/CombinationProvider.ts:12</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="IRunTaskContext" class="tsd-anchor"></a>
-					<h3>IRun<wbr>Task<wbr>Context</h3>
-					<div class="tsd-signature tsd-kind-icon">IRun<wbr>Task<wbr>Context<span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>filter<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/119e49d/packages/jbr/lib/experiment/Experiment.ts#L26">packages/jbr/lib/experiment/Experiment.ts:26</a></li>
-						</ul>
-					</aside>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Variables</h2>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
-					<a name="command" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> command</h3>
-					<div class="tsd-signature tsd-kind-icon">command<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;clean&quot;</span><span class="tsd-signature-symbol"> = &#x27;clean&#x27;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/119e49d/packages/jbr/lib/cli/commands/CommandClean.ts#L6">packages/jbr/lib/cli/commands/CommandClean.ts:6</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
-					<a name="desc" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> desc</h3>
-					<div class="tsd-signature tsd-kind-icon">desc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;Cleans up an experiment&quot;</span><span class="tsd-signature-symbol"> = &#x27;Cleans up an experiment&#x27;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/119e49d/packages/jbr/lib/cli/commands/CommandClean.ts#L7">packages/jbr/lib/cli/commands/CommandClean.ts:7</a></li>
-						</ul>
-					</aside>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="breakpointBarrier" class="tsd-anchor"></a>
-					<h3>breakpoint<wbr>Barrier</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">breakpoint<wbr>Barrier<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/119e49d/packages/jbr/lib/cli/CliHelpers.ts#L29">packages/jbr/lib/cli/CliHelpers.ts:29</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="builder" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> builder</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">builder<span class="tsd-signature-symbol">(</span>yargs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Argv</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Argv</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/119e49d/packages/jbr/lib/cli/commands/CommandClean.ts#L8">packages/jbr/lib/cli/commands/CommandClean.ts:8</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>yargs: <span class="tsd-signature-type">Argv</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Argv</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="createCliLogger" class="tsd-anchor"></a>
-					<h3>create<wbr>Cli<wbr>Logger</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Cli<wbr>Logger<span class="tsd-signature-symbol">(</span>logLevel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Logger</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/119e49d/packages/jbr/lib/cli/CliHelpers.ts#L134">packages/jbr/lib/cli/CliHelpers.ts:134</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>logLevel: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Logger</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="createExperimentPaths" class="tsd-anchor"></a>
-					<h3>create<wbr>Experiment<wbr>Paths</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Experiment<wbr>Paths<span class="tsd-signature-symbol">(</span>basePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, combination<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.IExperimentPaths.html" class="tsd-signature-type" data-tsd-kind="Interface">IExperimentPaths</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/119e49d/packages/jbr/lib/cli/CliHelpers.ts#L19">packages/jbr/lib/cli/CliHelpers.ts:19</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>basePath: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> combination: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/jbr.IExperimentPaths.html" class="tsd-signature-type" data-tsd-kind="Interface">IExperimentPaths</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="createNpmInstaller" class="tsd-anchor"></a>
-					<h3>create<wbr>Npm<wbr>Installer</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Npm<wbr>Installer<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a>, nextVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jbr.NpmInstaller.html" class="tsd-signature-type" data-tsd-kind="Interface">NpmInstaller</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/119e49d/packages/jbr/lib/cli/CliHelpers.ts#L148">packages/jbr/lib/cli/CliHelpers.ts:148</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>context: <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a></h5>
-								</li>
-								<li>
-									<h5>nextVersion: <span class="tsd-signature-type">boolean</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jbr.NpmInstaller.html" class="tsd-signature-type" data-tsd-kind="Interface">NpmInstaller</a><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="handler" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> handler</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">handler<span class="tsd-signature-symbol">(</span>argv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/119e49d/packages/jbr/lib/cli/commands/CommandClean.ts#L19">packages/jbr/lib/cli/commands/CommandClean.ts:19</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>argv: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="runCli" class="tsd-anchor"></a>
-					<h3>run<wbr>Cli</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">run<wbr>Cli<span class="tsd-signature-symbol">(</span>cwd<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, argv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/119e49d/packages/jbr/lib/cli/CliRunner.ts#L4">packages/jbr/lib/cli/CliRunner.ts:4</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>cwd: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>argv: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="secureProcessHandler" class="tsd-anchor"></a>
-					<h3>secure<wbr>Process<wbr>Handler</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">secure<wbr>Process<wbr>Handler<span class="tsd-signature-symbol">(</span>processHandler<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ProcessHandler.html" class="tsd-signature-type" data-tsd-kind="Interface">ProcessHandler</a>, context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/119e49d/packages/jbr/lib/experiment/ProcessHandlerUtil.ts#L11">packages/jbr/lib/experiment/ProcessHandlerUtil.ts:11</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Utility function to register the proper handlers for a process
-										to make sure it handles early termination and cleanup correctly.
-									The returned callback must be invoked at the end of the experiment, to stop the process in a clean manner.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>processHandler: <a href="../interfaces/jbr.ProcessHandler.html" class="tsd-signature-type" data-tsd-kind="Interface">ProcessHandler</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The process handler.</p>
-									</div>
-								</li>
-								<li>
-									<h5>context: <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The task context.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter-signature">
-									<ul class="tsd-signatures tsd-kind-type-literal">
-										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-									</ul>
-									<ul class="tsd-descriptions">
-										<li class="tsd-description">
-											<div class="tsd-comment tsd-typography">
-												<div class="lead">
-													<p>Utility function to register the proper handlers for a process
-														to make sure it handles early termination and cleanup correctly.
-													The returned callback must be invoked at the end of the experiment, to stop the process in a clean manner.</p>
-												</div>
-											</div>
-											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="wrapCommandHandler" class="tsd-anchor"></a>
-					<h3>wrap<wbr>Command<wbr>Handler</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">wrap<wbr>Command<wbr>Handler<span class="tsd-signature-symbol">(</span>argv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/119e49d/packages/jbr/lib/cli/CliHelpers.ts#L40">packages/jbr/lib/cli/CliHelpers.ts:40</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>argv: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-								<li>
-									<h5>handler: <span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-signature">
-											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5>context: <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type" data-tsd-kind="Interface">ITaskContext</a></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
-					<a name="wrapVisualProgress" class="tsd-anchor"></a>
-					<h3>wrap<wbr>Visual<wbr>Progress</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">wrap<wbr>Visual<wbr>Progress&lt;T&gt;<span class="tsd-signature-symbol">(</span>label<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/119e49d/packages/jbr/lib/cli/CliHelpers.ts#L125">packages/jbr/lib/cli/CliHelpers.ts:125</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>T</h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>label: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>handler: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-signature">
-											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-			</section>
-		</div>
-		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-			<nav class="tsd-navigation primary">
-				<ul>
-					<li class=" ">
-						<a href="../modules.html">Modules</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="experiment_bsbm.html">experiment-<wbr>bsbm</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="experiment_solid_session_bench.html">experiment-<wbr>solid-<wbr>session-<wbr>bench</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="experiment_solidbench.html">experiment-<wbr>solidbench</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="experiment_sparql_custom.html">experiment-<wbr>sparql-<wbr>custom</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="experiment_watdiv.html">experiment-<wbr>watdiv</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="hook_cli.html">hook-<wbr>cli</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="hook_docker.html">hook-<wbr>docker</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="hook_sparql_endpoint_comunica.html">hook-<wbr>sparql-<wbr>endpoint-<wbr>comunica</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="hook_sparql_endpoint_ldf.html">hook-<wbr>sparql-<wbr>endpoint-<wbr>ldf</a>
-					</li>
-					<li class="current tsd-kind-module">
-						<a href="jbr.html">jbr</a>
-					</li>
-				</ul>
-			</nav>
-			<nav class="tsd-navigation secondary menu-sticky">
-				<ul class="before-current">
-					<li class=" tsd-kind-module">
-						<a href="experiment_bsbm.html" class="tsd-kind-icon">experiment-<wbr>bsbm</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="experiment_solid_session_bench.html" class="tsd-kind-icon">experiment-<wbr>solid-<wbr>session-<wbr>bench</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="experiment_solidbench.html" class="tsd-kind-icon">experiment-<wbr>solidbench</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="experiment_sparql_custom.html" class="tsd-kind-icon">experiment-<wbr>sparql-<wbr>custom</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="experiment_watdiv.html" class="tsd-kind-icon">experiment-<wbr>watdiv</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="hook_cli.html" class="tsd-kind-icon">hook-<wbr>cli</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="hook_docker.html" class="tsd-kind-icon">hook-<wbr>docker</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="hook_sparql_endpoint_comunica.html" class="tsd-kind-icon">hook-<wbr>sparql-<wbr>endpoint-<wbr>comunica</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="hook_sparql_endpoint_ldf.html" class="tsd-kind-icon">hook-<wbr>sparql-<wbr>endpoint-<wbr>ldf</a>
-					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-module">
-						<a href="jbr.html" class="tsd-kind-icon">jbr</a>
-						<ul>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.CliNpmInstaller.html" class="tsd-kind-icon">Cli<wbr>Npm<wbr>Installer</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.CliProcessHandler.html" class="tsd-kind-icon">Cli<wbr>Process<wbr>Handler</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.DockerContainerCreator.html" class="tsd-kind-icon">Docker<wbr>Container<wbr>Creator</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.DockerContainerHandler.html" class="tsd-kind-icon">Docker<wbr>Container<wbr>Handler</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.DockerImageBuilder.html" class="tsd-kind-icon">Docker<wbr>Image<wbr>Builder</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.DockerImagePuller.html" class="tsd-kind-icon">Docker<wbr>Image<wbr>Puller</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.DockerNetworkCreator.html" class="tsd-kind-icon">Docker<wbr>Network<wbr>Creator</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.DockerNetworkHandler.html" class="tsd-kind-icon">Docker<wbr>Network<wbr>Handler</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.DockerNetworkInspector.html" class="tsd-kind-icon">Docker<wbr>Network<wbr>Inspector</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.ErrorHandled.html" class="tsd-kind-icon">Error<wbr>Handled</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
-								<a href="../classes/jbr.ExperimentHandler.html" class="tsd-kind-icon">Experiment<wbr>Handler</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.ExperimentLoader.html" class="tsd-kind-icon">Experiment<wbr>Loader</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.FractionalCombinationProvider.html" class="tsd-kind-icon">Fractional<wbr>Combination<wbr>Provider</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.FullFactorialCombinationProvider.html" class="tsd-kind-icon">Full<wbr>Factorial<wbr>Combination<wbr>Provider</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.HdtConverter.html" class="tsd-kind-icon">Hdt<wbr>Converter</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
-								<a href="../classes/jbr.HookHandler.html" class="tsd-kind-icon">Hook<wbr>Handler</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.HookNonConfigured.html" class="tsd-kind-icon">Hook<wbr>Non<wbr>Configured</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.HttpAvailabilityLatch.html" class="tsd-kind-icon">Http<wbr>Availability<wbr>Latch</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.ProcessHandlerComposite.html" class="tsd-kind-icon">Process<wbr>Handler<wbr>Composite</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.StaticDockerResourceConstraints.html" class="tsd-kind-icon">Static<wbr>Docker<wbr>Resource<wbr>Constraints</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.TaskClean.html" class="tsd-kind-icon">Task<wbr>Clean</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.TaskGenerateCombinations.html" class="tsd-kind-icon">Task<wbr>Generate<wbr>Combinations</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.TaskInitialize.html" class="tsd-kind-icon">Task<wbr>Initialize</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.TaskPack.html" class="tsd-kind-icon">Task<wbr>Pack</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.TaskPrepare.html" class="tsd-kind-icon">Task<wbr>Prepare</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.TaskRun.html" class="tsd-kind-icon">Task<wbr>Run</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.TaskSetHook.html" class="tsd-kind-icon">Task<wbr>Set<wbr>Hook</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.TaskValidate.html" class="tsd-kind-icon">Task<wbr>Validate</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/jbr.VoidNpmInstaller.html" class="tsd-kind-icon">Void<wbr>Npm<wbr>Installer</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.CombinationProvider.html" class="tsd-kind-icon">Combination<wbr>Provider</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.DockerResourceConstraints.html" class="tsd-kind-icon">Docker<wbr>Resource<wbr>Constraints</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.Experiment.html" class="tsd-kind-icon">Experiment</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.Hook.html" class="tsd-kind-icon">Hook</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.ICleanTargets.html" class="tsd-kind-icon">IClean<wbr>Targets</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.IDockerContainerCreatorArgs.html" class="tsd-kind-icon">IDocker<wbr>Container<wbr>Creator<wbr>Args</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.IDockerCpuConstraints.html" class="tsd-kind-icon">IDocker<wbr>Cpu<wbr>Constraints</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.IDockerImageBuilderArgs.html" class="tsd-kind-icon">IDocker<wbr>Image<wbr>Builder<wbr>Args</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.IDockerImagePullerArgs.html" class="tsd-kind-icon">IDocker<wbr>Image<wbr>Puller<wbr>Args</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.IDockerMemoryConstraints.html" class="tsd-kind-icon">IDocker<wbr>Memory<wbr>Constraints</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.IExperimentPaths.html" class="tsd-kind-icon">IExperiment<wbr>Paths</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.IHookStartOptions.html" class="tsd-kind-icon">IHook<wbr>Start<wbr>Options</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.ITaskContext.html" class="tsd-kind-icon">ITask<wbr>Context</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.ITaskInitializeOutput.html" class="tsd-kind-icon">ITask<wbr>Initialize<wbr>Output</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.ITaskSetHookOutput.html" class="tsd-kind-icon">ITask<wbr>Set<wbr>Hook<wbr>Output</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.NpmInstaller.html" class="tsd-kind-icon">Npm<wbr>Installer</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/jbr.ProcessHandler.html" class="tsd-kind-icon">Process<wbr>Handler</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="jbr.html#FactorCombination" class="tsd-kind-icon">Factor<wbr>Combination</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="jbr.html#IRunTaskContext" class="tsd-kind-icon">IRun<wbr>Task<wbr>Context</a>
-							</li>
-							<li class=" tsd-kind-variable tsd-parent-kind-module">
-								<a href="jbr.html#command" class="tsd-kind-icon">command</a>
-							</li>
-							<li class=" tsd-kind-variable tsd-parent-kind-module">
-								<a href="jbr.html#desc" class="tsd-kind-icon">desc</a>
-							</li>
-							<li class=" tsd-kind-function tsd-parent-kind-module">
-								<a href="jbr.html#breakpointBarrier" class="tsd-kind-icon">breakpoint<wbr>Barrier</a>
-							</li>
-							<li class=" tsd-kind-function tsd-parent-kind-module">
-								<a href="jbr.html#builder" class="tsd-kind-icon">builder</a>
-							</li>
-							<li class=" tsd-kind-function tsd-parent-kind-module">
-								<a href="jbr.html#createCliLogger" class="tsd-kind-icon">create<wbr>Cli<wbr>Logger</a>
-							</li>
-							<li class=" tsd-kind-function tsd-parent-kind-module">
-								<a href="jbr.html#createExperimentPaths" class="tsd-kind-icon">create<wbr>Experiment<wbr>Paths</a>
-							</li>
-							<li class=" tsd-kind-function tsd-parent-kind-module">
-								<a href="jbr.html#createNpmInstaller" class="tsd-kind-icon">create<wbr>Npm<wbr>Installer</a>
-							</li>
-							<li class=" tsd-kind-function tsd-parent-kind-module">
-								<a href="jbr.html#handler" class="tsd-kind-icon">handler</a>
-							</li>
-							<li class=" tsd-kind-function tsd-parent-kind-module">
-								<a href="jbr.html#runCli" class="tsd-kind-icon">run<wbr>Cli</a>
-							</li>
-							<li class=" tsd-kind-function tsd-parent-kind-module">
-								<a href="jbr.html#secureProcessHandler" class="tsd-kind-icon">secure<wbr>Process<wbr>Handler</a>
-							</li>
-							<li class=" tsd-kind-function tsd-parent-kind-module">
-								<a href="jbr.html#wrapCommandHandler" class="tsd-kind-icon">wrap<wbr>Command<wbr>Handler</a>
-							</li>
-							<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
-								<a href="jbr.html#wrapVisualProgress" class="tsd-kind-icon">wrap<wbr>Visual<wbr>Progress</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-				<ul class="after-current">
-				</ul>
-			</nav>
-		</div>
-	</div>
-</div>
-<footer class="with-border-bottom">
-	<div class="container">
-		<h2>Legend</h2>
-		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-			</ul>
-		</div>
-	</div>
-</footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
-<div class="overlay"></div>
-<script src="../assets/js/main.js"></script>
-</body>
-</html>
+</code><button type="button">Copy</button></pre>
+
+<p>Variable values can be assigned in <code>jbr-combinations.json</code>:</p>
+<pre><code class="json"><span class="hl-1">{</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;@context&quot;</span><span class="hl-1">: [</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;https://linkedsoftwaredependencies.org/bundles/npm/jbr/^2.0.0/components/context.jsonld&quot;</span><br/><span class="hl-1">  ],</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;@id&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;urn:jrb:experimentname-combinations&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;@type&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;FullFactorialCombinationProvider&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;commonGenerated&quot;</span><span class="hl-1">: </span><span class="hl-3">false</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;factors&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;cpu&quot;</span><span class="hl-1">: [ </span><span class="hl-5">50</span><span class="hl-1">, </span><span class="hl-5">100</span><span class="hl-1"> ],</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;memory&quot;</span><span class="hl-1">: [ </span><span class="hl-5">50</span><span class="hl-1">, </span><span class="hl-5">100</span><span class="hl-1"> ]</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Because <code>FullFactorialCombinationProvider</code> is used in <code>jbr-combinations.json</code>, all combinations (4) of the <code>cpu</code> and <code>memory</code> variable will apply to this experiment.</p>
+<p><em>If the generated directory can be reused across combinations, then <code>commonGenerated</code> can be set to true.</em></p>
+<p><em><code>FractionalCombinationProvider</code> may also be used if only select combinations should apply.</em></p>
+<p><strong>3. Regenerate combinations</strong></p>
+<p>Each time you make a change inside your input files, <code>jbr-combinations.json</code>, or <code>jbr-experiment.json.template</code>,
+you should (re)generate the instantiated combinations by running the following command:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">generate-combinations</span>
+</code><button type="button">Copy</button></pre>
+
+<p>This will create a new <code>combinations/</code> directory, containing sub-directories for all experiment combinations.
+Files in this directory should not be modified manually, but should only be managed via the template files and <code>jbr generate-combinations</code>.</p>
+<p><strong>4. Handle like any other experiment</strong></p>
+<p>From this point on, you can manage this combinations-based experiment like any other jbr experiment.</p>
+<p>Concretely, <code>jbr prepare</code> will prepare <em>all</em> combinations,
+and <code>jbr run</code> will also run <em>all</em> combinations.</p>
+<p>If you just want to run a single combination, you can specify its combination id via the <code>-c</code> option:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">run</span><span class="hl-1"> </span><span class="hl-3">-c</span><span class="hl-1"> </span><span class="hl-5">3</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="docker-resource-constraint" class="tsd-anchor-link">Docker Resource Constraint<a href="#docker-resource-constraint" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Some experiments or hooks may be executed in Docker containers.
+For these cases, jbr exposes a reusable helper component for defining Docker resource constraints.</p>
+<p>For example, the following experiment is configured to use at most 90% of the CPU, and 10MB of memory.</p>
+<pre><code class="json"><span class="hl-1">{</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;@type&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;SomeExperiment&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;resourceConstraints&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;@type&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;StaticDockerResourceConstraints&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;cpu_percentage&quot;</span><span class="hl-1">: </span><span class="hl-5">90</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;memory_limit&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;10m&quot;</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p>All possible parameters (all are optional):</p>
+<ul>
+<li><code>cpu_percentage</code>: Percentage (0-100) of the total CPU power that can be used. E.g. when fully consuming 4 cores, this value must be set to 100.</li>
+<li><code>memory_limit</code>: Memory usage limit, e.g. '10m', '1g'.</li>
+</ul>
+<h3 id="running-against-a-different-docker-instance" class="tsd-anchor-link">Running against a different Docker instance<a href="#running-against-a-different-docker-instance" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>By default, Docker-based experiment will look for and use the Docker installation on your local machine.
+In some cases, you may want to run experiments within remote Docker instances.
+In such cases, you can use the <code>-d</code> or <code>--dockerOptions</code> option to pass a custom Docker options file.</p>
+<p>For example, Docker options can be set when running an experiment as follows:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">run</span><span class="hl-1"> </span><span class="hl-3">-d</span><span class="hl-1"> </span><span class="hl-2">docker-options.json</span>
+</code><button type="button">Copy</button></pre>
+
+<p><code>docker-options.json</code> for the default socket:</p>
+<pre><code class="json"><span class="hl-1">{</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;socketPath&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;/var/run/docker.sock&quot;</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p><code>docker-options.json</code> for running against a different host:</p>
+<pre><code class="json"><span class="hl-1">{</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;host&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;http://192.168.1.10&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;port&quot;</span><span class="hl-1">: </span><span class="hl-5">3000</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p>More configuration options can be found at <a href="https://github.com/apocas/dockerode#getting-started">https://github.com/apocas/dockerode#getting-started</a></p>
+<h2 id="license" class="tsd-anchor-link">License<a href="#license" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>jbr.js is written by <a href="http://www.rubensworks.net/">Ruben Taelman</a>.</p>
+<p>This code is copyrighted by <a href="http://idlab.ugent.be/">Ghent University – imec</a>
+and released under the <a href="http://opensource.org/licenses/MIT">MIT license</a>.</p>
+</section>
+<details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Classes"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h2 class="tsd-anchor-link" id="classes">Classes<a href="#classes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary><dl class="tsd-member-summaries"><dt class="tsd-member-summary" id="clinpminstaller"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.CliNpmInstaller.html">CliNpmInstaller</a><a href="#clinpminstaller" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="cliprocesshandler"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.CliProcessHandler.html">CliProcessHandler</a><a href="#cliprocesshandler" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="dockercontainercreator"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.DockerContainerCreator.html">DockerContainerCreator</a><a href="#dockercontainercreator" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="dockercontainerhandler"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.DockerContainerHandler.html">DockerContainerHandler</a><a href="#dockercontainerhandler" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="dockerimagebuilder"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.DockerImageBuilder.html">DockerImageBuilder</a><a href="#dockerimagebuilder" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="dockerimagepuller"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.DockerImagePuller.html">DockerImagePuller</a><a href="#dockerimagepuller" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="dockernetworkcreator"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.DockerNetworkCreator.html">DockerNetworkCreator</a><a href="#dockernetworkcreator" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="dockernetworkhandler"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.DockerNetworkHandler.html">DockerNetworkHandler</a><a href="#dockernetworkhandler" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="dockernetworkinspector"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.DockerNetworkInspector.html">DockerNetworkInspector</a><a href="#dockernetworkinspector" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="errorhandled"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.ErrorHandled.html">ErrorHandled</a><a href="#errorhandled" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="experimenthandler"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.ExperimentHandler.html">ExperimentHandler</a><a href="#experimenthandler" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="experimentloader"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.ExperimentLoader.html">ExperimentLoader</a><a href="#experimentloader" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="fractionalcombinationprovider"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.FractionalCombinationProvider.html">FractionalCombinationProvider</a><a href="#fractionalcombinationprovider" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="fullfactorialcombinationprovider"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.FullFactorialCombinationProvider.html">FullFactorialCombinationProvider</a><a href="#fullfactorialcombinationprovider" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="hdtconverter"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.HdtConverter.html">HdtConverter</a><a href="#hdtconverter" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="hookhandler"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.HookHandler.html">HookHandler</a><a href="#hookhandler" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="hooknonconfigured"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.HookNonConfigured.html">HookNonConfigured</a><a href="#hooknonconfigured" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="httpavailabilitylatch"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.HttpAvailabilityLatch.html">HttpAvailabilityLatch</a><a href="#httpavailabilitylatch" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="processhandlercomposite"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.ProcessHandlerComposite.html">ProcessHandlerComposite</a><a href="#processhandlercomposite" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="staticdockerresourceconstraints"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.StaticDockerResourceConstraints.html">StaticDockerResourceConstraints</a><a href="#staticdockerresourceconstraints" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="taskclean"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.TaskClean.html">TaskClean</a><a href="#taskclean" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="taskgeneratecombinations"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.TaskGenerateCombinations.html">TaskGenerateCombinations</a><a href="#taskgeneratecombinations" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="taskinitialize"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.TaskInitialize.html">TaskInitialize</a><a href="#taskinitialize" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="taskpack"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.TaskPack.html">TaskPack</a><a href="#taskpack" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="taskprepare"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.TaskPrepare.html">TaskPrepare</a><a href="#taskprepare" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="taskrun"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.TaskRun.html">TaskRun</a><a href="#taskrun" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="tasksethook"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.TaskSetHook.html">TaskSetHook</a><a href="#tasksethook" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="taskvalidate"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.TaskValidate.html">TaskValidate</a><a href="#taskvalidate" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="voidnpminstaller"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/jbr.VoidNpmInstaller.html">VoidNpmInstaller</a><a href="#voidnpminstaller" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd></dl></details>
+<details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Interfaces"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h2 class="tsd-anchor-link" id="interfaces">Interfaces<a href="#interfaces" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary><dl class="tsd-member-summaries"><dt class="tsd-member-summary" id="combinationprovider"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.CombinationProvider.html">CombinationProvider</a><a href="#combinationprovider" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="dockerresourceconstraints"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.DockerResourceConstraints.html">DockerResourceConstraints</a><a href="#dockerresourceconstraints" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="experiment"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.Experiment.html">Experiment</a><a href="#experiment" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="hook"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.Hook.html">Hook</a><a href="#hook" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="icleantargets"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.ICleanTargets.html">ICleanTargets</a><a href="#icleantargets" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="idockercontainercreatorargs"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.IDockerContainerCreatorArgs.html">IDockerContainerCreatorArgs</a><a href="#idockercontainercreatorargs" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="idockercpuconstraints"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.IDockerCpuConstraints.html">IDockerCpuConstraints</a><a href="#idockercpuconstraints" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="idockerimagebuilderargs"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.IDockerImageBuilderArgs.html">IDockerImageBuilderArgs</a><a href="#idockerimagebuilderargs" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="idockerimagepullerargs"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.IDockerImagePullerArgs.html">IDockerImagePullerArgs</a><a href="#idockerimagepullerargs" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="idockermemoryconstraints"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.IDockerMemoryConstraints.html">IDockerMemoryConstraints</a><a href="#idockermemoryconstraints" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="iexperimentpaths"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.IExperimentPaths.html">IExperimentPaths</a><a href="#iexperimentpaths" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="ihookstartoptions"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.IHookStartOptions.html">IHookStartOptions</a><a href="#ihookstartoptions" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="itaskcontext"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.ITaskContext.html">ITaskContext</a><a href="#itaskcontext" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="itaskinitializeoutput"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.ITaskInitializeOutput.html">ITaskInitializeOutput</a><a href="#itaskinitializeoutput" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="itasksethookoutput"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.ITaskSetHookOutput.html">ITaskSetHookOutput</a><a href="#itasksethookoutput" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="npminstaller"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.NpmInstaller.html">NpmInstaller</a><a href="#npminstaller" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="processhandler"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/jbr.ProcessHandler.html">ProcessHandler</a><a href="#processhandler" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd></dl></details>
+<details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Type Aliases"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h2 class="tsd-anchor-link" id="type-aliases">Type Aliases<a href="#type-aliases" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary><dl class="tsd-member-summaries"><dt class="tsd-member-summary" id="factorcombination"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Type Alias"><use href="../assets/icons.svg#icon-2097152"></use></svg><a href="../types/jbr.FactorCombination.html">FactorCombination</a><a href="#factorcombination" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="iruntaskcontext"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Type Alias"><use href="../assets/icons.svg#icon-2097152"></use></svg><a href="../types/jbr.IRunTaskContext.html">IRunTaskContext</a><a href="#iruntaskcontext" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd></dl></details>
+<details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Functions"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h2 class="tsd-anchor-link" id="functions">Functions<a href="#functions" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary><dl class="tsd-member-summaries"><dt class="tsd-member-summary" id="breakpointbarrier"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><a href="../functions/jbr.breakpointBarrier.html">breakpointBarrier</a><a href="#breakpointbarrier" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="createclilogger"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><a href="../functions/jbr.createCliLogger.html">createCliLogger</a><a href="#createclilogger" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="createexperimentpaths"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><a href="../functions/jbr.createExperimentPaths.html">createExperimentPaths</a><a href="#createexperimentpaths" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="createnpminstaller"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><a href="../functions/jbr.createNpmInstaller.html">createNpmInstaller</a><a href="#createnpminstaller" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="runcli"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><a href="../functions/jbr.runCli.html">runCli</a><a href="#runcli" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="secureprocesshandler"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><a href="../functions/jbr.secureProcessHandler.html">secureProcessHandler</a><a href="#secureprocesshandler" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="wrapcommandhandler"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><a href="../functions/jbr.wrapCommandHandler.html">wrapCommandHandler</a><a href="#wrapcommandhandler" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="wrapvisualprogress"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><a href="../functions/jbr.wrapVisualProgress.html">wrapVisualProgress</a><a href="#wrapvisualprogress" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd></dl></details></div>
+<div class="col-sidebar">
+<div class="page-menu">
+<div class="tsd-navigation settings">
+<details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div>
+<div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>On This Page</h3></summary>
+<div class="tsd-accordion-details"><a href="#jbrjs-just-a-benchmark-runner"><span>jbr.js – <wbr/>Just a <wbr/>Benchmark <wbr/>Runner</span></a>
+<ul>
+<li><a href="#guides"><span>Guides</span></a></li>
+<li><a href="#requirements"><span>Requirements</span></a></li>
+<li><a href="#installation"><span>Installation</span></a></li>
+<li><a href="#usage"><span>Usage</span></a></li>
+<li>
+<ul>
+<li><a href="#1-initialization"><span>1. <wbr/>Initialization</span></a></li>
+<li><a href="#2-data-preparation"><span>2. <wbr/>Data <wbr/>Preparation</span></a></li>
+<li><a href="#3-running-experiments"><span>3. <wbr/>Running <wbr/>Experiments</span></a></li></ul></li>
+<li><a href="#configurability"><span>Configurability</span></a></li>
+<li><a href="#hooks"><span>Hooks</span></a></li>
+<li><a href="#directory-structure"><span>Directory structure</span></a></li>
+<li><a href="#advanced"><span>Advanced</span></a></li>
+<li>
+<ul>
+<li><a href="#combinations-based-experiments"><span>Combinations-<wbr/>based <wbr/>Experiments</span></a></li>
+<li><a href="#docker-resource-constraint"><span>Docker <wbr/>Resource <wbr/>Constraint</span></a></li>
+<li><a href="#running-against-a-different-docker-instance"><span>Running against a different <wbr/>Docker instance</span></a></li></ul></li>
+<li><a href="#license"><span>License</span></a></li></ul>
+<details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Classes"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Classes</summary>
+<div><a href="#clinpminstaller"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Cli<wbr/>Npm<wbr/>Installer</span></a><a href="#cliprocesshandler"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Cli<wbr/>Process<wbr/>Handler</span></a><a href="#dockercontainercreator"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Docker<wbr/>Container<wbr/>Creator</span></a><a href="#dockercontainerhandler"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Docker<wbr/>Container<wbr/>Handler</span></a><a href="#dockerimagebuilder"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Docker<wbr/>Image<wbr/>Builder</span></a><a href="#dockerimagepuller"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Docker<wbr/>Image<wbr/>Puller</span></a><a href="#dockernetworkcreator"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Docker<wbr/>Network<wbr/>Creator</span></a><a href="#dockernetworkhandler"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Docker<wbr/>Network<wbr/>Handler</span></a><a href="#dockernetworkinspector"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Docker<wbr/>Network<wbr/>Inspector</span></a><a href="#errorhandled"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Error<wbr/>Handled</span></a><a href="#experimenthandler"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Experiment<wbr/>Handler</span></a><a href="#experimentloader"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Experiment<wbr/>Loader</span></a><a href="#fractionalcombinationprovider"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Fractional<wbr/>Combination<wbr/>Provider</span></a><a href="#fullfactorialcombinationprovider"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Full<wbr/>Factorial<wbr/>Combination<wbr/>Provider</span></a><a href="#hdtconverter"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Hdt<wbr/>Converter</span></a><a href="#hookhandler"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Hook<wbr/>Handler</span></a><a href="#hooknonconfigured"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Hook<wbr/>Non<wbr/>Configured</span></a><a href="#httpavailabilitylatch"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Http<wbr/>Availability<wbr/>Latch</span></a><a href="#processhandlercomposite"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Process<wbr/>Handler<wbr/>Composite</span></a><a href="#staticdockerresourceconstraints"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Static<wbr/>Docker<wbr/>Resource<wbr/>Constraints</span></a><a href="#taskclean"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Task<wbr/>Clean</span></a><a href="#taskgeneratecombinations"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Task<wbr/>Generate<wbr/>Combinations</span></a><a href="#taskinitialize"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Task<wbr/>Initialize</span></a><a href="#taskpack"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Task<wbr/>Pack</span></a><a href="#taskprepare"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Task<wbr/>Prepare</span></a><a href="#taskrun"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Task<wbr/>Run</span></a><a href="#tasksethook"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Task<wbr/>Set<wbr/>Hook</span></a><a href="#taskvalidate"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Task<wbr/>Validate</span></a><a href="#voidnpminstaller"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Void<wbr/>Npm<wbr/>Installer</span></a></div></details>
+<details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Interfaces"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Interfaces</summary>
+<div><a href="#combinationprovider"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>Combination<wbr/>Provider</span></a><a href="#dockerresourceconstraints"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>Docker<wbr/>Resource<wbr/>Constraints</span></a><a href="#experiment"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>Experiment</span></a><a href="#hook"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>Hook</span></a><a href="#icleantargets"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>I<wbr/>Clean<wbr/>Targets</span></a><a href="#idockercontainercreatorargs"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>I<wbr/>Docker<wbr/>Container<wbr/>Creator<wbr/>Args</span></a><a href="#idockercpuconstraints"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>I<wbr/>Docker<wbr/>Cpu<wbr/>Constraints</span></a><a href="#idockerimagebuilderargs"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>I<wbr/>Docker<wbr/>Image<wbr/>Builder<wbr/>Args</span></a><a href="#idockerimagepullerargs"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>I<wbr/>Docker<wbr/>Image<wbr/>Puller<wbr/>Args</span></a><a href="#idockermemoryconstraints"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>I<wbr/>Docker<wbr/>Memory<wbr/>Constraints</span></a><a href="#iexperimentpaths"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>I<wbr/>Experiment<wbr/>Paths</span></a><a href="#ihookstartoptions"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>I<wbr/>Hook<wbr/>Start<wbr/>Options</span></a><a href="#itaskcontext"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>I<wbr/>Task<wbr/>Context</span></a><a href="#itaskinitializeoutput"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>I<wbr/>Task<wbr/>Initialize<wbr/>Output</span></a><a href="#itasksethookoutput"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>I<wbr/>Task<wbr/>Set<wbr/>Hook<wbr/>Output</span></a><a href="#npminstaller"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>Npm<wbr/>Installer</span></a><a href="#processhandler"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>Process<wbr/>Handler</span></a></div></details>
+<details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Type Aliases"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Type Aliases</summary>
+<div><a href="#factorcombination"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Type Alias"><use href="../assets/icons.svg#icon-2097152"></use></svg><span>Factor<wbr/>Combination</span></a><a href="#iruntaskcontext"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Type Alias"><use href="../assets/icons.svg#icon-2097152"></use></svg><span>I<wbr/>Run<wbr/>Task<wbr/>Context</span></a></div></details>
+<details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Functions"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Functions</summary>
+<div><a href="#breakpointbarrier"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><span>breakpoint<wbr/>Barrier</span></a><a href="#createclilogger"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><span>create<wbr/>Cli<wbr/>Logger</span></a><a href="#createexperimentpaths"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><span>create<wbr/>Experiment<wbr/>Paths</span></a><a href="#createnpminstaller"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><span>create<wbr/>Npm<wbr/>Installer</span></a><a href="#runcli"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><span>run<wbr/>Cli</span></a><a href="#secureprocesshandler"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><span>secure<wbr/>Process<wbr/>Handler</span></a><a href="#wrapcommandhandler"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><span>wrap<wbr/>Command<wbr/>Handler</span></a><a href="#wrapvisualprogress"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Function"><use href="../assets/icons.svg#icon-64"></use></svg><span>wrap<wbr/>Visual<wbr/>Progress</span></a></div></details></div></details></div>
+<div class="site-menu">
+<nav class="tsd-navigation"><a href="../modules.html">jbr</a>
+<ul class="tsd-small-nested-navigation" id="tsd-nav-container">
+<li>Loading...</li></ul></nav></div></div></div><footer>
+<p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer>
+<div class="overlay"></div></body></html>
