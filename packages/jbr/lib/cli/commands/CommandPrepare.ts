@@ -6,8 +6,8 @@ import { wrapCommandHandler } from '../CliHelpers';
 
 export const command = 'prepare';
 export const desc = 'Prepare data for the current experiment';
-export const builder = (yargs: Argv<any>): Argv<any> =>
-  yargs
+export function builder(yargs: Argv<any>): Argv<any> {
+  return yargs
     .options({
       force: {
         type: 'boolean',
@@ -20,5 +20,16 @@ export const builder = (yargs: Argv<any>): Argv<any> =>
         describe: 'The combination id to run. If undefined, all combinations will be run.',
       },
     });
-export const handler = (argv: Record<string, any>): Promise<void> => wrapCommandHandler(argv,
-  async(context: ITaskContext) => new TaskPrepare(context, argv.force, argv.combination).prepare());
+}
+export function handler(argv: Record<string, any>): Promise<void> {
+  const { force, combination } = <ICommandPrepareArgs> argv;
+  return wrapCommandHandler(
+    argv,
+    async(context: ITaskContext) => new TaskPrepare(context, force, combination).prepare(),
+  );
+}
+
+interface ICommandPrepareArgs {
+  force: boolean;
+  combination: number | undefined;
+}

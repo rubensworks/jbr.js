@@ -50,11 +50,24 @@ export class CliNpmInstaller implements NpmInstaller {
 
   public async fetchPackageNames(scope: string): Promise<{ name: string; description: string; link: string }[]> {
     const response = await fetch(`https://api.npms.io/v2/search?q=scope:${scope}`);
-    const data = await response.json();
-    return data.results.map((result: any) => ({
+    const data = <INpmsSearchResponse> await response.json();
+    return data.results.map(result => ({
       name: result.package.name,
       description: result.package.description,
       link: result.package.links.npm,
     }));
   }
+}
+
+/**
+ * The subset of the api.npms.io search response that is used here.
+ */
+interface INpmsSearchResponse {
+  results: {
+    package: {
+      name: string;
+      description: string;
+      links: { npm: string };
+    };
+  }[];
 }

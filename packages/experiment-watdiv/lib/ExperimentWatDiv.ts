@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import { HdtConverter, secureProcessHandler } from 'jbr';
 import type { Experiment, Hook, ICleanTargets, ITaskContext, IRunTaskContext } from 'jbr';
@@ -96,6 +96,7 @@ export class ExperimentWatDiv implements Experiment {
           ],
         },
         logFilePath: Path.join(context.experimentPaths.output, 'logs', 'watdiv-generation.txt'),
+      // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
       })).join();
     }
 

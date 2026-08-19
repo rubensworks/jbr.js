@@ -1,4 +1,4 @@
-import Path from 'path';
+import Path from 'node:path';
 import type { Hook, ITaskContext, ProcessHandler } from 'jbr';
 import { HdtConverter, createExperimentPaths } from 'jbr';
 import { SparqlBenchmarkRunner } from 'sparql-benchmark-runner';
@@ -9,7 +9,7 @@ let sparqlBenchmarkRun: any;
 let resultSerializerSerialize: any;
 let resultSerializerRawSerialize: any;
 
-jest.mock('sparql-benchmark-runner', () => ({
+jest.mock<any>('sparql-benchmark-runner', () => ({
   SparqlBenchmarkRunner: jest.fn().mockImplementation((options: any) => {
     options.logger('Test logger');
     return {
@@ -34,7 +34,7 @@ jest.mock('sparql-benchmark-runner', () => ({
 let files: Record<string, boolean | string> = {};
 let filesOut: Record<string, boolean | string> = {};
 let dirsOut: Record<string, boolean | string> = {};
-jest.mock('fs-extra', () => ({
+jest.mock<any>('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
   async pathExists(path: string) {
     return path in files;
@@ -119,7 +119,7 @@ describe('ExperimentWatDiv', () => {
     files = {};
     dirsOut = {};
     filesOut = {};
-    (<any> process).on = jest.fn();
+    jest.spyOn(<any> process, 'on').mockImplementation();
   });
 
   describe('prepare', () => {
@@ -342,16 +342,18 @@ describe('ExperimentWatDiv', () => {
       await experiment.run(context);
 
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
-      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
-      expect(sparqlBenchmarkRun).toHaveBeenCalled();
-      expect(endpointHandler.close).toHaveBeenCalled();
-      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
-      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalledWith();
+      expect(sparqlBenchmarkRun).toHaveBeenCalledWith(expect.anything());
+      expect(endpointHandler.close).toHaveBeenCalledWith();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalledWith();
+
       expect(resultSerializerSerialize).toHaveBeenCalledWith(
-        Path.normalize('CWD/output/query-times.csv'), {},
+        Path.normalize('CWD/output/query-times.csv'),
+        {},
       );
       expect(resultSerializerRawSerialize).toHaveBeenCalledWith(
-        Path.normalize('CWD/output/query-results-raw.json'), {},
+        Path.normalize('CWD/output/query-results-raw.json'),
+        {},
       );
 
       expect(dirsOut).toEqual({
@@ -375,37 +377,37 @@ describe('ExperimentWatDiv', () => {
     });
 
     it('should gracefully close services on SIGINT', async() => {
-      (<any> process).on = jest.fn((event, cb) => {
+      jest.spyOn(<any> process, 'on').mockImplementation((event, cb) => {
         if (event === 'SIGINT') {
-          cb();
+          (<() => void> cb)();
         }
       });
 
       await experiment.run(context);
 
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
-      expect(endpointHandler.close).toHaveBeenCalled();
+      expect(endpointHandler.close).toHaveBeenCalledWith();
     });
 
     it('should run the experiment with breakpoint', async() => {
       let breakpointBarrierResolver: any;
-      const breakpointBarrier: any = () => new Promise(resolve => {
+      const breakpointBarrier: any = () => new Promise((resolve) => {
         breakpointBarrierResolver = resolve;
       });
       const experimentEnd = experiment.run({ ...context, breakpointBarrier });
 
       await new Promise(setImmediate);
 
-      expect(hookSparqlEndpoint.start).toHaveBeenCalled();
-      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
-      expect(sparqlBenchmarkRun).toHaveBeenCalled();
+      expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(expect.anything());
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalledWith();
+      expect(sparqlBenchmarkRun).toHaveBeenCalledWith(expect.anything());
       expect(endpointHandler.close).not.toHaveBeenCalled();
 
       breakpointBarrierResolver();
       await experimentEnd;
 
-      expect(endpointHandler.close).toHaveBeenCalled();
-      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
+      expect(endpointHandler.close).toHaveBeenCalledWith();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalledWith();
 
       expect(dirsOut).toEqual({
         'CWD/output': true,
@@ -414,16 +416,16 @@ describe('ExperimentWatDiv', () => {
 
     it('should run the experiment with breakpoint and termination handler', async() => {
       let breakpointBarrierResolver: any;
-      const breakpointBarrier: any = () => new Promise(resolve => {
+      const breakpointBarrier: any = () => new Promise((resolve) => {
         breakpointBarrierResolver = resolve;
       });
       const experimentEnd = experiment.run({ ...context, breakpointBarrier });
 
       await new Promise(setImmediate);
 
-      expect(hookSparqlEndpoint.start).toHaveBeenCalled();
-      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
-      expect(sparqlBenchmarkRun).toHaveBeenCalled();
+      expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(expect.anything());
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalledWith();
+      expect(sparqlBenchmarkRun).toHaveBeenCalledWith(expect.anything());
       expect(endpointHandler.close).not.toHaveBeenCalled();
 
       const termHandler = jest.mocked(endpointHandler.addTerminationHandler).mock.calls[0][0];
@@ -434,8 +436,8 @@ describe('ExperimentWatDiv', () => {
       breakpointBarrierResolver();
       await experimentEnd;
 
-      expect(endpointHandler.close).toHaveBeenCalled();
-      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
+      expect(endpointHandler.close).toHaveBeenCalledWith();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalledWith();
 
       expect(dirsOut).toEqual({
         'CWD/output': true,
@@ -446,16 +448,18 @@ describe('ExperimentWatDiv', () => {
       await experiment.run({ ...context, filter: 'C1' });
 
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith({ ...context, filter: 'C1' });
-      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
-      expect(sparqlBenchmarkRun).toHaveBeenCalled();
-      expect(endpointHandler.close).toHaveBeenCalled();
-      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
-      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalledWith();
+      expect(sparqlBenchmarkRun).toHaveBeenCalledWith(expect.anything());
+      expect(endpointHandler.close).toHaveBeenCalledWith();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalledWith();
+
       expect(resultSerializerSerialize).toHaveBeenCalledWith(
-        Path.normalize('CWD/output/query-times.csv'), {},
+        Path.normalize('CWD/output/query-times.csv'),
+        {},
       );
       expect(resultSerializerRawSerialize).toHaveBeenCalledWith(
-        Path.normalize('CWD/output/query-results-raw.json'), {},
+        Path.normalize('CWD/output/query-results-raw.json'),
+        {},
       );
 
       expect(dirsOut).toEqual({

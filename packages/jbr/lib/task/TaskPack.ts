@@ -27,7 +27,7 @@ export class TaskPack {
         gzip: true,
         file: this.outputName ?? `jbr-${this.context.experimentName}-output.tar.gz`,
       },
-      experimentPathsArray.map(experimentPaths => {
+      experimentPathsArray.map((experimentPaths) => {
         if (!experimentPaths.output.startsWith(this.context.cwd)) {
           throw new Error(`Illegal experiment output path '${experimentPaths.output}' outside of cwd scope '${this.context.cwd}'`);
         }

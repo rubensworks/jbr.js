@@ -1,6 +1,12 @@
-import Path from 'path';
-import type { ITaskContext, DockerResourceConstraints,
-  ProcessHandler, Hook, IHookStartOptions, ICleanTargets } from 'jbr';
+import Path from 'node:path';
+import type {
+  ITaskContext,
+  DockerResourceConstraints,
+  ProcessHandler,
+  Hook,
+  IHookStartOptions,
+  ICleanTargets,
+} from 'jbr';
 
 /**
  * A hook instance for a Comunica-based SPARQL endpoint.
@@ -42,7 +48,7 @@ export class HookSparqlEndpointComunica implements Hook {
     return context.docker.imageBuilder.getImageName(context, `sparql-endpoint-comunica`);
   }
 
-  public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
+  public async prepare(context: ITaskContext, _forceOverwriteGenerated: boolean): Promise<void> {
     // Build client Dockerfile
     await context.docker.imageBuilder.build({
       cwd: context.experimentPaths.root,

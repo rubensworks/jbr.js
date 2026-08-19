@@ -1,8 +1,7 @@
-import fs from 'fs';
 import type { ChildProcess } from 'node:child_process';
+import fs from 'node:fs';
+import pidusage from 'pidusage';
 import type { ProcessHandler } from '../experiment/ProcessHandler';
-
-const pidusage = require('pidusage');
 
 export class CliProcessHandler implements ProcessHandler {
   public readonly childProcess: ChildProcess;
@@ -92,7 +91,7 @@ export class CliProcessHandler implements ProcessHandler {
 
     // Periodically read the stats and write an line to the file
     const interval = setInterval(() => {
-      pidusage(this.childProcess.pid, (err: Error, stats: any) => {
+      pidusage(this.childProcess.pid!, (err: Error | null, stats: pidusage.Status) => {
         if (!err) {
           out.write(`${stats.cpu},${stats.memory}\n`);
         }

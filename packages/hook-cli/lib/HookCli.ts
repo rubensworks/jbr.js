@@ -1,6 +1,6 @@
-import fs from 'fs';
 import { spawn } from 'node:child_process';
-import Path from 'path';
+import fs from 'node:fs';
+import Path from 'node:path';
 import type { ITaskContext, ProcessHandler, Hook, IHookStartOptions, ICleanTargets } from 'jbr';
 import { CliProcessHandler } from 'jbr';
 
@@ -19,11 +19,11 @@ export class HookCli implements Hook {
     this.statsFilePath = statsFilePath;
   }
 
-  public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
+  public async prepare(_context: ITaskContext, _forceOverwriteGenerated: boolean): Promise<void> {
     // Nothing to prepare
   }
 
-  public async start(context: ITaskContext, options?: IHookStartOptions): Promise<ProcessHandler> {
+  public async start(context: ITaskContext, _options?: IHookStartOptions): Promise<ProcessHandler> {
     const [ base, ...args ] = this.entrypoint;
     const childProcess = spawn(base, args);
     childProcess.stdout.pipe(fs.createWriteStream(Path
@@ -33,7 +33,7 @@ export class HookCli implements Hook {
     return new CliProcessHandler(childProcess, this.statsFilePath);
   }
 
-  public async clean(context: ITaskContext, cleanTargets: ICleanTargets): Promise<void> {
+  public async clean(_context: ITaskContext, _cleanTargets: ICleanTargets): Promise<void> {
     // Nothing to clean
   }
 }

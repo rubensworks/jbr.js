@@ -4,7 +4,7 @@ import { ExperimentHandlerSparqlCustom } from '../lib/ExperimentHandlerSparqlCus
 
 let filesOut: Record<string, string> = {};
 let dirsOut: Record<string, boolean | string> = {};
-jest.mock('fs-extra', () => ({
+jest.mock<any>('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
   async copyFile(from: string, to: string) {
     filesOut[to] = await jest.requireActual('fs-extra').readFile(from, 'utf8');
@@ -30,18 +30,18 @@ describe('ExperimentHandlerSparqlCustom', () => {
 
   describe('exposes public fields', () => {
     it('should expose an id', () => {
-      expect(handler.id).toEqual('sparql-custom');
+      expect(handler.id).toBe('sparql-custom');
     });
 
     it('should expose an experimentClassName', () => {
-      expect(handler.experimentClassName).toEqual('ExperimentSparqlCustom');
+      expect(handler.experimentClassName).toBe('ExperimentSparqlCustom');
     });
   });
 
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
       expect(handler.getDefaultParams(experimentPaths)).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(7);
+      expect(Object.entries(handler.getDefaultParams(experimentPaths))).toHaveLength(7);
     });
   });
 

@@ -1,5 +1,5 @@
-import * as Path from 'path';
-import * as util from 'util';
+import * as Path from 'node:path';
+import * as util from 'node:util';
 import Dockerode from 'dockerode';
 import * as fs from 'fs-extra';
 import ora from 'ora';
@@ -27,7 +27,7 @@ export function createExperimentPaths(basePath: string, combination?: number): I
 }
 
 export function breakpointBarrier(): Promise<void> {
-  return new Promise<void>(resolve => {
+  return new Promise<void>((resolve) => {
     process.stdout.write('BREAKPOINT: Press any key to continue\n');
     process.stdin.setRawMode(true);
     process.stdin.on('data', () => {
@@ -42,19 +42,20 @@ export async function wrapCommandHandler(
   handler: (context: ITaskContext) => Promise<void>,
 ): Promise<void> {
   const startTime = process.hrtime();
+  const { cwd, dockerOptions, mainModulePath, verbose, breakpoints } = <ICommonCliArgs> argv;
 
   // Create context
-  const dockerode = new Dockerode(argv.dockerOptions ?
-    // eslint-disable-next-line no-sync
-    JSON.parse(await fs.readFile(argv.dockerOptions, 'utf8')) :
+  const dockerode = new Dockerode(dockerOptions ?
+
+    <Dockerode.DockerOptions> JSON.parse(await fs.readFile(dockerOptions, 'utf8')) :
     undefined);
   const context: ITaskContext = {
-    cwd: argv.cwd,
-    experimentPaths: createExperimentPaths(argv.cwd),
-    experimentName: await ExperimentLoader.getExperimentName(argv.cwd),
-    mainModulePath: argv.mainModulePath || argv.cwd,
-    verbose: argv.verbose,
-    logger: createCliLogger(argv.verbose ? 'verbose' : 'info'),
+    cwd,
+    experimentPaths: createExperimentPaths(cwd),
+    experimentName: await ExperimentLoader.getExperimentName(cwd),
+    mainModulePath: mainModulePath ?? cwd,
+    verbose,
+    logger: createCliLogger(verbose ? 'verbose' : 'info'),
     docker: {
       containerCreator: new DockerContainerCreator(dockerode),
       imageBuilder: new DockerImageBuilder(dockerode),
@@ -62,15 +63,15 @@ export async function wrapCommandHandler(
       networkCreator: new DockerNetworkCreator(dockerode),
       networkInspector: new DockerNetworkInspector(dockerode),
     },
-    // eslint-disable-next-line unicorn/no-process-exit
-    closeExperiment: () => process.emit(<any>'SIGTERM'),
+
+    closeExperiment: () => process.emit('SIGTERM'),
     cleanupHandlers: [],
-    ...argv.breakpoints ? { breakpointBarrier } : {},
+    ...breakpoints ? { breakpointBarrier } : {},
   };
 
   // Register cleanup handling
   let performingGlobalCleanup = false;
-  const globalCleanupHandler = async(uncaughtException: any): Promise<void> => {
+  const performGlobalCleanup = async(uncaughtException: unknown): Promise<void> => {
     // Print error if uncaught exception
     if (uncaughtException instanceof Error) {
       // eslint-disable-next-line no-console
@@ -89,6 +90,11 @@ export async function wrapCommandHandler(
     }
     // eslint-disable-next-line unicorn/no-process-exit
     process.exit(1);
+  };
+  const globalCleanupHandler = (uncaughtException?: unknown): void => {
+    performGlobalCleanup(uncaughtException).catch((error: unknown) => {
+      context.logger.error(`${util.format(error)}`);
+    });
   };
   process.on('SIGINT', globalCleanupHandler);
   process.on('SIGTERM', globalCleanupHandler);
@@ -146,5 +152,18 @@ export function createCliLogger(logLevel: string): Logger {
 }
 
 export async function createNpmInstaller(context: ITaskContext, nextVersion: boolean): Promise<NpmInstaller> {
-  return await fs.pathExists(`${__dirname}/../../test`) && Path.join(process.cwd(), Path.sep).startsWith(Path.join(__dirname, '../../../../')) ? new VoidNpmInstaller() : new CliNpmInstaller(context, nextVersion);
+  const inTestCheckout = await fs.pathExists(Path.join(__dirname, '..', '..', 'test')) &&
+    Path.join(process.cwd(), Path.sep).startsWith(Path.join(__dirname, '../../../../'));
+  return inTestCheckout ? new VoidNpmInstaller() : new CliNpmInstaller(context, nextVersion);
+}
+
+/**
+ * The global CLI options that every command handler receives.
+ */
+export interface ICommonCliArgs {
+  cwd: string;
+  dockerOptions: string | undefined;
+  mainModulePath: string | undefined;
+  verbose: boolean;
+  breakpoints: boolean | undefined;
 }

@@ -39,7 +39,7 @@ describe('DockerNetworkCreator', () => {
     });
 
     it('does nothing for a non-existing container', async() => {
-      dockerode.getNetwork = jest.fn();
+      jest.spyOn(dockerode, 'getNetwork').mockImplementation();
 
       await creator.remove('N1');
 
@@ -49,7 +49,7 @@ describe('DockerNetworkCreator', () => {
     });
 
     it('does nothing for a erroring container removal', async() => {
-      network.remove = jest.fn(() => Promise.reject(new Error('remove network error')));
+      jest.spyOn(network, 'remove').mockRejectedValue(new Error('remove network error'));
 
       await creator.remove('N1');
 

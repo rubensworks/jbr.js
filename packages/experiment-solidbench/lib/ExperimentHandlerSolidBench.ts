@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import type { IExperimentPaths } from 'jbr';
 import { ExperimentHandler } from 'jbr';
@@ -14,7 +14,7 @@ export class ExperimentHandlerSolidBench<T extends ExperimentSolidBench = Experi
     super(id, experimentClassName);
   }
 
-  public getDefaultParams(experimentPaths: IExperimentPaths): Record<string, any> {
+  public getDefaultParams(_experimentPaths: IExperimentPaths): Record<string, any> {
     return {
       scale: '0.1',
       configEnhance: 'input/config-enhancer.json',
@@ -68,23 +68,18 @@ export class ExperimentHandlerSolidBench<T extends ExperimentSolidBench = Experi
 
     // Copy config templates
     await Promise.all([
-      fs.copyFile(templates.enhance,
-        Path.join(experimentPaths.root, experiment.configEnhance)),
-      fs.copyFile(templates.fragment,
-        Path.join(experimentPaths.root, experiment.configFragment)),
-      fs.copyFile(templates.queries,
-        Path.join(experimentPaths.root, experiment.configQueries)),
-      fs.copyFile(Templates.SERVER_CONFIG,
-        Path.join(experimentPaths.root, experiment.configServer)),
+      fs.copyFile(templates.enhance, Path.join(experimentPaths.root, experiment.configEnhance)),
+      fs.copyFile(templates.fragment, Path.join(experimentPaths.root, experiment.configFragment)),
+      fs.copyFile(templates.queries, Path.join(experimentPaths.root, experiment.configQueries)),
+      fs.copyFile(Templates.SERVER_CONFIG, Path.join(experimentPaths.root, experiment.configServer)),
       ...experiment.configValidation ?
-        [ fs.copyFile(Templates.VALIDATION_CONFIG, Path.join(experimentPaths.root, experiment.configValidation)) ] :
-        [],
+          [ fs.copyFile(Templates.VALIDATION_CONFIG, Path.join(experimentPaths.root, experiment.configValidation)) ] :
+          [],
     ]);
 
     // Create Dockerfile for server
     await fs.mkdir(Path.join(experimentPaths.input, 'dockerfiles'));
-    await fs.copyFile(this.getDockerfilePath(),
-      Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-server'));
+    await fs.copyFile(this.getDockerfilePath(), Path.join(experimentPaths.input, 'dockerfiles', 'Dockerfile-server'));
 
     await experiment.replaceBaseUrlInDir(experimentPaths.root);
   }

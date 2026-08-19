@@ -1,4 +1,4 @@
-import Path from 'path';
+import Path from 'node:path';
 import type {
   ITaskContext,
   ProcessHandler,
@@ -39,7 +39,7 @@ export class HookDocker implements Hook {
     return context.docker.imageBuilder.getImageName(context, `hook-docker`);
   }
 
-  public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
+  public async prepare(context: ITaskContext, _forceOverwriteGenerated: boolean): Promise<void> {
     // Build client Dockerfile
     await context.docker.imageBuilder.build({
       cwd: context.experimentPaths.root,

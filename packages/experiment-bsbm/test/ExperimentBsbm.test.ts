@@ -1,6 +1,6 @@
-import Path from 'path';
+import Path from 'node:path';
 import { HdtConverter, createExperimentPaths } from 'jbr';
-import type { DockerNetworkInspector, Hook, ITaskContext, ProcessHandler } from 'jbr';
+import type { Hook, ITaskContext, ProcessHandler } from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { ExperimentBsbm } from '../lib/ExperimentBsbm';
 
@@ -9,7 +9,7 @@ let files: Record<string, boolean | string> = {
 };
 let filesOut: Record<string, boolean | string> = {};
 let dirsOut: Record<string, boolean | string> = {};
-jest.mock('fs-extra', () => ({
+jest.mock<any>('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
   async pathExists(path: string) {
     return path in files;
@@ -40,7 +40,6 @@ describe('ExperimentBsbm', () => {
   let endpointHandlerStopCollectingStats: any;
   let endpointHandler: ProcessHandler;
   let experiment: ExperimentBsbm;
-  let inspector: DockerNetworkInspector;
   beforeEach(() => {
     context = {
       cwd: 'CWD',
@@ -66,7 +65,7 @@ describe('ExperimentBsbm', () => {
           remove: jest.fn(),
         },
         networkInspector: {
-          async inspect(id: string) {
+          async inspect(_id: string) {
             return {
               Name: 'bridge',
               IPAM: {
@@ -109,7 +108,7 @@ describe('ExperimentBsbm', () => {
     files = {};
     dirsOut = {};
     filesOut = {};
-    (<any> process).on = jest.fn();
+    jest.spyOn(<any> process, 'on').mockImplementation();
   });
 
   describe('constructed', () => {
@@ -126,7 +125,7 @@ describe('ExperimentBsbm', () => {
         10,
         50,
       );
-      expect(await experiment.getEndpointUrl(context)).toEqual('http://host.docker.internal:3000/sparql');
+      await expect(experiment.getEndpointUrl(context)).resolves.toBe('http://host.docker.internal:3000/sparql');
     });
 
     it('on linux', async() => {
@@ -142,7 +141,7 @@ describe('ExperimentBsbm', () => {
         10,
         50,
       );
-      expect(await experiment.getEndpointUrl(context)).toEqual('http://172.17.0.10:3000/sparql');
+      await expect(experiment.getEndpointUrl(context)).resolves.toBe('http://172.17.0.10:3000/sparql');
     });
 
     it('on linux when inspector fails', async() => {
@@ -161,7 +160,7 @@ describe('ExperimentBsbm', () => {
       context.docker.networkInspector = <any> {
         inspect: () => Promise.reject(new Error('fail')),
       };
-      expect(await experiment.getEndpointUrl(context)).toEqual('http://172.17.0.1:3000/sparql');
+      await expect(experiment.getEndpointUrl(context)).resolves.toBe('http://172.17.0.1:3000/sparql');
     });
   });
 
@@ -411,7 +410,7 @@ describe('ExperimentBsbm', () => {
       await experiment.run(context);
 
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
-      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalledWith();
       expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(1);
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         imageName: ExperimentBsbm.DOCKER_IMAGE_BSBM,
@@ -437,15 +436,15 @@ describe('ExperimentBsbm', () => {
         },
         logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-run.txt'),
       });
-      expect(endpointHandler.close).toHaveBeenCalled();
-      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
+      expect(endpointHandler.close).toHaveBeenCalledWith();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalledWith();
 
       expect(dirsOut).toEqual({});
     });
 
     it('should run the experiment with breakpoint', async() => {
       let breakpointBarrierResolver: any;
-      const breakpointBarrier: any = () => new Promise(resolve => {
+      const breakpointBarrier: any = () => new Promise((resolve) => {
         breakpointBarrierResolver = resolve;
       });
       const experimentEnd = experiment.run({ ...context, breakpointBarrier });
@@ -461,7 +460,7 @@ describe('ExperimentBsbm', () => {
       breakpointBarrierResolver();
       await experimentEnd;
 
-      expect(endpointHandler.startCollectingStats).toHaveBeenCalled();
+      expect(endpointHandler.startCollectingStats).toHaveBeenCalledWith();
       expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(1);
       expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
         imageName: ExperimentBsbm.DOCKER_IMAGE_BSBM,
@@ -487,23 +486,23 @@ describe('ExperimentBsbm', () => {
         },
         logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-run.txt'),
       });
-      expect(endpointHandler.close).toHaveBeenCalled();
-      expect(endpointHandlerStopCollectingStats).toHaveBeenCalled();
+      expect(endpointHandler.close).toHaveBeenCalledWith();
+      expect(endpointHandlerStopCollectingStats).toHaveBeenCalledWith();
 
       expect(dirsOut).toEqual({});
     });
 
     it('should gracefully close services on SIGINT', async() => {
-      (<any> process).on = jest.fn((event, cb) => {
+      jest.spyOn(<any> process, 'on').mockImplementation((event, cb) => {
         if (event === 'SIGINT') {
-          cb();
+          (<() => void> cb)();
         }
       });
 
       await experiment.run(context);
 
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
-      expect(endpointHandler.close).toHaveBeenCalled();
+      expect(endpointHandler.close).toHaveBeenCalledWith();
     });
   });
 

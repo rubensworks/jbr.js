@@ -26,13 +26,13 @@ describe('DockerImagePuller', () => {
     });
 
     it('should propagate modem errors', async() => {
-      dockerode.modem.followProgress = jest.fn((stream, cb) => {
+      jest.spyOn(dockerode.modem, 'followProgress').mockImplementation((stream, cb) => {
         cb(new Error('Container modem error'), []);
       });
 
       await expect(builder.pull({
         repoTag: 'IMAGE',
-      })).rejects.toThrowError('Container modem error');
+      })).rejects.toThrow('Container modem error');
     });
   });
 });

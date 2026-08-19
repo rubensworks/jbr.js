@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import * as tar from 'tar';
 import { createExperimentPaths } from '../../lib/cli/CliHelpers';
 import type { ExperimentLoader } from '../../lib/task/ExperimentLoader';
@@ -6,7 +6,7 @@ import { TaskPack } from '../../lib/task/TaskPack';
 import { TestLogger } from '../TestLogger';
 
 let experimentLoader: ExperimentLoader;
-jest.mock('../../lib/task/ExperimentLoader', () => ({
+jest.mock<typeof import('../../lib/task/ExperimentLoader')>('../../lib/task/ExperimentLoader', () => ({
   ExperimentLoader: {
     ...jest.requireActual('../../lib/task/ExperimentLoader').ExperimentLoader,
     build: jest.fn(() => experimentLoader),
@@ -127,7 +127,7 @@ describe('TaskPack', () => {
 
     describe('pack', () => {
       it('packs the output directories', async() => {
-        await expect(task.pack()).rejects.toThrowError(`Illegal experiment output path '${Path.join('OTHER', 'PATH1', 'output')}' outside of cwd scope 'CWD'`);
+        await expect(task.pack()).rejects.toThrow(`Illegal experiment output path '${Path.join('OTHER', 'PATH1', 'output')}' outside of cwd scope 'CWD'`);
       });
     });
   });

@@ -1,11 +1,11 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import type { IExperimentPaths } from 'jbr';
 import { createExperimentPaths } from 'jbr';
 import { ExperimentHandlerSolidSessionBench } from '../lib/ExperimentHandlerSolidSessionBench';
 
 let filesOut: Record<string, string> = {};
 let dirsOut: Record<string, boolean | string> = {};
-jest.mock('fs-extra', () => ({
+jest.mock<any>('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
   async copyFile(from: string, to: string) {
     filesOut[to] = await jest.requireActual('fs-extra').readFile(from, 'utf8');
@@ -59,18 +59,18 @@ describe('ExperimentHandlerSolidSessionBench', () => {
 
   describe('exposes public fields', () => {
     it('should expose an id', () => {
-      expect(handler.id).toEqual('solid-session-bench');
+      expect(handler.id).toBe('solid-session-bench');
     });
 
     it('should expose an experimentClassName', () => {
-      expect(handler.experimentClassName).toEqual('ExperimentSolidSessionBench');
+      expect(handler.experimentClassName).toBe('ExperimentSolidSessionBench');
     });
   });
 
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
       expect(handler.getDefaultParams(experimentPaths)).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(19);
+      expect(Object.entries(handler.getDefaultParams(experimentPaths))).toHaveLength(19);
     });
   });
 

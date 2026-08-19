@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import type { IExperimentPaths } from 'jbr';
 import { createExperimentPaths } from 'jbr';
 import { HookHandlerSparqlEndpointLdf } from '../lib/HookHandlerSparqlEndpointLdf';
@@ -6,7 +6,7 @@ import { HookHandlerSparqlEndpointLdf } from '../lib/HookHandlerSparqlEndpointLd
 let files: Record<string, string> = {};
 let filesOut: Record<string, string> = {};
 let dirsOut: Record<string, boolean | string> = {};
-jest.mock('fs-extra', () => ({
+jest.mock<any>('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
   async pathExists(path: string) {
     return path in files;
@@ -33,18 +33,18 @@ describe('HookHandlerSparqlEndpointLdf', () => {
 
   describe('exposes public fields', () => {
     it('should expose an id', () => {
-      expect(handler.id).toEqual('sparql-endpoint-ldf');
+      expect(handler.id).toBe('sparql-endpoint-ldf');
     });
 
     it('should expose an experimentClassName', () => {
-      expect(handler.hookClassName).toEqual('HookSparqlEndpointLdf');
+      expect(handler.hookClassName).toBe('HookSparqlEndpointLdf');
     });
   });
 
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
       expect(handler.getDefaultParams(experimentPaths)).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(9);
+      expect(Object.entries(handler.getDefaultParams(experimentPaths))).toHaveLength(9);
     });
   });
 

@@ -4,7 +4,7 @@ import { ExperimentHandlerBsbm } from '../lib/ExperimentHandlerBsbm';
 
 let filesOut: Record<string, string> = {};
 let dirsOut: Record<string, boolean | string> = {};
-jest.mock('fs-extra', () => ({
+jest.mock<any>('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
   async copyFile(from: string, to: string) {
     filesOut[to] = await jest.requireActual('fs-extra').readFile(from, 'utf8');
@@ -30,18 +30,18 @@ describe('ExperimentHandlerBsbm', () => {
 
   describe('exposes public fields', () => {
     it('should expose an id', () => {
-      expect(handler.id).toEqual('bsbm');
+      expect(handler.id).toBe('bsbm');
     });
 
     it('should expose an experimentClassName', () => {
-      expect(handler.experimentClassName).toEqual('ExperimentBsbm');
+      expect(handler.experimentClassName).toBe('ExperimentBsbm');
     });
   });
 
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
       expect(handler.getDefaultParams(experimentPaths)).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams(experimentPaths)).length).toEqual(6);
+      expect(Object.entries(handler.getDefaultParams(experimentPaths))).toHaveLength(6);
     });
   });
 

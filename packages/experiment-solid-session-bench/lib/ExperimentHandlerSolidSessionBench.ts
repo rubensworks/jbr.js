@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from 'node:path';
 import { ExperimentHandlerSolidBench } from '@jbr-experiment/solidbench';
 import { Templates } from 'solidbench';
 import { ExperimentSolidSessionBench } from './ExperimentSolidSessionBench';

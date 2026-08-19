@@ -1,7 +1,7 @@
 import type * as Dockerode from 'dockerode';
 import { DockerNetworkInspector } from '../../lib/docker/DockerNetworkInspector';
 
-jest.mock('fs-extra', () => ({
+jest.mock<any>('fs-extra', () => ({
   createWriteStream: jest.fn(),
 }));
 
@@ -11,7 +11,7 @@ describe('DockerNetworkInspector', () => {
   let inspector: DockerNetworkInspector;
   beforeEach(() => {
     network = {
-      inspect: jest.fn(() => ({ data: true })),
+      inspect: jest.fn(async() => ({ data: true })),
     };
     dockerode = <any> {
       getNetwork: jest.fn(() => network),
@@ -21,7 +21,7 @@ describe('DockerNetworkInspector', () => {
 
   describe('inspect', () => {
     it('inspects network information', async() => {
-      expect(await inspector.inspect('bridge')).toEqual({ data: true });
+      await expect(inspector.inspect('bridge')).resolves.toEqual({ data: true });
     });
   });
 });

@@ -16,7 +16,8 @@
     "declaration": true,
     "importHelpers": false,
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   "include": [
     "packages/*/index.ts",
