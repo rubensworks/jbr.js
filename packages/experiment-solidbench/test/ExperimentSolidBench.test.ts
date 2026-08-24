@@ -38,6 +38,7 @@ jest.mock<any>('sparql-benchmark-runner', () => ({
 let files: Record<string, boolean | string> = {};
 let filesOut: Record<string, boolean | string> = {};
 let dirsOut: Record<string, boolean | string> = {};
+let otherEntries: string[] = [];
 jest.mock<any>('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
   async pathExists(path: string) {
@@ -66,6 +67,15 @@ jest.mock<any>('fs-extra', () => ({
           name,
           isFile: () => isFile,
           isDirectory: () => !isFile,
+        });
+      }
+    }
+    for (const path of otherEntries) {
+      if (path.startsWith(dir)) {
+        ret.push({
+          name: path.slice(dir.length + 1),
+          isFile: () => false,
+          isDirectory: () => false,
         });
       }
     }
@@ -186,6 +196,7 @@ describe('ExperimentSolidBench', () => {
     files = {};
     dirsOut = {};
     filesOut = {};
+    otherEntries = [];
     jest.spyOn(<any> process, 'on').mockImplementation();
     jest.spyOn(v8, 'getHeapStatistics').mockImplementation(() => (<any>{ heap_size_limit: 8192 * 1024 * 1024 }));
   });
@@ -203,6 +214,15 @@ describe('ExperimentSolidBench', () => {
       expect(filesOut['dir/b.ttl']).toBe('solidbench-server:3000');
       expect(filesOut['dir/c/c.ttl']).toBe('');
       expect(filesOut['dir/c/d.ttl']).toBe('');
+    });
+
+    it('should ignore entries that are neither files nor directories', async() => {
+      filesOut['dir/a.ttl'] = `localhost:3000`;
+      otherEntries = [ 'dir/socket' ];
+
+      await experiment.replaceBaseUrlInDir('dir');
+
+      expect(filesOut).toEqual({ 'dir/a.ttl': 'solidbench-server:3000' });
     });
   });
 
@@ -335,6 +355,19 @@ This can be configured using Node's --max_old_space_size option.`);
       expect(dirsOut).toEqual({
         'CWD/output/logs': true,
       });
+    });
+
+    it('should not serialize raw results if the runner does not produce them', async() => {
+      sparqlBenchmarkRun = jest.fn(async({ onStart, onStop }: any) => {
+        await onStart();
+        await onStop();
+        return { aggregateResults: {}};
+      });
+
+      await experiment.run(context);
+
+      expect(resultSerializerSerialize).toHaveBeenCalledWith(Path.normalize('CWD/output/query-times.csv'), {});
+      expect(resultSerializerRawSerialize).not.toHaveBeenCalled();
     });
 
     it('should gracefully close services on SIGINT', async() => {

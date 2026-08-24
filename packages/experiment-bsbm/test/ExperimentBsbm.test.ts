@@ -442,6 +442,15 @@ describe('ExperimentBsbm', () => {
       expect(dirsOut).toEqual({});
     });
 
+    it('should not log the run logs if a valid output file was generated', async() => {
+      files[Path.join(context.experimentPaths.generated, 'single.xml')] = true;
+
+      await experiment.run(context);
+
+      expect(context.logger.info).not.toHaveBeenCalledWith(`No valid BSBM output file was generated.`);
+      expect(context.logger.error).not.toHaveBeenCalled();
+    });
+
     it('should run the experiment with breakpoint', async() => {
       let breakpointBarrierResolver: any;
       const breakpointBarrier: any = () => new Promise((resolve) => {
