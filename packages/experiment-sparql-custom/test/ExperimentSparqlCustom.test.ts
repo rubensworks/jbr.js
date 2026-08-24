@@ -212,6 +212,40 @@ SELECT DISTINCT ?entity WHERE {
       expect(dirsOut).toEqual({});
     });
 
+    it('should not serialize raw results if the runner does not produce them', async() => {
+      sparqlBenchmarkRun = jest.fn(async({ onStart, onStop }: any) => {
+        await onStart();
+        await onStop();
+        return { aggregateResults: {}};
+      });
+
+      await experiment.run(context);
+
+      expect(resultSerializerSerialize).toHaveBeenCalledWith(
+        Path.normalize('CWD/output/query-times.csv'),
+        {},
+      );
+      expect(resultSerializerRawSerialize).not.toHaveBeenCalled();
+    });
+
+    it('should not pass a context url param for a query without sources', async() => {
+      sparqlBenchmarkRun = jest.fn(async({ onStart, onQuery, onStop }: any) => {
+        await onStart();
+        await onQuery(`SELECT * WHERE { ?s ?p ?o }`);
+        await onStop();
+
+        return {
+          aggregateResults: {},
+          rawResults: {},
+        };
+      });
+
+      await experiment.run(context);
+
+      const runner = jest.mocked(SparqlBenchmarkRunner).mock.results.at(-1)!.value;
+      expect(runner.endpointFetcher.additionalUrlParams).toEqual(new URLSearchParams({}));
+    });
+
     it('should gracefully close services on SIGINT', async() => {
       jest.spyOn(<any> process, 'on').mockImplementation((event, cb) => {
         if (event === 'SIGINT') {
@@ -329,6 +363,12 @@ SELECT DISTINCT ?entity WHERE {
           dbpprop:cityServed dbpedia:Italy.
 }
 `)).toEqual([ 'https://fragments.dbpedia.org/2016-04/en' ]);
+    });
+
+    it('handles a query with an empty datasource', () => {
+      expect(experiment.getQuerySources(`# Datasource:
+SELECT * WHERE { ?s ?p ?o }
+`)).toBeUndefined();
     });
 
     it('handles a valid query with datasources', () => {

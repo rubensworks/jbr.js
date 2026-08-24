@@ -376,6 +376,22 @@ describe('ExperimentWatDiv', () => {
       expect(dirsOut).toEqual({});
     });
 
+    it('should not serialize raw results if the runner does not produce them', async() => {
+      sparqlBenchmarkRun = jest.fn(async({ onStart, onStop }: any) => {
+        await onStart();
+        await onStop();
+        return { aggregateResults: {}};
+      });
+
+      await experiment.run(context);
+
+      expect(resultSerializerSerialize).toHaveBeenCalledWith(
+        Path.normalize('CWD/output/query-times.csv'),
+        {},
+      );
+      expect(resultSerializerRawSerialize).not.toHaveBeenCalled();
+    });
+
     it('should gracefully close services on SIGINT', async() => {
       jest.spyOn(<any> process, 'on').mockImplementation((event, cb) => {
         if (event === 'SIGINT') {

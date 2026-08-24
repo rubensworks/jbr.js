@@ -77,6 +77,22 @@ describe('CliProcessHandler', () => {
       await p;
       expect(childProcess.kill).toHaveBeenCalledTimes(2);
     });
+
+    it('does nothing if the process has already ended', async() => {
+      childProcess.emit('close');
+
+      await handler.close();
+
+      expect(childProcess.kill).not.toHaveBeenCalled();
+    });
+
+    it('does nothing if the process has errored', async() => {
+      childProcess.emit('error', new Error('Process error'));
+
+      await handler.close();
+
+      expect(childProcess.kill).not.toHaveBeenCalled();
+    });
   });
 
   describe('join', () => {
