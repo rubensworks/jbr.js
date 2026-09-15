@@ -28,5 +28,6 @@ export function runCli(cwd: string, argv: string[]): void {
     })
     .commandDir('commands')
     .demandCommand()
-    .help();
+    .help()
+    .parse();
 }
