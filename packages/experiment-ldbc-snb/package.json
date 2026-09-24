@@ -1,0 +1,76 @@
+{
+  "name": "@jbr-experiment/ldbc-snb",
+  "version": "6.1.0",
+  "description": "LDBC Social Network Benchmark (Interactive) experiment handler for JBR",
+  "main": "index.js",
+  "typings": "index",
+  "lsd:module": true,
+  "author": "Ruben Taelman <rubensworks@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rubensworks/jbr.js.git",
+    "directory": "packages/experiment-ldbc-snb"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/rubensworks/jbr.js/issues"
+  },
+  "homepage": "https://github.com/rubensworks/jbr.js#readme",
+  "license": "MIT",
+  "keywords": [
+    "experiment",
+    "ldbc",
+    "snb",
+    "social network benchmark",
+    "jbr",
+    "benchmarking"
+  ],
+  "files": [
+    "lib/**/*.d.ts",
+    "lib/**/*.js",
+    "lib/templates",
+    "index.d.ts",
+    "index.ts",
+    "components"
+  ],
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "../../tsconfig.json"
+      }
+    },
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "(/test/.*|(\\.|/)(test|spec))\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "collectCoverage": true
+  },
+  "scripts": {
+    "test": "node \"../../node_modules/jest/bin/jest.js\" ${1}",
+    "test-watch": "node \"../../node_modules/jest/bin/jest.js\" ${1} --watch",
+    "build": "node \"../../node_modules/typescript/bin/tsc\"",
+    "validate": "npm ls"
+  },
+  "devDependencies": {
+    "jbr": "^6.0.0"
+  },
+  "peerDependencies": {
+    "jbr": ">=2.0.0"
+  },
+  "dependencies": {
+    "@rdfjs/types": "*",
+    "@types/fs-extra": "^11.0.0",
+    "@types/n3": "^1.26.1",
+    "@types/yargs": "^17.0.0",
+    "fs-extra": "^11.0.0",
+    "n3": "^1.26.0",
+    "sparql-benchmark-runner": "^5.1.0",
+    "sparql-query-parameter-instantiator": "^2.8.0"
+  }
+}

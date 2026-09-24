@@ -1,0 +1,71 @@
+# Recent likers
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX sn: <http://www.ldbc.eu/ldbc_socialnet/1.0/data/>
+PREFIX snvoc: <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
+PREFIX sntag: <http://www.ldbc.eu/ldbc_socialnet/1.0/tag/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dbpedia: <http://dbpedia.org/resource/>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+
+SELECT
+    ?personId
+    ?personFirstName
+    ?personLastName
+    ?likeCreationDate
+    ?messageId
+    ?messageContent
+    ?minutesLatency
+    ?isNew
+WHERE
+{
+    {
+        SELECT
+            ?liker
+            ?likeCreationDate
+            (MIN(?likedMessageId) AS ?messageId)
+        WHERE
+        {
+            {
+                SELECT
+                    ?liker
+                    (MAX(?likeDate) AS ?likeCreationDate)
+                WHERE
+                {
+                    ?likedMessage snvoc:hasCreator ?rootPerson .
+                    ?like snvoc:hasPost|snvoc:hasComment ?likedMessage .
+                    ?liker snvoc:likes ?like .
+                    ?like snvoc:creationDate ?likeDate .
+                }
+                GROUP BY ?liker
+            }
+            ?likedMessage snvoc:hasCreator ?rootPerson .
+            ?like snvoc:hasPost|snvoc:hasComment ?likedMessage .
+            ?liker snvoc:likes ?like .
+            ?like snvoc:creationDate ?likeCreationDate .
+            ?likedMessage snvoc:id ?likedMessageId .
+        }
+        GROUP BY ?liker ?likeCreationDate
+    }
+    ?message snvoc:id ?messageId .
+    ?message snvoc:hasCreator ?rootPerson .
+    ?message snvoc:creationDate ?messageCreationDate .
+    ?message snvoc:content|snvoc:imageFile ?messageContent .
+    ?liker snvoc:id ?personId .
+    ?liker snvoc:firstName ?personFirstName .
+    ?liker snvoc:lastName ?personLastName .
+    # Minutes between message and like creation, via Julian day numbers
+    BIND( FLOOR((14 - MONTH(?likeCreationDate)) / 12) AS ?likeA )
+    BIND( YEAR(?likeCreationDate) + 4800 - ?likeA AS ?likeY )
+    BIND( MONTH(?likeCreationDate) + 12 * ?likeA - 3 AS ?likeM )
+    BIND( DAY(?likeCreationDate) + FLOOR((153 * ?likeM + 2) / 5) + 365 * ?likeY + FLOOR(?likeY / 4) - FLOOR(?likeY / 100) + FLOOR(?likeY / 400) AS ?likeDay )
+    BIND( FLOOR((14 - MONTH(?messageCreationDate)) / 12) AS ?messageA )
+    BIND( YEAR(?messageCreationDate) + 4800 - ?messageA AS ?messageY )
+    BIND( MONTH(?messageCreationDate) + 12 * ?messageA - 3 AS ?messageM )
+    BIND( DAY(?messageCreationDate) + FLOOR((153 * ?messageM + 2) / 5) + 365 * ?messageY + FLOOR(?messageY / 4) - FLOOR(?messageY / 100) + FLOOR(?messageY / 400) AS ?messageDay )
+    BIND( xsd:integer((?likeDay - ?messageDay) * 1440 + (HOURS(?likeCreationDate) - HOURS(?messageCreationDate)) * 60 + MINUTES(?likeCreationDate) - MINUTES(?messageCreationDate)) AS ?minutesLatency )
+    BIND( NOT EXISTS { ?rootPerson ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?liker } AS ?isNew )
+}
+ORDER BY DESC(?likeCreationDate) ?personId
+LIMIT 20
