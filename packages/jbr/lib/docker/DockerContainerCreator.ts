@@ -25,6 +25,7 @@ export class DockerContainerCreator {
       Image: options.imageName,
       Tty: true,
       Cmd: options.cmdArgs,
+      Env: options.env,
       AttachStdout: true,
       AttachStderr: true,
       HostConfig: {
@@ -76,6 +77,10 @@ export interface IDockerContainerCreatorArgs {
   containerName?: string;
   imageName: string;
   cmdArgs?: string[];
+  /**
+   * Environment variables, in the form 'KEY=value'.
+   */
+  env?: string[];
   resourceConstraints?: DockerResourceConstraints;
   hostConfig?: Dockerode.HostConfig;
   logFilePath?: string;
