@@ -47,8 +47,8 @@ When installing this hook, your configuration file (`jbr-experiment.json`) will 
 
 ### Configuration fields
 
-* `entrypoint`: Array of command parts to execute when starting the experiment.
-* `statsFilePath`: Optional path to a CSV file in which the stats of the process will be written.
+* `entrypoint`: Array of command parts to execute when starting the experiment. Except on Windows, the command runs in its own process group, so that stopping the experiment also stops processes it spawned (for example when started via `npx`).
+* `statsFilePath`: Optional path to a CSV file in which the stats of the process will be written. CPU and memory usage are summed over the process and all its descendants.
 
 ## License
 

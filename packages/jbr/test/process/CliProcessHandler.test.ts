@@ -5,6 +5,7 @@ import { CliProcessHandler } from '../../lib/process/CliProcessHandler';
 let write: any;
 let streamEnd: any;
 let pidusageError: Error | undefined;
+let pidtreeError: Error | undefined;
 jest.mock<any>('node:fs', () => ({
   existsSync: jest.requireActual('node:fs').existsSync,
   createWriteStream: () => ({
@@ -12,8 +13,17 @@ jest.mock<any>('node:fs', () => ({
     end: streamEnd,
   }),
 }));
-jest.mock<any>('pidusage', () => (pid: any, cb: any) => {
-  return cb(pidusageError, { cpu: 1, memory: 100 });
+jest.mock<any>('pidusage', () => async(pids: number[]) => {
+  if (pidusageError) {
+    throw pidusageError;
+  }
+  return Object.fromEntries(pids.map(pid => [ pid, { cpu: 1, memory: 100 }]));
+});
+jest.mock<any>('pidtree', () => async(pid: number) => {
+  if (pidtreeError) {
+    throw pidtreeError;
+  }
+  return [ pid, 456 ];
 });
 jest.useFakeTimers();
 
@@ -36,6 +46,7 @@ describe('CliProcessHandler', () => {
     write = jest.fn();
     streamEnd = jest.fn();
     pidusageError = undefined;
+    pidtreeError = undefined;
   });
 
   describe('close', () => {
@@ -76,6 +87,70 @@ describe('CliProcessHandler', () => {
       jest.runAllTimers();
       await p;
       expect(childProcess.kill).toHaveBeenCalledTimes(2);
+    });
+
+    it('stops the process group if enabled', async() => {
+      handler = new CliProcessHandler(childProcess, 'out.csv', true);
+      const killSpy = jest.spyOn(process, 'kill').mockImplementation(() => {
+        setImmediate(() => {
+          childProcess.emit('close');
+        });
+        return true;
+      });
+
+      const p = handler.close();
+      jest.runAllTimers();
+      await p;
+      expect(killSpy).toHaveBeenCalledWith(-123, 'SIGTERM');
+      expect(childProcess.kill).not.toHaveBeenCalled();
+      killSpy.mockRestore();
+    });
+
+    it('kills the process group if SIGTERM has no effect', async() => {
+      handler = new CliProcessHandler(childProcess, 'out.csv', true);
+      const killSpy = jest.spyOn(process, 'kill').mockImplementation((_pid, signal) => {
+        if (signal === 'SIGKILL') {
+          setImmediate(() => {
+            childProcess.emit('close');
+          });
+        }
+        return true;
+      });
+
+      const p = handler.close();
+      jest.runAllTimers();
+      await p;
+      expect(killSpy).toHaveBeenCalledWith(-123, 'SIGTERM');
+      expect(killSpy).toHaveBeenCalledWith(-123, 'SIGKILL');
+      expect(childProcess.kill).not.toHaveBeenCalled();
+      killSpy.mockRestore();
+    });
+
+    it('falls back to the child process if the process group can not be signalled', async() => {
+      handler = new CliProcessHandler(childProcess, 'out.csv', true);
+      const killSpy = jest.spyOn(process, 'kill').mockImplementation(() => {
+        throw new Error('ESRCH');
+      });
+
+      const p = handler.close();
+      jest.runAllTimers();
+      await p;
+      expect(killSpy).toHaveBeenCalledWith(-123, 'SIGTERM');
+      expect(childProcess.kill).toHaveBeenCalledWith('SIGTERM');
+      killSpy.mockRestore();
+    });
+
+    it('stops only the child process if the process group is enabled without pid', async() => {
+      delete (<any> childProcess).pid;
+      handler = new CliProcessHandler(childProcess, 'out.csv', true);
+      const killSpy = jest.spyOn(process, 'kill');
+
+      const p = handler.close();
+      jest.runAllTimers();
+      await p;
+      expect(killSpy).not.toHaveBeenCalled();
+      expect(childProcess.kill).toHaveBeenCalledWith('SIGTERM');
+      killSpy.mockRestore();
     });
 
     it('does nothing if the process has already ended', async() => {
@@ -164,14 +239,14 @@ describe('CliProcessHandler', () => {
   });
 
   describe('startCollectingStats', () => {
-    it('handles a valid stream', async() => {
+    it('handles a valid stream, summing stats over the process tree', async() => {
       const stop = await handler.startCollectingStats();
-      jest.advanceTimersByTime(2000);
+      await jest.advanceTimersByTimeAsync(2000);
 
       expect(write).toHaveBeenCalledTimes(3);
-      expect(write).toHaveBeenCalledWith(`cpu_percentage,memory\n`);
-      expect(write).toHaveBeenCalledWith(`1,100\n`);
-      expect(write).toHaveBeenCalledWith(`1,100\n`);
+      expect(write).toHaveBeenNthCalledWith(1, `cpu_percentage,memory\n`);
+      expect(write).toHaveBeenNthCalledWith(2, `2,200\n`);
+      expect(write).toHaveBeenNthCalledWith(3, `2,200\n`);
 
       expect(streamEnd).not.toHaveBeenCalled();
       stop();
@@ -182,7 +257,20 @@ describe('CliProcessHandler', () => {
       pidusageError = new Error('pidusage error');
 
       const stop = await handler.startCollectingStats();
-      jest.advanceTimersByTime(2000);
+      await jest.advanceTimersByTimeAsync(2000);
+
+      expect(write).toHaveBeenCalledTimes(1);
+      expect(write).toHaveBeenCalledWith(`cpu_percentage,memory\n`);
+
+      stop();
+      expect(streamEnd).toHaveBeenCalledWith();
+    });
+
+    it('ignores pidtree errors', async() => {
+      pidtreeError = new Error('pidtree error');
+
+      const stop = await handler.startCollectingStats();
+      await jest.advanceTimersByTimeAsync(2000);
 
       expect(write).toHaveBeenCalledTimes(1);
       expect(write).toHaveBeenCalledWith(`cpu_percentage,memory\n`);

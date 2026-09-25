@@ -49,7 +49,8 @@ describe('HookCli', () => {
     it('should start the hook', async() => {
       const handler = await hook.start(context);
 
-      expect(execSpy).toHaveBeenCalledWith('echo', [ '"HI"' ]);
+      expect(execSpy).toHaveBeenCalledWith('echo', [ '"HI"' ], { detached: process.platform !== 'win32' });
+      expect((<CliProcessHandler> handler).processGroup).toBe(process.platform !== 'win32');
       expect(handler).toBeInstanceOf(CliProcessHandler);
     });
   });
