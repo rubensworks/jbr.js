@@ -25,12 +25,15 @@ export class HookCli implements Hook {
 
   public async start(context: ITaskContext, _options?: IHookStartOptions): Promise<ProcessHandler> {
     const [ base, ...args ] = this.entrypoint;
-    const childProcess = spawn(base, args);
+    // Run in a separate process group (not supported on Windows), so that wrappers such as npx can be stopped with
+    // all their descendants.
+    const processGroup = process.platform !== 'win32';
+    const childProcess = spawn(base, args, { detached: processGroup });
     childProcess.stdout.pipe(fs.createWriteStream(Path
       .join(context.experimentPaths.output, 'logs', 'cli-stdout.txt'), 'utf8'));
     childProcess.stderr.pipe(fs.createWriteStream(Path
       .join(context.experimentPaths.output, 'logs', 'cli-stderr.txt'), 'utf8'));
-    return new CliProcessHandler(childProcess, this.statsFilePath);
+    return new CliProcessHandler(childProcess, this.statsFilePath, processGroup);
   }
 
   public async clean(_context: ITaskContext, _cleanTargets: ICleanTargets): Promise<void> {
