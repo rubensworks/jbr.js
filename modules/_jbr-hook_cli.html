@@ -48,8 +48,8 @@ then you can install this CLI-based hook as follows.</p>
 
 <h3 id="configuration-fields" class="tsd-anchor-link">Configuration fields<a href="#configuration-fields" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul>
-<li><code>entrypoint</code>: Array of command parts to execute when starting the experiment.</li>
-<li><code>statsFilePath</code>: Optional path to a CSV file in which the stats of the process will be written.</li>
+<li><code>entrypoint</code>: Array of command parts to execute when starting the experiment. Except on Windows, the command runs in its own process group, so that stopping the experiment also stops processes it spawned (for example when started via <code>npx</code>).</li>
+<li><code>statsFilePath</code>: Optional path to a CSV file in which the stats of the process will be written. CPU and memory usage are summed over the process and all its descendants.</li>
 </ul>
 <h2 id="license" class="tsd-anchor-link">License<a href="#license" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>jbr.js is written by <a href="http://www.rubensworks.net/">Ruben Taelman</a>.</p>
