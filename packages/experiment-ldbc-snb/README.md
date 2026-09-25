@@ -104,23 +104,15 @@ Once the run step completes, results will be present in the `output/` directory.
 
 The following output is generated after an experiment has run.
 
-`output/query-times.csv`:
+`output/query-times.csv` (one line per query instantiation, aggregated over the replication rounds):
 ```csv
-name;id;results;time;timestamps
-interactive-short-4;0;1;18;
-interactive-short-4;1;1;15;
-interactive-short-4;2;1;16;
-interactive-short-4;3;1;16;
-interactive-short-4;4;1;17;
-interactive-short-5;0;1;41;
-interactive-short-5;1;1;38;
-interactive-short-5;2;1;40;
-interactive-short-5;3;1;44;
-interactive-short-5;4;1;39;
+name;id;error;errorDescription;failures;hash;httpRequests;httpRequestsMax;httpRequestsMin;httpRequestsStd;replication;results;resultsMax;resultsMin;time;timeMax;timeMin;times;timestamps;timestampsMax;timestampsMin;timestampsStd;timeStd;timestampsAll
+interactive-short-4;0;false;;0;2e21f854f7ee6112613cc5912d141bdb;0;0;0;0;3;1;1;1;24.666666666666668;28;22;28 24 22;21.666666666666668;24;20;1.699673171197595;2.494438257849294;"[[20],[24],[21]]"
+interactive-short-4;1;false;;0;29533521492a24c11be9676db0f16540;0;0;0;0;3;1;1;1;17.666666666666668;23;13;17 23 13;17.666666666666668;23;13;4.109609335312651;4.109609335312651;"[[17],[23],[13]]"
 ```
 
 Next to this, `output/query-results-raw.json` contains the raw query results,
-and `output/logs/` contains the datagen logs and the time it took to start the endpoint (`load-time.csv`).
+and `output/logs/` contains the datagen logs and `load-time.csv`, the time in milliseconds between starting the endpoint and starting the measured queries (this includes the warmup rounds).
 
 ## Queries
 
