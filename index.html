@@ -35,6 +35,16 @@ and can be used in a development environment, such as the <a href="https://githu
 <p>Furthermore, this will add <a href="https://www.npmjs.com/package/pre-commit">pre-commit hooks</a>
 to build, lint and test.
 These hooks can temporarily be disabled at your own risk by adding the <code>-n</code> flag to the commit command.</p>
+<h2 id="experiment-types" class="tsd-anchor-link">Experiment types<a href="#experiment-types" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>The following experiment types are available in this repository:</p>
+<ul>
+<li><a href="https://github.com/rubensworks/jbr.js/tree/master/packages/experiment-bsbm"><code>@jbr-experiment/bsbm</code></a>: Berlin SPARQL Benchmark (BSBM).</li>
+<li><a href="https://github.com/rubensworks/jbr.js/tree/master/packages/experiment-ldbc-snb"><code>@jbr-experiment/ldbc-snb</code></a>: LDBC Social Network Benchmark (Interactive) over a single RDF dataset.</li>
+<li><a href="https://github.com/rubensworks/jbr.js/tree/master/packages/experiment-solid-session-bench"><code>@jbr-experiment/solid-session-bench</code></a>: SolidSessionBench social network benchmark.</li>
+<li><a href="https://github.com/rubensworks/jbr.js/tree/master/packages/experiment-solidbench"><code>@jbr-experiment/solidbench</code></a>: SolidBench, LDBC SNB decentralized over Solid pods.</li>
+<li><a href="https://github.com/rubensworks/jbr.js/tree/master/packages/experiment-sparql-custom"><code>@jbr-experiment/sparql-custom</code></a>: Custom defined set of SPARQL queries.</li>
+<li><a href="https://github.com/rubensworks/jbr.js/tree/master/packages/experiment-watdiv"><code>@jbr-experiment/watdiv</code></a>: Waterloo SPARQL Diversity Test Suite (WatDiv).</li>
+</ul>
 <h2 id="adding-a-new-experiment-or-hook-handler" class="tsd-anchor-link">Adding a new experiment or hook handler<a href="#adding-a-new-experiment-or-hook-handler" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>If you want to add a new experiment, you can create one at <code>packages/experiment-&lt;name&gt;</code>.
 Similarly, hook handlers can be created at <code>packages/hook-&lt;name&gt;</code>.
@@ -71,6 +81,7 @@ and released under the <a href="http://opensource.org/licenses/MIT">MIT license<
 <div class="tsd-accordion-details"><a href="#jbrjs-just-a-benchmark-runner"><span>jbr.js – <wbr/>Just a <wbr/>Benchmark <wbr/>Runner</span></a>
 <ul>
 <li><a href="#development-setup"><span>Development <wbr/>Setup</span></a></li>
+<li><a href="#experiment-types"><span>Experiment types</span></a></li>
 <li><a href="#adding-a-new-experiment-or-hook-handler"><span>Adding a new experiment or hook handler</span></a></li>
 <li><a href="#license"><span>License</span></a></li></ul></div></details></div>
 <div class="site-menu">
