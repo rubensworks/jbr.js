@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v6.2.0"></a>
+## [v6.2.0](https://github.com/rubensworks/jbr.js/compare/v6.1.0...v6.2.0) - 2026-09-25
+
+### Added
+* [Add LDBC SNB experiment type (#94)](https://github.com/rubensworks/jbr.js/commit/db75fa3fd9d3d7d4ee8e421f9bb389b639b4f183)
+
+### Fixed
+* [Stop and measure the full process tree of CLI hooks (#97)](https://github.com/rubensworks/jbr.js/commit/051c1a9f472dc45b8e4b4433d1ef72e2f62f54e2)
+* [Fix default params of CLI hook handler (#96)](https://github.com/rubensworks/jbr.js/commit/0c7174d148cdd7f4ddf99d0c6af6119fbc03500c)
+* [Fix broken CLI (#95)](https://github.com/rubensworks/jbr.js/commit/8810315777b5a371b58ce963571e5bc014038705)
+
 <a name="v6.1.0"></a>
 ## [v6.1.0](https://github.com/rubensworks/jbr.js/compare/v6.0.0...v6.1.0) - 2026-05-21
 

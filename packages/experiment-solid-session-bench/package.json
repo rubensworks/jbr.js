@@ -1,6 +1,6 @@
 {
   "name": "@jbr-experiment/solid-session-bench",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "description": "SolidSessionBench experiment handler for JBR",
   "main": "index.js",
   "typings": "index",
@@ -60,13 +60,13 @@
     "validate": "npm ls"
   },
   "devDependencies": {
-    "jbr": "^6.0.0"
+    "jbr": "^6.2.0"
   },
   "peerDependencies": {
     "jbr": ">=2.0.0"
   },
   "dependencies": {
-    "@jbr-experiment/solidbench": "^6.1.0",
+    "@jbr-experiment/solidbench": "^6.2.0",
     "@types/fs-extra": "^11.0.0",
     "@types/yargs": "^17.0.0",
     "fs-extra": "^11.0.0",
