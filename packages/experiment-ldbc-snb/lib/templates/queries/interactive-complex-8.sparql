@@ -18,25 +18,19 @@ SELECT
     ?commentContent
 WHERE
 {
-    {
-        SELECT
-            ?comment
-            ?commentCreationDate
-            ?commentId
-        WHERE
-        {
-            ?message snvoc:hasCreator ?rootPerson .
-            ?comment snvoc:replyOf ?message .
-            ?comment snvoc:creationDate ?commentCreationDate .
-            ?comment snvoc:id ?commentId .
-        }
-        ORDER BY DESC(?commentCreationDate) ?commentId
-        LIMIT 20
-    }
+    VALUES (?type) {(snvoc:Comment) (snvoc:Post)}
+    ?rootPerson a snvoc:Person .
+    ?message snvoc:hasCreator ?rootPerson .
+    ?message a ?type .
+    ?comment a snvoc:Comment .
+    ?comment snvoc:replyOf ?message .
+    ?comment snvoc:creationDate ?commentCreationDate .
+    ?comment snvoc:id ?commentId .
     ?comment snvoc:content ?commentContent .
     ?comment snvoc:hasCreator ?person .
     ?person snvoc:id ?personId .
     ?person snvoc:firstName ?personFirstName .
-    ?person snvoc:lastName ?personLastName .
+    ?person snvoc:lastName ?personLastName
 }
 ORDER BY DESC(?commentCreationDate) ?commentId
+LIMIT 20

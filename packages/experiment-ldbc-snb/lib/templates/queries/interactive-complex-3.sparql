@@ -10,61 +10,76 @@ PREFIX dbpedia: <http://dbpedia.org/resource/>
 PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
 
 SELECT
-    ?personId
-    ?personFirstName
-    ?personLastName
+    (?frId AS ?personId)
+    (?firstName AS ?personFirstName)
+    (?lastName AS ?personLastName)
     ?xCount
     ?yCount
     (?xCount + ?yCount AS ?count)
 WHERE
 {
     {
-        SELECT
+        SELECT DISTINCT
             ?fr
-            (SUM(?isX) AS ?xCount)
-            (SUM(?isY) AS ?yCount)
+            ?frId
         WHERE
         {
-            {
-                ?countryX foaf:name ?countryXName .
-                ?countryX a dbpedia-owl:Country .
-                ?message snvoc:isLocatedIn ?countryX .
-                BIND( 1 AS ?isX )
-                BIND( 0 AS ?isY )
-            } UNION {
-                ?countryY foaf:name ?countryYName .
-                ?countryY a dbpedia-owl:Country .
-                ?message snvoc:isLocatedIn ?countryY .
-                BIND( 0 AS ?isX )
-                BIND( 1 AS ?isY )
-            }
-            ?message snvoc:creationDate ?creationDate .
-            FILTER( ?creationDate >= ?startDate && ?creationDate < ?startDate + STRDT(CONCAT("P", ?durationDays, "D"), xsd:dayTimeDuration) )
-            ?message snvoc:hasCreator ?fr .
-            {
-                SELECT DISTINCT
-                    ?fr
-                WHERE
-                {
-                    {
-                        ?rootPerson ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?fr .
-                    } UNION {
-                        ?rootPerson ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson))/((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?fr .
-                    }
-                    FILTER( ?fr != ?rootPerson )
-                }
-            }
-            ?fr snvoc:isLocatedIn ?frCity .
-            ?frCity snvoc:isPartOf ?frCountry .
-            ?frCountry foaf:name ?frCountryName .
-            FILTER( ?frCountryName != ?countryXName && ?frCountryName != ?countryYName )
+            ?rootPerson a snvoc:Person .
+            ?rootPerson ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson))?/((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?fr .
+            ?fr snvoc:id ?frId .
+            ?fr snvoc:isLocatedIn/snvoc:isPartOf ?country .
+            ?country a dbpedia-owl:Country .
+            ?country foaf:name ?countryName .
+            FILTER(?fr != ?rootPerson && ?countryName != ?countryXName && ?countryName != ?countryYName)
         }
-        GROUP BY ?fr
     }
-    FILTER( ?xCount > 0 && ?yCount > 0 )
-    ?fr snvoc:id ?personId .
-    ?fr snvoc:firstName ?personFirstName .
-    ?fr snvoc:lastName ?personLastName .
+    {
+        SELECT
+            (?frId AS ?frIdX)
+            (COUNT(*) AS ?xCount)
+        WHERE
+        {
+            BIND( ?startDate AS ?date1 ) .
+            BIND( ?date1 + STRDT(CONCAT("P", ?durationDays, "D"), xsd:dayTimeDuration) AS ?date2 ) .
+            VALUES (?type) {(snvoc:Comment) (snvoc:Post)}
+            ?message a ?type .
+            ?message snvoc:creationDate ?creationDate .
+            FILTER( ?creationDate >= ?date1 && ?creationDate < ?date2 ) .
+            ?message snvoc:hasCreator ?fr .
+            ?fr a snvoc:Person .
+            ?fr snvoc:id ?frId .
+            ?message snvoc:isLocatedIn ?country .
+            ?country a dbpedia-owl:Country .
+            ?country foaf:name ?countryXName .
+        }
+        GROUP BY ?frId
+    } .
+    FILTER( ?frId = ?frIdX ) .
+    {
+        SELECT
+            (?frId AS ?frIdY)
+            (COUNT(*) AS ?yCount)
+        WHERE
+        {
+            BIND( ?startDate AS ?date1 ) .
+            BIND( ?date1 + STRDT(CONCAT("P", ?durationDays, "D"), xsd:dayTimeDuration) AS ?date2 ) .
+            VALUES (?type) {(snvoc:Comment) (snvoc:Post)}
+            ?message a ?type .
+            ?message snvoc:creationDate ?creationDate .
+            FILTER( ?creationDate >= ?date1 && ?creationDate < ?date2 ) .
+            ?message snvoc:hasCreator ?fr .
+            ?fr a snvoc:Person .
+            ?fr snvoc:id ?frId .
+            ?message snvoc:isLocatedIn ?country .
+            ?country a dbpedia-owl:Country .
+            ?country foaf:name ?countryYName .
+        }
+        GROUP BY ?frId
+    } .
+    FILTER( ?frId = ?frIdY )
+    ?fr snvoc:firstName ?firstName .
+    ?fr snvoc:lastName ?lastName
 }
-ORDER BY DESC(?xCount) ?personId
+ORDER BY DESC(?count) ?frId
 LIMIT 20
+

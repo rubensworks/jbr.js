@@ -10,46 +10,36 @@ PREFIX dbpedia: <http://dbpedia.org/resource/>
 PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
 
 SELECT
-    ?personId
-    ?personFirstName
-    ?personLastName
+    (?frId AS ?personId)
+    (?first AS ?personFirstName)
+    (?last AS ?personLastName)
     ?messageId
-    ?messageContent
-    ?messageCreationDate
-WHERE
-{
+    (?content AS ?messageContent)
+    (?creationDate AS ?messageCreationDate)
+WHERE {
+    VALUES (?type) {(snvoc:Comment) (snvoc:Post)}
     {
-        SELECT
+        SELECT DISTINCT
             ?fr
-            ?message
-            ?messageId
-            ?messageCreationDate
+            ?frId
         WHERE
         {
-            {
-                SELECT DISTINCT
-                    ?fr
-                WHERE
-                {
-                    {
-                        ?rootPerson ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?fr .
-                    } UNION {
-                        ?rootPerson ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson))/((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?fr .
-                    }
-                    FILTER( ?fr != ?rootPerson )
-                }
-            }
-            ?message snvoc:hasCreator ?fr .
-            ?message snvoc:creationDate ?messageCreationDate .
-            FILTER( ?messageCreationDate < ?maxDate )
-            ?message snvoc:id ?messageId .
+            ?rootPerson a snvoc:Person .
+            ?rootPerson snvoc:id ?rootId .
+            ?rootPerson ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson))?/((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?fr .
+            ?fr snvoc:id ?frId .
+            FILTER(?frId != ?rootId)
         }
-        ORDER BY DESC(?messageCreationDate) ?messageId
-        LIMIT 20
-    }
-    ?message snvoc:content|snvoc:imageFile ?messageContent .
-    ?fr snvoc:id ?personId .
-    ?fr snvoc:firstName ?personFirstName .
-    ?fr snvoc:lastName ?personLastName .
+    } .
+    ?message snvoc:hasCreator ?fr .
+    ?message a ?type .
+    ?message snvoc:creationDate ?creationDate .
+    FILTER(?creationDate < ?maxDate) .
+    ?message snvoc:content|snvoc:imageFile ?content .
+    ?message snvoc:id ?messageId .
+    ?fr snvoc:firstName ?first .
+    ?fr snvoc:lastName ?last .
+    ?fr snvoc:id ?frId
 }
-ORDER BY DESC(?messageCreationDate) ?messageId
+ORDER BY DESC(?creationDate) ?messageId
+LIMIT 20
