@@ -1,8 +1,8 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
-export function runCli(cwd: string, argv: string[]): void {
-  yargs(hideBin(argv))
+export async function runCli(cwd: string, argv: string[]): Promise<void> {
+  await yargs(hideBin(argv))
     .options({
       cwd: { type: 'string', default: cwd, describe: 'The current working directory', defaultDescription: '.' },
       mainModulePath: {
