@@ -22,8 +22,9 @@ describe('HookHandlerCli', () => {
 
   describe('getDefaultParams', () => {
     it('returns a hash', () => {
-      expect(handler.getDefaultParams(experimentPaths)).toBeInstanceOf(Object);
-      expect(Object.entries(handler.getDefaultParams(experimentPaths))).toHaveLength(1);
+      expect(handler.getDefaultParams(experimentPaths)).toEqual({
+        entrypoint: [ 'echo', 'TODO: start a SPARQL endpoint here' ],
+      });
     });
   });
 

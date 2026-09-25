@@ -12,7 +12,7 @@ export class HookHandlerCli extends HookHandler<HookCli> {
 
   public getDefaultParams(_experimentPaths: IExperimentPaths): Record<string, any> {
     return {
-      command: 'echo "TODO: start a SPARQL endpoint here"',
+      entrypoint: [ 'echo', 'TODO: start a SPARQL endpoint here' ],
     };
   }
 
