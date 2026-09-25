@@ -61,7 +61,7 @@ $ jbr prepare
 
 This performs the following steps, where each step is skipped if its output already exists (unless `jbr prepare -f` is used):
 
-1. Run the LDBC SNB datagen for the configured scale factor, which produces Turtle files and substitution parameters in `generated/out-snb/`.
+1. Run the LDBC SNB datagen for the configured scale factor, which produces Turtle files and substitution parameters in `generated/out-snb/`. This is also skipped if `generated/out-snb/` was removed but all files derived from it (steps 2-4) exist, such as when using pre-generated assets.
 2. Merge all Turtle files into a single `generated/dataset.nt` file. Blank node labels of the datagen are globally unique, and are preserved.
 3. Create `generated/parameters-persons.csv` (persons from `interactive_1_param.txt`) and `generated/parameters-messages.csv` (a seeded random sample of posts and comments) for the short queries.
 4. Instantiate all query templates into `generated/queries/`.
