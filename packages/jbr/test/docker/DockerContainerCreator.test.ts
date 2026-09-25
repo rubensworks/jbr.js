@@ -68,6 +68,24 @@ describe('DockerContainerCreator', () => {
       expect(container.remove).not.toHaveBeenCalled();
     });
 
+    it('creates a container with environment variables', async() => {
+      await creator.start({
+        imageName: 'IMAGE',
+        cmdArgs: [ 'a', 'b' ],
+        env: [ 'KEY=value', 'OTHER=x' ],
+      });
+
+      expect(dockerode.createContainer).toHaveBeenCalledWith({
+        Image: 'IMAGE',
+        Tty: true,
+        Cmd: [ 'a', 'b' ],
+        Env: [ 'KEY=value', 'OTHER=x' ],
+        AttachStdout: true,
+        AttachStderr: true,
+        HostConfig: {},
+      });
+    });
+
     it('creates a container via the proper steps optional fields', async() => {
       const handler = await creator.start({
         imageName: 'IMAGE',

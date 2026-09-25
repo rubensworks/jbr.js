@@ -1,0 +1,1174 @@
+{
+  "@context": "https://linkedsoftwaredependencies.org/bundles/npm/sparql-query-parameter-instantiator/^2.0.0/components/context.jsonld",
+  "@id": "urn:sparql-query-parameter-instantiator:default",
+  "@type": "QueryInstantiator",
+  "count": {
+    "@id": "urn:variables:ldbc-snb:count",
+    "@type": "Variable"
+  },
+  "providers": [
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-short-1",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-short-1",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "person",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:persons",
+                "@type": "Variable"
+              },
+              "columnName": "person"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-short-2",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-short-2",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "person",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:persons",
+                "@type": "Variable"
+              },
+              "columnName": "person"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-short-3",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-short-3",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "rootPerson",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:persons",
+                "@type": "Variable"
+              },
+              "columnName": "person"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-short-4",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-short-4",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "message",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:messages",
+                "@type": "Variable"
+              },
+              "columnName": "message"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-short-5",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-short-5",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "message",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:messages",
+                "@type": "Variable"
+              },
+              "columnName": "message"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-short-6",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-short-6",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "message",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:messages",
+                "@type": "Variable"
+              },
+              "columnName": "message"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-short-7",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-short-7",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "message",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:messages",
+                "@type": "Variable"
+              },
+              "columnName": "message"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-complex-1",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-complex-1",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "rootPerson",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_1",
+                "@type": "Variable"
+              },
+              "columnName": "personId",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad",
+              "@type": "ValueTransformerPad",
+              "paddingCharacter": "0",
+              "paddingLength": 20,
+              "start": true
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri",
+              "@type": "ValueTransformerReplaceIri",
+              "searchRegex": "^",
+              "replacementString": "http://www.ldbc.eu/ldbc_socialnet/1.0/data/pers"
+            }
+          ]
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "firstName",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_1",
+                "@type": "Variable"
+              },
+              "columnName": "firstName",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-complex-2",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-complex-2",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "rootPerson",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_2",
+                "@type": "Variable"
+              },
+              "columnName": "personId",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        },
+        {
+          "@type": "VariableTemplateTimestamp",
+          "name": "maxDate",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_2",
+                "@type": "Variable"
+              },
+              "columnName": "maxDate",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-complex-3",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-complex-3",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "rootPerson",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_3",
+                "@type": "Variable"
+              },
+              "columnName": "personId",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        },
+        {
+          "@type": "VariableTemplateTimestamp",
+          "name": "startDate",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_3",
+                "@type": "Variable"
+              },
+              "columnName": "startDate",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "durationDays",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_3",
+                "@type": "Variable"
+              },
+              "columnName": "durationDays",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "countryXName",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_3",
+                "@type": "Variable"
+              },
+              "columnName": "countryXName",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "countryYName",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_3",
+                "@type": "Variable"
+              },
+              "columnName": "countryYName",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-complex-4",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-complex-4",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "rootPerson",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_4",
+                "@type": "Variable"
+              },
+              "columnName": "personId",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        },
+        {
+          "@type": "VariableTemplateTimestamp",
+          "name": "startDate",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_4",
+                "@type": "Variable"
+              },
+              "columnName": "startDate",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "durationDays",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_4",
+                "@type": "Variable"
+              },
+              "columnName": "durationDays",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-complex-5",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-complex-5",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "rootPerson",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_5",
+                "@type": "Variable"
+              },
+              "columnName": "personId",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        },
+        {
+          "@type": "VariableTemplateTimestamp",
+          "name": "minDate",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_5",
+                "@type": "Variable"
+              },
+              "columnName": "minDate",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-complex-6",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-complex-6",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "rootPerson",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_6",
+                "@type": "Variable"
+              },
+              "columnName": "personId",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "tagName",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_6",
+                "@type": "Variable"
+              },
+              "columnName": "tagName",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-complex-7",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-complex-7",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "rootPerson",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_7",
+                "@type": "Variable"
+              },
+              "columnName": "personId",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-complex-8",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-complex-8",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "rootPerson",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_8",
+                "@type": "Variable"
+              },
+              "columnName": "personId",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-complex-9",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-complex-9",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "rootPerson",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_9",
+                "@type": "Variable"
+              },
+              "columnName": "personId",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        },
+        {
+          "@type": "VariableTemplateTimestamp",
+          "name": "maxDate",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_9",
+                "@type": "Variable"
+              },
+              "columnName": "maxDate",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-complex-10",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-complex-10",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "rootPerson",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_10",
+                "@type": "Variable"
+              },
+              "columnName": "personId",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "month",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_10",
+                "@type": "Variable"
+              },
+              "columnName": "month",
+              "separator": "|"
+            }
+          },
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-complex-11",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-complex-11",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "rootPerson",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_11",
+                "@type": "Variable"
+              },
+              "columnName": "personId",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "countryName",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_11",
+                "@type": "Variable"
+              },
+              "columnName": "countryName",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "workFromYear",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_11",
+                "@type": "Variable"
+              },
+              "columnName": "workFromYear",
+              "separator": "|"
+            }
+          },
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-complex-12",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-complex-12",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "rootPerson",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_12",
+                "@type": "Variable"
+              },
+              "columnName": "personId",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "tagClassName",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_12",
+                "@type": "Variable"
+              },
+              "columnName": "tagClassName",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-complex-13",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-complex-13",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "person1",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_13",
+                "@type": "Variable"
+              },
+              "columnName": "person1Id",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        },
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "person2",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_13",
+                "@type": "Variable"
+              },
+              "columnName": "person2Id",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:interactive-complex-14",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:interactive-complex-14",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "person1",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_14",
+                "@type": "Variable"
+              },
+              "columnName": "person1Id",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        },
+        {
+          "@type": "VariableTemplateNamedNode",
+          "name": "person2",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:interactive_14",
+                "@type": "Variable"
+              },
+              "columnName": "person2Id",
+              "separator": "|"
+            }
+          },
+          "valueTransformers": [
+            {
+              "@id": "urn:ldbc-snb:valueTransformerIdPad"
+            },
+            {
+              "@id": "urn:ldbc-snb:valueTransformerPersonIdToIri"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

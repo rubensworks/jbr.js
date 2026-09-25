@@ -1,0 +1,90 @@
+# Trusted connection paths (shortest paths bounded to 3 hops)
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX sn: <http://www.ldbc.eu/ldbc_socialnet/1.0/data/>
+PREFIX snvoc: <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
+PREFIX sntag: <http://www.ldbc.eu/ldbc_socialnet/1.0/tag/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dbpedia: <http://dbpedia.org/resource/>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+
+SELECT
+    ?personIdsInPath
+    (SUM(?edgeWeight) AS ?pathWeight)
+WHERE
+{
+    {
+        SELECT DISTINCT
+            ?personIdsInPath
+            ?edgeIndex
+            ?edgeSource
+            ?edgeTarget
+        WHERE
+        {
+            {
+                ?person1 snvoc:id ?person1Id .
+                ?person2 snvoc:id ?person2Id .
+                ?person1 ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?person2 .
+                VALUES (?edgeIndex) { (1) }
+                BIND( ?person1 AS ?edgeSource )
+                BIND( ?person2 AS ?edgeTarget )
+                BIND( CONCAT(STR(?person1Id), ";", STR(?person2Id)) AS ?personIdsInPath )
+            } UNION {
+                ?person1 snvoc:id ?person1Id .
+                ?person2 snvoc:id ?person2Id .
+                FILTER NOT EXISTS { ?person1 ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?person2 }
+                ?person1 ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?middle1 .
+                ?middle1 ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?person2 .
+                ?middle1 snvoc:id ?middle1Id .
+                VALUES (?edgeIndex) { (1) (2) }
+                BIND( IF(?edgeIndex = 1, ?person1, ?middle1) AS ?edgeSource )
+                BIND( IF(?edgeIndex = 1, ?middle1, ?person2) AS ?edgeTarget )
+                BIND( CONCAT(STR(?person1Id), ";", STR(?middle1Id), ";", STR(?person2Id)) AS ?personIdsInPath )
+            } UNION {
+                ?person1 snvoc:id ?person1Id .
+                ?person2 snvoc:id ?person2Id .
+                FILTER NOT EXISTS { ?person1 ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?person2 }
+                FILTER NOT EXISTS { ?person1 ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson))/((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?person2 }
+                ?person1 ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?middle1 .
+                ?middle1 ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?middle2 .
+                ?middle2 ((snvoc:knows/snvoc:hasPerson)|^(snvoc:knows/snvoc:hasPerson)) ?person2 .
+                ?middle1 snvoc:id ?middle1Id .
+                ?middle2 snvoc:id ?middle2Id .
+                VALUES (?edgeIndex) { (1) (2) (3) }
+                BIND( IF(?edgeIndex = 1, ?person1, IF(?edgeIndex = 2, ?middle1, ?middle2)) AS ?edgeSource )
+                BIND( IF(?edgeIndex = 1, ?middle1, IF(?edgeIndex = 2, ?middle2, ?person2)) AS ?edgeTarget )
+                BIND( CONCAT(STR(?person1Id), ";", STR(?middle1Id), ";", STR(?middle2Id), ";", STR(?person2Id)) AS ?personIdsInPath )
+            }
+        }
+    }
+    {
+        BIND( 0.0 AS ?edgeWeight )
+    } UNION {
+        ?reply snvoc:hasCreator ?edgeSource .
+        ?reply snvoc:replyOf ?parent .
+        ?parent a snvoc:Post .
+        ?parent snvoc:hasCreator ?edgeTarget .
+        BIND( 1.0 AS ?edgeWeight )
+    } UNION {
+        ?reply snvoc:hasCreator ?edgeSource .
+        ?reply snvoc:replyOf ?parent .
+        ?parent a snvoc:Comment .
+        ?parent snvoc:hasCreator ?edgeTarget .
+        BIND( 0.5 AS ?edgeWeight )
+    } UNION {
+        ?reply snvoc:hasCreator ?edgeTarget .
+        ?reply snvoc:replyOf ?parent .
+        ?parent a snvoc:Post .
+        ?parent snvoc:hasCreator ?edgeSource .
+        BIND( 1.0 AS ?edgeWeight )
+    } UNION {
+        ?reply snvoc:hasCreator ?edgeTarget .
+        ?reply snvoc:replyOf ?parent .
+        ?parent a snvoc:Comment .
+        ?parent snvoc:hasCreator ?edgeSource .
+        BIND( 0.5 AS ?edgeWeight )
+    }
+}
+GROUP BY ?personIdsInPath
+ORDER BY DESC(?pathWeight) ?personIdsInPath
