@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v6.2.1"></a>
+## [v6.2.1](https://github.com/rubensworks/jbr.js/compare/v6.2.0...v6.2.1) - 2026-09-25
+
+### Fixed
+* [Skip LDBC SNB datagen if all derived files exist (#98)](https://github.com/rubensworks/jbr.js/commit/1a42d71a3666648e397b156278473c3232e2017e)
+
 <a name="v6.2.0"></a>
 ## [v6.2.0](https://github.com/rubensworks/jbr.js/compare/v6.1.0...v6.2.0) - 2026-09-25
 

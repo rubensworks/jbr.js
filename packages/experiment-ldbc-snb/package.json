@@ -1,6 +1,6 @@
 {
   "name": "@jbr-experiment/ldbc-snb",
-  "version": "6.2.0",
+  "version": "6.2.1",
   "description": "LDBC Social Network Benchmark (Interactive) experiment handler for JBR",
   "main": "index.js",
   "typings": "index",

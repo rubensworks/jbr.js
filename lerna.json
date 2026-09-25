@@ -13,7 +13,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "6.2.0",
+  "version": "6.2.1",
   "loglevel": "success",
   "registry": "https://registry.npmjs.org/",
   "npmClient": "yarn",
