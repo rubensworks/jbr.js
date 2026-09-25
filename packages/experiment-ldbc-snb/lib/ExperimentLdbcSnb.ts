@@ -218,7 +218,7 @@ export class ExperimentLdbcSnb implements Experiment {
         Path.join(substitutionParameters, `interactive_${i}_param.txt`);
     }
     const templatesQueries = Path.join(ExperimentLdbcSnb.TEMPLATES_PATH, 'queries');
-    for (const file of await fs.readdir(templatesQueries)) {
+    for (const file of (await fs.readdir(templatesQueries)).filter(file => file.endsWith('.sparql'))) {
       const name = Path.basename(file, '.sparql');
       variables[`urn:variables:ldbc-snb:templates:${name}`] = Path.join(templatesQueries, file);
       variables[`urn:variables:ldbc-snb:output:${name}`] = Path.join(queriesPath, file);
