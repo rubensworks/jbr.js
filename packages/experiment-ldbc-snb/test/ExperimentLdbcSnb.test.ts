@@ -284,6 +284,38 @@ ldbc.snb.datagen.serializer.staticSerializer:ldbc.snb.datagen.serializer.snb.tur
       });
     });
 
+    it('should skip the datagen if its output was removed but all derived files exist', async() => {
+      files[Path.join(generated, 'dataset.nt')] = true;
+      files[Path.join(generated, 'parameters-persons.csv')] = true;
+      files[Path.join(generated, 'parameters-messages.csv')] = true;
+      files[Path.join(generated, 'queries')] = true;
+
+      await experiment.prepare(context, false);
+
+      expect(context.docker.imagePuller.pull).not.toHaveBeenCalled();
+      expect(context.docker.containerCreator.start).not.toHaveBeenCalled();
+      expect(mergeTurtleToNTriples).not.toHaveBeenCalled();
+      expect(generatePersonParameters).not.toHaveBeenCalled();
+      expect(generateMessageParameters).not.toHaveBeenCalled();
+      expect(runConfig).not.toHaveBeenCalled();
+    });
+
+    it('should run the datagen if its output and one derived file are missing', async() => {
+      files[Path.join(generated, 'dataset.nt')] = true;
+      files[Path.join(generated, 'parameters-persons.csv')] = true;
+      files[Path.join(generated, 'parameters-messages.csv')] = true;
+      jest.mocked(context.docker.containerCreator.start).mockImplementation(async() => {
+        generateSocialNetworkFiles();
+        return <any> endpointHandler;
+      });
+
+      await experiment.prepare(context, false);
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(1);
+      expect(mergeTurtleToNTriples).not.toHaveBeenCalled();
+      expect(runConfig).toHaveBeenCalledTimes(1);
+    });
+
     it('should regenerate parameters if only one parameters file exists', async() => {
       generateSocialNetworkFiles();
       files[Path.join(generated, 'dataset.nt')] = true;

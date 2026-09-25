@@ -98,9 +98,13 @@ export class ExperimentLdbcSnb implements Experiment {
     // Ensure logs directory exists
     await fs.ensureDir(Path.join(context.experimentPaths.output, 'logs'));
 
-    // Generate dataset and substitution parameters
+    // Generate dataset and substitution parameters, unless all files derived from them already exist
     context.logger.info(`Generating LDBC SNB dataset`);
-    if (!forceOverwriteGenerated && await fs.pathExists(socialNetwork)) {
+    if (!forceOverwriteGenerated && (await fs.pathExists(socialNetwork) || (
+      await fs.pathExists(datasetPath) &&
+      await fs.pathExists(personsPath) &&
+      await fs.pathExists(messagesPath) &&
+      await fs.pathExists(queriesPath)))) {
       context.logger.info(`  Skipped`);
     } else {
       await this.generateDataset(context, outSnb);
