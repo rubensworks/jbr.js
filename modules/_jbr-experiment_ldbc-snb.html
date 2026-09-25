@@ -54,7 +54,7 @@ A value for this hook can be set as follows, such as <a href="https://github.com
 
 <p>This performs the following steps, where each step is skipped if its output already exists (unless <code>jbr prepare -f</code> is used):</p>
 <ol>
-<li>Run the LDBC SNB datagen for the configured scale factor, which produces Turtle files and substitution parameters in <code>generated/out-snb/</code>.</li>
+<li>Run the LDBC SNB datagen for the configured scale factor, which produces Turtle files and substitution parameters in <code>generated/out-snb/</code>. This is also skipped if <code>generated/out-snb/</code> was removed but all files derived from it (steps 2-4) exist, such as when using pre-generated assets.</li>
 <li>Merge all Turtle files into a single <code>generated/dataset.nt</code> file. Blank node labels of the datagen are globally unique, and are preserved.</li>
 <li>Create <code>generated/parameters-persons.csv</code> (persons from <code>interactive_1_param.txt</code>) and <code>generated/parameters-messages.csv</code> (a seeded random sample of posts and comments) for the short queries.</li>
 <li>Instantiate all query templates into <code>generated/queries/</code>.</li>
