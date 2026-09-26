@@ -67,4 +67,3 @@ WHERE
 
     FILTER (?aId < ?bId && ?bId < ?cId)
 }
-GROUP BY ?countryNode

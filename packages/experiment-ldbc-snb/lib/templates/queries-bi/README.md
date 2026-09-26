@@ -38,6 +38,7 @@ Some queries referred to aggregate aliases in `GROUP BY` or `HAVING`, where they
   The popularity score of `?person2` was grouped per like (always 1), and is now grouped per person, as in the query definition.
 * BI9: `HAVING` on `?count1`/`?count2` now uses the aggregates.
 * BI10: removed the aggregate alias `?friendsScore` from `GROUP BY`.
+* BI17: removed `GROUP BY ?countryNode`, so that a count of 0 is returned instead of no result when there are no triangles.
 
 All other templates are unchanged.
 
