@@ -1,11 +1,16 @@
+import * as os from 'node:os';
 import Path from 'node:path';
 import type { Hook, ITaskContext, ProcessHandler } from 'jbr';
 import { HdtConverter, createExperimentPaths } from 'jbr';
-import { SparqlBenchmarkRunner } from 'sparql-benchmark-runner';
+import { QueryLoaderFile, SparqlBenchmarkRunner } from 'sparql-benchmark-runner';
 import { runConfig } from 'sparql-query-parameter-instantiator';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { ExperimentLdbcSnb } from '../lib/ExperimentLdbcSnb';
-import { generateMessageParameters, generatePersonParameters } from '../lib/ParameterGenerator';
+import {
+  generateMessageParameters,
+  generatePersonParameters,
+  repeatSubstitutionParameterRows,
+} from '../lib/ParameterGenerator';
 import { mergeTurtleToNTriples } from '../lib/TurtleMerger';
 
 let sparqlBenchmarkRun: any;
@@ -19,12 +24,17 @@ jest.mock<any>('sparql-benchmark-runner', () => ({
       runWithRawResults: sparqlBenchmarkRun,
     };
   }),
-  QueryLoaderFile: jest.fn().mockImplementation(() => ({
-    loadQueries: jest.fn().mockResolvedValue({
-      C1: 'path/C1',
-      C2: 'path/C2',
-      C3: 'path/C3',
-    }),
+  QueryLoaderFile: jest.fn().mockImplementation((options: any) => ({
+    loadQueries: jest.fn().mockResolvedValue(options.path.endsWith('queries-bi') ?
+        {
+          'bi-1': 'path/bi-1',
+          'bi-2': 'path/bi-2',
+        } :
+        {
+          C1: 'path/C1',
+          C2: 'path/C2',
+          C3: 'path/C3',
+        }),
   })),
   ResultSerializerCsv: jest.fn().mockImplementation(() => ({
     serialize: resultSerializerSerialize,
@@ -45,6 +55,7 @@ jest.mock<any>('../lib/TurtleMerger', () => ({
 jest.mock<any>('../lib/ParameterGenerator', () => ({
   generatePersonParameters: jest.fn(async() => 15),
   generateMessageParameters: jest.fn(async() => 200),
+  repeatSubstitutionParameterRows: jest.fn(async() => 3),
 }));
 
 let files: Record<string, boolean | string> = {};
@@ -66,6 +77,9 @@ jest.mock<any>('fs-extra', () => ({
   createWriteStream: jest.fn((path: string) => {
     filesOut[path] = true;
   }),
+  async mkdtemp(prefix: string) {
+    return `${prefix}TMP`;
+  },
   async ensureDir(dirPath: string) {
     dirsOut[dirPath] = true;
   },
@@ -154,6 +168,84 @@ describe('ExperimentLdbcSnb', () => {
     dirContents = {};
     jest.spyOn(<any> process, 'on').mockImplementation();
     jest.clearAllMocks();
+  });
+
+  function createExperiment(workload?: string): ExperimentLdbcSnb {
+    return new ExperimentLdbcSnb(
+      '0.1',
+      '4G',
+      5,
+      12345,
+      false,
+      hookSparqlEndpoint,
+      'http://localhost:3001/sparql',
+      undefined,
+      3,
+      1,
+      0,
+      1_000,
+      {},
+      600,
+      workload,
+    );
+  }
+
+  function generateBiParameterFiles(): void {
+    for (let i = 1; i <= 24; i++) {
+      files[Path.join(substitutionParameters, `bi_${i}_param.txt`)] = true;
+    }
+  }
+
+  function generateDerivedFiles(queries: string[]): void {
+    files[Path.join(generated, 'dataset.nt')] = true;
+    files[Path.join(generated, 'parameters-persons.csv')] = true;
+    files[Path.join(generated, 'parameters-messages.csv')] = true;
+    for (const dir of queries) {
+      files[Path.join(generated, dir)] = true;
+    }
+  }
+
+  function expectBiInstantiation(): void {
+    const call = jest.mocked(runConfig).mock.calls
+      .find(([ configPath ]) => configPath.endsWith('query-config-bi.json'))!;
+    expect(call).toBeDefined();
+    const [ configPath, properties, settings ] = call;
+    expect(configPath).toBe(Path.join(ExperimentLdbcSnb.TEMPLATES_PATH, 'query-config-bi.json'));
+    expect(properties).toEqual({ mainModulePath: Path.join(__dirname, '..') });
+    const tmp = Path.join(os.tmpdir(), 'jbr-ldbc-snb-bi-TMP');
+    const variables = settings!.variables!;
+    expect(variables['urn:variables:ldbc-snb:count']).toBe(5);
+    expect(variables['urn:variables:ldbc-snb:seed']).toBe(12345);
+    expect(variables['urn:variables:ldbc-snb:params:bi_20']).toBe(Path.join(tmp, 'bi_20_param.txt'));
+    expect(variables['urn:variables:ldbc-snb:params:bi_16']).toBeUndefined();
+    expect(variables['urn:variables:ldbc-snb:templates:bi-24'])
+      .toBe(Path.join(ExperimentLdbcSnb.TEMPLATES_PATH, 'queries-bi', 'bi-24.sparql'));
+    expect(variables['urn:variables:ldbc-snb:output:bi-1'])
+      .toBe(Path.join(generated, 'queries-bi', 'bi-1.sparql'));
+    expect(Object.keys(variables).filter(key => key.startsWith('urn:variables:ldbc-snb:templates:'))).toHaveLength(23);
+    expect(repeatSubstitutionParameterRows).toHaveBeenCalledTimes(23);
+    expect(repeatSubstitutionParameterRows).toHaveBeenCalledWith(
+      Path.join(substitutionParameters, 'bi_20_param.txt'),
+      Path.join(tmp, 'bi_20_param.txt'),
+      5,
+    );
+    expect(dirsRemoved).toContain(Path.join(generated, 'queries-bi'));
+    expect(dirsRemoved).toContain(tmp);
+  }
+
+  describe('constructor', () => {
+    it('should default to the interactive workload', () => {
+      expect(experiment.workload).toBe('interactive');
+      expect(createExperiment().workload).toBe('interactive');
+    });
+
+    it.each([ 'interactive', 'bi', 'all' ])('should accept the %s workload', (workload) => {
+      expect(createExperiment(workload).workload).toBe(workload);
+    });
+
+    it('should throw on an invalid workload', () => {
+      expect(() => createExperiment('BI')).toThrow(`Invalid LDBC SNB workload 'BI', must be one of interactive, bi, all`);
+    });
   });
 
   function generateSocialNetworkFiles(): void {
@@ -428,9 +520,134 @@ ldbc.snb.datagen.serializer.staticSerializer:ldbc.snb.datagen.serializer.snb.tur
     });
   });
 
+  describe('prepare with the bi workload', () => {
+    beforeEach(() => {
+      experiment = createExperiment('bi');
+    });
+
+    it('should prepare the experiment', async() => {
+      generateSocialNetworkFiles();
+      generateBiParameterFiles();
+      await experiment.prepare(context, false);
+
+      expect(context.docker.containerCreator.start).not.toHaveBeenCalled();
+      expect(mergeTurtleToNTriples).toHaveBeenCalledTimes(1);
+      expect(generatePersonParameters).toHaveBeenCalledTimes(1);
+      expect(runConfig).toHaveBeenCalledTimes(1);
+      expectBiInstantiation();
+      expect(dirsOut).toEqual({
+        'CWD/output/logs': true,
+        [Path.join(generated, 'queries-bi')]: true,
+      });
+    });
+
+    it('should skip the datagen if its output was removed but all derived files exist', async() => {
+      generateDerivedFiles([ 'queries-bi' ]);
+
+      await experiment.prepare(context, false);
+
+      expect(context.docker.containerCreator.start).not.toHaveBeenCalled();
+      expect(mergeTurtleToNTriples).not.toHaveBeenCalled();
+      expect(generatePersonParameters).not.toHaveBeenCalled();
+      expect(runConfig).not.toHaveBeenCalled();
+    });
+
+    it('should run the datagen if its output was removed and only interactive queries exist', async() => {
+      generateDerivedFiles([ 'queries' ]);
+      jest.mocked(context.docker.containerCreator.start).mockImplementation(async() => {
+        generateSocialNetworkFiles();
+        generateBiParameterFiles();
+        return <any> endpointHandler;
+      });
+
+      await experiment.prepare(context, false);
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(1);
+      expect(mergeTurtleToNTriples).not.toHaveBeenCalled();
+      expect(runConfig).toHaveBeenCalledTimes(1);
+      expectBiInstantiation();
+    });
+
+    it('should throw if a BI substitution parameters file is missing', async() => {
+      generateDerivedFiles([]);
+      generateSocialNetworkFiles();
+
+      await expect(experiment.prepare(context, false)).rejects.toThrow(`Could not find the LDBC SNB BI substitution parameters file ${Path.join(substitutionParameters, 'bi_1_param.txt')}. This file is produced by the datagen, so regenerate the dataset using 'jbr prepare -f'.`);
+      expect(runConfig).not.toHaveBeenCalled();
+      expect(dirsRemoved).toContain(Path.join(os.tmpdir(), 'jbr-ldbc-snb-bi-TMP'));
+    });
+  });
+
+  describe('prepare with the all workload', () => {
+    beforeEach(() => {
+      experiment = createExperiment('all');
+    });
+
+    it('should prepare the experiment', async() => {
+      generateSocialNetworkFiles();
+      generateBiParameterFiles();
+      await experiment.prepare(context, false);
+
+      expect(runConfig).toHaveBeenCalledTimes(2);
+      expect(runConfig).toHaveBeenCalledWith(
+        Path.join(ExperimentLdbcSnb.TEMPLATES_PATH, 'query-config.json'),
+        expect.anything(),
+        expect.anything(),
+      );
+      expectBiInstantiation();
+      expect(dirsOut).toEqual({
+        'CWD/output/logs': true,
+        [Path.join(generated, 'queries')]: true,
+        [Path.join(generated, 'queries-bi')]: true,
+      });
+    });
+
+    it('should skip the datagen if its output was removed but all derived files exist', async() => {
+      generateDerivedFiles([ 'queries', 'queries-bi' ]);
+
+      await experiment.prepare(context, false);
+
+      expect(context.docker.containerCreator.start).not.toHaveBeenCalled();
+      expect(runConfig).not.toHaveBeenCalled();
+    });
+
+    it('should only instantiate the missing workload', async() => {
+      generateSocialNetworkFiles();
+      generateBiParameterFiles();
+      generateDerivedFiles([ 'queries' ]);
+
+      await experiment.prepare(context, false);
+
+      expect(context.docker.containerCreator.start).not.toHaveBeenCalled();
+      expect(runConfig).toHaveBeenCalledTimes(1);
+      expectBiInstantiation();
+    });
+
+    it('should run the datagen if its output was removed and BI queries are missing', async() => {
+      generateDerivedFiles([ 'queries' ]);
+      jest.mocked(context.docker.containerCreator.start).mockImplementation(async() => {
+        generateSocialNetworkFiles();
+        generateBiParameterFiles();
+        return <any> endpointHandler;
+      });
+
+      await experiment.prepare(context, false);
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(1);
+      expect(runConfig).toHaveBeenCalledTimes(1);
+      expectBiInstantiation();
+    });
+  });
+
   describe('run', () => {
     it('should run the experiment', async() => {
       await experiment.run(context);
+
+      expect(QueryLoaderFile).toHaveBeenCalledTimes(1);
+      expect(QueryLoaderFile).toHaveBeenCalledWith({
+        path: Path.join(generated, 'queries'),
+        extensions: [ '.sparql' ],
+      });
 
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
       expect(endpointHandler.startCollectingStats).toHaveBeenCalledWith();
@@ -579,6 +796,54 @@ ldbc.snb.datagen.serializer.staticSerializer:ldbc.snb.datagen.serializer.snb.tur
 
       expect(SparqlBenchmarkRunner).toHaveBeenCalledWith(expect.objectContaining({
         querySets: { C1: 'path/C1' },
+      }));
+    });
+  });
+
+  describe('run with other workloads', () => {
+    it('should only load BI queries for the bi workload', async() => {
+      await createExperiment('bi').run(context);
+
+      expect(QueryLoaderFile).toHaveBeenCalledTimes(1);
+      expect(QueryLoaderFile).toHaveBeenCalledWith({
+        path: Path.join(generated, 'queries-bi'),
+        extensions: [ '.sparql' ],
+      });
+      expect(SparqlBenchmarkRunner).toHaveBeenCalledWith(expect.objectContaining({
+        querySets: {
+          'bi-1': 'path/bi-1',
+          'bi-2': 'path/bi-2',
+        },
+      }));
+    });
+
+    it('should load all queries for the all workload', async() => {
+      await createExperiment('all').run(context);
+
+      expect(QueryLoaderFile).toHaveBeenCalledTimes(2);
+      expect(QueryLoaderFile).toHaveBeenCalledWith({
+        path: Path.join(generated, 'queries'),
+        extensions: [ '.sparql' ],
+      });
+      expect(SparqlBenchmarkRunner).toHaveBeenCalledWith(expect.objectContaining({
+        querySets: {
+          C1: 'path/C1',
+          C2: 'path/C2',
+          C3: 'path/C3',
+          'bi-1': 'path/bi-1',
+          'bi-2': 'path/bi-2',
+        },
+      }));
+    });
+
+    it('should filter queries over all workloads', async() => {
+      await createExperiment('all').run({ ...context, filter: '^(C1|bi-2)$' });
+
+      expect(SparqlBenchmarkRunner).toHaveBeenCalledWith(expect.objectContaining({
+        querySets: {
+          C1: 'path/C1',
+          'bi-2': 'path/bi-2',
+        },
       }));
     });
   });

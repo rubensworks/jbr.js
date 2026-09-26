@@ -16,6 +16,7 @@ export class ExperimentHandlerLdbcSnb extends ExperimentHandler<ExperimentLdbcSn
       hadoopMemory: '4G',
       queryCount: 5,
       querySeed: 12345,
+      workload: 'interactive',
 
       generateHdt: false,
 

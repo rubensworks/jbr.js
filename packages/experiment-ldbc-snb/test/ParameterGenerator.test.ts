@@ -6,6 +6,7 @@ import {
   generatePersonParameters,
   personIdToIri,
   readSubstitutionParameterColumn,
+  repeatSubstitutionParameterRows,
   writeCsvColumn,
 } from '../lib/ParameterGenerator';
 
@@ -116,6 +117,31 @@ http://www.ldbc.eu/ldbc_socialnet/1.0/data/post3
       expect(contents).toBe(await fs.readFile(out2, 'utf8'));
       expect(contents.split('\n')[0]).toBe('message');
       expect(contents.split('\n').filter(line => line.length > 0)).toHaveLength(3);
+    });
+  });
+
+  describe('repeatSubstitutionParameterRows', () => {
+    it('copies a file with enough rows', async() => {
+      const file = await write('bi_1_param.txt', 'date\n1\n2\n3\n');
+      const out = Path.join(dir, 'out.txt');
+
+      await expect(repeatSubstitutionParameterRows(file, out, 2)).resolves.toBe(3);
+      await expect(fs.readFile(out, 'utf8')).resolves.toBe('date\n1\n2\n3\n');
+    });
+
+    it('repeats rows until the minimum is reached', async() => {
+      const file = await write('bi_20_param.txt', 'tagClasses\r\nA;B\r\nC\r\n');
+      const out = Path.join(dir, 'out.txt');
+
+      await expect(repeatSubstitutionParameterRows(file, out, 5)).resolves.toBe(2);
+      await expect(fs.readFile(out, 'utf8')).resolves.toBe('tagClasses\nA;B\nC\nA;B\nC\nA;B\nC\n');
+    });
+
+    it('rejects for a file without rows', async() => {
+      const file = await write('bi_1_param.txt', 'date\n');
+
+      await expect(repeatSubstitutionParameterRows(file, Path.join(dir, 'out.txt'), 5)).rejects
+        .toThrow(`Could not find any substitution parameters in ${file}`);
     });
   });
 });
