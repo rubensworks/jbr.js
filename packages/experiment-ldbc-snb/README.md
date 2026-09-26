@@ -4,11 +4,12 @@
 [![Coverage Status](https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master)](https://coveralls.io/github/rubensworks/jbr.js?branch=master)
 [![npm version](https://badge.fury.io/js/%40jbr-experiment%2Fldbc-snb.svg)](https://www.npmjs.com/package/@jbr-experiment/ldbc-snb)
 
-A [jbr](https://github.com/rubensworks/jbr.js/tree/master/packages/jbr) experiment type for the [LDBC Social Network Benchmark (SNB)](https://ldbcouncil.org/benchmarks/snb/) Interactive workload,
+A [jbr](https://github.com/rubensworks/jbr.js/tree/master/packages/jbr) experiment type for the [LDBC Social Network Benchmark (SNB)](https://ldbcouncil.org/benchmarks/snb/) Interactive and Business Intelligence (BI) workloads,
 executed over a single (centralized) RDF dataset.
 
 The dataset is generated in Turtle using the [LDBC SNB Hadoop datagen](https://github.com/rubensworks/ldbc_snb_datagen),
-merged into a single N-Triples file, and queried using SPARQL versions of the Interactive short (IS1-7) and complex (IC1-14) queries.
+merged into a single N-Triples file, and queried using SPARQL versions of the Interactive short (IS1-7) and complex (IC1-14) queries,
+and/or the BI (v1, 2018) queries (BI1-24, except BI16), depending on the `workload` configuration field.
 
 ## Requirements
 
@@ -61,10 +62,10 @@ $ jbr prepare
 
 This performs the following steps, where each step is skipped if its output already exists (unless `jbr prepare -f` is used):
 
-1. Run the LDBC SNB datagen for the configured scale factor, which produces Turtle files and substitution parameters in `generated/out-snb/`. This is also skipped if `generated/out-snb/` was removed but all files derived from it (steps 2-4) exist, such as when using pre-generated assets.
+1. Run the LDBC SNB datagen for the configured scale factor, which produces Turtle files and substitution parameters in `generated/out-snb/`. This is also skipped if `generated/out-snb/` was removed but all files derived from it (steps 2-4) for the configured `workload` exist, such as when using pre-generated assets.
 2. Merge all Turtle files into a single `generated/dataset.nt` file. Blank node labels of the datagen are globally unique, and are preserved.
 3. Create `generated/parameters-persons.csv` (persons from `interactive_1_param.txt`) and `generated/parameters-messages.csv` (a seeded random sample of posts and comments) for the short queries.
-4. Instantiate all query templates into `generated/queries/`.
+4. Instantiate all Interactive query templates into `generated/queries/` (if `workload` is `interactive` or `all`), and all BI query templates into `generated/queries-bi/` (if `workload` is `bi` or `all`). The BI queries require the datagen's `bi_N_param.txt` files, so if `generated/out-snb/` was removed, BI queries can only be added to existing pre-generated assets by regenerating them (`jbr prepare -f`).
 5. Optionally convert the dataset to HDT.
 
 All prepared files will be contained in the `generated/` directory:
@@ -79,15 +80,21 @@ generated/
       social_network_person_0_0.ttl
       social_network_static_0_0.ttl
     substitution_parameters/
+      bi_1_param.txt
+      ...
       interactive_1_param.txt
       ...
   parameters-messages.csv
   parameters-persons.csv
   params.ini
-  queries/
+  queries/                     # If workload is interactive or all
     interactive-complex-1.sparql
     ...
     interactive-short-7.sparql
+  queries-bi/                  # If workload is bi or all
+    bi-1.sparql
+    ...
+    bi-24.sparql
 ```
 
 ### 5. Run the experiment
@@ -126,6 +133,13 @@ and `interactive-complex-14` (trusted connection paths) only considers shortest 
 
 Short queries take a `person` or `message` IRI from the generated CSV files.
 Complex queries take their parameters from the datagen's `interactive_N_param.txt` files.
+
+The BI query templates in [`lib/templates/queries-bi/`](https://github.com/rubensworks/jbr.js/tree/master/packages/experiment-ldbc-snb/lib/templates/queries-bi)
+are based on the [SNB BI SPARQL implementations](https://github.com/ldbc/ldbc_snb_interactive_v1_impls/tree/c19be0e793680497de4e88d360a20708cfcf43a9/sparql/queries),
+with the changes listed in [their README](https://github.com/rubensworks/jbr.js/tree/master/packages/experiment-ldbc-snb/lib/templates/queries-bi/README.md).
+They take their parameters from the datagen's `bi_N_param.txt` files.
+`bi-16` is excluded, since its variable-length path bounds cannot be expressed as a single template, and `bi-25` is excluded since it is empty upstream.
+
 All parameter selections are shuffled deterministically based on `querySeed`.
 
 ## Configuration
@@ -144,6 +158,7 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
   "hadoopMemory": "4G",
   "queryCount": 5,
   "querySeed": 12345,
+  "workload": "interactive",
   "generateHdt": false,
   "endpointUrl": "http://localhost:3001/sparql",
   "endpointUrlExternal": "http://localhost:3001/",
@@ -165,8 +180,9 @@ Any config changes require re-running the prepare step.
 
 * `scale`: The SNB scale factor, such as `0.1`, `0.3`, `1`, `3`, `10`, ... Defaults to `0.1`.
 * `hadoopMemory`: The maximum heap size of the Hadoop datagen, such as `4G`. Higher scale factors require more memory.
-* `queryCount`: Number of instantiations per query template. This can not exceed the number of rows in the datagen's substitution parameter files.
+* `queryCount`: Number of instantiations per query template. For the Interactive workload, this can not exceed the number of rows in the datagen's substitution parameter files. For the BI workload, parameter rows are repeated if a file has fewer rows (such as `bi_20_param.txt`, which always has 3 rows).
 * `querySeed`: Random seed for selecting query parameters.
+* `workload`: The workload to prepare and run: `interactive` (queries in `generated/queries/`), `bi` (queries in `generated/queries-bi/`), or `all` (both). Defaults to `interactive`.
 * `generateHdt`: If a `dataset.hdt` should also be generated.
 * `endpointUrl`: URL through which the SPARQL endpoint of the `hookSparqlEndpoint` hook will be exposed.
 * `endpointUrlExternal`: URL through which the SPARQL endpoint of the `hookSparqlEndpoint` hook will be exposed. This will be used for waiting until the endpoint is available.

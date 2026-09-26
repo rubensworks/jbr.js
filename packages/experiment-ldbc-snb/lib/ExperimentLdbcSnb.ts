@@ -1,3 +1,4 @@
+import * as os from 'node:os';
 import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import { HdtConverter, secureProcessHandler } from 'jbr';
@@ -10,15 +11,20 @@ import {
   ResultSerializerRaw,
 } from 'sparql-benchmark-runner';
 import { runConfig } from 'sparql-query-parameter-instantiator';
-import { generateMessageParameters, generatePersonParameters } from './ParameterGenerator';
+import {
+  generateMessageParameters,
+  generatePersonParameters,
+  repeatSubstitutionParameterRows,
+} from './ParameterGenerator';
 import { mergeTurtleToNTriples } from './TurtleMerger';
 
 /**
- * An experiment instance for the LDBC Social Network Benchmark (Interactive workload).
+ * An experiment instance for the LDBC Social Network Benchmark (Interactive and BI workloads).
  */
 export class ExperimentLdbcSnb implements Experiment {
   public static readonly DOCKER_IMAGE_LDBC_SNB_DATAGEN = `rubensworks/ldbc_snb_datagen@sha256:5905733b091ca2cc2cf55b43600644d5682d6357d759c9c69934d1b79087e057`;
   public static readonly TEMPLATES_PATH = Path.join(__dirname, 'templates');
+  public static readonly WORKLOADS = [ 'interactive', 'bi', 'all' ];
   public readonly scale: string;
   public readonly hadoopMemory: string;
   public readonly queryCount: number;
@@ -33,6 +39,7 @@ export class ExperimentLdbcSnb implements Experiment {
   public readonly queryRunnerEndpointAvailabilityCheckTimeout: number;
   public readonly queryRunnerUrlParams: Record<string, any>;
   public readonly queryTimeoutFallback: number | undefined;
+  public readonly workload: string;
 
   /**
    * @param scale
@@ -49,6 +56,7 @@ export class ExperimentLdbcSnb implements Experiment {
    * @param queryRunnerEndpointAvailabilityCheckTimeout
    * @param queryRunnerUrlParams - @range {json}
    * @param queryTimeoutFallback
+   * @param workload - One of 'interactive', 'bi', or 'all'. Defaults to 'interactive'.
    */
   public constructor(
     scale: string,
@@ -65,6 +73,7 @@ export class ExperimentLdbcSnb implements Experiment {
     queryRunnerEndpointAvailabilityCheckTimeout: number,
     queryRunnerUrlParams: Record<string, any>,
     queryTimeoutFallback: number | undefined,
+    workload?: string,
   ) {
     this.scale = scale;
     this.hadoopMemory = hadoopMemory;
@@ -80,6 +89,29 @@ export class ExperimentLdbcSnb implements Experiment {
     this.queryRunnerEndpointAvailabilityCheckTimeout = queryRunnerEndpointAvailabilityCheckTimeout;
     this.queryRunnerUrlParams = queryRunnerUrlParams;
     this.queryTimeoutFallback = queryTimeoutFallback;
+    this.workload = workload ?? 'interactive';
+    if (!ExperimentLdbcSnb.WORKLOADS.includes(this.workload)) {
+      throw new Error(`Invalid LDBC SNB workload '${this.workload}', must be one of ${ExperimentLdbcSnb.WORKLOADS.join(', ')}`);
+    }
+  }
+
+  public get runInteractive(): boolean {
+    return this.workload === 'interactive' || this.workload === 'all';
+  }
+
+  public get runBi(): boolean {
+    return this.workload === 'bi' || this.workload === 'all';
+  }
+
+  /**
+   * The directories containing the instantiated queries of the configured workloads.
+   * @param generated The generated directory.
+   */
+  public getQueriesPaths(generated: string): string[] {
+    return [
+      ...this.runInteractive ? [ Path.join(generated, 'queries') ] : [],
+      ...this.runBi ? [ Path.join(generated, 'queries-bi') ] : [],
+    ];
   }
 
   public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
@@ -91,6 +123,7 @@ export class ExperimentLdbcSnb implements Experiment {
     const personsPath = Path.join(generated, 'parameters-persons.csv');
     const messagesPath = Path.join(generated, 'parameters-messages.csv');
     const queriesPath = Path.join(generated, 'queries');
+    const queriesBiPath = Path.join(generated, 'queries-bi');
 
     // Prepare hook
     await this.hookSparqlEndpoint.prepare(context, forceOverwriteGenerated);
@@ -104,7 +137,7 @@ export class ExperimentLdbcSnb implements Experiment {
       await fs.pathExists(datasetPath) &&
       await fs.pathExists(personsPath) &&
       await fs.pathExists(messagesPath) &&
-      await fs.pathExists(queriesPath)))) {
+      await ExperimentLdbcSnb.allPathsExist(this.getQueriesPaths(generated))))) {
       context.logger.info(`  Skipped`);
     } else {
       await this.generateDataset(context, outSnb);
@@ -139,11 +172,21 @@ export class ExperimentLdbcSnb implements Experiment {
     }
 
     // Instantiate queries
-    context.logger.info(`Instantiating LDBC SNB queries`);
-    if (!forceOverwriteGenerated && await fs.pathExists(queriesPath)) {
-      context.logger.info(`  Skipped`);
-    } else {
-      await this.instantiateQueries(substitutionParameters, personsPath, messagesPath, queriesPath);
+    if (this.runInteractive) {
+      context.logger.info(`Instantiating LDBC SNB queries`);
+      if (!forceOverwriteGenerated && await fs.pathExists(queriesPath)) {
+        context.logger.info(`  Skipped`);
+      } else {
+        await this.instantiateQueries(substitutionParameters, personsPath, messagesPath, queriesPath);
+      }
+    }
+    if (this.runBi) {
+      context.logger.info(`Instantiating LDBC SNB BI queries`);
+      if (!forceOverwriteGenerated && await fs.pathExists(queriesBiPath)) {
+        context.logger.info(`  Skipped`);
+      } else {
+        await this.instantiateBiQueries(substitutionParameters, queriesBiPath);
+      }
     }
 
     if (this.generateHdt) {
@@ -176,6 +219,19 @@ export class ExperimentLdbcSnb implements Experiment {
       logFilePath: Path.join(context.experimentPaths.output, 'logs', 'ldbc-snb-generation.txt'),
     // eslint-disable-next-line unicorn/require-array-join-separator -- not an array join
     })).join();
+  }
+
+  /**
+   * Check if all given paths exist.
+   * @param paths File or directory paths.
+   */
+  public static async allPathsExist(paths: string[]): Promise<boolean> {
+    for (const path of paths) {
+      if (!await fs.pathExists(path)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
@@ -235,6 +291,47 @@ export class ExperimentLdbcSnb implements Experiment {
     );
   }
 
+  /**
+   * Instantiate all BI query templates.
+   * @param substitutionParameters Path to the datagen substitution parameters directory.
+   * @param queriesBiPath Output directory for instantiated queries.
+   */
+  protected async instantiateBiQueries(substitutionParameters: string, queriesBiPath: string): Promise<void> {
+    await fs.remove(queriesBiPath);
+    await fs.ensureDir(queriesBiPath);
+
+    // Some parameter files (such as bi_20) have fewer rows than queryCount, so rows are repeated in temporary copies
+    const paramsPath = await fs.mkdtemp(Path.join(os.tmpdir(), 'jbr-ldbc-snb-bi-'));
+    try {
+      const variables: Record<string, any> = {
+        'urn:variables:ldbc-snb:count': this.queryCount,
+        'urn:variables:ldbc-snb:seed': this.querySeed,
+      };
+      const templatesQueries = Path.join(ExperimentLdbcSnb.TEMPLATES_PATH, 'queries-bi');
+      for (const file of (await fs.readdir(templatesQueries)).filter(file => file.endsWith('.sparql'))) {
+        const name = Path.basename(file, '.sparql');
+        const paramsName = `bi_${name.slice('bi-'.length)}`;
+        const paramsFile = Path.join(substitutionParameters, `${paramsName}_param.txt`);
+        if (!await fs.pathExists(paramsFile)) {
+          throw new Error(`Could not find the LDBC SNB BI substitution parameters file ${paramsFile}. This file is produced by the datagen, so regenerate the dataset using 'jbr prepare -f'.`);
+        }
+        const paramsFileCopy = Path.join(paramsPath, `${paramsName}_param.txt`);
+        await repeatSubstitutionParameterRows(paramsFile, paramsFileCopy, this.queryCount);
+        variables[`urn:variables:ldbc-snb:params:${paramsName}`] = paramsFileCopy;
+        variables[`urn:variables:ldbc-snb:templates:${name}`] = Path.join(templatesQueries, file);
+        variables[`urn:variables:ldbc-snb:output:${name}`] = Path.join(queriesBiPath, file);
+      }
+
+      await runConfig(
+        Path.join(ExperimentLdbcSnb.TEMPLATES_PATH, 'query-config-bi.json'),
+        { mainModulePath: Path.join(__dirname, '..') },
+        { variables },
+      );
+    } finally {
+      await fs.remove(paramsPath);
+    }
+  }
+
   public async run(context: IRunTaskContext): Promise<void> {
     // Setup SPARQL endpoint
     const startTime = performance.now();
@@ -242,11 +339,10 @@ export class ExperimentLdbcSnb implements Experiment {
     const closeProcess = secureProcessHandler(endpointProcessHandler, context);
 
     // Determine query sets
-    const queryLoader = new QueryLoaderFile({
-      path: Path.join(context.experimentPaths.generated, 'queries'),
-      extensions: [ '.sparql' ],
-    });
-    let querySets = await queryLoader.loadQueries();
+    let querySets: Record<string, string[]> = {};
+    for (const path of this.getQueriesPaths(context.experimentPaths.generated)) {
+      Object.assign(querySets, await new QueryLoaderFile({ path, extensions: [ '.sparql' ]}).loadQueries());
+    }
     if (context.filter) {
       const filterRegex = new RegExp(context.filter, 'u');
       querySets = Object.fromEntries(Object.entries(querySets)

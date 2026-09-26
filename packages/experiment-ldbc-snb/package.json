@@ -1,7 +1,7 @@
 {
   "name": "@jbr-experiment/ldbc-snb",
   "version": "6.2.1",
-  "description": "LDBC Social Network Benchmark (Interactive) experiment handler for JBR",
+  "description": "LDBC Social Network Benchmark (Interactive and BI) experiment handler for JBR",
   "main": "index.js",
   "typings": "index",
   "lsd:module": true,
@@ -58,7 +58,8 @@
     "validate": "npm ls"
   },
   "devDependencies": {
-    "jbr": "^6.2.0"
+    "jbr": "^6.2.0",
+    "sparqljs": "^3.7.0"
   },
   "peerDependencies": {
     "jbr": ">=2.0.0"
