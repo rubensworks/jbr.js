@@ -338,6 +338,25 @@ describe('ExperimentWatDiv', () => {
   });
 
   describe('run', () => {
+    beforeEach(() => {
+      jest.spyOn(experiment.httpAvailabilityLatch, 'sleepUntilAvailable').mockResolvedValue();
+    });
+
+    it('should record the load time before running any queries', async() => {
+      sparqlBenchmarkRun = jest.fn(async({ onStart, onStop }: any) => {
+        expect(filesOut[Path.join(context.experimentPaths.output, 'logs', 'load-time.csv')]).toBe(true);
+        await onStart();
+        await onStop();
+        return { aggregateResults: {}};
+      });
+
+      await experiment.run(context);
+
+      expect(experiment.httpAvailabilityLatch.sleepUntilAvailable)
+        .toHaveBeenCalledWith(context, 'http://localhost:3001/sparql');
+      expect(sparqlBenchmarkRun).toHaveBeenCalledTimes(1);
+    });
+
     it('should run the experiment', async() => {
       await experiment.run(context);
 
