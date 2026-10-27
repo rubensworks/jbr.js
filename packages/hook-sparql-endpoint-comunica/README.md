@@ -38,6 +38,12 @@ cpu_percentage,memory,memory_percentage,received,transmitted
 
 `output/logs/sparql-endpoint-comunica.txt`: Logs of the Comunica SPARQL endpoint.
 
+`output/logs/sparql-endpoint-comunica-preload-time.csv`: Duration of the preload query in milliseconds (only if `preloadQuery` is enabled).
+```csv
+time
+48246
+```
+
 ## Configuration
 
 When installing this hook, your configuration file (`jbr-experiment.json`) will contain the following:
@@ -76,6 +82,7 @@ More background information on these config options can be found on https://comu
 * `queryTimeout`: Timeout in seconds for a single SPARQL query execution.
 * `maxMemory`: Maximum amount of Memory for the Comunica Node.js process in MB.
 * `additionalBinds`: The Local file bindings to the client dockerfile.
+* `preloadQuery`: If an ASK query will be sent to the endpoint for kickstarting it.
 
 
 ## Querying local files

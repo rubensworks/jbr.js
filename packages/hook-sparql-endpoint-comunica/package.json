@@ -63,6 +63,8 @@
   },
   "dependencies": {
     "@types/fs-extra": "^11.0.0",
-    "fs-extra": "^11.0.0"
+    "fetch-sparql-endpoint": "^7.3.0",
+    "fs-extra": "^11.0.0",
+    "undici": "^6.21.0"
   }
 }
