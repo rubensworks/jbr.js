@@ -40,6 +40,11 @@ then you can install this Comunica-based SPARQL endpoint as follows.</p>
 </code><button type="button">Copy</button></pre>
 
 <p><code>output/logs/sparql-endpoint-comunica.txt</code>: Logs of the Comunica SPARQL endpoint.</p>
+<p><code>output/logs/sparql-endpoint-comunica-preload-time.csv</code>: Duration of the preload query in milliseconds (only if <code>preloadQuery</code> is enabled).</p>
+<pre><code class="csv">time
+48246
+</code><button type="button">Copy</button></pre>
+
 <h2 id="configuration" class="tsd-anchor-link">Configuration<a href="#configuration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>When installing this hook, your configuration file (<code>jbr-experiment.json</code>) will contain the following:</p>
 <pre><code class="text">...
@@ -73,6 +78,7 @@ then you can install this Comunica-based SPARQL endpoint as follows.</p>
 <li><code>queryTimeout</code>: Timeout in seconds for a single SPARQL query execution.</li>
 <li><code>maxMemory</code>: Maximum amount of Memory for the Comunica Node.js process in MB.</li>
 <li><code>additionalBinds</code>: The Local file bindings to the client dockerfile.</li>
+<li><code>preloadQuery</code>: If an ASK query will be sent to the endpoint for kickstarting it.</li>
 </ul>
 <h2 id="querying-local-files" class="tsd-anchor-link">Querying local files<a href="#querying-local-files" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>By default, the hook handler sparql-endpoint-comunica expects the dataset to be served through http.

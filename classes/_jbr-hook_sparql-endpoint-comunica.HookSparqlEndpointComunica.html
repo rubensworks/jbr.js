@@ -19,7 +19,7 @@
 <ul class="tsd-hierarchy">
 <li><a href="../interfaces/jbr.Hook.html" class="tsd-signature-type tsd-kind-interface">Hook</a></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L14">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:14</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L19">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:19</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -37,14 +37,18 @@
 <a href="#configclient" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>config<wbr/>Client</span></a>
 <a href="#contextclient" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>context<wbr/>Client</span></a>
 <a href="#dockerfileclient" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>dockerfile<wbr/>Client</span></a>
+<a href="#httpavailabilitylatch" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>http<wbr/>Availability<wbr/>Latch</span></a>
 <a href="#maxmemory" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>max<wbr/>Memory</span></a>
+<a href="#preloadquery" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>preload<wbr/>Query</span></a>
 <a href="#querytimeout" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Timeout</span></a>
 <a href="#resourceconstraints" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>resource<wbr/>Constraints</span></a>
+<a href="#preload_query" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>PRELOAD_<wbr/>QUERY</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading tsd-anchor-link" id="methods">Methods<a href="#methods" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-index-list"><a href="#clean" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>clean</span></a>
 <a href="#getdockerimagename" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>get<wbr/>Docker<wbr/>Image<wbr/>Name</span></a>
+<a href="#preload" class="tsd-index-link tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>preload</span></a>
 <a href="#prepare" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>prepare</span></a>
 <a href="#start" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>start</span></a>
 </div></section></div></details></section></section>
@@ -55,23 +59,46 @@
 <h3 class="tsd-anchor-link" id="constructor"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
-<div class="tsd-signature tsd-anchor-link" id="constructorhooksparqlendpointcomunica"><span class="tsd-signature-keyword">new</span> <span class="tsd-kind-constructor-signature">HookSparqlEndpointComunica</span><span class="tsd-signature-symbol">(</span><br/>    <span class="tsd-kind-parameter">dockerfileClient</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">resourceConstraints</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.DockerResourceConstraints.html" class="tsd-signature-type tsd-kind-interface">DockerResourceConstraints</a><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">configClient</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">contextClient</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">additionalBinds</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">clientPort</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">clientLogLevel</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">queryTimeout</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">maxMemory</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type tsd-kind-class">HookSparqlEndpointComunica</a><a href="#constructorhooksparqlendpointcomunica" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-signature tsd-anchor-link" id="constructorhooksparqlendpointcomunica"><span class="tsd-signature-keyword">new</span> <span class="tsd-kind-constructor-signature">HookSparqlEndpointComunica</span><span class="tsd-signature-symbol">(</span><br/>    <span class="tsd-kind-parameter">dockerfileClient</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">resourceConstraints</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.DockerResourceConstraints.html" class="tsd-signature-type tsd-kind-interface">DockerResourceConstraints</a><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">configClient</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">contextClient</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">additionalBinds</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">clientPort</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">clientLogLevel</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">queryTimeout</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">maxMemory</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">preloadQuery</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type tsd-kind-class">HookSparqlEndpointComunica</a><a href="#constructorhooksparqlendpointcomunica" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
-<li><span><span class="tsd-kind-parameter">dockerfileClient</span>: <span class="tsd-signature-type">string</span></span></li>
-<li><span><span class="tsd-kind-parameter">resourceConstraints</span>: <a href="../interfaces/jbr.DockerResourceConstraints.html" class="tsd-signature-type tsd-kind-interface">DockerResourceConstraints</a></span></li>
-<li><span><span class="tsd-kind-parameter">configClient</span>: <span class="tsd-signature-type">string</span></span></li>
-<li><span><span class="tsd-kind-parameter">contextClient</span>: <span class="tsd-signature-type">string</span></span></li>
-<li><span><span class="tsd-kind-parameter">additionalBinds</span>: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></span></li>
-<li><span><span class="tsd-kind-parameter">clientPort</span>: <span class="tsd-signature-type">number</span></span></li>
-<li><span><span class="tsd-kind-parameter">clientLogLevel</span>: <span class="tsd-signature-type">string</span></span></li>
-<li><span><span class="tsd-kind-parameter">queryTimeout</span>: <span class="tsd-signature-type">number</span></span></li>
-<li><span><span class="tsd-kind-parameter">maxMemory</span>: <span class="tsd-signature-type">number</span></span></li></ul></div>
+<li><span><span class="tsd-kind-parameter">dockerfileClient</span>: <span class="tsd-signature-type">string</span></span>
+<div class="tsd-comment tsd-typography"><p>Path to the Dockerfile of Comunica.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">resourceConstraints</span>: <a href="../interfaces/jbr.DockerResourceConstraints.html" class="tsd-signature-type tsd-kind-interface">DockerResourceConstraints</a></span>
+<div class="tsd-comment tsd-typography"><p>Resource constraints for the Docker container.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">configClient</span>: <span class="tsd-signature-type">string</span></span>
+<div class="tsd-comment tsd-typography"><p>Path to the configuration file of a Comunica engine.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">contextClient</span>: <span class="tsd-signature-type">string</span></span>
+<div class="tsd-comment tsd-typography"><p>Path to the context file of a Comunica engine.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">additionalBinds</span>: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></span>
+<div class="tsd-comment tsd-typography"><p>The local file bindings to the client Docker container.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">clientPort</span>: <span class="tsd-signature-type">number</span></span>
+<div class="tsd-comment tsd-typography"><p>HTTP port on which the SPARQL endpoint will be exposed.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">clientLogLevel</span>: <span class="tsd-signature-type">string</span></span>
+<div class="tsd-comment tsd-typography"><p>Logging level for the Comunica engine.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">queryTimeout</span>: <span class="tsd-signature-type">number</span></span>
+<div class="tsd-comment tsd-typography"><p>Timeout in seconds for a single SPARQL query execution.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">maxMemory</span>: <span class="tsd-signature-type">number</span></span>
+<div class="tsd-comment tsd-typography"><p>Maximum amount of memory for the Comunica Node.js process in MB.</p>
+</div></li>
+<li><span><code class="tsd-tag">Optional</code><span class="tsd-kind-parameter">preloadQuery</span>: <span class="tsd-signature-type">boolean</span></span>
+<div class="tsd-comment tsd-typography"><p>If an ASK query will be sent to the endpoint for kickstarting it,
+before the hook is considered started.
+This forces sources to be loaded, as Comunica only loads them upon the first query.</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type tsd-kind-class">HookSparqlEndpointComunica</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L25">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:25</a></li></ul></aside></div></li></ul></section></section></details>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L47">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:47</a></li></ul></aside></div></li></ul></section></section></details>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
 <h2 class="tsd-anchor-link" id="properties-1">Properties<a href="#properties-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
 <section>
@@ -79,47 +106,62 @@
 <h3 class="tsd-anchor-link" id="additionalbinds"><code class="tsd-tag">Readonly</code><span>additional<wbr/>Binds</span><a href="#additionalbinds" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">additionalBinds</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L19">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:19</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L25">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:25</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="clientloglevel"><code class="tsd-tag">Readonly</code><span>client<wbr/>Log<wbr/>Level</span><a href="#clientloglevel" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">clientLogLevel</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L21">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:21</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L27">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:27</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="clientport"><code class="tsd-tag">Readonly</code><span>client<wbr/>Port</span><a href="#clientport" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">clientPort</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L20">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:20</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L26">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:26</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="configclient"><code class="tsd-tag">Readonly</code><span>config<wbr/>Client</span><a href="#configclient" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">configClient</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L17">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:17</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L23">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:23</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="contextclient"><code class="tsd-tag">Readonly</code><span>context<wbr/>Client</span><a href="#contextclient" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">contextClient</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L18">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:18</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L24">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:24</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="dockerfileclient"><code class="tsd-tag">Readonly</code><span>dockerfile<wbr/>Client</span><a href="#dockerfileclient" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">dockerfileClient</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L15">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:15</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L21">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:21</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="httpavailabilitylatch"><code class="tsd-tag">Readonly</code><span>http<wbr/>Availability<wbr/>Latch</span><a href="#httpavailabilitylatch" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">httpAvailabilityLatch</span><span class="tsd-signature-symbol">:</span> <a href="jbr.HttpAvailabilityLatch.html" class="tsd-signature-type tsd-kind-class">HttpAvailabilityLatch</a><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L31">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:31</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="maxmemory"><code class="tsd-tag">Readonly</code><span>max<wbr/>Memory</span><a href="#maxmemory" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">maxMemory</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L23">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:23</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L29">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:29</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="preloadquery"><code class="tsd-tag">Readonly</code><span>preload<wbr/>Query</span><a href="#preloadquery" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">preloadQuery</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">undefined</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L30">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:30</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="querytimeout"><code class="tsd-tag">Readonly</code><span>query<wbr/>Timeout</span><a href="#querytimeout" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">queryTimeout</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L22">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:22</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L28">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:28</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="resourceconstraints"><code class="tsd-tag">Readonly</code><span>resource<wbr/>Constraints</span><a href="#resourceconstraints" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">resourceConstraints</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.DockerResourceConstraints.html" class="tsd-signature-type tsd-kind-interface">DockerResourceConstraints</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L16">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:16</a></li></ul></aside></section></section></details>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L22">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:22</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="preload_query"><code class="tsd-tag">Static</code> <code class="tsd-tag">Readonly</code><span>PRELOAD_<wbr/>QUERY</span><a href="#preload_query" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">PRELOAD_QUERY</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;ASK { ?s ?p ?o }&quot;</span><span class="tsd-signature-symbol"> = &#39;ASK { ?s ?p ?o }&#39;</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L20">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:20</a></li></ul></aside></section></section></details>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Methods"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
 <h2 class="tsd-anchor-link" id="methods-1">Methods<a href="#methods-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
 <section>
@@ -143,7 +185,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/jbr.Hook.html">Hook</a>.<a href="../interfaces/jbr.Hook.html#clean">clean</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L91">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:91</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L157">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:157</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getdockerimagename"><span>get<wbr/>Docker<wbr/>Image<wbr/>Name</span><a href="#getdockerimagename" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -156,7 +198,24 @@
 <li><span><span class="tsd-kind-parameter">context</span>: <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type tsd-kind-interface">ITaskContext</a></span></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L47">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:47</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L71">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:71</a></li></ul></aside></div></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-protected">
+<h3 class="tsd-anchor-link" id="preload"><code class="tsd-tag">Protected</code><span>preload</span><a href="#preload" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-protected">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="preload-1"><span class="tsd-kind-call-signature">preload</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">context</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type tsd-kind-interface">ITaskContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#preload-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Execute an ASK query once, and record how long it took.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li><span><span class="tsd-kind-parameter">context</span>: <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type tsd-kind-interface">ITaskContext</a></span>
+<div class="tsd-comment tsd-typography"><p>The task context.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L130">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:130</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="prepare"><span>prepare</span><a href="#prepare" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -175,7 +234,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/jbr.Hook.html">Hook</a>.<a href="../interfaces/jbr.Hook.html#prepare">prepare</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L51">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:51</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L75">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:75</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="start"><span>start</span><a href="#start" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -197,7 +256,7 @@
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/jbr.Hook.html">Hook</a>.<a href="../interfaces/jbr.Hook.html#start">start</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/959fc38cbd81bbef3e335badbf0efdff31429e0d/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L68">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:68</a></li></ul></aside></div></li></ul></section></section></details></div>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef/packages/hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts#L92">hook-sparql-endpoint-comunica/lib/HookSparqlEndpointComunica.ts:92</a></li></ul></aside></div></li></ul></section></section></details></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -216,9 +275,9 @@
 <details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Constructors"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Constructors</summary>
 <div><a href="#constructor"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Constructor"><use href="../assets/icons.svg#icon-512"></use></svg><span>constructor</span></a></div></details>
 <details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Properties</summary>
-<div><a href="#additionalbinds"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>additional<wbr/>Binds</span></a><a href="#clientloglevel"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>client<wbr/>Log<wbr/>Level</span></a><a href="#clientport"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>client<wbr/>Port</span></a><a href="#configclient"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>config<wbr/>Client</span></a><a href="#contextclient"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>context<wbr/>Client</span></a><a href="#dockerfileclient"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>dockerfile<wbr/>Client</span></a><a href="#maxmemory"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>max<wbr/>Memory</span></a><a href="#querytimeout"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Timeout</span></a><a href="#resourceconstraints"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>resource<wbr/>Constraints</span></a></div></details>
+<div><a href="#additionalbinds"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>additional<wbr/>Binds</span></a><a href="#clientloglevel"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>client<wbr/>Log<wbr/>Level</span></a><a href="#clientport"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>client<wbr/>Port</span></a><a href="#configclient"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>config<wbr/>Client</span></a><a href="#contextclient"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>context<wbr/>Client</span></a><a href="#dockerfileclient"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>dockerfile<wbr/>Client</span></a><a href="#httpavailabilitylatch"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>http<wbr/>Availability<wbr/>Latch</span></a><a href="#maxmemory"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>max<wbr/>Memory</span></a><a href="#preloadquery"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>preload<wbr/>Query</span></a><a href="#querytimeout"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Timeout</span></a><a href="#resourceconstraints"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>resource<wbr/>Constraints</span></a><a href="#preload_query"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>PRELOAD_<wbr/>QUERY</span></a></div></details>
 <details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Methods"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Methods</summary>
-<div><a href="#clean"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>clean</span></a><a href="#getdockerimagename"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>get<wbr/>Docker<wbr/>Image<wbr/>Name</span></a><a href="#prepare"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>prepare</span></a><a href="#start"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>start</span></a></div></details></div></details></div>
+<div><a href="#clean"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>clean</span></a><a href="#getdockerimagename"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>get<wbr/>Docker<wbr/>Image<wbr/>Name</span></a><a href="#preload" class="tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>preload</span></a><a href="#prepare"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>prepare</span></a><a href="#start"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>start</span></a></div></details></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="../modules.html">jbr</a>
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container">
