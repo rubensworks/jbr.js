@@ -38,7 +38,7 @@ cpu_percentage,memory,memory_percentage,received,transmitted
 
 `output/logs/sparql-endpoint-comunica.txt`: Logs of the Comunica SPARQL endpoint.
 
-`output/logs/sparql-endpoint-comunica-preload-time.csv`: Duration of the preload query in milliseconds (only if `preloadQuery` is set).
+`output/logs/sparql-endpoint-comunica-preload-time.csv`: Duration of the preload query in milliseconds (only if `preloadQuery` is enabled).
 ```csv
 time
 48246
@@ -82,7 +82,7 @@ More background information on these config options can be found on https://comu
 * `queryTimeout`: Timeout in seconds for a single SPARQL query execution.
 * `maxMemory`: Maximum amount of Memory for the Comunica Node.js process in MB.
 * `additionalBinds`: The Local file bindings to the client dockerfile.
-* `preloadQuery`: An optional SPARQL query (e.g. `ASK { ?s ?p ?o }`) that is executed once after the endpoint has started, before the hook is considered started. Since Comunica only loads its sources upon the first query, this makes source loading part of the endpoint startup, so that it is included in the experiment's load time instead of in the first (warmup) query. Make sure `queryTimeout` is large enough for loading all sources.
+* `preloadQuery`: If an ASK query will be sent to the endpoint for kickstarting it.
 
 
 ## Querying local files

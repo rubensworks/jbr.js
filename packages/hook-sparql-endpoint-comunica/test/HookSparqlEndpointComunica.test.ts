@@ -1,8 +1,8 @@
-import { EventEmitter } from 'node:events';
-import * as http from 'node:http';
 import Path from 'node:path';
+import { SparqlEndpointFetcher } from 'fetch-sparql-endpoint';
 import type { ITaskContext, DockerContainerHandler, DockerResourceConstraints } from 'jbr';
 import { createExperimentPaths, StaticDockerResourceConstraints } from 'jbr';
+import { Agent, fetch } from 'undici';
 import { TestLogger } from '../../jbr/test/TestLogger';
 import { HookSparqlEndpointComunica } from '../lib/HookSparqlEndpointComunica';
 
@@ -14,28 +14,15 @@ jest.mock<any>('fs-extra', () => ({
   },
 }));
 
-let httpStatusCode: number;
-let httpRequestError: Error | undefined;
-let httpResponseError: Error | undefined;
-jest.mock<any>('node:http', () => ({
-  ...jest.requireActual('node:http'),
-  get: jest.fn((url: string, callback: (response: any) => void) => {
-    const request = new EventEmitter();
-    const response: any = Object.assign(new EventEmitter(), { statusCode: httpStatusCode, resume: jest.fn() });
-    setImmediate(() => {
-      if (httpRequestError) {
-        request.emit('error', httpRequestError);
-        return;
-      }
-      callback(response);
-      if (httpResponseError) {
-        response.emit('error', httpResponseError);
-        return;
-      }
-      response.emit('end');
-    });
-    return request;
-  }),
+let fetchAsk: jest.Mock;
+jest.mock<any>('fetch-sparql-endpoint', () => ({
+  SparqlEndpointFetcher: jest.fn(() => ({ fetchAsk })),
+}));
+
+const agentClose = jest.fn();
+jest.mock<any>('undici', () => ({
+  Agent: jest.fn(() => ({ close: agentClose })),
+  fetch: jest.fn(),
 }));
 
 describe('HookSparqlEndpointComunica', () => {
@@ -46,10 +33,8 @@ describe('HookSparqlEndpointComunica', () => {
   let hook: HookSparqlEndpointComunica;
   beforeEach(() => {
     filesOut = {};
-    httpStatusCode = 200;
-    httpRequestError = undefined;
-    httpResponseError = undefined;
-    jest.mocked(http.get).mockClear();
+    fetchAsk = jest.fn(async() => true);
+    jest.clearAllMocks();
     endpointHandler = <any> {
       close: jest.fn(),
       startCollectingStats: jest.fn(),
@@ -183,12 +168,12 @@ describe('HookSparqlEndpointComunica', () => {
         'info',
         300,
         8_192,
-        'ASK { ?s ?p ?o }',
+        true,
       );
       jest.spyOn(hook.httpAvailabilityLatch, 'sleepUntilAvailable').mockResolvedValue();
     });
 
-    it('should not preload without preload query', async() => {
+    it('should not preload if preload query is disabled', async() => {
       hook = new HookSparqlEndpointComunica(
         'input/dockerfiles/Dockerfile-client',
         resourceConstraints,
@@ -199,55 +184,53 @@ describe('HookSparqlEndpointComunica', () => {
         'info',
         300,
         8_192,
+        false,
       );
       jest.spyOn(hook.httpAvailabilityLatch, 'sleepUntilAvailable').mockResolvedValue();
 
       await expect(hook.start(context)).resolves.toBe(endpointHandler);
 
       expect(hook.httpAvailabilityLatch.sleepUntilAvailable).not.toHaveBeenCalled();
-      expect(http.get).not.toHaveBeenCalled();
+      expect(fetchAsk).not.toHaveBeenCalled();
       expect(filesOut).toEqual({});
     });
 
-    it('should execute the preload query once the endpoint is available', async() => {
+    it('should execute an ASK query once the endpoint is available', async() => {
       await expect(hook.start(context)).resolves.toBe(endpointHandler);
 
       expect(hook.httpAvailabilityLatch.sleepUntilAvailable)
         .toHaveBeenCalledWith(context, 'http://localhost:3001/sparql');
-      expect(http.get).toHaveBeenCalledTimes(1);
-      expect(http.get).toHaveBeenCalledWith(
-        'http://localhost:3001/sparql?query=ASK%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D',
-        expect.any(Function),
-      );
+      expect(fetchAsk).toHaveBeenCalledTimes(1);
+      expect(fetchAsk).toHaveBeenCalledWith('http://localhost:3001/sparql', 'ASK { ?s ?p ?o }');
       expect(filesOut[Path.join('CWD', 'output', 'logs', 'sparql-endpoint-comunica-preload-time.csv')])
         .toMatch(/^time\n\d+$/u);
+      expect(agentClose).toHaveBeenCalledTimes(1);
       expect(endpointHandler.close).not.toHaveBeenCalled();
     });
 
+    it('should send requests without timeouts', async() => {
+      await hook.start(context);
+
+      expect(Agent).toHaveBeenCalledWith({ headersTimeout: 0, bodyTimeout: 0 });
+      const options = jest.mocked(SparqlEndpointFetcher).mock.calls[0][0]!;
+      expect(options.method).toBe('GET');
+      await options.fetch!('URL', { method: 'GET' });
+      expect(fetch).toHaveBeenCalledWith('URL', {
+        method: 'GET',
+        dispatcher: jest.mocked(Agent).mock.results[0].value,
+      });
+    });
+
     it('should close the endpoint and throw if the preload query fails', async() => {
-      httpStatusCode = 500;
+      fetchAsk = jest.fn(async() => {
+        throw new Error('preload failure');
+      });
 
-      await expect(hook.start(context)).rejects
-        .toThrow('Preload query failed with status code 500 on http://localhost:3001/sparql?query=ASK%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D');
+      await expect(hook.start(context)).rejects.toThrow('preload failure');
 
+      expect(agentClose).toHaveBeenCalledTimes(1);
       expect(endpointHandler.close).toHaveBeenCalledWith();
       expect(filesOut).toEqual({});
-    });
-
-    it('should close the endpoint and throw if the preload request errors', async() => {
-      httpRequestError = new Error('request error');
-
-      await expect(hook.start(context)).rejects.toThrow('request error');
-
-      expect(endpointHandler.close).toHaveBeenCalledWith();
-    });
-
-    it('should close the endpoint and throw if the preload response errors', async() => {
-      httpResponseError = new Error('response error');
-
-      await expect(hook.start(context)).rejects.toThrow('response error');
-
-      expect(endpointHandler.close).toHaveBeenCalledWith();
     });
   });
 

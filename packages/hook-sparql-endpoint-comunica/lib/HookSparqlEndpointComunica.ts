@@ -1,5 +1,5 @@
-import * as http from 'node:http';
 import Path from 'node:path';
+import { SparqlEndpointFetcher } from 'fetch-sparql-endpoint';
 import * as fs from 'fs-extra';
 import { HttpAvailabilityLatch } from 'jbr';
 import type {
@@ -10,11 +10,14 @@ import type {
   IHookStartOptions,
   ICleanTargets,
 } from 'jbr';
+import { Agent, fetch } from 'undici';
+import type { RequestInfo as UndiciRequestInfo, RequestInit as UndiciRequestInit } from 'undici';
 
 /**
  * A hook instance for a Comunica-based SPARQL endpoint.
  */
 export class HookSparqlEndpointComunica implements Hook {
+  public static readonly PRELOAD_QUERY = 'ASK { ?s ?p ?o }';
   public readonly dockerfileClient: string;
   public readonly resourceConstraints: DockerResourceConstraints;
   public readonly configClient: string;
@@ -24,7 +27,7 @@ export class HookSparqlEndpointComunica implements Hook {
   public readonly clientLogLevel: string;
   public readonly queryTimeout: number;
   public readonly maxMemory: number;
-  public readonly preloadQuery: string | undefined;
+  public readonly preloadQuery: boolean | undefined;
   public readonly httpAvailabilityLatch = new HttpAvailabilityLatch();
 
   /**
@@ -37,7 +40,7 @@ export class HookSparqlEndpointComunica implements Hook {
    * @param clientLogLevel Logging level for the Comunica engine.
    * @param queryTimeout Timeout in seconds for a single SPARQL query execution.
    * @param maxMemory Maximum amount of memory for the Comunica Node.js process in MB.
-   * @param preloadQuery An optional query that is executed once after starting the endpoint,
+   * @param preloadQuery If an ASK query will be sent to the endpoint for kickstarting it,
    *                     before the hook is considered started.
    *                     This forces sources to be loaded, as Comunica only loads them upon the first query.
    */
@@ -51,7 +54,7 @@ export class HookSparqlEndpointComunica implements Hook {
     clientLogLevel: string,
     queryTimeout: number,
     maxMemory: number,
-    preloadQuery?: string,
+    preloadQuery?: boolean,
   ) {
     this.dockerfileClient = dockerfileClient;
     this.resourceConstraints = resourceConstraints;
@@ -110,7 +113,7 @@ export class HookSparqlEndpointComunica implements Hook {
 
     if (this.preloadQuery) {
       try {
-        await this.preload(context, this.preloadQuery);
+        await this.preload(context);
       } catch (error: unknown) {
         await processHandler.close();
         throw error;
@@ -121,41 +124,34 @@ export class HookSparqlEndpointComunica implements Hook {
   }
 
   /**
-   * Execute the given query once, and record how long it took.
+   * Execute an ASK query once, and record how long it took.
    * @param context The task context.
-   * @param query The query to execute.
    */
-  protected async preload(context: ITaskContext, query: string): Promise<void> {
+  protected async preload(context: ITaskContext): Promise<void> {
     const url = `http://localhost:${this.clientPort}/sparql`;
     await this.httpAvailabilityLatch.sleepUntilAvailable(context, url);
 
-    context.logger.info(`Preloading SPARQL endpoint with query: ${query}`);
+    // Comunica only sends response headers once its sources are loaded, which can exceed fetch's default timeouts.
+    const dispatcher = new Agent({ headersTimeout: 0, bodyTimeout: 0 });
+    const fetcher = new SparqlEndpointFetcher({
+      method: 'GET',
+      fetch: async(input, init) => <Response> <unknown> await fetch(
+        <UndiciRequestInfo> <unknown> input,
+        { ...<UndiciRequestInit> <unknown> init, dispatcher },
+      ),
+    });
+
+    context.logger.info(`Preloading SPARQL endpoint with query: ${HookSparqlEndpointComunica.PRELOAD_QUERY}`);
     const startTime = performance.now();
-    await this.httpGet(`${url}?query=${encodeURIComponent(query)}`);
+    try {
+      await fetcher.fetchAsk(url, HookSparqlEndpointComunica.PRELOAD_QUERY);
+    } finally {
+      await dispatcher.close();
+    }
     const time = Math.round(performance.now() - startTime);
     context.logger.info(`Preloaded SPARQL endpoint in ${time}ms`);
 
     await fs.writeFile(Path.join(context.experimentPaths.output, 'logs', 'sparql-endpoint-comunica-preload-time.csv'), `time\n${time}`, 'utf-8');
-  }
-
-  /**
-   * Send a GET request and consume the response, without any client-side timeout.
-   * @param url The URL to request.
-   */
-  protected httpGet(url: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      http.get(url, (response) => {
-        response.resume();
-        response.on('end', () => {
-          if (response.statusCode! >= 200 && response.statusCode! < 300) {
-            resolve();
-          } else {
-            reject(new Error(`Preload query failed with status code ${response.statusCode} on ${url}`));
-          }
-        });
-        response.on('error', reject);
-      }).on('error', reject);
-    });
   }
 
   public async clean(context: ITaskContext, cleanTargets: ICleanTargets): Promise<void> {
