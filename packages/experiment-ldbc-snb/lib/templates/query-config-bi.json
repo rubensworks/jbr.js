@@ -1,0 +1,1095 @@
+{
+  "@context": "https://linkedsoftwaredependencies.org/bundles/npm/sparql-query-parameter-instantiator/^2.0.0/components/context.jsonld",
+  "@id": "urn:sparql-query-parameter-instantiator:default",
+  "@type": "QueryInstantiator",
+  "count": {
+    "@id": "urn:variables:ldbc-snb:count",
+    "@type": "Variable"
+  },
+  "providers": [
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-1",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-1",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateTimestamp",
+          "name": "date",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_1",
+                "@type": "Variable"
+              },
+              "columnName": "date",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-2",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-2",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateTimestamp",
+          "name": "startDate",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_2",
+                "@type": "Variable"
+              },
+              "columnName": "date1",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateTimestamp",
+          "name": "endDate",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_2",
+                "@type": "Variable"
+              },
+              "columnName": "date2",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "country1",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_2",
+                "@type": "Variable"
+              },
+              "columnName": "country1",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "country2",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_2",
+                "@type": "Variable"
+              },
+              "columnName": "country2",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-3",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-3",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "year",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_3",
+                "@type": "Variable"
+              },
+              "columnName": "year",
+              "separator": "|"
+            }
+          },
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "month",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_3",
+                "@type": "Variable"
+              },
+              "columnName": "month",
+              "separator": "|"
+            }
+          },
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-4",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-4",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "tagClass",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_4",
+                "@type": "Variable"
+              },
+              "columnName": "tagClass",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "country",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_4",
+                "@type": "Variable"
+              },
+              "columnName": "country",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-5",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-5",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "country",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_5",
+                "@type": "Variable"
+              },
+              "columnName": "country",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-6",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-6",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "tag",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_6",
+                "@type": "Variable"
+              },
+              "columnName": "tag",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-7",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-7",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "tag",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_7",
+                "@type": "Variable"
+              },
+              "columnName": "tag",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-8",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-8",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "tag",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_8",
+                "@type": "Variable"
+              },
+              "columnName": "tag",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-9",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-9",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "tagClass1",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_9",
+                "@type": "Variable"
+              },
+              "columnName": "tagClass1",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "tagClass2",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_9",
+                "@type": "Variable"
+              },
+              "columnName": "tagClass2",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "threshold",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_9",
+                "@type": "Variable"
+              },
+              "columnName": "threshold",
+              "separator": "|"
+            }
+          },
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-10",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-10",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "tag",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_10",
+                "@type": "Variable"
+              },
+              "columnName": "tag",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateTimestamp",
+          "name": "date",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_10",
+                "@type": "Variable"
+              },
+              "columnName": "date",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-11",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-11",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "country",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_11",
+                "@type": "Variable"
+              },
+              "columnName": "country",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "blacklist",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_11",
+                "@type": "Variable"
+              },
+              "columnName": "blacklist",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-12",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-12",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateTimestamp",
+          "name": "date",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_12",
+                "@type": "Variable"
+              },
+              "columnName": "date",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "likeThreshold",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_12",
+                "@type": "Variable"
+              },
+              "columnName": "likeThreshold",
+              "separator": "|"
+            }
+          },
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-13",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-13",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "country",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_13",
+                "@type": "Variable"
+              },
+              "columnName": "country",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-14",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-14",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateTimestamp",
+          "name": "startDate",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_14",
+                "@type": "Variable"
+              },
+              "columnName": "startDate",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateTimestamp",
+          "name": "endDate",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_14",
+                "@type": "Variable"
+              },
+              "columnName": "endDate",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-15",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-15",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "country",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_15",
+                "@type": "Variable"
+              },
+              "columnName": "country",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-17",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-17",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "country",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_17",
+                "@type": "Variable"
+              },
+              "columnName": "country",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-18",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-18",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateTimestamp",
+          "name": "date",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_18",
+                "@type": "Variable"
+              },
+              "columnName": "date",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "lengthThreshold",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_18",
+                "@type": "Variable"
+              },
+              "columnName": "lengthThreshold",
+              "separator": "|"
+            }
+          },
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "languages",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_18",
+                "@type": "Variable"
+              },
+              "columnName": "languages",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-19",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-19",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "tagClass1",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_19",
+                "@type": "Variable"
+              },
+              "columnName": "tagClass1",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "tagClass2",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_19",
+                "@type": "Variable"
+              },
+              "columnName": "tagClass2",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-20",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-20",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "tagClasses",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_20",
+                "@type": "Variable"
+              },
+              "columnName": "tagClasses",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-21",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-21",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "country",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_21",
+                "@type": "Variable"
+              },
+              "columnName": "country",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateTimestamp",
+          "name": "endDate",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_21",
+                "@type": "Variable"
+              },
+              "columnName": "endDate",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-22",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-22",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "country1",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_22",
+                "@type": "Variable"
+              },
+              "columnName": "country1",
+              "separator": "|"
+            }
+          }
+        },
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "country2",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_22",
+                "@type": "Variable"
+              },
+              "columnName": "country2",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-23",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-23",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "country",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_23",
+                "@type": "Variable"
+              },
+              "columnName": "country",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "QueryTemplateProvider",
+      "templateFilePath": {
+        "@id": "urn:variables:ldbc-snb:templates:bi-24",
+        "@type": "Variable"
+      },
+      "destinationFilePath": {
+        "@id": "urn:variables:ldbc-snb:output:bi-24",
+        "@type": "Variable"
+      },
+      "variables": [
+        {
+          "@type": "VariableTemplateLiteral",
+          "name": "tagClass",
+          "substitutionProvider": {
+            "@type": "SubstitutionProviderShuffle",
+            "seed": {
+              "@id": "urn:variables:ldbc-snb:seed",
+              "@type": "Variable"
+            },
+            "substitutionProvider": {
+              "@type": "SubstitutionProviderCsv",
+              "csvFilePath": {
+                "@id": "urn:variables:ldbc-snb:params:bi_24",
+                "@type": "Variable"
+              },
+              "columnName": "tagClass",
+              "separator": "|"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

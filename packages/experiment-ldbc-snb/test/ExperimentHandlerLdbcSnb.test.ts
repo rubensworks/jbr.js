@@ -45,6 +45,7 @@ describe('ExperimentHandlerLdbcSnb', () => {
         hadoopMemory: '4G',
         queryCount: 5,
         querySeed: 12345,
+        workload: 'interactive',
         generateHdt: false,
         endpointUrl: 'http://localhost:3001/sparql',
         endpointUrlExternal: 'http://localhost:3001/',
