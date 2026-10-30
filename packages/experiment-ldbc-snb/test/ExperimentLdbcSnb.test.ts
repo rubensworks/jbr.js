@@ -640,6 +640,25 @@ ldbc.snb.datagen.serializer.staticSerializer:ldbc.snb.datagen.serializer.snb.tur
   });
 
   describe('run', () => {
+    beforeEach(() => {
+      jest.spyOn(experiment.httpAvailabilityLatch, 'sleepUntilAvailable').mockResolvedValue();
+    });
+
+    it('should record the load time before running any queries', async() => {
+      sparqlBenchmarkRun = jest.fn(async({ onStart, onStop }: any) => {
+        expect(filesOut[Path.join(context.experimentPaths.output, 'logs', 'load-time.csv')]).toMatch(/^time\n\d+$/u);
+        await onStart();
+        await onStop();
+        return { aggregateResults: {}};
+      });
+
+      await experiment.run(context);
+
+      expect(experiment.httpAvailabilityLatch.sleepUntilAvailable)
+        .toHaveBeenCalledWith(context, 'http://localhost:3001/sparql');
+      expect(sparqlBenchmarkRun).toHaveBeenCalledTimes(1);
+    });
+
     it('should run the experiment', async() => {
       await experiment.run(context);
 
@@ -801,8 +820,14 @@ ldbc.snb.datagen.serializer.staticSerializer:ldbc.snb.datagen.serializer.snb.tur
   });
 
   describe('run with other workloads', () => {
+    function createRunnableExperiment(workload: string): ExperimentLdbcSnb {
+      const instance = createExperiment(workload);
+      jest.spyOn(instance.httpAvailabilityLatch, 'sleepUntilAvailable').mockResolvedValue();
+      return instance;
+    }
+
     it('should only load BI queries for the bi workload', async() => {
-      await createExperiment('bi').run(context);
+      await createRunnableExperiment('bi').run(context);
 
       expect(QueryLoaderFile).toHaveBeenCalledTimes(1);
       expect(QueryLoaderFile).toHaveBeenCalledWith({
@@ -818,7 +843,7 @@ ldbc.snb.datagen.serializer.staticSerializer:ldbc.snb.datagen.serializer.snb.tur
     });
 
     it('should load all queries for the all workload', async() => {
-      await createExperiment('all').run(context);
+      await createRunnableExperiment('all').run(context);
 
       expect(QueryLoaderFile).toHaveBeenCalledTimes(2);
       expect(QueryLoaderFile).toHaveBeenCalledWith({
@@ -837,7 +862,7 @@ ldbc.snb.datagen.serializer.staticSerializer:ldbc.snb.datagen.serializer.snb.tur
     });
 
     it('should filter queries over all workloads', async() => {
-      await createExperiment('all').run({ ...context, filter: '^(C1|bi-2)$' });
+      await createRunnableExperiment('all').run({ ...context, filter: '^(C1|bi-2)$' });
 
       expect(SparqlBenchmarkRunner).toHaveBeenCalledWith(expect.objectContaining({
         querySets: {

@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v6.2.2"></a>
+## [v6.2.2](https://github.com/rubensworks/jbr.js/compare/v6.2.1...v6.2.2) - 2026-10-27
+
+### Fixed
+* [Fix load time measurement for WatDiv and LDBC SNB (#102)](https://github.com/rubensworks/jbr.js/commit/37fc7a6f8ca0af1ba926db1047cf996af1f0d4ef)
+
 <a name="v6.2.1"></a>
 ## [v6.2.1](https://github.com/rubensworks/jbr.js/compare/v6.2.0...v6.2.1) - 2026-09-25
 

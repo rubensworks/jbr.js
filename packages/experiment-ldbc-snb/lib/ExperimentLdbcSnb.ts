@@ -1,7 +1,7 @@
 import * as os from 'node:os';
 import * as Path from 'node:path';
 import * as fs from 'fs-extra';
-import { HdtConverter, secureProcessHandler } from 'jbr';
+import { HdtConverter, HttpAvailabilityLatch, secureProcessHandler } from 'jbr';
 import type { Experiment, Hook, ICleanTargets, ITaskContext, IRunTaskContext } from 'jbr';
 import type { IResultSerializer } from 'sparql-benchmark-runner';
 import {
@@ -25,6 +25,7 @@ export class ExperimentLdbcSnb implements Experiment {
   public static readonly DOCKER_IMAGE_LDBC_SNB_DATAGEN = `rubensworks/ldbc_snb_datagen@sha256:5905733b091ca2cc2cf55b43600644d5682d6357d759c9c69934d1b79087e057`;
   public static readonly TEMPLATES_PATH = Path.join(__dirname, 'templates');
   public static readonly WORKLOADS = [ 'interactive', 'bi', 'all' ];
+  public readonly httpAvailabilityLatch = new HttpAvailabilityLatch();
   public readonly scale: string;
   public readonly hadoopMemory: string;
   public readonly queryCount: number;
@@ -338,6 +339,10 @@ export class ExperimentLdbcSnb implements Experiment {
     const endpointProcessHandler = await this.hookSparqlEndpoint.start(context);
     const closeProcess = secureProcessHandler(endpointProcessHandler, context);
 
+    // Measure time it took to start the endpoint, before any warmup queries are sent
+    await this.httpAvailabilityLatch.sleepUntilAvailable(context, this.endpointUrlExternal);
+    await fs.writeFile(Path.join(context.experimentPaths.output, 'logs', 'load-time.csv'), `time\n${Math.round(performance.now() - startTime)}`, 'utf-8');
+
     // Determine query sets
     let querySets: Record<string, string[]> = {};
     for (const path of this.getQueriesPaths(context.experimentPaths.generated)) {
@@ -364,9 +369,6 @@ export class ExperimentLdbcSnb implements Experiment {
       timeout: this.queryTimeoutFallback,
     }).runWithRawResults({
       async onStart() {
-        // Measure time it took to start the endpoint
-        await fs.writeFile(Path.join(context.experimentPaths.output, 'logs', 'load-time.csv'), `time\n${Math.round(performance.now() - startTime)}`, 'utf-8');
-
         // Collect stats
         stopEndpointStats = await endpointProcessHandler.startCollectingStats();
 

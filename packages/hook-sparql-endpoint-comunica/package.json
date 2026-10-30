@@ -1,6 +1,6 @@
 {
   "name": "@jbr-hook/sparql-endpoint-comunica",
-  "version": "6.2.0",
+  "version": "6.2.2",
   "description": "Comunica SPARQL endpoint hook handler for JBR",
   "main": "index.js",
   "typings": "index",
@@ -63,6 +63,8 @@
   },
   "dependencies": {
     "@types/fs-extra": "^11.0.0",
-    "fs-extra": "^11.0.0"
+    "fetch-sparql-endpoint": "^7.3.0",
+    "fs-extra": "^11.0.0",
+    "undici": "^6.21.0"
   }
 }
