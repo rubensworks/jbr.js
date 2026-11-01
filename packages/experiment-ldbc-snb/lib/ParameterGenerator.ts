@@ -79,3 +79,28 @@ export async function generateMessageParameters(
   await writeCsvColumn(outputFile, 'message', sample);
   return sample.length;
 }
+
+/**
+ * Copy a pipe-separated substitution parameters file,
+ * repeating its rows until it contains at least the given number of rows.
+ * @param paramFile Path to a `bi_N_param.txt` file.
+ * @param outputFile Path to the file to write.
+ * @param minRows Minimum number of rows.
+ * @return The number of rows in the original file.
+ */
+export async function repeatSubstitutionParameterRows(
+  paramFile: string,
+  outputFile: string,
+  minRows: number,
+): Promise<number> {
+  const [ header, ...rows ] = (await fs.readFile(paramFile, 'utf8')).split(/\r?\n/u).filter(line => line.length > 0);
+  if (rows.length === 0) {
+    throw new Error(`Could not find any substitution parameters in ${paramFile}`);
+  }
+  const output = [ ...rows ];
+  while (output.length < minRows) {
+    output.push(...rows);
+  }
+  await fs.writeFile(outputFile, `${[ header, ...output ].join('\n')}\n`, 'utf8');
+  return rows.length;
+}

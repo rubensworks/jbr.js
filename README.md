@@ -46,7 +46,7 @@ These hooks can temporarily be disabled at your own risk by adding the `-n` flag
 The following experiment types are available in this repository:
 
 * [`@jbr-experiment/bsbm`](https://github.com/rubensworks/jbr.js/tree/master/packages/experiment-bsbm): Berlin SPARQL Benchmark (BSBM).
-* [`@jbr-experiment/ldbc-snb`](https://github.com/rubensworks/jbr.js/tree/master/packages/experiment-ldbc-snb): LDBC Social Network Benchmark (Interactive) over a single RDF dataset.
+* [`@jbr-experiment/ldbc-snb`](https://github.com/rubensworks/jbr.js/tree/master/packages/experiment-ldbc-snb): LDBC Social Network Benchmark (Interactive and BI) over a single RDF dataset.
 * [`@jbr-experiment/solid-session-bench`](https://github.com/rubensworks/jbr.js/tree/master/packages/experiment-solid-session-bench): SolidSessionBench social network benchmark.
 * [`@jbr-experiment/solidbench`](https://github.com/rubensworks/jbr.js/tree/master/packages/experiment-solidbench): SolidBench, LDBC SNB decentralized over Solid pods.
 * [`@jbr-experiment/sparql-custom`](https://github.com/rubensworks/jbr.js/tree/master/packages/experiment-sparql-custom): Custom defined set of SPARQL queries.
