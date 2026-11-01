@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v6.3.0"></a>
+## [v6.3.0](https://github.com/rubensworks/jbr.js/compare/v6.2.2...v6.3.0) - 2026-11-01
+
+### Added
+* [Add BI workload to LDBC SNB experiment (#99)](https://github.com/rubensworks/jbr.js/commit/a5efaa10d3401d0718ff4f47677a5859c04795cf)
+
 <a name="v6.2.2"></a>
 ## [v6.2.2](https://github.com/rubensworks/jbr.js/compare/v6.2.1...v6.2.2) - 2026-10-27
 
