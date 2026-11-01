@@ -367,6 +367,8 @@ export class ExperimentLdbcSnb implements Experiment {
       logger: (message: string) => process.stderr.write(`${message}\n`),
       additionalUrlParams: new URLSearchParams(this.queryRunnerUrlParams),
       timeout: this.queryTimeoutFallback,
+      // After a failed query, wait until the endpoint answers queries again, e.g. after reloading its data
+      recoveryQuery: 'ASK { ?s ?p ?o }',
     }).runWithRawResults({
       async onStart() {
         // Collect stats
