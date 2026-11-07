@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v6.4.0"></a>
+## [v6.4.0](https://github.com/rubensworks/jbr.js/compare/v6.3.0...v6.4.0) - 2026-11-07
+
+### Changed
+* [Wait for endpoint recovery after failed queries (#105)](https://github.com/rubensworks/jbr.js/commit/76247cde8d6238ff5f9a68caa05d5ba4154acbd5)
+
 <a name="v6.3.0"></a>
 ## [v6.3.0](https://github.com/rubensworks/jbr.js/compare/v6.2.2...v6.3.0) - 2026-11-01
 

@@ -1,6 +1,6 @@
 {
   "name": "@jbr-experiment/sparql-custom",
-  "version": "6.2.0",
+  "version": "6.4.0",
   "description": "Experiment handler with custom SPARQL queries for JBR",
   "main": "index.js",
   "typings": "index",
