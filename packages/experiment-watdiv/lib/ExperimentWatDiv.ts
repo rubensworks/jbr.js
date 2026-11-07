@@ -141,6 +141,7 @@ export class ExperimentWatDiv implements Experiment {
       logger: (message: string) => process.stderr.write(`${message}\n`),
       additionalUrlParams: new URLSearchParams(this.queryRunnerUrlParams),
       timeout: this.queryTimeoutFallback,
+      recoveryQuery: 'ASK { ?s ?p ?o }',
     }).runWithRawResults({
       async onStart() {
         // Collect stats

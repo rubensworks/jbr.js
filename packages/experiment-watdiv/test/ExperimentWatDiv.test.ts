@@ -380,6 +380,7 @@ describe('ExperimentWatDiv', () => {
       });
 
       expect(SparqlBenchmarkRunner).toHaveBeenCalledWith(expect.objectContaining({
+        recoveryQuery: 'ASK { ?s ?p ?o }',
         querySets: {
           C1: 'path/C1',
           C2: 'path/C2',

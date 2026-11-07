@@ -689,6 +689,7 @@ ldbc.snb.datagen.serializer.staticSerializer:ldbc.snb.datagen.serializer.snb.tur
       });
 
       expect(SparqlBenchmarkRunner).toHaveBeenCalledWith(expect.objectContaining({
+        recoveryQuery: 'ASK { ?s ?p ?o }',
         endpoint: 'http://localhost:3001/sparql',
         endpointUpCheck: 'http://localhost:3001/sparql',
         querySets: {

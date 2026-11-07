@@ -71,7 +71,7 @@
     "@types/yargs": "^17.0.0",
     "fs-extra": "^11.0.0",
     "n3": "^1.26.0",
-    "sparql-benchmark-runner": "^5.1.0",
+    "sparql-benchmark-runner": "^5.3.0",
     "sparql-query-parameter-instantiator": "^2.8.0"
   }
 }

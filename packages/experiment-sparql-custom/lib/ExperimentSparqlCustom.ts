@@ -94,6 +94,7 @@ export class ExperimentSparqlCustom implements Experiment {
       logger: (message: string) => process.stderr.write(`${message}\n`),
       additionalUrlParams: new URLSearchParams(this.queryRunnerUrlParams),
       timeout: this.queryTimeoutFallback,
+      recoveryQuery: 'ASK { ?s ?p ?o }',
     });
     // eslint-disable-next-line ts/no-this-alias
     const self = this;
