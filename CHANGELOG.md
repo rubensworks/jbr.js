@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v6.5.0"></a>
+## [v6.5.0](https://github.com/rubensworks/jbr.js/compare/v6.4.0...v6.5.0) - 2026-11-12
+
+### Added
+* [Add optional query timeout option BSBM (#107)](https://github.com/rubensworks/jbr.js/commit/acb3bf7cd09a8bb94774fea003bac9c9b206105e)
+
 <a name="v6.4.0"></a>
 ## [v6.4.0](https://github.com/rubensworks/jbr.js/compare/v6.3.0...v6.4.0) - 2026-11-07
 
