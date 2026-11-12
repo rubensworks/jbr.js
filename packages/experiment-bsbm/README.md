@@ -149,6 +149,7 @@ More background information on these config options can be found in the README o
 * `endpointUrlExternal`: URL through which the SPARQL endpoint of the `hookSparqlEndpoint` hook will be exposed. This will be used for waiting until the endpoint is available.
 * `warmupRuns`: Number of warmup runs.
 * `runs`: Number of actual query runs.
+* `queryTimeout`: An optional timeout for a single query in milliseconds, after which the test driver counts the query as timed out and continues.
 
 ## License
 
