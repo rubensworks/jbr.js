@@ -104,6 +104,7 @@ describe('ExperimentBsbm', () => {
       'http://localhost:3001/sparql',
       10,
       50,
+      undefined,
     );
     files = {};
     dirsOut = {};
@@ -124,6 +125,7 @@ describe('ExperimentBsbm', () => {
         'http://localhost:3001/sparql',
         10,
         50,
+        undefined,
       );
       await expect(experiment.getEndpointUrl(context)).resolves.toBe('http://host.docker.internal:3000/sparql');
     });
@@ -140,6 +142,7 @@ describe('ExperimentBsbm', () => {
         'http://localhost:3001/sparql',
         10,
         50,
+        undefined,
       );
       await expect(experiment.getEndpointUrl(context)).resolves.toBe('http://172.17.0.10:3000/sparql');
     });
@@ -156,6 +159,7 @@ describe('ExperimentBsbm', () => {
         'http://localhost:3001/sparql',
         10,
         50,
+        undefined,
       );
       context.docker.networkInspector = <any> {
         inspect: () => Promise.reject(new Error('fail')),
@@ -365,6 +369,7 @@ describe('ExperimentBsbm', () => {
         'http://localhost:3001/sparql',
         10,
         50,
+        undefined,
       );
 
       await experiment.prepare(context, false);
@@ -440,6 +445,41 @@ describe('ExperimentBsbm', () => {
       expect(endpointHandlerStopCollectingStats).toHaveBeenCalledWith();
 
       expect(dirsOut).toEqual({});
+    });
+
+    it('should pass the query timeout to the test driver', async() => {
+      experiment = new ExperimentBsbm(
+        100,
+        true,
+        hookSparqlEndpoint,
+        'http://localhost:3000/sparql',
+        'http://localhost:3001/sparql',
+        10,
+        50,
+        300_000,
+      );
+      experiment.httpAvailabilityLatch.sleepUntilAvailable = () => Promise.resolve();
+
+      await experiment.run(context);
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith(expect.objectContaining({
+        cmdArgs: [
+          'testdriver',
+          '-idir',
+          '/data/td_data',
+          '-seed',
+          '9834533',
+          '-o',
+          'single.xml',
+          '-w',
+          '10',
+          '-runs',
+          '50',
+          '-t',
+          '300000',
+          'http://localhost:3000/sparql',
+        ],
+      }));
     });
 
     it('should not log the run logs if a valid output file was generated', async() => {

@@ -16,6 +16,7 @@ export class ExperimentBsbm implements Experiment {
   public readonly endpointUrlExternal: string;
   public readonly warmupRuns: number;
   public readonly runs: number;
+  public readonly queryTimeout: number | undefined;
 
   /**
    * @param productCount
@@ -25,6 +26,7 @@ export class ExperimentBsbm implements Experiment {
    * @param endpointUrlExternal
    * @param warmupRuns
    * @param runs
+   * @param queryTimeout Timeout of a single query in milliseconds, after which the test driver counts it as a timeout.
    */
   public constructor(
     productCount: number,
@@ -34,6 +36,7 @@ export class ExperimentBsbm implements Experiment {
     endpointUrlExternal: string,
     warmupRuns: number,
     runs: number,
+    queryTimeout: number | undefined,
   ) {
     this.productCount = productCount;
     this.generateHdt = generateHdt;
@@ -42,6 +45,7 @@ export class ExperimentBsbm implements Experiment {
     this.endpointUrlExternal = endpointUrlExternal;
     this.warmupRuns = warmupRuns;
     this.runs = runs;
+    this.queryTimeout = queryTimeout;
   }
 
   public async getEndpointUrl(context: ITaskContext): Promise<string> {
@@ -133,6 +137,7 @@ export class ExperimentBsbm implements Experiment {
       String(this.warmupRuns),
       '-runs',
       String(this.runs),
+      ...this.queryTimeout === undefined ? [] : [ '-t', String(this.queryTimeout) ],
       await this.getEndpointUrl(context),
     ], network);
 
