@@ -1,3 +1,4 @@
+import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import { ExperimentLoader } from './ExperimentLoader';
 import type { ITaskContext } from './ITaskContext';
@@ -31,18 +32,26 @@ export class TaskPrepare {
     const { experiments, experimentPathsArray } = await (await ExperimentLoader
       .build(this.context.mainModulePath))
       .instantiateExperiments(this.context.experimentName, this.context.experimentPaths.root);
+    // Combinations can share a generated directory, which then only has to be overwritten once.
+    const overwrittenGenerated = new Set<string>();
     for (const [ i, experiment ] of experiments.entries()) {
       if (this.combination === undefined || this.combination === i) {
         this.context.logger.info(`🧩 Preparing experiment combination ${i}`);
+        const experimentPaths = experimentPathsArray[i];
+
+        // Create it ourselves, as Docker would create it owned by root when mounting it.
+        await fs.ensureDir(experimentPaths.generated);
 
         await experiment.prepare(
-          { ...this.context, experimentPaths: experimentPathsArray[i] },
-          this.forceOverwriteGenerated,
+          { ...this.context, experimentPaths },
+          this.forceOverwriteGenerated && !overwrittenGenerated.has(experimentPaths.generated),
         );
+        overwrittenGenerated.add(experimentPaths.generated);
       }
     }
 
     // Create a hidden marker file in generate/ to indicate that this experiment has been successfully prepared
+    await fs.ensureDir(Path.dirname(markerPath));
     await fs.writeFile(markerPath, '', 'utf8');
   }
 }
