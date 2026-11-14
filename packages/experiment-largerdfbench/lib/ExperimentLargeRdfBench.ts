@@ -127,7 +127,7 @@ export class ExperimentLargeRdfBench implements Experiment {
    * @param sample - If the datasets must be sampled. Otherwise, the full datasets are used, as HDT files.
    * @param sampleSubjectRates - The fraction of subjects to sample per dataset, which defaults to 1. @range {json}
    * @param sampleOtherTriplesRate - The fraction of the triples of sampled subjects that match no query pattern to
-   *                                 keep.
+   *                                 keep. @range {double}
    * @param sampleSeed - The seed for sampling.
    * @param sampleValidate - If the queries must be validated to produce the same results over the sample as over the
    *                         full data.
