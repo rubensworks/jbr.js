@@ -96,7 +96,6 @@ All prepared files will be contained in the `generated/` directory.
 
 When running this command, existing files within `generated/` will not be overwritten by default.
 These can be forcefully overwritten by passing the `-f` option.
-If combinations share their `generated/` directory, it is only overwritten once.
 
 ### 3. Running Experiments
 
