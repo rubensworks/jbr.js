@@ -10,13 +10,21 @@ import { CliProcessHandler } from 'jbr';
 export class HookCli implements Hook {
   public readonly entrypoint: string[];
   public readonly statsFilePath?: string;
+  public readonly logName?: string;
 
+  /**
+   * @param entrypoint - The command parts to execute.
+   * @param statsFilePath - An optional path to a CSV file in which the stats of the process will be written.
+   * @param logName - An optional name to include in the names of the log files, to distinguish multiple CLI hooks.
+   */
   public constructor(
     entrypoint: string[],
     statsFilePath?: string,
+    logName?: string,
   ) {
     this.entrypoint = entrypoint;
     this.statsFilePath = statsFilePath;
+    this.logName = logName;
   }
 
   public async prepare(_context: ITaskContext, _forceOverwriteGenerated: boolean): Promise<void> {
@@ -29,10 +37,11 @@ export class HookCli implements Hook {
     // all their descendants.
     const processGroup = process.platform !== 'win32';
     const childProcess = spawn(base, args, { detached: processGroup });
+    const prefix = this.logName ? `cli-${this.logName}` : 'cli';
     childProcess.stdout.pipe(fs.createWriteStream(Path
-      .join(context.experimentPaths.output, 'logs', 'cli-stdout.txt'), 'utf8'));
+      .join(context.experimentPaths.output, 'logs', `${prefix}-stdout.txt`), 'utf8'));
     childProcess.stderr.pipe(fs.createWriteStream(Path
-      .join(context.experimentPaths.output, 'logs', 'cli-stderr.txt'), 'utf8'));
+      .join(context.experimentPaths.output, 'logs', `${prefix}-stderr.txt`), 'utf8'));
     return new CliProcessHandler(childProcess, this.statsFilePath, processGroup);
   }
 

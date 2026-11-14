@@ -1,0 +1,27 @@
+PREFIX linkedmdb: <http://data.linkedmdb.org/resource/movie/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX dbpedia: <http://dbpedia.org/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+# Equivalent to C5 of LargeRDFBench, with FILTER(STR(?actor_name_en) = STR(?actor_name)) replaced by a join on the shared ?name.
+# As STR returns simple literals, = on them is term equality, so both forms have the same solutions.
+SELECT ?actor ?movie ?movieTitle ?movieDate ?birthDate ?spouseName
+{
+  {
+    SELECT * WHERE {
+      ?actor rdfs:label ?actor_name_en ;
+             dbpedia:birthDate ?birthDate ;
+             dbpedia:spouse ?spouseURI .
+      ?spouseURI rdfs:label ?spouseName .
+      BIND(STR(?actor_name_en) AS ?name)
+    }
+  }
+  {
+    SELECT * WHERE {
+      ?imdbactor linkedmdb:actor_name ?actor_name .
+      ?movie linkedmdb:actor ?imdbactor ;
+             dcterms:title ?movieTitle ;
+             dcterms:date ?movieDate .
+      BIND(STR(?actor_name) AS ?name)
+    }
+  }
+} LIMIT 500
