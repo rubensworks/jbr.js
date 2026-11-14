@@ -18,8 +18,12 @@ jest.mock<typeof import('../../lib/task/ExperimentLoader')>('../../lib/task/Expe
 
 let files: Record<string, string | boolean> = {};
 let filesUnlinked: Record<string, boolean> = {};
+let calls: string[] = [];
 jest.mock<any>('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
+  async ensureDir(dirPath: string) {
+    calls.push(`ensureDir ${dirPath}`);
+  },
   async pathExists(filePath: string) {
     return filePath in files;
   },
@@ -55,7 +59,9 @@ describe('TaskPrepare', () => {
     );
 
     experiment = <any> {
-      prepare: jest.fn(),
+      prepare: jest.fn(async() => {
+        calls.push('prepare');
+      }),
     };
     experimentLoader = <any> {
       instantiateExperiments: jest.fn(() => {
@@ -67,6 +73,7 @@ describe('TaskPrepare', () => {
     };
     files = {};
     filesUnlinked = {};
+    calls = [];
   });
 
   describe('prepare', () => {
@@ -79,6 +86,15 @@ describe('TaskPrepare', () => {
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toBe('');
 
       expect(context.logger.info).toHaveBeenCalledTimes(1);
+    });
+
+    it('creates the generated directory before preparing an experiment', async() => {
+      await task.prepare();
+      expect(calls).toEqual([
+        `ensureDir ${Path.join('CWD', 'generated')}`,
+        'prepare',
+        `ensureDir ${Path.join('CWD', 'generated')}`,
+      ]);
     });
 
     it('prepares an experiment forcefully', async() => {
@@ -196,6 +212,65 @@ describe('TaskPrepare', () => {
       expect(files[Path.join('CWD', 'generated', '.prepared')]).toBe('');
 
       expect(context.logger.info).toHaveBeenCalledTimes(2);
+    });
+
+    it('forcefully prepares a common generated directory only once', async() => {
+      task = new TaskPrepare(context, true, undefined);
+      const experiment1 = <any> { prepare: jest.fn() };
+      const experiment2 = <any> { prepare: jest.fn() };
+      const expPaths1 = createExperimentPaths('CWD1');
+      const expPaths2 = createExperimentPaths('CWD1');
+      jest.spyOn(<any> experimentLoader, 'instantiateExperiments').mockImplementation(() => {
+        return {
+          experimentPathsArray: [ expPaths1, expPaths2 ],
+          experiments: [ experiment1, experiment2 ],
+        };
+      });
+
+      await task.prepare();
+      expect(experiment1.prepare)
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths1 }, true);
+      expect(experiment2.prepare)
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths2 }, false);
+    });
+
+    it('forcefully prepares separate generated directories each', async() => {
+      task = new TaskPrepare(context, true, undefined);
+      const experiment1 = <any> { prepare: jest.fn() };
+      const experiment2 = <any> { prepare: jest.fn() };
+      const expPaths1 = createExperimentPaths('CWD/1');
+      const expPaths2 = createExperimentPaths('CWD/2');
+      jest.spyOn(<any> experimentLoader, 'instantiateExperiments').mockImplementation(() => {
+        return {
+          experimentPathsArray: [ expPaths1, expPaths2 ],
+          experiments: [ experiment1, experiment2 ],
+        };
+      });
+
+      await task.prepare();
+      expect(experiment1.prepare)
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths1 }, true);
+      expect(experiment2.prepare)
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths2 }, true);
+    });
+
+    it('forcefully prepares a single combination with a common generated directory', async() => {
+      task = new TaskPrepare(context, true, 1);
+      const experiment1 = <any> { prepare: jest.fn() };
+      const experiment2 = <any> { prepare: jest.fn() };
+      const expPaths1 = createExperimentPaths('CWD1');
+      const expPaths2 = createExperimentPaths('CWD1');
+      jest.spyOn(<any> experimentLoader, 'instantiateExperiments').mockImplementation(() => {
+        return {
+          experimentPathsArray: [ expPaths1, expPaths2 ],
+          experiments: [ experiment1, experiment2 ],
+        };
+      });
+
+      await task.prepare();
+      expect(experiment1.prepare).not.toHaveBeenCalled();
+      expect(experiment2.prepare)
+        .toHaveBeenCalledWith({ ...context, experimentPaths: expPaths2 }, true);
     });
   });
 });
