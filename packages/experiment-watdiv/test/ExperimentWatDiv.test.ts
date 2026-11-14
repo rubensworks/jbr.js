@@ -122,6 +122,39 @@ describe('ExperimentWatDiv', () => {
     jest.spyOn(<any> process, 'on').mockImplementation();
   });
 
+  describe('constructor', () => {
+    function createExperiment(queryRunnerRecordTimestamps?: string): ExperimentWatDiv {
+      return new ExperimentWatDiv(
+        1,
+        5,
+        1,
+        true,
+        hookSparqlEndpoint,
+        'http://localhost:3001/sparql',
+        undefined,
+        3,
+        1,
+        0,
+        1_000,
+        {},
+        600,
+        queryRunnerRecordTimestamps,
+      );
+    }
+
+    it('should record all result timestamps by default', () => {
+      expect(experiment.queryRunnerRecordTimestamps).toBe('all');
+    });
+
+    it.each([ 'all', 'first', 'none' ])('should accept recording %s result timestamps', (value) => {
+      expect(createExperiment(value).queryRunnerRecordTimestamps).toBe(value);
+    });
+
+    it('should throw on an invalid value for recording result timestamps', () => {
+      expect(() => createExperiment('some')).toThrow(`Invalid queryRunnerRecordTimestamps 'some', must be one of all, first, none`);
+    });
+  });
+
   describe('prepare', () => {
     it('should prepare the experiment', async() => {
       await experiment.prepare(context, false);
@@ -381,11 +414,38 @@ describe('ExperimentWatDiv', () => {
 
       expect(SparqlBenchmarkRunner).toHaveBeenCalledWith(expect.objectContaining({
         recoveryQuery: 'ASK { ?s ?p ?o }',
+        recordTimestamps: 'all',
         querySets: {
           C1: 'path/C1',
           C2: 'path/C2',
           C3: 'path/C3',
         },
+      }));
+    });
+
+    it('should pass which result timestamps to record to the query runner', async() => {
+      experiment = new ExperimentWatDiv(
+        1,
+        5,
+        1,
+        true,
+        hookSparqlEndpoint,
+        'http://localhost:3001/sparql',
+        undefined,
+        3,
+        1,
+        0,
+        1_000,
+        {},
+        600,
+        'first',
+      );
+      jest.spyOn(experiment.httpAvailabilityLatch, 'sleepUntilAvailable').mockResolvedValue();
+
+      await experiment.run(context);
+
+      expect(SparqlBenchmarkRunner).toHaveBeenCalledWith(expect.objectContaining({
+        recordTimestamps: 'first',
       }));
     });
 

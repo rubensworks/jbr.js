@@ -170,7 +170,7 @@ describe('ExperimentLdbcSnb', () => {
     jest.clearAllMocks();
   });
 
-  function createExperiment(workload?: string): ExperimentLdbcSnb {
+  function createExperiment(workload?: string, queryRunnerRecordTimestamps?: string): ExperimentLdbcSnb {
     return new ExperimentLdbcSnb(
       '0.1',
       '4G',
@@ -187,6 +187,7 @@ describe('ExperimentLdbcSnb', () => {
       {},
       600,
       workload,
+      queryRunnerRecordTimestamps,
     );
   }
 
@@ -245,6 +246,19 @@ describe('ExperimentLdbcSnb', () => {
 
     it('should throw on an invalid workload', () => {
       expect(() => createExperiment('BI')).toThrow(`Invalid LDBC SNB workload 'BI', must be one of interactive, bi, all`);
+    });
+
+    it('should record all result timestamps by default', () => {
+      expect(experiment.queryRunnerRecordTimestamps).toBe('all');
+    });
+
+    it.each([ 'all', 'first', 'none' ])('should accept recording %s result timestamps', (value) => {
+      expect(createExperiment(undefined, value).queryRunnerRecordTimestamps).toBe(value);
+    });
+
+    it('should throw on an invalid value for recording result timestamps', () => {
+      expect(() => createExperiment(undefined, 'some'))
+        .toThrow(`Invalid queryRunnerRecordTimestamps 'some', must be one of all, first, none`);
     });
   });
 
@@ -698,6 +712,18 @@ ldbc.snb.datagen.serializer.staticSerializer:ldbc.snb.datagen.serializer.snb.tur
           C3: 'path/C3',
         },
         timeout: 600,
+        recordTimestamps: 'all',
+      }));
+    });
+
+    it('should pass which result timestamps to record to the query runner', async() => {
+      experiment = createExperiment(undefined, 'none');
+      jest.spyOn(experiment.httpAvailabilityLatch, 'sleepUntilAvailable').mockResolvedValue();
+
+      await experiment.run(context);
+
+      expect(SparqlBenchmarkRunner).toHaveBeenCalledWith(expect.objectContaining({
+        recordTimestamps: 'none',
       }));
     });
 

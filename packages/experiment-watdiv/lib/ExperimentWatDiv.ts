@@ -2,7 +2,7 @@ import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import { HdtConverter, HttpAvailabilityLatch, secureProcessHandler } from 'jbr';
 import type { Experiment, Hook, ICleanTargets, ITaskContext, IRunTaskContext } from 'jbr';
-import type { IResultSerializer } from 'sparql-benchmark-runner';
+import type { IResultSerializer, RecordedTimestamps } from 'sparql-benchmark-runner';
 import {
   SparqlBenchmarkRunner,
   QueryLoaderFile,
@@ -14,6 +14,7 @@ import {
  * An experiment instance for WatDiv.
  */
 export class ExperimentWatDiv implements Experiment {
+  public static readonly RECORDED_TIMESTAMPS = [ 'all', 'first', 'none' ];
   public static readonly DOCKER_IMAGE_WATDIV = `comunica/watdiv@sha256:2fac67737d6dddd75ea023b90bba2a1c7432a00e233791a802e374e3d2a8ec3b`;
   public readonly httpAvailabilityLatch = new HttpAvailabilityLatch();
   public readonly datasetScale: number;
@@ -29,6 +30,7 @@ export class ExperimentWatDiv implements Experiment {
   public readonly queryRunnerEndpointAvailabilityCheckTimeout: number;
   public readonly queryRunnerUrlParams: Record<string, any>;
   public readonly queryTimeoutFallback: number | undefined;
+  public readonly queryRunnerRecordTimestamps: string;
 
   /**
    * @param datasetScale
@@ -44,6 +46,7 @@ export class ExperimentWatDiv implements Experiment {
    * @param queryRunnerEndpointAvailabilityCheckTimeout
    * @param queryRunnerUrlParams - @range {json}
    * @param queryTimeoutFallback
+   * @param queryRunnerRecordTimestamps - Result timestamps to record: 'all', 'first' or 'none'. Defaults to 'all'.
    */
   public constructor(
     datasetScale: number,
@@ -59,6 +62,7 @@ export class ExperimentWatDiv implements Experiment {
     queryRunnerEndpointAvailabilityCheckTimeout: number,
     queryRunnerUrlParams: Record<string, any>,
     queryTimeoutFallback: number | undefined,
+    queryRunnerRecordTimestamps?: string,
   ) {
     this.datasetScale = datasetScale;
     this.queryCount = queryCount;
@@ -73,6 +77,10 @@ export class ExperimentWatDiv implements Experiment {
     this.queryRunnerEndpointAvailabilityCheckTimeout = queryRunnerEndpointAvailabilityCheckTimeout;
     this.queryRunnerUrlParams = queryRunnerUrlParams;
     this.queryTimeoutFallback = queryTimeoutFallback;
+    this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps ?? 'all';
+    if (!ExperimentWatDiv.RECORDED_TIMESTAMPS.includes(this.queryRunnerRecordTimestamps)) {
+      throw new Error(`Invalid queryRunnerRecordTimestamps '${this.queryRunnerRecordTimestamps}', must be one of ${ExperimentWatDiv.RECORDED_TIMESTAMPS.join(', ')}`);
+    }
   }
 
   public async prepare(context: ITaskContext, forceOverwriteGenerated: boolean): Promise<void> {
@@ -142,6 +150,7 @@ export class ExperimentWatDiv implements Experiment {
       additionalUrlParams: new URLSearchParams(this.queryRunnerUrlParams),
       timeout: this.queryTimeoutFallback,
       recoveryQuery: 'ASK { ?s ?p ?o }',
+      recordTimestamps: <RecordedTimestamps> this.queryRunnerRecordTimestamps,
     }).runWithRawResults({
       async onStart() {
         // Collect stats
