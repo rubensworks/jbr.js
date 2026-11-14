@@ -1,6 +1,6 @@
 {
   "name": "@jbr-experiment/largerdfbench",
-  "version": "6.0.0",
+  "version": "6.5.0",
   "description": "LargeRDFBench experiment handler for JBR",
   "main": "index.js",
   "typings": "index",
@@ -22,6 +22,8 @@
   "keywords": [
     "experiment",
     "largerdfbench",
+    "fedbench",
+    "federation",
     "jbr",
     "benchmarking"
   ],
@@ -56,17 +58,29 @@
     "validate": "npm ls"
   },
   "devDependencies": {
-    "jbr": "^6.0.0"
+    "@types/yazl": "^3.3.1",
+    "jbr": "^6.2.0",
+    "yazl": "^3.3.1"
   },
   "peerDependencies": {
     "jbr": ">=2.0.0"
   },
   "dependencies": {
-    "@types/fs-extra": "^9.0.11",
-    "@types/unzipper": "^0.10.0",
-    "@types/yargs": "^17.0.0",
-    "fs-extra": "^10.0.0",
-    "unzipper": "^0.12.3",
-    "sparql-benchmark-runner": "^5.0.0"
+    "@comunica/query-sparql-rdfjs": "^5.4.1",
+    "@rdfjs/types": "*",
+    "@types/fs-extra": "^11.0.0",
+    "@types/n3": "^1.26.1",
+    "@types/sparqljs": "^3.1.12",
+    "@types/yauzl": "^3.4.0",
+    "fs-extra": "^11.0.0",
+    "n3": "^1.26.0",
+    "rdf-stores": "^2.10.0",
+    "sparql-benchmark-runner": "^5.3.0",
+    "sparqljs": "^3.7.0",
+    "yauzl": "^3.4.0"
+  },
+  "optionalDependencies": {
+    "@comunica/query-sparql-hdt": "^5.0.1",
+    "hdt": "^3.3.2"
   }
 }
