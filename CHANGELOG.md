@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v6.6.0"></a>
+## [v6.6.0](https://github.com/rubensworks/jbr.js/compare/v6.5.0...v6.6.0) - 2026-11-15
+
+### Added
+* [Add queryRunnerRecordTimestamps option to WatDiv and LDBC SNB (#110)](https://github.com/rubensworks/jbr.js/commit/79e65e385c72555b175109784da8bba3befcffb0)
+
+### Fixed
+* [Don't regenerate shared output with -f when shared (#108)](https://github.com/rubensworks/jbr.js/commit/878f7d5a8666e4d2e77f415de1fc7094315f72bb)
+
 <a name="v6.5.0"></a>
 ## [v6.5.0](https://github.com/rubensworks/jbr.js/compare/v6.4.0...v6.5.0) - 2026-11-12
 
