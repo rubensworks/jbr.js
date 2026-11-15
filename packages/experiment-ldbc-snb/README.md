@@ -192,6 +192,7 @@ Any config changes require re-running the prepare step.
 * `queryRunnerEndpointAvailabilityCheckTimeout`: Timeout in milliseconds for checking if the SPARQL endpoint is available.
 * `queryRunnerUrlParams`: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint.
 * `queryTimeoutFallback`: An optional timeout value for a single query in milliseconds, to be used as fallback in case the SPARQL endpoint hook's timeout fails. This should always be higher than the timeout value configured in the SPARQL endpoint hook.
+* `queryRunnerRecordTimestamps`: If result arrival times must be recorded. Can be `none`, `first`, or `all` (default).
 
 ## License
 

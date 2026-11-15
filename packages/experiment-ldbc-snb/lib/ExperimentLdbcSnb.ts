@@ -3,7 +3,7 @@ import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import { HdtConverter, HttpAvailabilityLatch, secureProcessHandler } from 'jbr';
 import type { Experiment, Hook, ICleanTargets, ITaskContext, IRunTaskContext } from 'jbr';
-import type { IResultSerializer } from 'sparql-benchmark-runner';
+import type { IResultSerializer, RecordedTimestamps } from 'sparql-benchmark-runner';
 import {
   SparqlBenchmarkRunner,
   QueryLoaderFile,
@@ -25,6 +25,7 @@ export class ExperimentLdbcSnb implements Experiment {
   public static readonly DOCKER_IMAGE_LDBC_SNB_DATAGEN = `rubensworks/ldbc_snb_datagen@sha256:5905733b091ca2cc2cf55b43600644d5682d6357d759c9c69934d1b79087e057`;
   public static readonly TEMPLATES_PATH = Path.join(__dirname, 'templates');
   public static readonly WORKLOADS = [ 'interactive', 'bi', 'all' ];
+  public static readonly RECORDED_TIMESTAMPS = [ 'all', 'first', 'none' ];
   public readonly httpAvailabilityLatch = new HttpAvailabilityLatch();
   public readonly scale: string;
   public readonly hadoopMemory: string;
@@ -41,6 +42,7 @@ export class ExperimentLdbcSnb implements Experiment {
   public readonly queryRunnerUrlParams: Record<string, any>;
   public readonly queryTimeoutFallback: number | undefined;
   public readonly workload: string;
+  public readonly queryRunnerRecordTimestamps: string;
 
   /**
    * @param scale
@@ -58,6 +60,7 @@ export class ExperimentLdbcSnb implements Experiment {
    * @param queryRunnerUrlParams - @range {json}
    * @param queryTimeoutFallback
    * @param workload - One of 'interactive', 'bi', or 'all'. Defaults to 'interactive'.
+   * @param queryRunnerRecordTimestamps - Result timestamps to record: 'all', 'first' or 'none'. Defaults to 'all'.
    */
   public constructor(
     scale: string,
@@ -75,6 +78,7 @@ export class ExperimentLdbcSnb implements Experiment {
     queryRunnerUrlParams: Record<string, any>,
     queryTimeoutFallback: number | undefined,
     workload?: string,
+    queryRunnerRecordTimestamps?: string,
   ) {
     this.scale = scale;
     this.hadoopMemory = hadoopMemory;
@@ -93,6 +97,10 @@ export class ExperimentLdbcSnb implements Experiment {
     this.workload = workload ?? 'interactive';
     if (!ExperimentLdbcSnb.WORKLOADS.includes(this.workload)) {
       throw new Error(`Invalid LDBC SNB workload '${this.workload}', must be one of ${ExperimentLdbcSnb.WORKLOADS.join(', ')}`);
+    }
+    this.queryRunnerRecordTimestamps = queryRunnerRecordTimestamps ?? 'all';
+    if (!ExperimentLdbcSnb.RECORDED_TIMESTAMPS.includes(this.queryRunnerRecordTimestamps)) {
+      throw new Error(`Invalid queryRunnerRecordTimestamps '${this.queryRunnerRecordTimestamps}', must be one of ${ExperimentLdbcSnb.RECORDED_TIMESTAMPS.join(', ')}`);
     }
   }
 
@@ -368,6 +376,7 @@ export class ExperimentLdbcSnb implements Experiment {
       additionalUrlParams: new URLSearchParams(this.queryRunnerUrlParams),
       timeout: this.queryTimeoutFallback,
       recoveryQuery: 'ASK { ?s ?p ?o }',
+      recordTimestamps: <RecordedTimestamps> this.queryRunnerRecordTimestamps,
     }).runWithRawResults({
       async onStart() {
         // Collect stats
