@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v6.7.0"></a>
+## [v6.7.0](https://github.com/rubensworks/jbr.js/compare/v6.6.0...v6.7.0) - 2026-11-21
+
+### Added
+* [Add LargeRDFBench experiment handler (#109)](https://github.com/rubensworks/jbr.js/commit/4c4d26a51695f2f8961d6ca2ec05d49fded1c894)
+
 <a name="v6.6.0"></a>
 ## [v6.6.0](https://github.com/rubensworks/jbr.js/compare/v6.5.0...v6.6.0) - 2026-11-15
 

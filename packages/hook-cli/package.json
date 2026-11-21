@@ -1,6 +1,6 @@
 {
   "name": "@jbr-hook/cli",
-  "version": "6.6.0",
+  "version": "6.7.0",
   "description": "CLI-based hook handler for JBR",
   "main": "index.js",
   "typings": "index",
