@@ -17,6 +17,13 @@ export const HTTP_HEADERS = { 'User-Agent': 'jbr (https://github.com/rubensworks
 export const RETRY_DELAYS = [ 1_000, 5_000, 15_000, 30_000 ];
 
 /**
+ * The number of bytes at the end of an archive that are downloaded in a single request.
+ * This covers small archives entirely, and the central directory of large ones,
+ * which would otherwise be read with two requests per entry.
+ */
+export const TAIL_BYTES = 32 * 1024 * 1024;
+
+/**
  * Request a byte range, and retry on network errors, server errors, and rate limiting.
  * @param url The URL.
  * @param range The value of the Range header.
@@ -39,25 +46,59 @@ export async function fetchRange(url: string, range: string, retryDelays: number
 }
 
 /**
+ * The bytes at the end of a file that were downloaded already.
+ */
+export interface IFileTail {
+  /**
+   * The offset of the first byte in the file.
+   */
+  start: number;
+  /**
+   * The bytes from the offset until the end of the file.
+   */
+  data: Buffer;
+}
+
+/**
  * Reads byte ranges of a remote file via HTTP range requests.
  */
 export class HttpRandomAccessReader extends yauzl.RandomAccessReader {
+  /**
+   * @param url The URL of the file.
+   * @param retryDelays The delays in milliseconds before each retry of a request.
+   * @param tail The bytes at the end of the file, if they were downloaded already.
+   */
   public constructor(
     public readonly url: string,
     public readonly retryDelays: number[] = RETRY_DELAYS,
+    public readonly tail?: IFileTail,
   ) {
     super();
   }
 
+  /**
+   * Request a byte range, and fail if the response is not partial.
+   * @param start The first byte.
+   * @param end The byte after the last one.
+   */
+  public async fetchRange(start: number, end: number): Promise<Response> {
+    const response = await fetchRange(this.url, `bytes=${start}-${end - 1}`, this.retryDelays);
+    if (response.status !== 206) {
+      await response.body?.cancel();
+      throw new Error(`Expected a partial response for ${this.url}, but got status ${response.status}`);
+    }
+    return response;
+  }
+
   public override _readStreamForRange(start: number, end: number): Readable {
+    if (this.tail && start >= this.tail.start) {
+      return Readable.from([ this.tail.data.subarray(start - this.tail.start, end - this.tail.start) ], {
+        objectMode: false,
+      });
+    }
     const stream = new PassThrough();
-    fetchRange(this.url, `bytes=${start}-${end - 1}`, this.retryDelays)
-      .then((response) => {
-        if (response.status !== 206) {
-          throw new Error(`Expected a partial response for ${this.url}, but got status ${response.status}`);
-        }
-        Readable.fromWeb(<streamWeb.ReadableStream> response.body).pipe(stream);
-      })
+    this.fetchRange(start, end)
+      .then(response => Readable.fromWeb(<streamWeb.ReadableStream> response.body).pipe(stream))
       .catch((error: Error) => stream.destroy(error));
     return stream;
   }
@@ -71,6 +112,7 @@ export class ZenodoArchive {
     public readonly record: string,
     public readonly name: string,
     public readonly retryDelays: number[] = RETRY_DELAYS,
+    public readonly tailBytes: number = TAIL_BYTES,
   ) {}
 
   public get url(): string {
@@ -88,7 +130,10 @@ export class ZenodoArchive {
       throw new Error(`Could not determine the size of ${this.url}, got status ${response.status}`);
     }
     // Ranges are requested on the final URL, after redirects.
-    const reader = new HttpRandomAccessReader(response.url, this.retryDelays);
+    const tailStart = Math.max(0, size - this.tailBytes);
+    const tailResponse = await new HttpRandomAccessReader(response.url, this.retryDelays).fetchRange(tailStart, size);
+    const tail = { start: tailStart, data: Buffer.from(await tailResponse.arrayBuffer()) };
+    const reader = new HttpRandomAccessReader(response.url, this.retryDelays, tail);
     return await new Promise((resolve, reject) => yauzl.fromRandomAccessReader(
       reader,
       size,

@@ -5,7 +5,14 @@ import { Readable } from 'node:stream';
 import * as fs from 'fs-extra';
 import * as yauzl from 'yauzl';
 import * as yazl from 'yazl';
-import { fetchRange, HTTP_HEADERS, HttpRandomAccessReader, RETRY_DELAYS, ZenodoArchive } from '../lib/ZenodoArchive';
+import {
+  fetchRange,
+  HTTP_HEADERS,
+  HttpRandomAccessReader,
+  RETRY_DELAYS,
+  TAIL_BYTES,
+  ZenodoArchive,
+} from '../lib/ZenodoArchive';
 
 async function createZip(): Promise<Buffer> {
   const zip = new yazl.ZipFile();
@@ -27,6 +34,7 @@ function mockResponse(status: number, body: Buffer | undefined, headers: Record<
     url: 'https://files.example.org/final',
     headers: new Headers(headers),
     body: body ? Readable.toWeb(Readable.from([ body ])) : undefined,
+    arrayBuffer: async() => new Uint8Array(body ?? []).buffer,
   };
 }
 
@@ -73,7 +81,31 @@ describe('ZenodoArchive', () => {
     expect(fetchMock).toHaveBeenCalledWith('https://zenodo.org/api/records/123/files/a.zip/content', {
       headers: { ...HTTP_HEADERS, Range: 'bytes=0-0' },
     });
-    expect(fetchMock).toHaveBeenCalledWith('https://files.example.org/final', expect.anything());
+    expect(fetchMock).toHaveBeenCalledWith('https://files.example.org/final', {
+      headers: { ...HTTP_HEADERS, Range: `bytes=0-${zip.length - 1}` },
+    });
+    // The archive is smaller than the tail, so it is downloaded in a single request after the one for its size.
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('reads the ranges before the tail with separate requests', async() => {
+    const extracted = await new ZenodoArchive('123', 'a.zip', [ 0 ], 100)
+      .extract(fileName => fileName.endsWith('.hdt') || fileName.endsWith('.sparql'), target, log);
+    expect(extracted).toEqual([ 'a.hdt', 'b.sparql' ]);
+    await expect(fs.readFile(Path.join(target, 'a.hdt'), 'utf8')).resolves.toBe('HDT contents');
+    await expect(fs.readFile(Path.join(target, 'b.sparql'), 'utf8')).resolves.toBe('SELECT * WHERE { ?s ?p ?o }');
+    expect(fetchMock).toHaveBeenCalledWith('https://files.example.org/final', {
+      headers: { ...HTTP_HEADERS, Range: `bytes=${zip.length - 100}-${zip.length - 1}` },
+    });
+    expect(fetchMock.mock.calls.length).toBeGreaterThan(2);
+  });
+
+  it('fails if the tail is not a partial response', async() => {
+    fetchMock.mockImplementationOnce(async() => mockResponse(206, zip.subarray(0, 1), {
+      'content-range': `bytes 0-0/${zip.length}`,
+    })).mockImplementationOnce(async() => mockResponse(200, zip));
+    await expect(new ZenodoArchive('123', 'a.zip').open()).rejects
+      .toThrow('Expected a partial response for https://files.example.org/final, but got status 200');
   });
 
   it('does not download existing files of the right size again', async() => {
@@ -114,8 +146,9 @@ describe('ZenodoArchive', () => {
     expect(failed).toBe(true);
   });
 
-  it('retries with delays by default', async() => {
+  it('retries with delays and downloads the tail by default', async() => {
     expect(new ZenodoArchive('123', 'a.zip').retryDelays).toBe(RETRY_DELAYS);
+    expect(new ZenodoArchive('123', 'a.zip').tailBytes).toBe(TAIL_BYTES);
     expect(new HttpRandomAccessReader('https://example.org/file').retryDelays).toBe(RETRY_DELAYS);
   });
 
@@ -155,6 +188,12 @@ describe('ZenodoArchive', () => {
   });
 
   describe('HttpRandomAccessReader', () => {
+    it('fails on responses that are not partial and have no body', async() => {
+      fetchMock.mockImplementation(async() => mockResponse(404, undefined));
+      await expect(new HttpRandomAccessReader('https://example.org/file', [ 0 ]).fetchRange(0, 2)).rejects
+        .toThrow('Expected a partial response for https://example.org/file, but got status 404');
+    });
+
     it('fails on responses that are not partial', async() => {
       fetchMock.mockImplementation(async() => mockResponse(200, Buffer.from('abc')));
       const stream = new HttpRandomAccessReader('https://example.org/file')._readStreamForRange(0, 2);
