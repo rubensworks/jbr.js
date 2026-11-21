@@ -19,7 +19,7 @@
 <ul class="tsd-hierarchy">
 <li><a href="../interfaces/jbr.Hook.html" class="tsd-signature-type tsd-kind-interface">Hook</a></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/33ae797643d2e6e62cee646802174a861c169094/packages/hook-cli/lib/HookCli.ts#L10">hook-cli/lib/HookCli.ts:10</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/hook-cli/lib/HookCli.ts#L10">hook-cli/lib/HookCli.ts:10</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -32,6 +32,7 @@
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading tsd-anchor-link" id="properties">Properties<a href="#properties" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-index-list"><a href="#entrypoint" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>entrypoint</span></a>
+<a href="#logname" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>log<wbr/>Name?</span></a>
 <a href="#statsfilepath" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>stats<wbr/>File<wbr/>Path?</span></a>
 </div></section>
 <section class="tsd-index-section">
@@ -47,16 +48,23 @@
 <h3 class="tsd-anchor-link" id="constructor"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
-<div class="tsd-signature tsd-anchor-link" id="constructorhookcli"><span class="tsd-signature-keyword">new</span> <span class="tsd-kind-constructor-signature">HookCli</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">entrypoint</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">,</span> <span class="tsd-kind-parameter">statsFilePath</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type tsd-kind-class">HookCli</a><a href="#constructorhookcli" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-signature tsd-anchor-link" id="constructorhookcli"><span class="tsd-signature-keyword">new</span> <span class="tsd-kind-constructor-signature">HookCli</span><span class="tsd-signature-symbol">(</span><br/>    <span class="tsd-kind-parameter">entrypoint</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">statsFilePath</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">logName</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type tsd-kind-class">HookCli</a><a href="#constructorhookcli" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
-<li><span><span class="tsd-kind-parameter">entrypoint</span>: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></span></li>
-<li><span><code class="tsd-tag">Optional</code><span class="tsd-kind-parameter">statsFilePath</span>: <span class="tsd-signature-type">string</span></span></li></ul></div>
+<li><span><span class="tsd-kind-parameter">entrypoint</span>: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></span>
+<div class="tsd-comment tsd-typography"><p>The command parts to execute.</p>
+</div></li>
+<li><span><code class="tsd-tag">Optional</code><span class="tsd-kind-parameter">statsFilePath</span>: <span class="tsd-signature-type">string</span></span>
+<div class="tsd-comment tsd-typography"><p>An optional path to a CSV file in which the stats of the process will be written.</p>
+</div></li>
+<li><span><code class="tsd-tag">Optional</code><span class="tsd-kind-parameter">logName</span>: <span class="tsd-signature-type">string</span></span>
+<div class="tsd-comment tsd-typography"><p>An optional name to include in the names of the log files, to distinguish multiple CLI hooks.</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type tsd-kind-class">HookCli</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/33ae797643d2e6e62cee646802174a861c169094/packages/hook-cli/lib/HookCli.ts#L14">hook-cli/lib/HookCli.ts:14</a></li></ul></aside></div></li></ul></section></section></details>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/hook-cli/lib/HookCli.ts#L20">hook-cli/lib/HookCli.ts:20</a></li></ul></aside></div></li></ul></section></section></details>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
 <h2 class="tsd-anchor-link" id="properties-1">Properties<a href="#properties-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
 <section>
@@ -64,12 +72,17 @@
 <h3 class="tsd-anchor-link" id="entrypoint"><code class="tsd-tag">Readonly</code><span>entrypoint</span><a href="#entrypoint" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">entrypoint</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/33ae797643d2e6e62cee646802174a861c169094/packages/hook-cli/lib/HookCli.ts#L11">hook-cli/lib/HookCli.ts:11</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/hook-cli/lib/HookCli.ts#L11">hook-cli/lib/HookCli.ts:11</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="logname"><code class="tsd-tag">Optional</code> <code class="tsd-tag">Readonly</code><span>log<wbr/>Name</span><a href="#logname" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">logName</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/hook-cli/lib/HookCli.ts#L13">hook-cli/lib/HookCli.ts:13</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="statsfilepath"><code class="tsd-tag">Optional</code> <code class="tsd-tag">Readonly</code><span>stats<wbr/>File<wbr/>Path</span><a href="#statsfilepath" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">statsFilePath</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/33ae797643d2e6e62cee646802174a861c169094/packages/hook-cli/lib/HookCli.ts#L12">hook-cli/lib/HookCli.ts:12</a></li></ul></aside></section></section></details>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/hook-cli/lib/HookCli.ts#L12">hook-cli/lib/HookCli.ts:12</a></li></ul></aside></section></section></details>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Methods"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
 <h2 class="tsd-anchor-link" id="methods-1">Methods<a href="#methods-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
 <section>
@@ -89,7 +102,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/jbr.Hook.html">Hook</a>.<a href="../interfaces/jbr.Hook.html#clean">clean</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/33ae797643d2e6e62cee646802174a861c169094/packages/hook-cli/lib/HookCli.ts#L39">hook-cli/lib/HookCli.ts:39</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/hook-cli/lib/HookCli.ts#L48">hook-cli/lib/HookCli.ts:48</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="prepare"><span>prepare</span><a href="#prepare" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -106,7 +119,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/jbr.Hook.html">Hook</a>.<a href="../interfaces/jbr.Hook.html#prepare">prepare</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/33ae797643d2e6e62cee646802174a861c169094/packages/hook-cli/lib/HookCli.ts#L22">hook-cli/lib/HookCli.ts:22</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/hook-cli/lib/HookCli.ts#L30">hook-cli/lib/HookCli.ts:30</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="start"><span>start</span><a href="#start" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -126,7 +139,7 @@
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/jbr.Hook.html">Hook</a>.<a href="../interfaces/jbr.Hook.html#start">start</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/33ae797643d2e6e62cee646802174a861c169094/packages/hook-cli/lib/HookCli.ts#L26">hook-cli/lib/HookCli.ts:26</a></li></ul></aside></div></li></ul></section></section></details></div>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/hook-cli/lib/HookCli.ts#L34">hook-cli/lib/HookCli.ts:34</a></li></ul></aside></div></li></ul></section></section></details></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -145,7 +158,7 @@
 <details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Constructors"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Constructors</summary>
 <div><a href="#constructor"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Constructor"><use href="../assets/icons.svg#icon-512"></use></svg><span>constructor</span></a></div></details>
 <details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Properties</summary>
-<div><a href="#entrypoint"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>entrypoint</span></a><a href="#statsfilepath"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>stats<wbr/>File<wbr/>Path</span></a></div></details>
+<div><a href="#entrypoint"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>entrypoint</span></a><a href="#logname"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>log<wbr/>Name</span></a><a href="#statsfilepath"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>stats<wbr/>File<wbr/>Path</span></a></div></details>
 <details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Methods"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Methods</summary>
 <div><a href="#clean"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>clean</span></a><a href="#prepare"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>prepare</span></a><a href="#start"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>start</span></a></div></details></div></details></div>
 <div class="site-menu">

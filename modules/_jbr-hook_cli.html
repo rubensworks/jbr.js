@@ -27,8 +27,8 @@ then you can install this CLI-based hook as follows.</p>
 </code><button type="button">Copy</button></pre>
 
 <h2 id="output" class="tsd-anchor-link">Output<a href="#output" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<p><code>output/logs/cli-stdout.txt</code>: Logs of stdout.
-<code>output/logs/cli-stderr.txt</code>: Logs of stderr.</p>
+<p><code>output/logs/cli-stdout.txt</code>: Logs of stdout, or <code>output/logs/cli-&lt;logName&gt;-stdout.txt</code> if <code>logName</code> is set.
+<code>output/logs/cli-stderr.txt</code>: Logs of stderr, or <code>output/logs/cli-&lt;logName&gt;-stderr.txt</code> if <code>logName</code> is set.</p>
 <h2 id="configuration" class="tsd-anchor-link">Configuration<a href="#configuration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>When installing this hook, your configuration file (<code>jbr-experiment.json</code>) will contain the following:</p>
 <pre><code class="text">...
@@ -41,7 +41,8 @@ then you can install this CLI-based hook as follows.</p>
       &quot;-p&quot;,
       &quot;3001&quot;
     ],
-    &quot;statsFilePath&quot;: &quot;stats.csv&quot;
+    &quot;statsFilePath&quot;: &quot;stats.csv&quot;,
+    &quot;logName&quot;: &quot;endpoint&quot;
   }
 ...
 </code><button type="button">Copy</button></pre>
@@ -50,6 +51,7 @@ then you can install this CLI-based hook as follows.</p>
 <ul>
 <li><code>entrypoint</code>: Array of command parts to execute when starting the experiment. Except on Windows, the command runs in its own process group, so that stopping the experiment also stops processes it spawned (for example when started via <code>npx</code>).</li>
 <li><code>statsFilePath</code>: Optional path to a CSV file in which the stats of the process will be written. CPU and memory usage are summed over the process and all its descendants.</li>
+<li><code>logName</code>: Optional name to include in the names of the log files, such as <code>output/logs/cli-endpoint-stdout.txt</code>, so that multiple CLI hooks in an experiment write to separate log files. Without it, the logs are written to <code>output/logs/cli-stdout.txt</code> and <code>output/logs/cli-stderr.txt</code>.</li>
 </ul>
 <h2 id="license" class="tsd-anchor-link">License<a href="#license" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>jbr.js is written by <a href="http://www.rubensworks.net/">Ruben Taelman</a>.</p>

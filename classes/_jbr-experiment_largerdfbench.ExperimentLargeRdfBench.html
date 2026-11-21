@@ -1,0 +1,588 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>ExperimentLargeRdfBench | jbr</title><meta name="description" content="Documentation for jbr"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container"><a href="../index.html" class="title">jbr</a>
+<div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/>
+<ul role="listbox" id="tsd-search-results"></ul>
+<div id="tsd-search-status" aria-live="polite" aria-atomic="true">
+<div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header>
+<div class="container container-main">
+<div class="col-content">
+<div class="tsd-page-title">
+<ul class="tsd-breadcrumb" aria-label="Breadcrumb">
+<li><a href="../modules/_jbr-experiment_largerdfbench.html">@jbr-experiment/largerdfbench</a></li>
+<li><a href="" aria-current="page">ExperimentLargeRdfBench</a></li></ul>
+<h1>Class ExperimentLargeRdfBench</h1></div>
+<section class="tsd-panel tsd-comment">
+<div class="tsd-comment tsd-typography"><p>An experiment instance for LargeRDFBench, a benchmark for SPARQL endpoint federation,
+using either its full datasets, or a sample of them over which the queries produce the same results.</p>
+</div></section>
+<section class="tsd-panel">
+<h4>Implements</h4>
+<ul class="tsd-hierarchy">
+<li><a href="../interfaces/jbr.Experiment.html" class="tsd-signature-type tsd-kind-interface">Experiment</a></li></ul></section><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L39">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:39</a></li></ul></aside>
+<section class="tsd-panel-group tsd-index-group">
+<section class="tsd-panel tsd-index-panel">
+<details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h5 class="tsd-index-heading uppercase">Index</h5></summary>
+<div class="tsd-accordion-details">
+<section class="tsd-index-section">
+<h3 class="tsd-index-heading tsd-anchor-link" id="constructors">Constructors<a href="#constructors" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-index-list"><a href="#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Constructor"><use href="../assets/icons.svg#icon-512"></use></svg><span>constructor</span></a>
+</div></section>
+<section class="tsd-index-section">
+<h3 class="tsd-index-heading tsd-anchor-link" id="properties">Properties<a href="#properties" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-index-list"><a href="#datasets" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>datasets</span></a>
+<a href="#endpointurl" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>endpoint<wbr/>Url</span></a>
+<a href="#endpointurlexternal" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>endpoint<wbr/>Url<wbr/>External</span></a>
+<a href="#generationquerytimeout" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>generation<wbr/>Query<wbr/>Timeout</span></a>
+<a href="#hooksparqlendpoint" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>hook<wbr/>Sparql<wbr/>Endpoint</span></a>
+<a href="#hooksparqlendpointsources" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>hook<wbr/>Sparql<wbr/>Endpoint<wbr/>Sources</span></a>
+<a href="#httpavailabilitylatch" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>http<wbr/>Availability<wbr/>Latch</span></a>
+<a href="#queries" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>queries</span></a>
+<a href="#queryrunnerendpointavailabilitychecktimeout" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Runner<wbr/>Endpoint<wbr/>Availability<wbr/>Check<wbr/>Timeout</span></a>
+<a href="#queryrunnerreplication" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Runner<wbr/>Replication</span></a>
+<a href="#queryrunnerrequestdelay" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Runner<wbr/>Request<wbr/>Delay</span></a>
+<a href="#queryrunnerurlparams" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Runner<wbr/>Url<wbr/>Params</span></a>
+<a href="#queryrunnerwarmuprounds" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Runner<wbr/>Warmup<wbr/>Rounds</span></a>
+<a href="#querytimeoutfallback" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Timeout<wbr/>Fallback</span></a>
+<a href="#sample" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>sample</span></a>
+<a href="#sampleothertriplesrate" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>sample<wbr/>Other<wbr/>Triples<wbr/>Rate</span></a>
+<a href="#sampleseed" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>sample<wbr/>Seed</span></a>
+<a href="#samplesubjectrates" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>sample<wbr/>Subject<wbr/>Rates</span></a>
+<a href="#samplevalidate" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>sample<wbr/>Validate</span></a>
+<a href="#sourceurlsexternal" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>source<wbr/>Urls<wbr/>External</span></a>
+<a href="#zenodorecord" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>zenodo<wbr/>Record</span></a>
+<a href="#equivalent_queries" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>EQUIVALENT_<wbr/>QUERIES</span></a>
+<a href="#fedbench_datasets" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>FEDBENCH_<wbr/>DATASETS</span></a>
+<a href="#fedbench_queries" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>FEDBENCH_<wbr/>QUERIES</span></a>
+<a href="#limit_candidates" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>LIMIT_<wbr/>CANDIDATES</span></a>
+<a href="#templates_path" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>TEMPLATES_<wbr/>PATH</span></a>
+</div></section>
+<section class="tsd-index-section">
+<h3 class="tsd-index-heading tsd-anchor-link" id="methods">Methods<a href="#methods" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-index-list"><a href="#clean" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>clean</span></a>
+<a href="#generatesample" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>generate<wbr/>Sample</span></a>
+<a href="#getdatasetpath" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>get<wbr/>Dataset<wbr/>Path</span></a>
+<a href="#isgenerated" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>is<wbr/>Generated</span></a>
+<a href="#loadsamplestores" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>load<wbr/>Sample<wbr/>Stores</span></a>
+<a href="#prepare" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>prepare</span></a>
+<a href="#readequivalentqueries" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>read<wbr/>Equivalent<wbr/>Queries</span></a>
+<a href="#readpublishedresults" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>read<wbr/>Published<wbr/>Results</span></a>
+<a href="#readqueries" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>read<wbr/>Queries</span></a>
+<a href="#run" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>run</span></a>
+<a href="#writemanifest" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>write<wbr/>Manifest</span></a>
+<a href="#writepublishedresults" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>write<wbr/>Published<wbr/>Results</span></a>
+<a href="#getpaths" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>get<wbr/>Paths</span></a>
+<a href="#loadgenerationmodules" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>load<wbr/>Generation<wbr/>Modules</span></a>
+</div></section></div></details></section></section>
+<details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Constructors"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h2 class="tsd-anchor-link" id="constructors-1">Constructors<a href="#constructors-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
+<section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="constructor"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="constructorexperimentlargerdfbench"><span class="tsd-signature-keyword">new</span> <span class="tsd-kind-constructor-signature">ExperimentLargeRdfBench</span><span class="tsd-signature-symbol">(</span><br/>    <span class="tsd-kind-parameter">zenodoRecord</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">datasets</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">queries</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">sample</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">sampleSubjectRates</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">sampleOtherTriplesRate</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">sampleSeed</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">sampleValidate</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">generationQueryTimeout</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">hookSparqlEndpoint</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.Hook.html" class="tsd-signature-type tsd-kind-interface">Hook</a><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">hookSparqlEndpointSources</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.Hook.html" class="tsd-signature-type tsd-kind-interface">Hook</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">endpointUrl</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">endpointUrlExternal</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">sourceUrlsExternal</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">queryRunnerReplication</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">queryRunnerWarmupRounds</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">queryRunnerRequestDelay</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">queryRunnerEndpointAvailabilityCheckTimeout</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">queryRunnerUrlParams</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">queryTimeoutFallback</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type tsd-kind-class">ExperimentLargeRdfBench</a><a href="#constructorexperimentlargerdfbench" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li><span><span class="tsd-kind-parameter">zenodoRecord</span>: <span class="tsd-signature-type">string</span></span>
+<div class="tsd-comment tsd-typography"><p>The Zenodo record of the LargeRDFBench Interoperable Edition to download from.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">datasets</span>: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></span>
+<div class="tsd-comment tsd-typography"><p>The datasets to include, by their name in the Zenodo record.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">queries</span>: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></span>
+<div class="tsd-comment tsd-typography"><p>The queries to include, by their name in the Zenodo record.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">sample</span>: <span class="tsd-signature-type">boolean</span></span>
+<div class="tsd-comment tsd-typography"><p>If the datasets must be sampled. Otherwise, the full datasets are used, as HDT files.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">sampleSubjectRates</span>: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></span>
+<div class="tsd-comment tsd-typography"><p>The fraction of subjects to sample per dataset, which defaults to 1.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">sampleOtherTriplesRate</span>: <span class="tsd-signature-type">number</span></span>
+<div class="tsd-comment tsd-typography"><p>The fraction of the triples of sampled subjects that match no query pattern to
+keep.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">sampleSeed</span>: <span class="tsd-signature-type">string</span></span>
+<div class="tsd-comment tsd-typography"><p>The seed for sampling.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">sampleValidate</span>: <span class="tsd-signature-type">boolean</span></span>
+<div class="tsd-comment tsd-typography"><p>If the queries must be validated to produce the same results over the sample as over the
+full data.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">generationQueryTimeout</span>: <span class="tsd-signature-type">number</span></span>
+<div class="tsd-comment tsd-typography"><p>The timeout in seconds of the queries over the full data during sampling.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">hookSparqlEndpoint</span>: <a href="../interfaces/jbr.Hook.html" class="tsd-signature-type tsd-kind-interface">Hook</a></span>
+<div class="tsd-comment tsd-typography"><p>The SPARQL endpoint of the federation engine that is benchmarked.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">hookSparqlEndpointSources</span>: <a href="../interfaces/jbr.Hook.html" class="tsd-signature-type tsd-kind-interface">Hook</a><span class="tsd-signature-symbol">[]</span></span>
+<div class="tsd-comment tsd-typography"><p>The SPARQL endpoints of the datasets, which are started one by one.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">endpointUrl</span>: <span class="tsd-signature-type">string</span></span>
+<div class="tsd-comment tsd-typography"><p>The URL of the SPARQL endpoint of the federation engine.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">endpointUrlExternal</span>: <span class="tsd-signature-type">string</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">undefined</span></span>
+<div class="tsd-comment tsd-typography"><p>The URL to check if the SPARQL endpoint of the federation engine is available.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">sourceUrlsExternal</span>: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">undefined</span></span>
+<div class="tsd-comment tsd-typography"><p>The URLs to check if each source is available before starting the next one.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">queryRunnerReplication</span>: <span class="tsd-signature-type">number</span></span>
+<div class="tsd-comment tsd-typography"><p>The number of replication runs.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">queryRunnerWarmupRounds</span>: <span class="tsd-signature-type">number</span></span>
+<div class="tsd-comment tsd-typography"><p>The number of warmup runs.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">queryRunnerRequestDelay</span>: <span class="tsd-signature-type">number</span></span>
+<div class="tsd-comment tsd-typography"><p>The delay between requests in milliseconds.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">queryRunnerEndpointAvailabilityCheckTimeout</span>: <span class="tsd-signature-type">number</span></span>
+<div class="tsd-comment tsd-typography"><p>The timeout of the availability check in milliseconds.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">queryRunnerUrlParams</span>: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></span>
+<div class="tsd-comment tsd-typography"><p>URL parameters to pass to the SPARQL endpoint.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">queryTimeoutFallback</span>: <span class="tsd-signature-type">number</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">undefined</span></span>
+<div class="tsd-comment tsd-typography"><p>A timeout in milliseconds for a single query, as fallback for the endpoint's timeout.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type tsd-kind-class">ExperimentLargeRdfBench</a></h4>
+<div class="tsd-comment tsd-typography">
+<div class="tsd-tag-range">
+<h4 class="tsd-anchor-link" id="range">Range<a href="#range" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4></div>
+<div class="tsd-tag-range">
+<h4 class="tsd-anchor-link" id="range-1">Range<a href="#range-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4></div>
+<div class="tsd-tag-range">
+<h4 class="tsd-anchor-link" id="range-2">Range<a href="#range-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4></div></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L147">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:147</a></li></ul></aside></div></li></ul></section></section></details>
+<details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h2 class="tsd-anchor-link" id="properties-1">Properties<a href="#properties-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
+<section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="datasets"><code class="tsd-tag">Readonly</code><span>datasets</span><a href="#datasets" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">datasets</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L103">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:103</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="endpointurl"><code class="tsd-tag">Readonly</code><span>endpoint<wbr/>Url</span><a href="#endpointurl" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">endpointUrl</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L113">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:113</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="endpointurlexternal"><code class="tsd-tag">Readonly</code><span>endpoint<wbr/>Url<wbr/>External</span><a href="#endpointurlexternal" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">endpointUrlExternal</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L114">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:114</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="generationquerytimeout"><code class="tsd-tag">Readonly</code><span>generation<wbr/>Query<wbr/>Timeout</span><a href="#generationquerytimeout" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">generationQueryTimeout</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L110">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:110</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="hooksparqlendpoint"><code class="tsd-tag">Readonly</code><span>hook<wbr/>Sparql<wbr/>Endpoint</span><a href="#hooksparqlendpoint" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">hookSparqlEndpoint</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.Hook.html" class="tsd-signature-type tsd-kind-interface">Hook</a></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L111">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:111</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="hooksparqlendpointsources"><code class="tsd-tag">Readonly</code><span>hook<wbr/>Sparql<wbr/>Endpoint<wbr/>Sources</span><a href="#hooksparqlendpointsources" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">hookSparqlEndpointSources</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.Hook.html" class="tsd-signature-type tsd-kind-interface">Hook</a><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L112">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:112</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="httpavailabilitylatch"><code class="tsd-tag">Readonly</code><span>http<wbr/>Availability<wbr/>Latch</span><a href="#httpavailabilitylatch" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">httpAvailabilityLatch</span><span class="tsd-signature-symbol">:</span> <a href="jbr.HttpAvailabilityLatch.html" class="tsd-signature-type tsd-kind-class">HttpAvailabilityLatch</a><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L101">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:101</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="queries"><code class="tsd-tag">Readonly</code><span>queries</span><a href="#queries" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">queries</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L104">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:104</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="queryrunnerendpointavailabilitychecktimeout"><code class="tsd-tag">Readonly</code><span>query<wbr/>Runner<wbr/>Endpoint<wbr/>Availability<wbr/>Check<wbr/>Timeout</span><a href="#queryrunnerendpointavailabilitychecktimeout" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">queryRunnerEndpointAvailabilityCheckTimeout</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L119">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:119</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="queryrunnerreplication"><code class="tsd-tag">Readonly</code><span>query<wbr/>Runner<wbr/>Replication</span><a href="#queryrunnerreplication" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">queryRunnerReplication</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L116">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:116</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="queryrunnerrequestdelay"><code class="tsd-tag">Readonly</code><span>query<wbr/>Runner<wbr/>Request<wbr/>Delay</span><a href="#queryrunnerrequestdelay" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">queryRunnerRequestDelay</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L118">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:118</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="queryrunnerurlparams"><code class="tsd-tag">Readonly</code><span>query<wbr/>Runner<wbr/>Url<wbr/>Params</span><a href="#queryrunnerurlparams" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">queryRunnerUrlParams</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L120">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:120</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="queryrunnerwarmuprounds"><code class="tsd-tag">Readonly</code><span>query<wbr/>Runner<wbr/>Warmup<wbr/>Rounds</span><a href="#queryrunnerwarmuprounds" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">queryRunnerWarmupRounds</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L117">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:117</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="querytimeoutfallback"><code class="tsd-tag">Readonly</code><span>query<wbr/>Timeout<wbr/>Fallback</span><a href="#querytimeoutfallback" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">queryTimeoutFallback</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">undefined</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L121">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:121</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="sample"><code class="tsd-tag">Readonly</code><span>sample</span><a href="#sample" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">sample</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L105">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:105</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="sampleothertriplesrate"><code class="tsd-tag">Readonly</code><span>sample<wbr/>Other<wbr/>Triples<wbr/>Rate</span><a href="#sampleothertriplesrate" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">sampleOtherTriplesRate</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L107">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:107</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="sampleseed"><code class="tsd-tag">Readonly</code><span>sample<wbr/>Seed</span><a href="#sampleseed" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">sampleSeed</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L108">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:108</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="samplesubjectrates"><code class="tsd-tag">Readonly</code><span>sample<wbr/>Subject<wbr/>Rates</span><a href="#samplesubjectrates" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">sampleSubjectRates</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L106">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:106</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="samplevalidate"><code class="tsd-tag">Readonly</code><span>sample<wbr/>Validate</span><a href="#samplevalidate" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">sampleValidate</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L109">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:109</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="sourceurlsexternal"><code class="tsd-tag">Readonly</code><span>source<wbr/>Urls<wbr/>External</span><a href="#sourceurlsexternal" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">sourceUrlsExternal</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L115">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:115</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="zenodorecord"><code class="tsd-tag">Readonly</code><span>zenodo<wbr/>Record</span><a href="#zenodorecord" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">zenodoRecord</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L102">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:102</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="equivalent_queries"><code class="tsd-tag">Static</code> <code class="tsd-tag">Readonly</code><span>EQUIVALENT_<wbr/>QUERIES</span><a href="#equivalent_queries" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">EQUIVALENT_QUERIES</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
+<div class="tsd-comment tsd-typography"><p>Queries whose original form is too slow to generate a sample,
+mapped to an equivalent formulation in the templates directory.</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L89">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:89</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="fedbench_datasets"><code class="tsd-tag">Static</code> <code class="tsd-tag">Readonly</code><span>FEDBENCH_<wbr/>DATASETS</span><a href="#fedbench_datasets" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">FEDBENCH_DATASETS</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = ...</span></div>
+<div class="tsd-comment tsd-typography"><p>The 9 datasets that originate from FedBench.</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L44">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:44</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="fedbench_queries"><code class="tsd-tag">Static</code> <code class="tsd-tag">Readonly</code><span>FEDBENCH_<wbr/>QUERIES</span><a href="#fedbench_queries" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">FEDBENCH_QUERIES</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = ...</span></div>
+<div class="tsd-comment tsd-typography"><p>The 23 queries that only use the FedBench datasets.</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L59">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:59</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="limit_candidates"><code class="tsd-tag">Static</code> <code class="tsd-tag">Readonly</code><span>LIMIT_<wbr/>CANDIDATES</span><a href="#limit_candidates" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">LIMIT_CANDIDATES</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">ILimitCandidates</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
+<div class="tsd-comment tsd-typography"><p>LIMIT queries whose full result is too expensive to compute, with candidate values for one of their variables.</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L97">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:97</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="templates_path"><code class="tsd-tag">Static</code> <code class="tsd-tag">Readonly</code><span>TEMPLATES_<wbr/>PATH</span><a href="#templates_path" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">TEMPLATES_PATH</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L40">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:40</a></li></ul></aside></section></section></details>
+<details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Methods"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h2 class="tsd-anchor-link" id="methods-1">Methods<a href="#methods-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
+<section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="clean"><span>clean</span><a href="#clean" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="clean-1"><span class="tsd-kind-call-signature">clean</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">context</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type tsd-kind-interface">ITaskContext</a><span class="tsd-signature-symbol">,</span> <span class="tsd-kind-parameter">cleanTargets</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.ICleanTargets.html" class="tsd-signature-type tsd-kind-interface">ICleanTargets</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#clean-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Called when an experiment needs to be cleaned up.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li><span><span class="tsd-kind-parameter">context</span>: <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type tsd-kind-interface">ITaskContext</a></span>
+<div class="tsd-comment tsd-typography"><p>The task context.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">cleanTargets</span>: <a href="../interfaces/jbr.ICleanTargets.html" class="tsd-signature-type tsd-kind-interface">ICleanTargets</a></span>
+<div class="tsd-comment tsd-typography"><p>What parts of the experiment that need cleaning.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Implementation of <a href="../interfaces/jbr.Experiment.html">Experiment</a>.<a href="../interfaces/jbr.Experiment.html#clean">clean</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L574">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:574</a></li></ul></aside></div></li></ul></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="generatesample"><span>generate<wbr/>Sample</span><a href="#generatesample" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="generatesample-1"><span class="tsd-kind-call-signature">generateSample</span><span class="tsd-signature-symbol">(</span><br/>    <span class="tsd-kind-parameter">context</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type tsd-kind-interface">ITaskContext</a><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">paths</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">queries</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">publishedResults</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">ISparqlJsonResults</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#generatesample-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Generate the sampled datasets, the expected results, and the manifest.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li><span><span class="tsd-kind-parameter">context</span>: <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type tsd-kind-interface">ITaskContext</a></span>
+<div class="tsd-comment tsd-typography"><p>The task context.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">paths</span>: <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a></span>
+<div class="tsd-comment tsd-typography"><p>The paths of the generated files.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">queries</span>: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></span>
+<div class="tsd-comment tsd-typography"><p>The queries.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">publishedResults</span>: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">ISparqlJsonResults</span><span class="tsd-signature-symbol">&gt;</span></span>
+<div class="tsd-comment tsd-typography"><p>The published results.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L352">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:352</a></li></ul></aside></div></li></ul></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="getdatasetpath"><span>get<wbr/>Dataset<wbr/>Path</span><a href="#getdatasetpath" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="getdatasetpath-1"><span class="tsd-kind-call-signature">getDatasetPath</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">paths</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a><span class="tsd-signature-symbol">,</span> <span class="tsd-kind-parameter">dataset</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><a href="#getdatasetpath-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The path of a dataset that the sources serve: an N-Triples file for a sample, or an HDT file for the full data.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li><span><span class="tsd-kind-parameter">paths</span>: <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a></span>
+<div class="tsd-comment tsd-typography"><p>The paths of the generated files.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">dataset</span>: <span class="tsd-signature-type">string</span></span>
+<div class="tsd-comment tsd-typography"><p>A dataset name.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L214">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:214</a></li></ul></aside></div></li></ul></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="isgenerated"><span>is<wbr/>Generated</span><a href="#isgenerated" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="isgenerated-1"><span class="tsd-kind-call-signature">isGenerated</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">paths</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><a href="#isgenerated-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Check if all generated files that are needed to run the experiment exist.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li><span><span class="tsd-kind-parameter">paths</span>: <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a></span>
+<div class="tsd-comment tsd-typography"><p>The paths of the generated files.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L272">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:272</a></li></ul></aside></div></li></ul></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="loadsamplestores"><span>load<wbr/>Sample<wbr/>Stores</span><a href="#loadsamplestores" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="loadsamplestores-1"><span class="tsd-kind-call-signature">loadSampleStores</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">paths</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RdfStore</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">Quad</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#loadsamplestores-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Load each sampled dataset into its own store, so that, as in a federation, matches in multiple datasets are not
+merged.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li><span><span class="tsd-kind-parameter">paths</span>: <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a></span>
+<div class="tsd-comment tsd-typography"><p>The paths of the generated files.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RdfStore</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">Quad</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L470">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:470</a></li></ul></aside></div></li></ul></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="prepare"><span>prepare</span><a href="#prepare" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="prepare-1"><span class="tsd-kind-call-signature">prepare</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">context</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type tsd-kind-interface">ITaskContext</a><span class="tsd-signature-symbol">,</span> <span class="tsd-kind-parameter">forceOverwriteGenerated</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#prepare-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Called when data needs to be prepared for an experiment.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li><span><span class="tsd-kind-parameter">context</span>: <a href="../interfaces/jbr.ITaskContext.html" class="tsd-signature-type tsd-kind-interface">ITaskContext</a></span>
+<div class="tsd-comment tsd-typography"><p>The task context.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">forceOverwriteGenerated</span>: <span class="tsd-signature-type">boolean</span></span>
+<div class="tsd-comment tsd-typography"><p>If the generated directory should be overridden.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Implementation of <a href="../interfaces/jbr.Experiment.html">Experiment</a>.<a href="../interfaces/jbr.Experiment.html#prepare">prepare</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L218">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:218</a></li></ul></aside></div></li></ul></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="readequivalentqueries"><span>read<wbr/>Equivalent<wbr/>Queries</span><a href="#readequivalentqueries" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="readequivalentqueries-1"><span class="tsd-kind-call-signature">readEquivalentQueries</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><a href="#readequivalentqueries-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Read the equivalent formulations of the queries that have one.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L334">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:334</a></li></ul></aside></div></li></ul></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="readpublishedresults"><span>read<wbr/>Published<wbr/>Results</span><a href="#readpublishedresults" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="readpublishedresults-1"><span class="tsd-kind-call-signature">readPublishedResults</span><span class="tsd-signature-symbol">(</span><br/>    <span class="tsd-kind-parameter">paths</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">ISparqlJsonResults</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><a href="#readpublishedresults-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Read the downloaded published results, preferring their corrected (complete) versions.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li><span><span class="tsd-kind-parameter">paths</span>: <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a></span>
+<div class="tsd-comment tsd-typography"><p>The paths of the generated files.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">ISparqlJsonResults</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L302">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:302</a></li></ul></aside></div></li></ul></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="readqueries"><span>read<wbr/>Queries</span><a href="#readqueries" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="readqueries-1"><span class="tsd-kind-call-signature">readQueries</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">paths</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><a href="#readqueries-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Read the downloaded queries.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li><span><span class="tsd-kind-parameter">paths</span>: <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a></span>
+<div class="tsd-comment tsd-typography"><p>The paths of the generated files.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L290">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:290</a></li></ul></aside></div></li></ul></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="run"><span>run</span><a href="#run" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="run-1"><span class="tsd-kind-call-signature">run</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">context</span><span class="tsd-signature-symbol">:</span> <a href="../types/jbr.IRunTaskContext.html" class="tsd-signature-type tsd-kind-type-alias">IRunTaskContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#run-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Called when an experiment is executed.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li><span><span class="tsd-kind-parameter">context</span>: <a href="../types/jbr.IRunTaskContext.html" class="tsd-signature-type tsd-kind-type-alias">IRunTaskContext</a></span>
+<div class="tsd-comment tsd-typography"><p>The task context.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Implementation of <a href="../interfaces/jbr.Experiment.html">Experiment</a>.<a href="../interfaces/jbr.Experiment.html#run">run</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L497">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:497</a></li></ul></aside></div></li></ul></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="writemanifest"><span>write<wbr/>Manifest</span><a href="#writemanifest" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="writemanifest-1"><span class="tsd-kind-call-signature">writeManifest</span><span class="tsd-signature-symbol">(</span><br/>    <span class="tsd-kind-parameter">paths</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">details</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#writemanifest-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Write the manifest, which describes how the generated files were obtained.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li><span><span class="tsd-kind-parameter">paths</span>: <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a></span>
+<div class="tsd-comment tsd-typography"><p>The paths of the generated files.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">details</span>: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></span>
+<div class="tsd-comment tsd-typography"><p>Details on the sample.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L487">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:487</a></li></ul></aside></div></li></ul></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="writepublishedresults"><span>write<wbr/>Published<wbr/>Results</span><a href="#writepublishedresults" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="writepublishedresults-1"><span class="tsd-kind-call-signature">writePublishedResults</span><span class="tsd-signature-symbol">(</span><br/>    <span class="tsd-kind-parameter">paths</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">publishedResults</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">ISparqlJsonResults</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#writepublishedresults-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Write the published results as expected results.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li><span><span class="tsd-kind-parameter">paths</span>: <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a></span>
+<div class="tsd-comment tsd-typography"><p>The paths of the generated files.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">publishedResults</span>: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">ISparqlJsonResults</span><span class="tsd-signature-symbol">&gt;</span></span>
+<div class="tsd-comment tsd-typography"><p>The published results.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L321">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:321</a></li></ul></aside></div></li></ul></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="getpaths"><code class="tsd-tag">Static</code><span>get<wbr/>Paths</span><a href="#getpaths" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="getpaths-1"><span class="tsd-kind-call-signature">getPaths</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">generated</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a><a href="#getpaths-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The paths of the generated files.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li><span><span class="tsd-kind-parameter">generated</span>: <span class="tsd-signature-type">string</span></span>
+<div class="tsd-comment tsd-typography"><p>The generated directory.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html" class="tsd-signature-type tsd-kind-interface">ILargeRdfBenchPaths</a></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L195">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:195</a></li></ul></aside></div></li></ul></section>
+<section class="tsd-panel tsd-member">
+<h3 class="tsd-anchor-link" id="loadgenerationmodules"><code class="tsd-tag">Static</code><span>load<wbr/>Generation<wbr/>Modules</span><a href="#loadgenerationmodules" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="">
+<div class="tsd-signature tsd-anchor-link" id="loadgenerationmodules-1"><span class="tsd-kind-call-signature">loadGenerationModules</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><br/>    <span class="tsd-signature-symbol">{</span><br/>        <span class="tsd-kind-property">hdt</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{</span><br/>            <span class="tsd-kind-property">fromFile</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><br/>                <span class="tsd-kind-parameter">path</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>            <span class="tsd-signature-symbol">)</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IHdtDocumentLike</span> <span class="tsd-signature-symbol">&amp;</span> <span class="tsd-signature-symbol">{</span> <span class="tsd-kind-property">close</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">()</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span> <span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">;</span><br/>        <span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">;</span><br/>        <span class="tsd-kind-property">QueryEngineHdt</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-keyword">new</span> <span class="tsd-signature-symbol">()</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">IQueryEngineLike</span><span class="tsd-signature-symbol">;</span><br/>        <span class="tsd-kind-property">QueryEngineRdfJs</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-keyword">new</span> <span class="tsd-signature-symbol">()</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">IQueryEngineLike</span><span class="tsd-signature-symbol">;</span><br/>    <span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">&gt;</span><a href="#loadgenerationmodules-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Load the modules that are needed to generate a sample.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><br/>    <span class="tsd-signature-symbol">{</span><br/>        <span class="tsd-kind-property">hdt</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{</span><br/>            <span class="tsd-kind-property">fromFile</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><br/>                <span class="tsd-kind-parameter">path</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>            <span class="tsd-signature-symbol">)</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IHdtDocumentLike</span> <span class="tsd-signature-symbol">&amp;</span> <span class="tsd-signature-symbol">{</span> <span class="tsd-kind-property">close</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">()</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span> <span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">;</span><br/>        <span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">;</span><br/>        <span class="tsd-kind-property">QueryEngineHdt</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-keyword">new</span> <span class="tsd-signature-symbol">()</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">IQueryEngineLike</span><span class="tsd-signature-symbol">;</span><br/>        <span class="tsd-kind-property">QueryEngineRdfJs</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-keyword">new</span> <span class="tsd-signature-symbol">()</span> <span class="tsd-signature-symbol">=&gt;</span> <span class="tsd-signature-type">IQueryEngineLike</span><span class="tsd-signature-symbol">;</span><br/>    <span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/rubensworks/jbr.js/blob/4c4d26a51695f2f8961d6ca2ec05d49fded1c894/packages/experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts#L449">experiment-largerdfbench/lib/ExperimentLargeRdfBench.ts:449</a></li></ul></aside></div></li></ul></section></section></details></div>
+<div class="col-sidebar">
+<div class="page-menu">
+<div class="tsd-navigation settings">
+<details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div>
+<div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>On This Page</h3></summary>
+<div class="tsd-accordion-details">
+<details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Constructors"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Constructors</summary>
+<div><a href="#constructor"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Constructor"><use href="../assets/icons.svg#icon-512"></use></svg><span>constructor</span></a></div></details>
+<details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Properties</summary>
+<div><a href="#datasets"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>datasets</span></a><a href="#endpointurl"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>endpoint<wbr/>Url</span></a><a href="#endpointurlexternal"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>endpoint<wbr/>Url<wbr/>External</span></a><a href="#generationquerytimeout"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>generation<wbr/>Query<wbr/>Timeout</span></a><a href="#hooksparqlendpoint"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>hook<wbr/>Sparql<wbr/>Endpoint</span></a><a href="#hooksparqlendpointsources"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>hook<wbr/>Sparql<wbr/>Endpoint<wbr/>Sources</span></a><a href="#httpavailabilitylatch"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>http<wbr/>Availability<wbr/>Latch</span></a><a href="#queries"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>queries</span></a><a href="#queryrunnerendpointavailabilitychecktimeout"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Runner<wbr/>Endpoint<wbr/>Availability<wbr/>Check<wbr/>Timeout</span></a><a href="#queryrunnerreplication"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Runner<wbr/>Replication</span></a><a href="#queryrunnerrequestdelay"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Runner<wbr/>Request<wbr/>Delay</span></a><a href="#queryrunnerurlparams"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Runner<wbr/>Url<wbr/>Params</span></a><a href="#queryrunnerwarmuprounds"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Runner<wbr/>Warmup<wbr/>Rounds</span></a><a href="#querytimeoutfallback"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>query<wbr/>Timeout<wbr/>Fallback</span></a><a href="#sample"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>sample</span></a><a href="#sampleothertriplesrate"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>sample<wbr/>Other<wbr/>Triples<wbr/>Rate</span></a><a href="#sampleseed"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>sample<wbr/>Seed</span></a><a href="#samplesubjectrates"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>sample<wbr/>Subject<wbr/>Rates</span></a><a href="#samplevalidate"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>sample<wbr/>Validate</span></a><a href="#sourceurlsexternal"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>source<wbr/>Urls<wbr/>External</span></a><a href="#zenodorecord"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>zenodo<wbr/>Record</span></a><a href="#equivalent_queries"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>EQUIVALENT_<wbr/>QUERIES</span></a><a href="#fedbench_datasets"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>FEDBENCH_<wbr/>DATASETS</span></a><a href="#fedbench_queries"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>FEDBENCH_<wbr/>QUERIES</span></a><a href="#limit_candidates"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>LIMIT_<wbr/>CANDIDATES</span></a><a href="#templates_path"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Property"><use href="../assets/icons.svg#icon-1024"></use></svg><span>TEMPLATES_<wbr/>PATH</span></a></div></details>
+<details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Methods"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Methods</summary>
+<div><a href="#clean"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>clean</span></a><a href="#generatesample"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>generate<wbr/>Sample</span></a><a href="#getdatasetpath"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>get<wbr/>Dataset<wbr/>Path</span></a><a href="#isgenerated"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>is<wbr/>Generated</span></a><a href="#loadsamplestores"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>load<wbr/>Sample<wbr/>Stores</span></a><a href="#prepare"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>prepare</span></a><a href="#readequivalentqueries"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>read<wbr/>Equivalent<wbr/>Queries</span></a><a href="#readpublishedresults"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>read<wbr/>Published<wbr/>Results</span></a><a href="#readqueries"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>read<wbr/>Queries</span></a><a href="#run"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>run</span></a><a href="#writemanifest"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>write<wbr/>Manifest</span></a><a href="#writepublishedresults"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>write<wbr/>Published<wbr/>Results</span></a><a href="#getpaths"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>get<wbr/>Paths</span></a><a href="#loadgenerationmodules"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Method"><use href="../assets/icons.svg#icon-2048"></use></svg><span>load<wbr/>Generation<wbr/>Modules</span></a></div></details></div></details></div>
+<div class="site-menu">
+<nav class="tsd-navigation"><a href="../modules.html">jbr</a>
+<ul class="tsd-small-nested-navigation" id="tsd-nav-container">
+<li>Loading...</li></ul></nav></div></div></div><footer>
+<p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer>
+<div class="overlay"></div></body></html>

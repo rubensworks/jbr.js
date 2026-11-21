@@ -1,0 +1,232 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@jbr-experiment/largerdfbench | jbr</title><meta name="description" content="Documentation for jbr"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container"><a href="../index.html" class="title">jbr</a>
+<div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/>
+<ul role="listbox" id="tsd-search-results"></ul>
+<div id="tsd-search-status" aria-live="polite" aria-atomic="true">
+<div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header>
+<div class="container container-main">
+<div class="col-content">
+<div class="tsd-page-title">
+<ul class="tsd-breadcrumb" aria-label="Breadcrumb">
+<li><a href="" aria-current="page">@jbr-experiment/largerdfbench</a></li></ul>
+<h1>Module @jbr-experiment/largerdfbench</h1></div>
+<section class="tsd-panel tsd-typography"><h1 id="jbr-experiment-largerdfbench" class="tsd-anchor-link">JBR Experiment - LargeRDFBench<a href="#jbr-experiment-largerdfbench" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p><a href="https://github.com/rubensworks/jbr.js/actions?query=workflow%3ACI"><img src="https://github.com/rubensworks/jbr.js/workflows/CI/badge.svg" alt="Build status"></a>
+<a href="https://coveralls.io/github/rubensworks/jbr.js?branch=master"><img src="https://coveralls.io/repos/github/rubensworks/jbr.js/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://www.npmjs.com/package/@jbr-experiment/largerdfbench"><img src="https://badge.fury.io/js/%40jbr-experiment%2Flargerdfbench.svg" alt="npm version"></a></p>
+<p>A <a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> experiment type for the federated query benchmark <a href="https://github.com/dice-group/LargeRDFBench">LargeRDFBench</a>.</p>
+<p>The datasets, queries, and expected results are taken from the <a href="https://zenodo.org/records/22140177">LargeRDFBench Interoperable Edition</a> on Zenodo.
+Each dataset is served by its own SPARQL endpoint, and the queries are sent to the SPARQL endpoint of a federation engine over these sources.</p>
+<p>By default, this experiment uses the full datasets of the FedBench part of LargeRDFBench (9 datasets with 165 million triples, as HDT files, and the 23 queries S1-S14 and C1-C9).
+Optionally, it can use a sample of about 4.1 million of these triples instead, which makes it small enough for CI.
+The sample is built so that every query produces exactly the same results over it as over the full data,
+and every triple pattern matches the same sources.</p>
+<h2 id="requirements" class="tsd-anchor-link">Requirements<a href="#requirements" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li><a href="https://nodejs.org/en/">Node.js</a> <em>(18 or higher)</em></li>
+<li><a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> <em>(required for initializing, preparing, and running experiments on the command line)</em></li>
+<li>Only for generating a sample: the optional dependencies <a href="https://www.npmjs.com/package/hdt"><code>hdt</code></a> (a native module that requires a C++ compiler) and <a href="https://www.npmjs.com/package/@comunica/query-sparql-hdt"><code>@comunica/query-sparql-hdt</code></a>.</li>
+</ul>
+<h2 id="quick-start" class="tsd-anchor-link">Quick start<a href="#quick-start" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="1-install-jbr" class="tsd-anchor-link">1. Install jbr<a href="#1-install-jbr" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p><a href="https://github.com/rubensworks/jbr.js/tree/master/packages/jbr">jbr</a> is a command line tool that enables experiments to be initialized, prepared, and started.
+It can be installed from the npm registry:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-3">-g</span><span class="hl-1"> </span><span class="hl-2">jbr</span>
+</code><button type="button">Copy</button></pre>
+
+<p>or</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">yarn</span><span class="hl-1"> </span><span class="hl-2">global</span><span class="hl-1"> </span><span class="hl-2">add</span><span class="hl-1"> </span><span class="hl-2">jbr</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="2-initialize-a-new-experiment" class="tsd-anchor-link">2. Initialize a new experiment<a href="#2-initialize-a-new-experiment" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Using the <code>jbr</code> CLI tool, initialize a new experiment:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">init</span><span class="hl-1"> </span><span class="hl-2">largerdfbench</span><span class="hl-1"> </span><span class="hl-2">my-experiment</span><br/><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">cd</span><span class="hl-1"> </span><span class="hl-2">my-experiment</span>
+</code><button type="button">Copy</button></pre>
+
+<p>This will create a new <code>my-experiment</code> directory with default configs for this experiment type.</p>
+<h3 id="3-configure-the-required-hooks" class="tsd-anchor-link">3. Configure the required hooks<a href="#3-configure-the-required-hooks" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>This experiment type requires two hooks:</p>
+<ul>
+<li><code>hookSparqlEndpoint</code>: The SPARQL endpoint of the federation engine that is benchmarked, which must be exposed at <code>endpointUrl</code>.</li>
+<li><code>hookSparqlEndpointSources</code>: A list of hooks that start the SPARQL endpoints of the datasets.
+They are started one by one, in the given order.
+If <code>sourceUrlsExternal</code> contains a URL at the index of a hook, the next hook is only started once that URL is available.</li>
+</ul>
+<p>This experiment does not dictate how the datasets are served,
+but they are available in <code>generated/datasets/</code> after the prepare step (see below).
+For example, with the <a href="https://github.com/rubensworks/jbr.js/tree/master/packages/hook-cli"><code>cli</code></a> hook,
+each HDT file can be served by <a href="https://github.com/comunica/comunica">Comunica</a>,
+with Comunica as federation engine over them, by setting the following in <code>jbr-experiment.json</code>:</p>
+<pre><code class="text">...
+  &quot;sourceUrlsExternal&quot;: [
+    &quot;http://localhost:4001/sparql&quot;,
+    &quot;http://localhost:4002/sparql&quot;,
+    ...
+  ],
+  &quot;hookSparqlEndpoint&quot;: {
+    &quot;@id&quot;: &quot;urn:jrb:my-experiment:hookSparqlEndpoint&quot;,
+    &quot;@type&quot;: &quot;HookCli&quot;,
+    &quot;entrypoint&quot;: [
+      &quot;npx&quot;, &quot;comunica-sparql-http&quot;,
+      &quot;sparql@http://localhost:4001/sparql&quot;,
+      &quot;sparql@http://localhost:4002/sparql&quot;,
+      ...
+      &quot;-p&quot;, &quot;3001&quot;
+    ],
+    &quot;statsFilePath&quot;: &quot;output/stats-engine.csv&quot;,
+    &quot;logName&quot;: &quot;engine&quot;
+  },
+  &quot;hookSparqlEndpointSources&quot;: [
+    {
+      &quot;@id&quot;: &quot;urn:jrb:my-experiment:hookSparqlEndpointSources_ChEBI&quot;,
+      &quot;@type&quot;: &quot;HookCli&quot;,
+      &quot;entrypoint&quot;: [ &quot;npx&quot;, &quot;comunica-sparql-hdt-http&quot;, &quot;hdt@generated/datasets/ChEBI.hdt&quot;, &quot;-p&quot;, &quot;4001&quot; ],
+      &quot;statsFilePath&quot;: &quot;output/stats-ChEBI.csv&quot;,
+      &quot;logName&quot;: &quot;ChEBI&quot;
+    },
+    {
+      &quot;@id&quot;: &quot;urn:jrb:my-experiment:hookSparqlEndpointSources_DBPedia-Subset&quot;,
+      &quot;@type&quot;: &quot;HookCli&quot;,
+      &quot;entrypoint&quot;: [ &quot;npx&quot;, &quot;comunica-sparql-hdt-http&quot;, &quot;hdt@generated/datasets/DBPedia-Subset.hdt&quot;, &quot;-p&quot;, &quot;4002&quot; ],
+      &quot;statsFilePath&quot;: &quot;output/stats-DBPedia-Subset.csv&quot;,
+      &quot;logName&quot;: &quot;DBPedia-Subset&quot;
+    },
+    ...
+  ]
+...
+</code><button type="button">Copy</button></pre>
+
+<p>For a sample, the datasets are N-Triples files instead,
+which can be served with <code>comunica-sparql-file-http generated/datasets/ChEBI.nt</code>.</p>
+<p>Alternatively, the hooks can be set via <code>jbr set-hook</code>.
+As <code>jbr init</code> creates a single entry for <code>hookSparqlEndpointSources</code>,
+first turn it into a list with one entry per dataset in <code>jbr-experiment.json</code>,
+after which each source can be set by its index:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">set-hook</span><span class="hl-1"> </span><span class="hl-2">hookSparqlEndpoint</span><span class="hl-1"> </span><span class="hl-2">sparql-endpoint-comunica</span><br/><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">set-hook</span><span class="hl-1"> </span><span class="hl-2">hookSparqlEndpointSources/0</span><span class="hl-1"> </span><span class="hl-2">cli</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="4-prepare-the-experiment" class="tsd-anchor-link">4. Prepare the experiment<a href="#4-prepare-the-experiment" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>In order to run all preprocessing steps, such as downloading the data and creating the sample if enabled, invoke the prepare step:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">prepare</span>
+</code><button type="button">Copy</button></pre>
+
+<p>All prepared files will be contained in the <code>generated/</code> directory:</p>
+<pre><code class="text">generated/
+  zenodo/           The files downloaded from Zenodo
+    hdt/            The full datasets as HDT files (only for a sample)
+    queries/
+    results/        The published expected results
+  lineage/          The triples that contribute to the solutions of each query, per dataset (only for a sample)
+  datasets/         The datasets to serve: &lt;dataset&gt;.nt for a sample, or &lt;dataset&gt;.hdt for the full data
+  queries/          The queries: &lt;query&gt;.sparql
+  results/          The expected results: &lt;query&gt;.srj
+  manifest.json     The parameters, and statistics of the sample and its validation
+</code><button type="button">Copy</button></pre>
+
+<p>The prepare step is skipped if <code>manifest.json</code>, the datasets, and the queries already exist in <code>generated/</code>,
+so that a sample that was built before can be reused by extracting it into <code>generated/</code>.
+Use <code>jbr prepare -f</code> to force them to be generated again.</p>
+<h3 id="5-run-the-experiment" class="tsd-anchor-link">5. Run the experiment<a href="#5-run-the-experiment" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Once the experiment has been fully configured and prepared, you can run it:</p>
+<pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">jbr</span><span class="hl-1"> </span><span class="hl-2">run</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Once the run step completes, results will be present in the <code>output/</code> directory.</p>
+<h2 id="sampling" class="tsd-anchor-link">Sampling<a href="#sampling" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>By default, the full HDT files (about 2.6 GB for the FedBench part) are used, with the published expected results.
+With <code>sample</code> enabled, a sample is created instead:</p>
+<ol>
+<li>The HDT files, queries, and published results are downloaded from Zenodo.</li>
+<li>For each query, the triples that contribute to its solutions over the full data are computed.</li>
+<li>The subjects of each dataset are sampled at their rate in <code>sampleSubjectRates</code>, keeping their triples that match a query pattern, and their other triples at <code>sampleOtherTriplesRate</code>.</li>
+<li>The contributing triples are added, and one matching triple for each query pattern that matches the full data but not the sample, so that source selection is unchanged.</li>
+<li>With <code>sampleValidate</code> enabled, prepare fails unless each query produces the same results over the sample as over the full data, which become its expected results.</li>
+</ol>
+<p>The same parameters produce a byte-identical sample, which takes about 20 minutes and 7.6 GB of memory (<code>--max-old-space-size=8192</code>) with the default sampling parameters.</p>
+<h2 id="output" class="tsd-anchor-link">Output<a href="#output" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>The following output is generated after an experiment has run.</p>
+<p><code>output/query-times.csv</code>: The aggregated results per query of <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>:</p>
+<pre><code class="csv">name;id;error;errorDescription;failures;hash;httpRequests;httpRequestsMax;httpRequestsMin;httpRequestsStd;replication;results;resultsMax;resultsMin;time;timeMax;timeMin;times;timestamps;timestampsMax;timestampsMin;timestampsStd;timeStd;timestampsAll
+C3;0;false;;0;6bb056bf1533b491893a1c6ceeb90869;438;438;438;0;3;9;9;9;5933.33;6873;5444;6873 5483 5444;...
+</code><button type="button">Copy</button></pre>
+
+<p><code>output/query-results-raw.json</code>: The results of each execution of each query.</p>
+<p><code>output/logs/load-time.csv</code>: The time in milliseconds to start the sources and the federation engine.</p>
+<h2 id="configuration" class="tsd-anchor-link">Configuration<a href="#configuration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>The default generated configuration file (<code>jbr-experiment.json</code>) for this experiment looks as follows:</p>
+<pre><code class="json"><span class="hl-1">{</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;@context&quot;</span><span class="hl-1">: [</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;https://linkedsoftwaredependencies.org/bundles/npm/jbr/^6.0.0/components/context.jsonld&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;https://linkedsoftwaredependencies.org/bundles/npm/@jbr-experiment/largerdfbench/^6.0.0/components/context.jsonld&quot;</span><br/><span class="hl-1">  ],</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;@id&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;urn:jrb:my-experiment&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;@type&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;ExperimentLargeRdfBench&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;zenodoRecord&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;22140177&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;datasets&quot;</span><span class="hl-1">: [ </span><span class="hl-2">&quot;ChEBI&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;DBPedia-Subset&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;DrugBank&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;GeoNames&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;Jamendo&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;KEGG&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;LMDB&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;NYT&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;SWDFood&quot;</span><span class="hl-1"> ],</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;queries&quot;</span><span class="hl-1">: [</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;S1&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;S2&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;S3&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;S4&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;S5&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;S6&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;S7&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;S8&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;S9&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;S10&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;S11&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;S12&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;S13&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;S14&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">&quot;C1&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;C2&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;C3&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;C4&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;C5&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;C6&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;C7&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;C8&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;C9&quot;</span><br/><span class="hl-1">  ],</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;sample&quot;</span><span class="hl-1">: </span><span class="hl-3">false</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;sampleSubjectRates&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;DBPedia-Subset&quot;</span><span class="hl-1">: </span><span class="hl-5">0.02</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;GeoNames&quot;</span><span class="hl-1">: </span><span class="hl-5">0.02</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;LMDB&quot;</span><span class="hl-1">: </span><span class="hl-5">0.25</span><br/><span class="hl-1">  },</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;sampleOtherTriplesRate&quot;</span><span class="hl-1">: </span><span class="hl-5">0.2</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;sampleSeed&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;largerdfbench-sample-v1&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;sampleValidate&quot;</span><span class="hl-1">: </span><span class="hl-3">true</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;generationQueryTimeout&quot;</span><span class="hl-1">: </span><span class="hl-5">1800</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;endpointUrl&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;http://localhost:3001/sparql&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;endpointUrlExternal&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;http://localhost:3001/sparql&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;sourceUrlsExternal&quot;</span><span class="hl-1">: [],</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;queryRunnerReplication&quot;</span><span class="hl-1">: </span><span class="hl-5">3</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;queryRunnerWarmupRounds&quot;</span><span class="hl-1">: </span><span class="hl-5">1</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;queryRunnerRequestDelay&quot;</span><span class="hl-1">: </span><span class="hl-5">0</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;queryRunnerEndpointAvailabilityCheckTimeout&quot;</span><span class="hl-1">: </span><span class="hl-5">1000</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;queryRunnerUrlParams&quot;</span><span class="hl-1">: {},</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;hookSparqlEndpoint&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;@id&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;urn:jrb:my-experiment:hookSparqlEndpoint&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;@type&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;HookNonConfigured&quot;</span><br/><span class="hl-1">  },</span><br/><span class="hl-1">  </span><span class="hl-4">&quot;hookSparqlEndpointSources&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;@id&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;urn:jrb:my-experiment:hookSparqlEndpointSources&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">&quot;@type&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;HookNonConfigured&quot;</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Any config changes require re-running the prepare step.</p>
+<h3 id="configuration-fields" class="tsd-anchor-link">Configuration fields<a href="#configuration-fields" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li><code>zenodoRecord</code>: The Zenodo record of the LargeRDFBench Interoperable Edition to download from.</li>
+<li><code>datasets</code>: The datasets to include, by their name in the Zenodo record. Defaults to the FedBench datasets.</li>
+<li><code>queries</code>: The queries to include, by their name in the Zenodo record. Defaults to the FedBench queries.</li>
+<li><code>sample</code>: If the datasets must be sampled. Otherwise, the full datasets are used, as HDT files. Defaults to <code>false</code>.</li>
+<li><code>sampleSubjectRates</code>: The fraction of subjects to sample per dataset. Datasets that are not listed are not sampled by subject.</li>
+<li><code>sampleOtherTriplesRate</code>: The fraction of the triples of sampled subjects that match no query pattern to keep.</li>
+<li><code>sampleSeed</code>: The seed for sampling.</li>
+<li><code>sampleValidate</code>: If the queries must be validated to produce the same results over the sample as over the full data.</li>
+<li><code>generationQueryTimeout</code>: The timeout in seconds of each query over the full data while generating the sample.</li>
+<li><code>endpointUrl</code>: URL through which the SPARQL endpoint of the <code>hookSparqlEndpoint</code> hook will be exposed.</li>
+<li><code>endpointUrlExternal</code>: URL to check if the SPARQL endpoint of the <code>hookSparqlEndpoint</code> hook is available. Defaults to <code>endpointUrl</code>.</li>
+<li><code>sourceUrlsExternal</code>: URLs to check if each source of <code>hookSparqlEndpointSources</code> is available, by index, before starting the next one.</li>
+<li><code>queryRunnerReplication</code>: Number of replication runs for <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
+<li><code>queryRunnerWarmupRounds</code>: Number of warmup runs for <a href="https://github.com/comunica/sparql-benchmark-runner.js"><code>sparql-benchmark-runner</code></a>.</li>
+<li><code>queryRunnerRequestDelay</code>: Delay between requests in milliseconds.</li>
+<li><code>queryRunnerEndpointAvailabilityCheckTimeout</code>: Timeout in milliseconds of each check if the SPARQL endpoint is available.</li>
+<li><code>queryRunnerUrlParams</code>: A JSON record of string mappings containing URL parameters that will be passed to the SPARQL endpoint.</li>
+<li><code>queryTimeoutFallback</code>: An optional timeout value for a single query in milliseconds, to be used as fallback in case the SPARQL endpoint hook's timeout fails. This should always be higher than the timeout value configured in the SPARQL endpoint hook.</li>
+</ul>
+<h2 id="license" class="tsd-anchor-link">License<a href="#license" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>jbr.js is written by <a href="http://www.rubensworks.net/">Ruben Taelman</a>.</p>
+<p>This code is copyrighted by <a href="http://idlab.ugent.be/">Ghent University – imec</a>
+and released under the <a href="http://opensource.org/licenses/MIT">MIT license</a>.</p>
+</section>
+<details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Classes"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h2 class="tsd-anchor-link" id="classes">Classes<a href="#classes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary><dl class="tsd-member-summaries"><dt class="tsd-member-summary" id="experimenthandlerlargerdfbench"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/_jbr-experiment_largerdfbench.ExperimentHandlerLargeRdfBench.html">ExperimentHandlerLargeRdfBench</a><a href="#experimenthandlerlargerdfbench" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd><dt class="tsd-member-summary" id="experimentlargerdfbench"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><a href="../classes/_jbr-experiment_largerdfbench.ExperimentLargeRdfBench.html">ExperimentLargeRdfBench</a><a href="#experimentlargerdfbench" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd></dl></details>
+<details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Interfaces"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h2 class="tsd-anchor-link" id="interfaces">Interfaces<a href="#interfaces" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary><dl class="tsd-member-summaries"><dt class="tsd-member-summary" id="ilargerdfbenchpaths"><span class="tsd-member-summary-name"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><a href="../interfaces/_jbr-experiment_largerdfbench.ILargeRdfBenchPaths.html">ILargeRdfBenchPaths</a><a href="#ilargerdfbenchpaths" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></span></dt><dd class="tsd-member-summary"></dd></dl></details></div>
+<div class="col-sidebar">
+<div class="page-menu">
+<div class="tsd-navigation settings">
+<details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div>
+<div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>On This Page</h3></summary>
+<div class="tsd-accordion-details"><a href="#jbr-experiment-largerdfbench"><span>JBR <wbr/>Experiment -<wbr/> <wbr/>Large<wbr/>RDF<wbr/>Bench</span></a>
+<ul>
+<li><a href="#requirements"><span>Requirements</span></a></li>
+<li><a href="#quick-start"><span>Quick start</span></a></li>
+<li>
+<ul>
+<li><a href="#1-install-jbr"><span>1. <wbr/>Install jbr</span></a></li>
+<li><a href="#2-initialize-a-new-experiment"><span>2. <wbr/>Initialize a new experiment</span></a></li>
+<li><a href="#3-configure-the-required-hooks"><span>3. <wbr/>Configure the required hooks</span></a></li>
+<li><a href="#4-prepare-the-experiment"><span>4. <wbr/>Prepare the experiment</span></a></li>
+<li><a href="#5-run-the-experiment"><span>5. <wbr/>Run the experiment</span></a></li></ul></li>
+<li><a href="#sampling"><span>Sampling</span></a></li>
+<li><a href="#output"><span>Output</span></a></li>
+<li><a href="#configuration"><span>Configuration</span></a></li>
+<li>
+<ul>
+<li><a href="#configuration-fields"><span>Configuration fields</span></a></li></ul></li>
+<li><a href="#license"><span>License</span></a></li></ul>
+<details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Classes"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Classes</summary>
+<div><a href="#experimenthandlerlargerdfbench"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Experiment<wbr/>Handler<wbr/>Large<wbr/>Rdf<wbr/>Bench</span></a><a href="#experimentlargerdfbench"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Class"><use href="../assets/icons.svg#icon-128"></use></svg><span>Experiment<wbr/>Large<wbr/>Rdf<wbr/>Bench</span></a></div></details>
+<details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Interfaces"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Interfaces</summary>
+<div><a href="#ilargerdfbenchpaths"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Interface"><use href="../assets/icons.svg#icon-256"></use></svg><span>I<wbr/>Large<wbr/>Rdf<wbr/>Bench<wbr/>Paths</span></a></div></details></div></details></div>
+<div class="site-menu">
+<nav class="tsd-navigation"><a href="../modules.html">jbr</a>
+<ul class="tsd-small-nested-navigation" id="tsd-nav-container">
+<li>Loading...</li></ul></nav></div></div></div><footer>
+<p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer>
+<div class="overlay"></div></body></html>
