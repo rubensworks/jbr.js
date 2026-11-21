@@ -2,8 +2,8 @@ import * as Path from 'node:path';
 import type * as RDF from '@rdfjs/types';
 import * as fs from 'fs-extra';
 import { termToString } from 'rdf-string-ttl';
-import type { IQueryEngineLike, ISparqlJsonResults, ISparqlJsonTerm } from './LineageComputer';
-import { evaluate, rdfTermToJson } from './LineageComputer';
+import type { IQueryEngineLike, ISparqlJsonResults } from './LineageComputer';
+import { evaluate, jsonTermToRdf, rdfTermToJson } from './LineageComputer';
 import { compareStrings, parseQuery, projectedVariables } from './QueryPatterns';
 
 /**
@@ -26,26 +26,6 @@ export interface IQueryValidation {
   onlyInFull?: IRowDifference;
   published?: { results: number; onlyInSample: IRowDifference; onlyInPublished: IRowDifference };
   error?: string;
-}
-
-/**
- * The key of a term in the SPARQL 1.1 Query Results JSON Format, equal to the key of the corresponding RDF term.
- * @param term A term in the SPARQL 1.1 Query Results JSON Format.
- */
-export function jsonTermKey(term: ISparqlJsonTerm): string {
-  switch (term.type) {
-    case 'uri':
-      return `<${term.value}>`;
-    case 'bnode':
-      return `_:${term.value}`;
-    default:
-      if (term['xml:lang']) {
-        return `${JSON.stringify(term.value)}@${term['xml:lang']}`;
-      }
-      return term.datatype && term.datatype !== 'http://www.w3.org/2001/XMLSchema#string' ?
-        `${JSON.stringify(term.value)}^^${term.datatype}` :
-        JSON.stringify(term.value);
-  }
 }
 
 /**
@@ -179,7 +159,7 @@ export class SampleValidator {
     const published = this.options.publishedResults[id];
     if (published) {
       const publishedKeys = countKeys(published.results.bindings.map(row => JSON.stringify(variables
-        .map(variable => row[variable] ? jsonTermKey(row[variable]) : null))));
+        .map(variable => row[variable] ? termToString(jsonTermToRdf(row[variable])) : null))));
       validation.published = {
         results: published.results.bindings.length,
         onlyInSample: bagDifference(sampleKeys, publishedKeys),

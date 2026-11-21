@@ -3,7 +3,7 @@ import * as Path from 'node:path';
 import { QueryEngine } from '@comunica/query-sparql-rdfjs';
 import * as fs from 'fs-extra';
 import { DataFactory } from 'n3';
-import { bagDifference, countKeys, jsonTermKey, SampleValidator } from '../lib/SampleValidator';
+import { bagDifference, countKeys, SampleValidator } from '../lib/SampleValidator';
 import { createStore, EX, ex, triple } from './mocks/Data';
 
 const PREFIX = `PREFIX ex: <${EX}>\n`;
@@ -42,6 +42,7 @@ describe('SampleValidator', () => {
         Q4: `${PREFIX}SELECT ?p WHERE { ?p ex:name ?n }`,
         Q5: `${PREFIX}SELECT * WHERE { ?p ex:name ?n OPTIONAL { ?p ex:age ?a } }`,
         Q6: `${PREFIX}SELECT ?p ?a WHERE { ?p ex:name ?n OPTIONAL { ?p ex:age ?a } }`,
+        Q7: `${PREFIX}SELECT ?p ?l ?h WHERE { ?p ex:name ?n BIND(STRLANG(?n, "en") AS ?l) BIND(STRLEN(?n) AS ?h) }`,
       },
       evaluationQueries: {
         Q4: 'SELECT ?p WHERE { invalid',
@@ -63,6 +64,16 @@ describe('SampleValidator', () => {
         Q6: {
           head: { vars: [ 'p', 'a' ]},
           results: { bindings: [{ p: { type: 'uri', value: `${EX}alice` }}, { p: { type: 'uri', value: `${EX}carol` }}]},
+        },
+        Q7: {
+          head: { vars: [ 'p', 'l', 'h' ]},
+          results: {
+            bindings: [ 'Alice', 'Carol' ].map(name => ({
+              p: { type: 'uri', value: `${EX}${name.toLowerCase()}` },
+              l: { type: 'literal', value: name, 'xml:lang': 'en' },
+              h: { type: 'typed-literal', value: '5', datatype: 'http://www.w3.org/2001/XMLSchema#integer' },
+            })),
+          },
         },
       },
       resultsDirectory: Path.join(directory, 'results'),
@@ -124,19 +135,9 @@ describe('SampleValidator', () => {
       expect.stringContaining('  Q4: failed: '),
       `  Q5: OK, 2 results over the sample, 2 over the full data`,
       `  Q6: OK, 2 results over the sample, 2 over the full data, published 2 (0 rows only in sample, 0 only in published)`,
+      // Q7: typed and language-tagged literals, keyed the same in the published results
+      `  Q7: OK, 2 results over the sample, 2 over the full data, published 2 (0 rows only in sample, 0 only in published)`,
     ]);
-  });
-
-  describe('jsonTermKey', () => {
-    it('produces the same keys as for RDF terms', () => {
-      expect(jsonTermKey({ type: 'uri', value: 'ex:a' })).toBe('<ex:a>');
-      expect(jsonTermKey({ type: 'bnode', value: 'b' })).toBe('_:b');
-      expect(jsonTermKey({ type: 'literal', value: 'a' })).toBe('"a"');
-      expect(jsonTermKey({ type: 'literal', value: 'a', 'xml:lang': 'en' })).toBe('"a"@en');
-      expect(jsonTermKey({ type: 'literal', value: 'a', datatype: 'http://www.w3.org/2001/XMLSchema#string' }))
-        .toBe('"a"');
-      expect(jsonTermKey({ type: 'typed-literal', value: '1', datatype: 'ex:t' })).toBe('"1"^^ex:t');
-    });
   });
 
   describe('bagDifference', () => {

@@ -263,7 +263,8 @@ describe('LineageComputer', () => {
       expect(jsonTermToRdf({ type: 'literal', value: 'a', 'xml:lang': 'en' })).toEqual(DataFactory.literal('a', 'en'));
       expect(jsonTermToRdf({ type: 'typed-literal', value: '1', datatype: XSD_INTEGER.value }))
         .toEqual(DataFactory.literal('1', XSD_INTEGER));
-      expect(() => jsonTermToRdf({ type: 'bnode', value: 'b' })).toThrow('Unsupported result term type bnode');
+      expect(jsonTermToRdf({ type: 'bnode', value: 'b' })).toEqual(DataFactory.blankNode('b'));
+      expect(() => jsonTermToRdf(<any> { type: 'triple', value: {}})).toThrow('Unsupported result term type triple');
     });
 
     it('converts RDF terms to JSON terms', () => {

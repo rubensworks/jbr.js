@@ -123,6 +123,8 @@ export function jsonTermToRdf(term: ISparqlJsonTerm): RDF.Term {
   switch (term.type) {
     case 'uri':
       return DataFactory.namedNode(term.value);
+    case 'bnode':
+      return DataFactory.blankNode(term.value);
     case 'literal':
     case 'typed-literal':
       return DataFactory.literal(
