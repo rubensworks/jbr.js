@@ -5,7 +5,7 @@ import { Readable } from 'node:stream';
 import * as fs from 'fs-extra';
 import * as yauzl from 'yauzl';
 import * as yazl from 'yazl';
-import { HTTP_HEADERS, HttpRandomAccessReader, ZenodoArchive } from '../lib/ZenodoArchive';
+import { fetchRange, HTTP_HEADERS, HttpRandomAccessReader, RETRY_DELAYS, ZenodoArchive } from '../lib/ZenodoArchive';
 
 async function createZip(): Promise<Buffer> {
   const zip = new yazl.ZipFile();
@@ -84,6 +84,41 @@ describe('ZenodoArchive', () => {
     await expect(fs.readFile(Path.join(target, 'b.sparql'), 'utf8')).resolves.toBe('SELECT * WHERE { ?s ?p ?o }');
   });
 
+  it('retries server errors, rate limiting, and network errors', async() => {
+    const respond = fetchMock.getMockImplementation()!;
+    fetchMock
+      .mockImplementationOnce(async() => mockResponse(500, Buffer.from('error')))
+      .mockImplementationOnce(async() => mockResponse(429, undefined))
+      .mockImplementationOnce(async() => {
+        throw new TypeError('fetch failed');
+      })
+      .mockImplementation(respond);
+    const extracted = await new ZenodoArchive('123', 'a.zip', [ 0, 0, 0 ]).extract(() => true, target, log);
+    expect(extracted).toEqual([ 'a.hdt', 'b.sparql', 'c.txt' ]);
+    expect(fetchMock.mock.calls.slice(0, 4).map(call => call[1].headers.Range))
+      .toEqual([ 'bytes=0-0', 'bytes=0-0', 'bytes=0-0', 'bytes=0-0' ]);
+  });
+
+  it('retries range requests of entries', async() => {
+    const respond = fetchMock.getMockImplementation()!;
+    let failed = false;
+    fetchMock.mockImplementation(async(url: string, init: any) => {
+      if (!failed && url === 'https://files.example.org/final') {
+        failed = true;
+        return mockResponse(502, undefined);
+      }
+      return respond(url, init);
+    });
+    await expect(new ZenodoArchive('123', 'a.zip', [ 0 ]).extract(() => true, target, log)).resolves
+      .toEqual([ 'a.hdt', 'b.sparql', 'c.txt' ]);
+    expect(failed).toBe(true);
+  });
+
+  it('retries with delays by default', async() => {
+    expect(new ZenodoArchive('123', 'a.zip').retryDelays).toBe(RETRY_DELAYS);
+    expect(new HttpRandomAccessReader('https://example.org/file').retryDelays).toBe(RETRY_DELAYS);
+  });
+
   it('fails if the size of the file cannot be determined', async() => {
     fetchMock.mockImplementation(async() => mockResponse(404, undefined));
     await expect(new ZenodoArchive('123', 'a.zip').extract(() => true, target, log)).rejects
@@ -100,6 +135,23 @@ describe('ZenodoArchive', () => {
     jest.spyOn(yauzl.ZipFile.prototype, 'openReadStream')
       .mockImplementation((_entry: any, callback: any) => callback(new Error('read error')));
     await expect(new ZenodoArchive('123', 'a.zip').extract(() => true, target, log)).rejects.toThrow('read error');
+  });
+
+  describe('fetchRange', () => {
+    it('returns the last response if all attempts fail', async() => {
+      fetchMock.mockImplementation(async() => mockResponse(503, undefined));
+      await expect(fetchRange('https://example.org/file', 'bytes=0-0', [ 0, 0 ])).resolves
+        .toMatchObject({ status: 503 });
+      expect(fetchMock).toHaveBeenCalledTimes(3);
+    });
+
+    it('throws the network error of the last attempt', async() => {
+      fetchMock.mockImplementation(async() => {
+        throw new TypeError('fetch failed');
+      });
+      await expect(fetchRange('https://example.org/file', 'bytes=0-0', [ 0 ])).rejects.toThrow('fetch failed');
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
   });
 
   describe('HttpRandomAccessReader', () => {

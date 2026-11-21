@@ -11,16 +11,47 @@ import * as yauzl from 'yauzl';
 export const HTTP_HEADERS = { 'User-Agent': 'jbr (https://github.com/rubensworks/jbr.js)' };
 
 /**
+ * The delays in milliseconds before retrying a request,
+ * as Zenodo sometimes answers range requests with a server error that succeeds when retried.
+ */
+export const RETRY_DELAYS = [ 1_000, 5_000, 15_000, 30_000 ];
+
+/**
+ * Request a byte range, and retry on network errors, server errors, and rate limiting.
+ * @param url The URL.
+ * @param range The value of the Range header.
+ * @param retryDelays The delays in milliseconds before each retry.
+ */
+export async function fetchRange(url: string, range: string, retryDelays: number[]): Promise<Response> {
+  for (const delay of retryDelays) {
+    try {
+      const response = await fetch(url, { headers: { ...HTTP_HEADERS, Range: range }});
+      if (response.status < 500 && response.status !== 429) {
+        return response;
+      }
+      await response.body?.cancel();
+    } catch {
+      // Network errors are retried as well, until the last attempt.
+    }
+    await new Promise(resolve => setTimeout(resolve, delay));
+  }
+  return fetch(url, { headers: { ...HTTP_HEADERS, Range: range }});
+}
+
+/**
  * Reads byte ranges of a remote file via HTTP range requests.
  */
 export class HttpRandomAccessReader extends yauzl.RandomAccessReader {
-  public constructor(public readonly url: string) {
+  public constructor(
+    public readonly url: string,
+    public readonly retryDelays: number[] = RETRY_DELAYS,
+  ) {
     super();
   }
 
   public override _readStreamForRange(start: number, end: number): Readable {
     const stream = new PassThrough();
-    fetch(this.url, { headers: { ...HTTP_HEADERS, Range: `bytes=${start}-${end - 1}` }})
+    fetchRange(this.url, `bytes=${start}-${end - 1}`, this.retryDelays)
       .then((response) => {
         if (response.status !== 206) {
           throw new Error(`Expected a partial response for ${this.url}, but got status ${response.status}`);
@@ -39,6 +70,7 @@ export class ZenodoArchive {
   public constructor(
     public readonly record: string,
     public readonly name: string,
+    public readonly retryDelays: number[] = RETRY_DELAYS,
   ) {}
 
   public get url(): string {
@@ -49,14 +81,14 @@ export class ZenodoArchive {
    * Open the remote zip file.
    */
   public async open(): Promise<yauzl.ZipFile> {
-    const response = await fetch(this.url, { headers: { ...HTTP_HEADERS, Range: 'bytes=0-0' }});
+    const response = await fetchRange(this.url, 'bytes=0-0', this.retryDelays);
     await response.body?.cancel();
     const size = Number(response.headers.get('content-range')?.split('/')[1]);
     if (!size) {
       throw new Error(`Could not determine the size of ${this.url}, got status ${response.status}`);
     }
     // Ranges are requested on the final URL, after redirects.
-    const reader = new HttpRandomAccessReader(response.url);
+    const reader = new HttpRandomAccessReader(response.url, this.retryDelays);
     return await new Promise((resolve, reject) => yauzl.fromRandomAccessReader(
       reader,
       size,
