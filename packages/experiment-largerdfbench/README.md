@@ -152,32 +152,16 @@ Once the run step completes, results will be present in the `output/` directory.
 
 ## Sampling
 
-By default, the full HDT files are placed in `generated/datasets/`, and the published expected results are used as expected results.
-For the FedBench part, this is a download of about 2.6 GB.
+By default, the full HDT files (about 2.6 GB for the FedBench part) are used, with the published expected results.
+With `sample` enabled, a sample is created instead:
 
-With `sample` enabled, a sample of the datasets is created instead, as follows:
+1. The HDT files, queries, and published results are downloaded from Zenodo.
+2. For each query, the triples that contribute to its solutions over the full data are computed.
+3. The subjects of each dataset are sampled at their rate in `sampleSubjectRates`, keeping their triples that match a query pattern, and their other triples at `sampleOtherTriplesRate`.
+4. The contributing triples are added, and one matching triple for each query pattern that matches the full data but not the sample, so that source selection is unchanged.
+5. With `sampleValidate` enabled, prepare fails unless each query produces the same results over the sample as over the full data, which become its expected results.
 
-1. Only the required entries are downloaded from the zip files on Zenodo, using HTTP range requests.
-   For the FedBench part, this is about 2.6 GB of HDT files.
-2. The _answer lineage_ of each query is computed over the full HDT files with Comunica, with each dataset as a separate source:
-   the triples, per dataset, that contribute to its solutions.
-   For queries with published expected results, these results are bound via VALUES, so that the values of unprojected variables are recovered as well.
-   Published results that match no solution, due to defects such as altered literals, are retried with their literals unbound.
-   Queries without published results are evaluated in full, and sorted deterministically before applying their LIMIT.
-   For C2 and C5, an equivalent but cheaper formulation is used, in which joins that are expressed as FILTER equality are replaced by shared variables.
-3. Each dataset is sampled by subject: the subjects are sampled at their rate in `sampleSubjectRates`, based on a seeded hash.
-   Of the triples of a sampled subject, those that match a triple pattern of any query are kept,
-   and the others are kept at `sampleOtherTriplesRate`, so that query planners still need to consider selectivity.
-   All lineage triples are added, and for each triple pattern that matches the full dataset but not the sample, one matching triple is added,
-   so that source selection over the sample is identical to that over the full data.
-4. With `sampleValidate` enabled (the default), each query is evaluated over the sample and over the full data, with each dataset as a separate source.
-   Queries without LIMIT must produce exactly the same results (as bags), and queries with a LIMIT must produce as many results as their expected results.
-   If a query does not, the prepare step fails.
-   The results over the sample become the expected results in `generated/results/`.
-   Their differences with the published expected results are reported in `manifest.json`.
-
-The sample is deterministic: the same parameters produce byte-identical datasets, whose SHA-256 hashes are stored in `manifest.json`.
-With the default sampling parameters, generating the sample takes about 20 minutes on a 4-core machine, excluding the download, with a peak memory usage of 7.6 GB, for which Node.js needs `--max-old-space-size=8192`.
+The same parameters produce a byte-identical sample, which takes about 20 minutes and 7.6 GB of memory (`--max-old-space-size=8192`) with the default sampling parameters.
 
 ## Output
 

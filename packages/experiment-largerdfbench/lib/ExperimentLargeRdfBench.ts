@@ -83,7 +83,7 @@ export class ExperimentLargeRdfBench implements Experiment {
   ];
 
   /**
-   * Queries whose original form Comunica evaluates too slowly to generate a sample,
+   * Queries whose original form is too slow to generate a sample,
    * mapped to an equivalent formulation in the templates directory.
    */
   public static readonly EQUIVALENT_QUERIES: Record<string, string> = {
