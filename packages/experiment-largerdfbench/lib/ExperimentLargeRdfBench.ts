@@ -458,7 +458,7 @@ export class ExperimentLargeRdfBench implements Experiment {
         QueryEngineRdfJs: (await import('@comunica/query-sparql-rdfjs')).QueryEngine,
       };
     } catch (error: unknown) {
-      throw new Error(`Generating a LargeRDFBench sample requires the optional dependencies hdt and @comunica/query-sparql-hdt, which could not be loaded: ${(<Error> error).message}`);
+      throw new Error(`Generating a LargeRDFBench sample requires the optional peer dependencies hdt, @comunica/query-sparql-hdt, and @comunica/query-sparql-rdfjs, which could not be loaded: ${(<Error> error).message}`);
     }
   }
 
