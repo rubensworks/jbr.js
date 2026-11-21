@@ -22,8 +22,8 @@ $ jbr set-hook someHook cli
 
 ## Output
 
-`output/logs/cli-stdout.txt`: Logs of stdout.
-`output/logs/cli-stderr.txt`: Logs of stderr.
+`output/logs/cli-stdout.txt`: Logs of stdout, or `output/logs/cli-<logName>-stdout.txt` if `logName` is set.
+`output/logs/cli-stderr.txt`: Logs of stderr, or `output/logs/cli-<logName>-stderr.txt` if `logName` is set.
 
 ## Configuration
 
@@ -40,7 +40,8 @@ When installing this hook, your configuration file (`jbr-experiment.json`) will 
       "-p",
       "3001"
     ],
-    "statsFilePath": "stats.csv"
+    "statsFilePath": "stats.csv",
+    "logName": "endpoint"
   }
 ...
 ```
@@ -49,6 +50,7 @@ When installing this hook, your configuration file (`jbr-experiment.json`) will 
 
 * `entrypoint`: Array of command parts to execute when starting the experiment. Except on Windows, the command runs in its own process group, so that stopping the experiment also stops processes it spawned (for example when started via `npx`).
 * `statsFilePath`: Optional path to a CSV file in which the stats of the process will be written. CPU and memory usage are summed over the process and all its descendants.
+* `logName`: Optional name to include in the names of the log files, such as `output/logs/cli-endpoint-stdout.txt`, so that multiple CLI hooks in an experiment write to separate log files. Without it, the logs are written to `output/logs/cli-stdout.txt` and `output/logs/cli-stderr.txt`.
 
 ## License
 

@@ -1,3 +1,5 @@
+import * as fs from 'node:fs';
+import * as Path from 'node:path';
 import type { ITaskContext } from 'jbr';
 import { CliProcessHandler, createExperimentPaths } from 'jbr';
 import { TestLogger } from '../../jbr/test/TestLogger';
@@ -21,6 +23,7 @@ describe('HookCli', () => {
   let context: ITaskContext;
   let hook: HookCli;
   beforeEach(() => {
+    jest.clearAllMocks();
     logger = <any> new TestLogger();
     context = {
       cwd: 'CWD',
@@ -52,6 +55,17 @@ describe('HookCli', () => {
       expect(execSpy).toHaveBeenCalledWith('echo', [ '"HI"' ], { detached: process.platform !== 'win32' });
       expect((<CliProcessHandler> handler).processGroup).toBe(process.platform !== 'win32');
       expect(handler).toBeInstanceOf(CliProcessHandler);
+      expect(fs.createWriteStream).toHaveBeenCalledWith(Path.join('CWD', 'output', 'logs', 'cli-stdout.txt'), 'utf8');
+      expect(fs.createWriteStream).toHaveBeenCalledWith(Path.join('CWD', 'output', 'logs', 'cli-stderr.txt'), 'utf8');
+    });
+
+    it('should include the log name in the names of the log files', async() => {
+      hook = new HookCli([ 'echo', '"HI"' ], undefined, 'source-1');
+      await hook.start(context);
+
+      const logs = Path.join('CWD', 'output', 'logs');
+      expect(fs.createWriteStream).toHaveBeenCalledWith(Path.join(logs, 'cli-source-1-stdout.txt'), 'utf8');
+      expect(fs.createWriteStream).toHaveBeenCalledWith(Path.join(logs, 'cli-source-1-stderr.txt'), 'utf8');
     });
   });
 
