@@ -18,7 +18,7 @@ and every triple pattern matches the same sources.
 
 * [Node.js](https://nodejs.org/en/) _(18 or higher)_
 * [jbr](https://github.com/rubensworks/jbr.js/tree/master/packages/jbr) _(required for initializing, preparing, and running experiments on the command line)_
-* Only for generating a sample: the optional dependencies [`hdt`](https://www.npmjs.com/package/hdt) (a native module that requires a C++ compiler) and [`@comunica/query-sparql-hdt`](https://www.npmjs.com/package/@comunica/query-sparql-hdt).
+* Only for generating a sample: the optional peer dependencies [`hdt`](https://www.npmjs.com/package/hdt) (a native module that requires a C++ compiler), [`@comunica/query-sparql-hdt`](https://www.npmjs.com/package/@comunica/query-sparql-hdt), and [`@comunica/query-sparql-rdfjs`](https://www.npmjs.com/package/@comunica/query-sparql-rdfjs), which are not installed automatically: `npm install hdt @comunica/query-sparql-hdt @comunica/query-sparql-rdfjs`.
 
 ## Quick start
 
