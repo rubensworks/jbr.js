@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v6.7.1"></a>
+## [v6.7.1](https://github.com/rubensworks/jbr.js/compare/v6.7.0...v6.7.1) - 2026-11-21
+
+### Fixed
+* [Make LargeRDFBench generation deps optional peer deps (#111)](https://github.com/rubensworks/jbr.js/commit/46602277f8c2023e0f9b50a2e5217adef7d155dd)
+
 <a name="v6.7.0"></a>
 ## [v6.7.0](https://github.com/rubensworks/jbr.js/compare/v6.6.0...v6.7.0) - 2026-11-21
 

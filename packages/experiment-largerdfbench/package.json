@@ -1,6 +1,6 @@
 {
   "name": "@jbr-experiment/largerdfbench",
-  "version": "6.7.0",
+  "version": "6.7.1",
   "description": "LargeRDFBench experiment handler for JBR",
   "main": "index.js",
   "typings": "index",
