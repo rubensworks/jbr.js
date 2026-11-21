@@ -1,10 +1,19 @@
 import type * as RDF from '@rdfjs/types';
+import { toAlgebra } from '@traqula/algebra-sparql-1-1';
+import type { Algebra } from '@traqula/algebra-transformations-1-1';
+import { Types } from '@traqula/algebra-transformations-1-1';
+import { Generator } from '@traqula/generator-sparql-1-1';
+import { Parser } from '@traqula/parser-sparql-1-1';
+import type { QuerySelect, TermIri, TermLiteral } from '@traqula/rules-sparql-1-1';
+import { AstFactory } from '@traqula/rules-sparql-1-1';
 import { Writer } from 'n3';
-import type { Pattern, SelectQuery, Triple, VariableTerm } from 'sparqljs';
-import { Parser } from 'sparqljs';
+import { termToString } from 'rdf-string-ttl';
 
 const XSD_STRING = 'http://www.w3.org/2001/XMLSchema#string';
 const writer = new Writer({ format: 'N-Triples' });
+const parser = new Parser();
+const generator = new Generator();
+export const AST_FACTORY = new AstFactory();
 
 /**
  * The N-Triples line of a triple, including the trailing newline, which is used as its identity.
@@ -14,28 +23,6 @@ const writer = new Writer({ format: 'N-Triples' });
  */
 export function tripleToLine(subject: RDF.Term, predicate: RDF.Term, object: RDF.Term): string {
   return writer.quadToString(<RDF.Quad_Subject> subject, <RDF.Quad_Predicate> predicate, <RDF.Quad_Object> object);
-}
-
-/**
- * A key of a term, which is equal for RDF 1.1-equal terms.
- * @param term An RDF term.
- */
-export function termKey(term: RDF.Term): string {
-  switch (term.termType) {
-    case 'NamedNode':
-      return `<${term.value}>`;
-    case 'BlankNode':
-      return `_:${term.value}`;
-    case 'Literal':
-      if (term.language) {
-        return `${JSON.stringify(term.value)}@${term.language}`;
-      }
-      return term.datatype.value === XSD_STRING ?
-        JSON.stringify(term.value) :
-        `${JSON.stringify(term.value)}^^${term.datatype.value}`;
-    default:
-      throw new Error(`Unsupported term type ${term.termType}`);
-  }
 }
 
 /**
@@ -78,86 +65,146 @@ export function compareStrings(a: string, b: string): number {
 /**
  * A parsed SELECT query.
  */
-export type ISelectQuery = SelectQuery & { where: Pattern[] };
+export interface IParsedQuery {
+  /**
+   * The syntax tree, which is used to rewrite the query.
+   */
+  ast: QuerySelect;
+  /**
+   * The algebra, in which prefixed names are resolved to IRIs.
+   */
+  algebra: Algebra.Operation;
+}
 
 /**
  * Parse a SPARQL SELECT query.
  * @param query A SPARQL query string.
  */
-export function parseQuery(query: string): ISelectQuery {
-  const parsed = new Parser().parse(query);
-  if (parsed.type !== 'query' || parsed.queryType !== 'SELECT') {
+export function parseQuery(query: string): IParsedQuery {
+  const ast = parser.parse(query);
+  if (ast.type !== 'query' || ast.subType !== 'select') {
     throw new Error('Only SELECT queries are supported');
   }
-  return <ISelectQuery> parsed;
+  return { ast, algebra: toAlgebra(ast) };
 }
 
 /**
- * All triple patterns of a list of patterns, including those in OPTIONAL, UNION, and subqueries.
- * @param patterns A list of patterns.
+ * Serialize a syntax tree to a SPARQL query string.
+ * @param ast A syntax tree of a SELECT query.
+ */
+export function generateQuery(ast: QuerySelect): string {
+  return generator.generate(ast);
+}
+
+/**
+ * Convert a term to a term in a syntax tree, for use in VALUES.
+ * @param term An IRI or literal.
+ */
+export function termToAst(term: RDF.Term): TermIri | TermLiteral {
+  const F = AST_FACTORY;
+  switch (term.termType) {
+    case 'NamedNode':
+      return F.termNamed(F.gen(), term.value);
+    case 'Literal':
+      if (term.language) {
+        return F.termLiteral(F.gen(), term.value, term.language);
+      }
+      return term.datatype.value === XSD_STRING ?
+        F.termLiteral(F.gen(), term.value) :
+        F.termLiteral(F.gen(), term.value, F.termNamed(F.gen(), term.datatype.value));
+    default:
+      throw new Error(`Unsupported term type ${term.termType} in VALUES`);
+  }
+}
+
+/**
+ * A VALUES pattern over the variables of the given rows, in which missing variables are UNDEF.
+ * @param rows Rows of variable bindings.
+ */
+export function valuesPattern(rows: Record<string, RDF.Term>[]): QuerySelect['where']['patterns'][number] {
+  const F = AST_FACTORY;
+  const variables = [ ...new Set(rows.flatMap(row => Object.keys(row))) ].sort(compareStrings);
+  return F.patternValues(
+    variables.map(variable => F.termVariable(variable, F.gen())),
+    rows.map(row => Object.fromEntries(Object.entries(row).map(([ variable, term ]) => [ variable, termToAst(term) ]))),
+    F.gen(),
+  );
+}
+
+/**
+ * The child operations of an operation, without those in expressions such as EXISTS.
+ * @param operation An algebra operation.
+ */
+function childOperations(operation: Algebra.Operation): Algebra.Operation[] {
+  const input = (<{ input?: Algebra.Operation | Algebra.Operation[] }> operation).input;
+  if (input === undefined) {
+    return [];
+  }
+  return Array.isArray(input) ? input : [ input ];
+}
+
+/**
+ * All triple patterns of an operation, in query order, including those in OPTIONAL, UNION, and subqueries.
+ * @param operation An algebra operation.
  * @param acc The array to add the triple patterns to.
  */
-export function collectPatterns(patterns: Pattern[] = [], acc: Triple[] = []): Triple[] {
-  for (const pattern of patterns) {
-    if (pattern.type === 'bgp') {
-      acc.push(...pattern.triples);
-    } else if (pattern.type === 'query') {
-      collectPatterns(pattern.where, acc);
-    } else if ('patterns' in pattern) {
-      collectPatterns(pattern.patterns, acc);
-    }
+export function collectPatterns(operation: Algebra.Operation, acc: Algebra.Pattern[] = []): Algebra.Pattern[] {
+  if (operation.type === Types.BGP) {
+    acc.push(...operation.patterns);
+  }
+  for (const child of childOperations(operation)) {
+    collectPatterns(child, acc);
   }
   return acc;
 }
 
 /**
- * Check if a term is a variable.
- * @param term A term in a parsed query.
+ * Variables that are bound in every solution of an operation:
+ * those of its triple patterns outside OPTIONAL, MINUS, and UNION, that are projected by the subqueries they are in.
+ * @param operation An algebra operation.
  */
-export function isVariable(term: Triple['subject'] | Triple['predicate'] | Triple['object']): term is VariableTerm {
-  return (<{ termType?: string }> term).termType === 'Variable';
+export function mandatoryVariables(operation: Algebra.Operation): Set<string> {
+  switch (operation.type) {
+    case Types.BGP:
+      return new Set(operation.patterns.flatMap(pattern => [ pattern.subject, pattern.predicate, pattern.object ])
+        .filter(term => term.termType === 'Variable')
+        .map(term => term.value));
+    case Types.JOIN:
+      return new Set(operation.input.flatMap(input => [ ...mandatoryVariables(input) ]));
+    case Types.LEFT_JOIN:
+    case Types.MINUS:
+      return mandatoryVariables(operation.input[0]);
+    case Types.PROJECT: {
+      const mandatory = mandatoryVariables(operation.input);
+      return new Set(operation.variables.map(variable => variable.value).filter(variable => mandatory.has(variable)));
+    }
+    case Types.FILTER:
+    case Types.EXTEND:
+    case Types.DISTINCT:
+    case Types.REDUCED:
+    case Types.ORDER_BY:
+    case Types.SLICE:
+      return mandatoryVariables(operation.input);
+    default:
+      return new Set();
+  }
 }
 
 /**
  * Check if a query projects all its variables.
- * @param query A parsed SELECT query.
+ * @param ast The syntax tree of a SELECT query.
  */
-export function isSelectAll(query: SelectQuery): boolean {
-  return (<{ termType?: string }> query.variables[0]).termType === 'Wildcard';
+export function isSelectAll(ast: QuerySelect): boolean {
+  return ast.variables[0].type === 'wildcard';
 }
 
 /**
- * Variables that are bound in every solution of a group:
- * those of its triple patterns outside OPTIONAL and UNION, including in subqueries that project all their variables.
- * @param patterns The patterns of a group.
- * @param acc The set to add the variable names to.
- */
-export function mandatoryVariables(patterns: Pattern[] = [], acc: Set<string> = new Set()): Set<string> {
-  for (const pattern of patterns) {
-    if (pattern.type === 'bgp') {
-      for (const triple of pattern.triples) {
-        for (const term of [ triple.subject, triple.predicate, triple.object ]) {
-          if (isVariable(term)) {
-            acc.add(term.value);
-          }
-        }
-      }
-    } else if (pattern.type === 'group') {
-      mandatoryVariables(pattern.patterns, acc);
-    } else if (pattern.type === 'query' && isSelectAll(pattern)) {
-      mandatoryVariables(pattern.where, acc);
-    }
-  }
-  return acc;
-}
-
-/**
- * The names of the projected variables of a parsed query, which are taken from the solutions for SELECT *.
- * @param parsed A parsed SELECT query.
+ * The names of the projected variables of a query, which are taken from the solutions for SELECT *.
+ * @param ast The syntax tree of a SELECT query.
  * @param solutions The solutions of the query.
  */
-export function projectedVariables(parsed: SelectQuery, solutions: RDF.Bindings[]): string[] {
-  if (isSelectAll(parsed)) {
+export function projectedVariables(ast: QuerySelect, solutions: RDF.Bindings[]): string[] {
+  if (isSelectAll(ast)) {
     const names = new Set<string>();
     for (const solution of solutions) {
       for (const variable of solution.keys()) {
@@ -166,7 +213,8 @@ export function projectedVariables(parsed: SelectQuery, solutions: RDF.Bindings[
     }
     return [ ...names ].sort();
   }
-  return parsed.variables.map(variable => 'expression' in variable ? variable.variable.value : variable.value);
+  return (<Exclude<QuerySelect['variables'][number], { type: 'wildcard' }>[]> ast.variables)
+    .map(variable => variable.type === 'term' ? variable.value : variable.variable.value);
 }
 
 /**
@@ -193,13 +241,13 @@ export class PatternMatcher {
   public constructor(queries: string[]) {
     const seen = new Set<string>();
     for (const query of queries) {
-      for (const triple of collectPatterns(parseQuery(query).where)) {
+      for (const triple of collectPatterns(parseQuery(query).algebra)) {
         const terms = [ triple.subject, triple.predicate, triple.object ]
-          .map(term => isVariable(term) ? undefined : <RDF.Term> term);
+          .map(term => term.termType === 'Variable' ? undefined : term);
         if (terms.every(term => term === undefined)) {
           continue;
         }
-        const [ subject, predicate, object ] = terms.map(term => term ? termKey(term) : undefined);
+        const [ subject, predicate, object ] = terms.map(term => term ? termToString(term) : undefined);
         const key = `${subject ?? '?'} ${predicate ?? '?'} ${object ?? '?'}`;
         if (seen.has(key)) {
           continue;
@@ -235,7 +283,7 @@ export class PatternMatcher {
           continue;
         }
         if (pattern.object !== undefined) {
-          objectKey ??= termKey(object);
+          objectKey ??= termToString(object);
           if (pattern.object !== objectKey) {
             continue;
           }

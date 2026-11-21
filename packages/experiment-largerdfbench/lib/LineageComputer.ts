@@ -1,19 +1,21 @@
 import type { EventEmitter } from 'node:events';
 import * as Path from 'node:path';
 import type * as RDF from '@rdfjs/types';
+import { toAlgebra } from '@traqula/algebra-sparql-1-1';
+import type { Ordering } from '@traqula/rules-sparql-1-1';
 import * as fs from 'fs-extra';
 import { DataFactory } from 'n3';
-import type { BlankTerm, IriTerm, LiteralTerm, Ordering, ValuePatternRow, ValuesPattern } from 'sparqljs';
-import { Generator, Wildcard } from 'sparqljs';
+import { termToString } from 'rdf-string-ttl';
 import {
+  AST_FACTORY,
   collectPatterns,
   compareStrings,
-  isVariable,
+  generateQuery,
   mandatoryVariables,
   parseQuery,
   projectedVariables,
-  termKey,
   tripleToLine,
+  valuesPattern,
 } from './QueryPatterns';
 
 /**
@@ -164,12 +166,11 @@ const TERM_TYPE_ORDER: Record<string, number> = { BlankNode: 1, NamedNode: 2, Li
  */
 export function compareOrder(a: RDF.Bindings, b: RDF.Bindings, order: Ordering[]): number {
   for (const { expression, descending } of order) {
-    const variable = <Partial<RDF.Variable>> expression;
-    if (variable.termType !== 'Variable') {
+    if (expression.type !== 'term' || expression.subType !== 'variable') {
       throw new Error('Only variables are supported in ORDER BY of queries without published results');
     }
-    const x = a.get(variable.value!);
-    const y = b.get(variable.value!);
+    const x = a.get(expression.value);
+    const y = b.get(expression.value);
     let result: number;
     if (!x || !y) {
       result = (x ? 1 : 0) - (y ? 1 : 0);
@@ -257,7 +258,7 @@ export class LineageComputer {
     // Expected rows whose terms differ from the data (e.g., altered literals) match no solution,
     // so those are retried with their literals unbound, which recovers the actual solutions.
     const rowKey = (row: Record<string, RDF.Term>): string => JSON.stringify(Object.keys(row).sort()
-      .map(variable => [ variable, termKey(row[variable]) ]));
+      .map(variable => [ variable, termToString(row[variable]) ]));
     const project = (solution: RDF.Bindings, variables: string[]): Record<string, RDF.Term> => Object
       .fromEntries(variables.filter(variable => solution.has(variable))
         .map(variable => [ variable, solution.get(variable)! ]));
@@ -282,11 +283,11 @@ export class LineageComputer {
     // Find the datasets that contain each triple of each solution.
     const datasets = Object.keys(this.options.documents);
     const triples: Record<string, Set<string>> = Object.fromEntries(datasets.map(ds => [ ds, new Set<string>() ]));
-    const patterns = collectPatterns(parseQuery(text).where);
+    const patterns = collectPatterns(parseQuery(text).algebra);
     for (const solution of solutions) {
       for (const pattern of patterns) {
         const terms = [ pattern.subject, pattern.predicate, pattern.object ]
-          .map(term => isVariable(term) ? solution.get(term.value) : <RDF.Term> term);
+          .map(term => term.termType === 'Variable' ? solution.get(term.value) : term);
         if (terms.includes(undefined)) {
           continue;
         }
@@ -304,7 +305,7 @@ export class LineageComputer {
     return {
       expectedRows: rows.length,
       unmatchedRows: unmatched.map(row => Object.fromEntries(Object.entries(row)
-        .map(([ variable, term ]) => [ variable, termKey(term) ]))),
+        .map(([ variable, term ]) => [ variable, termToString(term) ]))),
       stillUnmatchedRows: stillUnmatched,
       solutions: solutions.length,
       triples: Object.fromEntries(datasets.filter(ds => triples[ds].size > 0).map(ds => [ ds, triples[ds].size ])),
@@ -322,20 +323,20 @@ export class LineageComputer {
   public async computeExpectedResults(id: string): Promise<ISparqlJsonResults> {
     this.options.log(`  ${id}: no published results, evaluating the query over the full data`);
     const text = this.getEvaluationQuery(id);
-    const parsed = parseQuery(text);
-    const { limit, offset = 0, order = []} = parsed;
+    const { ast } = parseQuery(text);
+    const { limit, offset = 0 } = ast.solutionModifiers.limitOffset ?? {};
+    const order = ast.solutionModifiers.order?.orderDefs ?? [];
     const end = limit === undefined ? undefined : offset + limit;
-    delete parsed.limit;
-    delete parsed.offset;
+    delete ast.solutionModifiers.limitOffset;
     const candidates = this.options.limitCandidates[id];
     const solutions = candidates ?
       await this.evaluateOnCandidates(id, text, candidates, end ?? Number.POSITIVE_INFINITY) :
-      await this.evaluate(new Generator().stringify(parsed));
-    const variables = projectedVariables(parseQuery(this.options.queries[id]), solutions);
+      await this.evaluate(generateQuery(ast));
+    const variables = projectedVariables(parseQuery(this.options.queries[id]).ast, solutions);
     const solutionKey = (solution: RDF.Bindings): string => JSON.stringify(variables
-      .map(variable => solution.has(variable) ? termKey(solution.get(variable)!) : ''));
+      .map(variable => solution.has(variable) ? termToString(solution.get(variable)!) : ''));
     let keyed = solutions.map(solution => ({ solution, key: solutionKey(solution) }));
-    if (parsed.distinct) {
+    if (ast.distinct) {
       keyed = [ ...new Map(keyed.map(entry => [ entry.key, entry ])).values() ];
     }
     keyed.sort((a, b) => compareOrder(a.solution, b.solution, order) || compareStrings(a.key, b.key));
@@ -376,31 +377,24 @@ export class LineageComputer {
         { limit: Number.MAX_SAFE_INTEGER },
       );
       for (const { subject } of triples) {
-        subjects.set(termKey(subject), subject);
+        subjects.set(termToString(subject), subject);
       }
     }
     const ordered = [ ...subjects.keys() ].sort().map(key => subjects.get(key)!);
-    const projection = parseQuery(this.options.queries[id]);
+    const projection = parseQuery(this.options.queries[id]).ast;
     const solutions: RDF.Bindings[] = [];
     const distinct = new Set<string>();
     let used = 0;
     for (let i = 0; i < ordered.length && distinct.size < needed; i += candidates.batchSize) {
       used = Math.min(ordered.length, i + candidates.batchSize);
-      const parsed = parseQuery(text);
-      delete parsed.limit;
-      delete parsed.offset;
-      parsed.where = [
-        {
-          type: 'values',
-          values: ordered.slice(i, i + candidates.batchSize)
-            .map(term => ({ [`?${candidates.variable}`]: <IriTerm | BlankTerm | LiteralTerm> term })),
-        },
-        ...parsed.where,
-      ];
-      for (const solution of await this.evaluate(new Generator().stringify(parsed))) {
+      const { ast } = parseQuery(text);
+      delete ast.solutionModifiers.limitOffset;
+      ast.where.patterns.unshift(valuesPattern(ordered.slice(i, i + candidates.batchSize)
+        .map(term => ({ [candidates.variable]: term }))));
+      for (const solution of await this.evaluate(generateQuery(ast))) {
         solutions.push(solution);
         distinct.add(JSON.stringify(projectedVariables(projection, [ solution ])
-          .map(variable => solution.has(variable) ? termKey(solution.get(variable)!) : '')));
+          .map(variable => solution.has(variable) ? termToString(solution.get(variable)!) : '')));
       }
     }
     this.options.log(`  ${id}: ${distinct.size} distinct rows from the first ${used} of ${ordered.length} candidates for ?${candidates.variable}`);
@@ -438,30 +432,25 @@ export class LineageComputer {
    * @param rows Rows of variable bindings.
    */
   public static lineageQuery(text: string, rows: Record<string, RDF.Term>[]): string {
-    const parsed = parseQuery(text);
-    const mandatory = mandatoryVariables(parsed.where);
-    parsed.variables = [ new Wildcard() ];
-    delete parsed.distinct;
-    delete parsed.reduced;
-    delete parsed.limit;
-    delete parsed.offset;
-    delete parsed.order;
-    const toValues = (values: Record<string, RDF.Term>[]): ValuePatternRow[] => values.map(row => Object
-      .fromEntries(Object.entries(row).map(([ variable, term ]) => [ `?${variable}`, <IriTerm | LiteralTerm> term ])));
+    const { ast } = parseQuery(text);
+    ast.variables = [ AST_FACTORY.wildcard(AST_FACTORY.gen()) ];
+    delete ast.distinct;
+    delete ast.reduced;
+    delete ast.solutionModifiers.limitOffset;
+    delete ast.solutionModifiers.order;
+    const mandatory = mandatoryVariables(toAlgebra(ast));
     const first = [ ...new Map(rows
       .map(row => Object.fromEntries(Object.entries(row).filter(([ variable ]) => mandatory.has(variable))))
       .filter(row => Object.keys(row).length > 0)
       .map(row => [ JSON.stringify(Object.entries(row)
-        .map(([ variable, term ]) => [ variable, termKey(term) ])
+        .map(([ variable, term ]) => [ variable, termToString(term) ])
         .sort(([ a ], [ b ]) => compareStrings(a, b))), row ]))
       .values() ];
-    const valuesPattern = (bindings: Record<string, RDF.Term>[]): ValuesPattern =>
-      ({ type: 'values', values: toValues(bindings) });
-    parsed.where = [
+    ast.where.patterns = [
       ...first.length > 0 ? [ valuesPattern(first) ] : [],
-      ...parsed.where,
+      ...ast.where.patterns,
       valuesPattern(rows),
     ];
-    return new Generator().stringify(parsed);
+    return generateQuery(ast);
   }
 }

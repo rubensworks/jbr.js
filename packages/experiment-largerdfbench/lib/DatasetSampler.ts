@@ -2,8 +2,9 @@ import { createHash } from 'node:crypto';
 import * as Path from 'node:path';
 import * as fs from 'fs-extra';
 import { Parser as N3Parser } from 'n3';
+import { termToString } from 'rdf-string-ttl';
 import type { IHdtDocumentLike } from './LineageComputer';
-import { keep, PatternMatcher, termKey, tripleToLine } from './QueryPatterns';
+import { keep, PatternMatcher, tripleToLine } from './QueryPatterns';
 
 /**
  * Statistics on a sampled dataset.
@@ -116,7 +117,7 @@ export class DatasetSampler {
     for (let offset = 0; offset < total; offset += pageSize) {
       const { triples } = await document.searchTriples(undefined, undefined, undefined, { offset, limit: pageSize });
       for (const { subject, predicate, object } of triples) {
-        const subjectKey = termKey(subject);
+        const subjectKey = termToString(subject);
         if (subjectKey !== current) {
           if (subject.termType === 'BlankNode' && subjectRate < 1) {
             throw new Error(`Dataset ${ds} has blank node subjects, which is only supported with a subject rate of 1`);
@@ -128,7 +129,7 @@ export class DatasetSampler {
             stats.sampledSubjects++;
           }
         }
-        const matches = matcher.match(subjectKey, termKey(predicate), object);
+        const matches = matcher.match(subjectKey, termToString(predicate), object);
         if (matches.length > 0) {
           stats.matchingInFull++;
           add(fullCounts, matches);
@@ -158,7 +159,7 @@ export class DatasetSampler {
           lines.add(line);
           stats.lineage++;
           const [ quad ] = parser.parse(line);
-          add(sampleCounts, matcher.match(termKey(quad.subject), termKey(quad.predicate), quad.object));
+          add(sampleCounts, matcher.match(termToString(quad.subject), termToString(quad.predicate), quad.object));
         }
       }
     }
@@ -170,7 +171,7 @@ export class DatasetSampler {
         const { triples: [ quad ] } = await document.searchTriples(subject, predicate, object, { limit: 1 });
         lines.add(tripleToLine(quad.subject, quad.predicate, quad.object));
         stats.witnesses++;
-        add(sampleCounts, matcher.match(termKey(quad.subject), termKey(quad.predicate), quad.object));
+        add(sampleCounts, matcher.match(termToString(quad.subject), termToString(quad.predicate), quad.object));
       }
     }
 

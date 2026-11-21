@@ -1,16 +1,19 @@
 import { DataFactory } from 'n3';
+import { termToString } from 'rdf-string-ttl';
 import {
+  AST_FACTORY,
   collectPatterns,
   compareStrings,
   fnv1a,
-  isVariable,
+  generateQuery,
   keep,
   mandatoryVariables,
   parseQuery,
   PatternMatcher,
   projectedVariables,
-  termKey,
+  termToAst,
   tripleToLine,
+  valuesPattern,
 } from '../lib/QueryPatterns';
 import { ex } from './mocks/Data';
 
@@ -19,34 +22,6 @@ describe('QueryPatterns', () => {
     it('serializes a triple as an N-Triples line', () => {
       expect(tripleToLine(ex('s'), ex('p'), DataFactory.literal('o')))
         .toBe('<http://example.org/s> <http://example.org/p> "o" .\n');
-    });
-  });
-
-  describe('termKey', () => {
-    it('handles named nodes', () => {
-      expect(termKey(ex('a'))).toBe('<http://example.org/a>');
-    });
-
-    it('handles blank nodes', () => {
-      expect(termKey(DataFactory.blankNode('b'))).toBe('_:b');
-    });
-
-    it('handles simple literals, also as xsd:string', () => {
-      expect(termKey(DataFactory.literal('a'))).toBe('"a"');
-      expect(termKey(DataFactory.literal('a', DataFactory.namedNode('http://www.w3.org/2001/XMLSchema#string'))))
-        .toBe('"a"');
-    });
-
-    it('handles language-tagged literals', () => {
-      expect(termKey(DataFactory.literal('a', 'en'))).toBe('"a"@en');
-    });
-
-    it('handles typed literals', () => {
-      expect(termKey(DataFactory.literal('1', ex('type')))).toBe('"1"^^http://example.org/type');
-    });
-
-    it('throws on other terms', () => {
-      expect(() => termKey(DataFactory.variable('v'))).toThrow('Unsupported term type Variable');
     });
   });
 
@@ -86,7 +61,9 @@ describe('QueryPatterns', () => {
 
   describe('parseQuery', () => {
     it('parses SELECT queries', () => {
-      expect(parseQuery('SELECT * WHERE { ?a <ex:p> ?b }').queryType).toBe('SELECT');
+      const { ast, algebra } = parseQuery('PREFIX ex: <http://example.org/> SELECT * WHERE { ?a ex:p ?b }');
+      expect(ast.subType).toBe('select');
+      expect(collectPatterns(algebra)[0].predicate.equals(ex('p'))).toBe(true);
     });
 
     it('rejects other queries and updates', () => {
@@ -103,21 +80,13 @@ describe('QueryPatterns', () => {
         { ?a <ex:p3> ?d } UNION { ?a <ex:p4> ?d }
         { SELECT * WHERE { ?a <ex:p5> ?e } }
       }`);
-      expect(collectPatterns(parsed.where).map(pattern => (<any> pattern.predicate).value))
+      expect(collectPatterns(parsed.algebra).map(pattern => pattern.predicate.value))
         .toEqual([ 'ex:p1', 'ex:p2', 'ex:p3', 'ex:p4', 'ex:p5' ]);
     });
 
-    it('ignores patterns without triple patterns', () => {
-      expect(collectPatterns(undefined)).toEqual([]);
-      expect(collectPatterns(parseQuery('SELECT * WHERE { FILTER(true) }').where)).toEqual([]);
-    });
-  });
-
-  describe('isVariable', () => {
-    it('distinguishes variables', () => {
-      expect(isVariable(DataFactory.variable('v'))).toBe(true);
-      expect(isVariable(ex('a'))).toBe(false);
-      expect(isVariable(<any> { type: 'path', pathType: '/', items: []})).toBe(false);
+    it('ignores patterns in expressions, and operations without triple patterns', () => {
+      expect(collectPatterns(parseQuery('SELECT * WHERE { FILTER(true) }').algebra)).toEqual([]);
+      expect(collectPatterns(parseQuery('SELECT * WHERE { FILTER EXISTS { ?a <ex:p> ?b } }').algebra)).toEqual([]);
     });
   });
 
@@ -131,21 +100,33 @@ describe('QueryPatterns', () => {
         { SELECT * WHERE { ?a <ex:p5> ?e } }
         { SELECT ?a WHERE { ?a <ex:p7> ?g } }
       }`);
-      expect([ ...mandatoryVariables(parsed.where) ].sort()).toEqual([ 'a', 'b', 'e', 'f' ]);
+      expect([ ...mandatoryVariables(parsed.algebra) ].sort()).toEqual([ 'a', 'b', 'e', 'f' ]);
+    });
+
+    it('excludes the right side of MINUS, and looks through filters, binds, and solution modifiers', () => {
+      const parsed = parseQuery(`SELECT REDUCED * WHERE {
+        ?a <ex:p1> ?b .
+        MINUS { ?a <ex:p2> ?c }
+        FILTER(?b)
+        BIND(?b AS ?d)
+      } ORDER BY ?a LIMIT 1`);
+      expect([ ...mandatoryVariables(parsed.algebra) ].sort()).toEqual([ 'a', 'b' ]);
+      expect([ ...mandatoryVariables(parseQuery('SELECT DISTINCT ?a WHERE { ?a <ex:p> ?b }').algebra) ])
+        .toEqual([ 'a' ]);
     });
 
     it('is empty without patterns', () => {
-      expect(mandatoryVariables(undefined)).toEqual(new Set());
+      expect(mandatoryVariables(parseQuery('SELECT * WHERE { VALUES ?a { <ex:a> } }').algebra)).toEqual(new Set());
     });
   });
 
   describe('projectedVariables', () => {
     it('returns explicitly projected variables', () => {
-      expect(projectedVariables(parseQuery('SELECT ?b ?a WHERE { ?a <ex:p> ?b }'), [])).toEqual([ 'b', 'a' ]);
+      expect(projectedVariables(parseQuery('SELECT ?b ?a WHERE { ?a <ex:p> ?b }').ast, [])).toEqual([ 'b', 'a' ]);
     });
 
     it('returns the variables of projected expressions', () => {
-      expect(projectedVariables(parseQuery('SELECT ?a (STR(?b) AS ?c) WHERE { ?a <ex:p> ?b }'), []))
+      expect(projectedVariables(parseQuery('SELECT ?a (STR(?b) AS ?c) WHERE { ?a <ex:p> ?b }').ast, []))
         .toEqual([ 'a', 'c' ]);
     });
 
@@ -154,7 +135,34 @@ describe('QueryPatterns', () => {
         { keys: () => [ DataFactory.variable('b') ]},
         { keys: () => [ DataFactory.variable('a') ]},
       ];
-      expect(projectedVariables(parseQuery('SELECT * WHERE { ?a <ex:p> ?b }'), solutions)).toEqual([ 'a', 'b' ]);
+      expect(projectedVariables(parseQuery('SELECT * WHERE { ?a <ex:p> ?b }').ast, solutions)).toEqual([ 'a', 'b' ]);
+    });
+  });
+
+  describe('termToAst', () => {
+    it('converts IRIs and literals', () => {
+      const ast = parseQuery('SELECT * WHERE { ?a <ex:p> ?b }').ast;
+      ast.where.patterns.push(AST_FACTORY.patternValues([ AST_FACTORY.termVariable('a', AST_FACTORY.gen()) ], [
+        ex('a'),
+        DataFactory.literal('a'),
+        DataFactory.literal('a', 'en'),
+        DataFactory.literal('1', DataFactory.namedNode('http://www.w3.org/2001/XMLSchema#integer')),
+      ].map(term => ({ a: termToAst(term) })), AST_FACTORY.gen()));
+      expect(generateQuery(ast).replaceAll(/\s+/gu, ' ')).toBe('SELECT * WHERE { ?a <ex:p> ?b . VALUES ?a { ' +
+        '<http://example.org/a> "a" "a"@en "1"^^<http://www.w3.org/2001/XMLSchema#integer> } }');
+    });
+
+    it('rejects blank nodes, which VALUES does not allow', () => {
+      expect(() => termToAst(DataFactory.blankNode('b'))).toThrow('Unsupported term type BlankNode in VALUES');
+    });
+  });
+
+  describe('valuesPattern', () => {
+    it('creates a VALUES pattern with UNDEF for missing variables', () => {
+      const ast = parseQuery('SELECT * WHERE { }').ast;
+      ast.where.patterns.push(valuesPattern([{ b: ex('b') }, { a: ex('a') }]));
+      expect(generateQuery(ast).replaceAll(/\s+/gu, ' '))
+        .toBe('SELECT * WHERE { VALUES( ?a ?b ){ ( UNDEF <http://example.org/b> ) ( <http://example.org/a> UNDEF ) } }');
     });
   });
 
@@ -172,7 +180,7 @@ describe('QueryPatterns', () => {
         '<ex:s> <ex:q> ?',
         '? <ex:p> "z"',
       ]);
-      expect(matcher.patterns[1].terms.map(term => term && termKey(term))).toEqual([ undefined, '<ex:p>', '"x"' ]);
+      expect(matcher.patterns[1].terms.map(term => term && termToString(term))).toEqual([ undefined, '<ex:p>', '"x"' ]);
     });
 
     it('matches triples on their constant terms', () => {

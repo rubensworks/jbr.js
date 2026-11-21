@@ -194,12 +194,12 @@ describe('LineageComputer', () => {
         `${PREFIX}SELECT DISTINCT ?p WHERE { ?p ex:name ?n OPTIONAL { ?p ex:age ?age } } ORDER BY ?p LIMIT 1 OFFSET 1`,
         [{ p: ex('a'), age: DataFactory.literal('1') }, { p: ex('a') }, { age: DataFactory.literal('2') }],
       );
-      expect(query.replaceAll(/\s+/gu, ' ')).toBe(`PREFIX ex: <${EX}> SELECT * WHERE { VALUES ?p { ex:a } ?p ex:name ?n. OPTIONAL { ?p ex:age ?age. } VALUES (?p ?age) { (ex:a "1") (ex:a UNDEF) (UNDEF "2") } }`);
+      expect(query.replaceAll(/\s+/gu, ' ')).toBe(`PREFIX ex: <${EX}> SELECT * WHERE { VALUES ?p { <${EX}a> } ?p ex:name ?n . OPTIONAL { ?p ex:age ?age . } VALUES( ?age ?p ){ ( "1" <${EX}a> ) ( UNDEF <${EX}a> ) ( "2" UNDEF ) } }`);
     });
 
     it('does not join first if no mandatory variables are bound', () => {
       const query = LineageComputer.lineageQuery(`${PREFIX}SELECT ?o WHERE { { ?s ex:a ?o } UNION { ?s ex:b ?o } }`, [{ o: ex('a') }]);
-      expect(query.replaceAll(/\s+/gu, ' ')).toBe(`PREFIX ex: <${EX}> SELECT * WHERE { { ?s ex:a ?o. } UNION { ?s ex:b ?o. } VALUES ?o { ex:a } }`);
+      expect(query.replaceAll(/\s+/gu, ' ')).toBe(`PREFIX ex: <${EX}> SELECT * WHERE { { ?s ex:a ?o . } UNION { ?s ex:b ?o . } VALUES ?o { <${EX}a> } }`);
     });
   });
 
@@ -221,10 +221,11 @@ describe('LineageComputer', () => {
   });
 
   describe('compareOrder', () => {
-    const order = (descending = false): any[] => [{ expression: DataFactory.variable('a'), descending }];
+    const order = (descending = false): any[] =>
+      [{ expression: { type: 'term', subType: 'variable', value: 'a' }, descending }];
 
     it('only supports variables', () => {
-      expect(() => compareOrder(bindings({}), bindings({}), <any[]> [{ expression: { type: 'operation' }}]))
+      expect(() => compareOrder(bindings({}), bindings({}), <any[]> [{ expression: { type: 'expression' }}]))
         .toThrow('Only variables are supported in ORDER BY of queries without published results');
     });
 

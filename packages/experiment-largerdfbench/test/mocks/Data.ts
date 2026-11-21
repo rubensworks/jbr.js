@@ -1,8 +1,8 @@
 import type * as RDF from '@rdfjs/types';
 import { DataFactory } from 'n3';
 import { RdfStore } from 'rdf-stores';
+import { termToString } from 'rdf-string-ttl';
 import type { IHdtDocumentLike } from '../../lib/LineageComputer';
-import { termKey } from '../../lib/QueryPatterns';
 
 export const EX = 'http://example.org/';
 
@@ -29,7 +29,8 @@ export function triple(subject: RDF.Term, predicate: RDF.Term, object: RDF.Term)
  * @param quads Quads.
  */
 export function createDocument(quads: RDF.Quad[]): IHdtDocumentLike & { close: jest.Mock } {
-  const key = (quad: RDF.Quad): string => [ quad.subject, quad.predicate, quad.object ].map(termKey).join(' ');
+  const key = (quad: RDF.Quad): string => [ quad.subject, quad.predicate, quad.object ]
+    .map(term => termToString(term)).join(' ');
   const sorted = [ ...quads ].sort((a, b) => key(a) < key(b) ? -1 : 1);
   const matches = (quad: RDF.Quad, subject?: RDF.Term, predicate?: RDF.Term, object?: RDF.Term): boolean =>
     (!subject || quad.subject.equals(subject)) &&

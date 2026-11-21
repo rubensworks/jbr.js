@@ -1,9 +1,10 @@
 import * as Path from 'node:path';
 import type * as RDF from '@rdfjs/types';
 import * as fs from 'fs-extra';
+import { termToString } from 'rdf-string-ttl';
 import type { IQueryEngineLike, ISparqlJsonResults, ISparqlJsonTerm } from './LineageComputer';
 import { evaluate, rdfTermToJson } from './LineageComputer';
-import { compareStrings, parseQuery, projectedVariables, termKey } from './QueryPatterns';
+import { compareStrings, parseQuery, projectedVariables } from './QueryPatterns';
 
 /**
  * Rows that occur more often in one result than in another, with up to 3 examples.
@@ -125,7 +126,7 @@ export class SampleValidator {
    * @param id A query id.
    */
   public async validate(id: string): Promise<IQueryValidation> {
-    const parsed = parseQuery(this.options.queries[id]);
+    const parsed = parseQuery(this.options.queries[id]).ast;
     const query = this.options.evaluationQueries[id] ?? this.options.queries[id];
     const sample = await evaluate(
       this.options.sampleEngine,
@@ -134,13 +135,14 @@ export class SampleValidator {
       this.options.sampleTimeoutSeconds,
     );
     const variables = projectedVariables(parsed, sample);
+    const limit = parsed.solutionModifiers.limitOffset?.limit;
     const solutionKey = (solution: RDF.Bindings): string => JSON.stringify(variables
-      .map(variable => solution.has(variable) ? termKey(solution.get(variable)!) : null));
+      .map(variable => solution.has(variable) ? termToString(solution.get(variable)!) : null));
     const sampleKeys = countKeys(sample.map(solutionKey));
     const resultsFile = Path.join(this.options.resultsDirectory, `${id}.srj`);
     const validation: IQueryValidation = { ok: false, results: sample.length };
 
-    if (parsed.limit === undefined) {
+    if (limit === undefined) {
       const full = await evaluate(
         this.options.fullEngine,
         query,
@@ -169,7 +171,7 @@ export class SampleValidator {
     } else {
       // The expected result was computed over the full data, and any result of its size is correct.
       const expected = <ISparqlJsonResults> JSON.parse(await fs.readFile(resultsFile, 'utf8'));
-      validation.limit = parsed.limit;
+      validation.limit = limit;
       validation.ok = sample.length === expected.results.bindings.length;
     }
 
