@@ -15,7 +15,7 @@ export class ExperimentHandlerLargeRdfBench extends ExperimentHandler<Experiment
       zenodoRecord: '22140177',
       datasets: ExperimentLargeRdfBench.FEDBENCH_DATASETS,
       queries: ExperimentLargeRdfBench.FEDBENCH_QUERIES,
-      sample: true,
+      sample: false,
       sampleSubjectRates: {
         'DBPedia-Subset': 0.02,
         GeoNames: 0.02,

@@ -9,11 +9,10 @@ A [jbr](https://github.com/rubensworks/jbr.js/tree/master/packages/jbr) experime
 The datasets, queries, and expected results are taken from the [LargeRDFBench Interoperable Edition](https://zenodo.org/records/22140177) on Zenodo.
 Each dataset is served by its own SPARQL endpoint, and the queries are sent to the SPARQL endpoint of a federation engine over these sources.
 
-By default, this experiment uses the FedBench part of LargeRDFBench (9 datasets, and the 23 queries S1-S14 and C1-C9),
-over a sample of about 4.1 million of its 165 million triples, which makes it small enough for CI.
+By default, this experiment uses the full datasets of the FedBench part of LargeRDFBench (9 datasets with 165 million triples, as HDT files, and the 23 queries S1-S14 and C1-C9).
+Optionally, it can use a sample of about 4.1 million of these triples instead, which makes it small enough for CI.
 The sample is built so that every query produces exactly the same results over it as over the full data,
 and every triple pattern matches the same sources.
-Alternatively, the full datasets can be used as HDT files.
 
 ## Requirements
 
@@ -59,7 +58,7 @@ This experiment type requires two hooks:
 This experiment does not dictate how the datasets are served,
 but they are available in `generated/datasets/` after the prepare step (see below).
 For example, with the [`cli`](https://github.com/rubensworks/jbr.js/tree/master/packages/hook-cli) hook,
-each dataset can be served by [Comunica](https://github.com/comunica/comunica),
+each HDT file can be served by [Comunica](https://github.com/comunica/comunica),
 with Comunica as federation engine over them, by setting the following in `jbr-experiment.json`:
 
 ```text
@@ -86,14 +85,14 @@ with Comunica as federation engine over them, by setting the following in `jbr-e
     {
       "@id": "urn:jrb:my-experiment:hookSparqlEndpointSources_ChEBI",
       "@type": "HookCli",
-      "entrypoint": [ "npx", "comunica-sparql-file-http", "generated/datasets/ChEBI.nt", "-p", "4001" ],
+      "entrypoint": [ "npx", "comunica-sparql-hdt-http", "hdt@generated/datasets/ChEBI.hdt", "-p", "4001" ],
       "statsFilePath": "output/stats-ChEBI.csv",
       "logName": "ChEBI"
     },
     {
       "@id": "urn:jrb:my-experiment:hookSparqlEndpointSources_DBPedia-Subset",
       "@type": "HookCli",
-      "entrypoint": [ "npx", "comunica-sparql-file-http", "generated/datasets/DBPedia-Subset.nt", "-p", "4002" ],
+      "entrypoint": [ "npx", "comunica-sparql-hdt-http", "hdt@generated/datasets/DBPedia-Subset.hdt", "-p", "4002" ],
       "statsFilePath": "output/stats-DBPedia-Subset.csv",
       "logName": "DBPedia-Subset"
     },
@@ -101,6 +100,9 @@ with Comunica as federation engine over them, by setting the following in `jbr-e
   ]
 ...
 ```
+
+For a sample, the datasets are N-Triples files instead,
+which can be served with `comunica-sparql-file-http generated/datasets/ChEBI.nt`.
 
 Alternatively, the hooks can be set via `jbr set-hook`.
 As `jbr init` creates a single entry for `hookSparqlEndpointSources`,
@@ -114,7 +116,7 @@ $ jbr set-hook hookSparqlEndpointSources/0 cli
 
 ### 4. Prepare the experiment
 
-In order to run all preprocessing steps, such as downloading the data and creating the sample, invoke the prepare step:
+In order to run all preprocessing steps, such as downloading the data and creating the sample if enabled, invoke the prepare step:
 
 ```bash
 $ jbr prepare
@@ -150,7 +152,10 @@ Once the run step completes, results will be present in the `output/` directory.
 
 ## Sampling
 
-With `sample` enabled (the default), a sample of the datasets is created as follows:
+By default, the full HDT files are placed in `generated/datasets/`, and the published expected results are used as expected results.
+For the FedBench part, this is a download of about 2.6 GB.
+
+With `sample` enabled, a sample of the datasets is created instead, as follows:
 
 1. Only the required entries are downloaded from the zip files on Zenodo, using HTTP range requests.
    For the FedBench part, this is about 2.6 GB of HDT files.
@@ -172,9 +177,7 @@ With `sample` enabled (the default), a sample of the datasets is created as foll
    Their differences with the published expected results are reported in `manifest.json`.
 
 The sample is deterministic: the same parameters produce byte-identical datasets, whose SHA-256 hashes are stored in `manifest.json`.
-With the default parameters, generating the sample takes about 20 minutes on a 4-core machine, excluding the download, with a peak memory usage of 7.6 GB, for which Node.js needs `--max-old-space-size=8192`.
-
-With `sample` disabled, the full HDT files are placed in `generated/datasets/`, and the published expected results are used as expected results.
+With the default sampling parameters, generating the sample takes about 20 minutes on a 4-core machine, excluding the download, with a peak memory usage of 7.6 GB, for which Node.js needs `--max-old-space-size=8192`.
 
 ## Output
 
@@ -208,7 +211,7 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
     "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "S10", "S11", "S12", "S13", "S14",
     "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9"
   ],
-  "sample": true,
+  "sample": false,
   "sampleSubjectRates": {
     "DBPedia-Subset": 0.02,
     "GeoNames": 0.02,
@@ -244,7 +247,7 @@ Any config changes require re-running the prepare step.
 * `zenodoRecord`: The Zenodo record of the LargeRDFBench Interoperable Edition to download from.
 * `datasets`: The datasets to include, by their name in the Zenodo record. Defaults to the FedBench datasets.
 * `queries`: The queries to include, by their name in the Zenodo record. Defaults to the FedBench queries.
-* `sample`: If the datasets must be sampled. Otherwise, the full datasets are used, as HDT files.
+* `sample`: If the datasets must be sampled. Otherwise, the full datasets are used, as HDT files. Defaults to `false`.
 * `sampleSubjectRates`: The fraction of subjects to sample per dataset. Datasets that are not listed are not sampled by subject.
 * `sampleOtherTriplesRate`: The fraction of the triples of sampled subjects that match no query pattern to keep.
 * `sampleSeed`: The seed for sampling.

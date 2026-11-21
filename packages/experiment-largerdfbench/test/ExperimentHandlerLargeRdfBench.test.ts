@@ -22,12 +22,12 @@ describe('ExperimentHandlerLargeRdfBench', () => {
   });
 
   describe('getDefaultParams', () => {
-    it('should return a sample of the FedBench part', () => {
+    it('should return the full FedBench part', () => {
       expect(handler.getDefaultParams(experimentPaths)).toEqual({
         zenodoRecord: '22140177',
         datasets: ExperimentLargeRdfBench.FEDBENCH_DATASETS,
         queries: ExperimentLargeRdfBench.FEDBENCH_QUERIES,
-        sample: true,
+        sample: false,
         sampleSubjectRates: {
           'DBPedia-Subset': 0.02,
           GeoNames: 0.02,
