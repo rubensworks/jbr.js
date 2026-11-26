@@ -61,6 +61,7 @@ generated/
   dataset.hdt
   dataset.hdt.index.v1-1
   dataset.nt
+  dataset_update.nt       # If useCase is exploreAndUpdate
   td_data/
 ```
 
@@ -137,7 +138,7 @@ The default generated configuration file (`jbr-experiment.json`) for this experi
 }
 ```
 
-Any config changes require re-running the prepare step.
+Any config changes require re-running the prepare step, such as `jbr prepare -f` after changing `productCount`, `useCase` or `updateTransactions`.
 
 More background information on these config options can be found in the README of [WatDiv Docker](https://github.com/comunica/watdiv-docker).
 
@@ -150,6 +151,21 @@ More background information on these config options can be found in the README o
 * `warmupRuns`: Number of warmup runs.
 * `runs`: Number of actual query runs.
 * `queryTimeout`: An optional timeout for a single query in milliseconds, after which the test driver counts the query as timed out and continues.
+* `useCase`: The BSBM use case to run: `explore` (only read queries) or `exploreAndUpdate` (the [Explore and Update use case](http://wbsg.informatik.uni-mannheim.de/bizer/berlinsparqlbenchmark/spec/ExploreAndUpdateUseCase/index.html)). Defaults to `explore`.
+* `endpointUpdateUrl`: URL through which the SPARQL endpoint for update queries is exposed from within the Docker container, for the `exploreAndUpdate` use case. Defaults to `endpointUrl`.
+* `updateTransactions`: The number of products that are moved from `dataset.nt` into `dataset_update.nt` for the `exploreAndUpdate` use case, as each insert adds one of them. Must be below `productCount`, and at least twice `runs`, as each query mix run contains two inserts (inserts are not executed in warmup runs). Defaults to twice `runs`.
+
+### Explore and Update use case
+
+With `useCase` set to `exploreAndUpdate`, the prepare step additionally generates `generated/dataset_update.nt`,
+which contains the last `updateTransactions` products, with their offers and reviews, which are therefore not part of `generated/dataset.nt`.
+
+The SPARQL endpoint must accept [SPARQL updates](https://www.w3.org/TR/sparql11-protocol/#update-operation) through POST requests at `endpointUpdateUrl`.
+Each query mix run then starts with the update query mix, followed by the explore query mix.
+The update query mix inserts a product of the update dataset (`INSERT DATA`), deletes a random offer (`DELETE WHERE`), inserts another product, and deletes two more offers.
+As these updates change the dataset, the SPARQL endpoint should be started from the original dataset for each run of the experiment.
+
+In `output/bsbm.xml`, queries 1 and 2 are the update queries, and queries 3 to 14 are the explore queries 1 to 12.
 
 ## License
 

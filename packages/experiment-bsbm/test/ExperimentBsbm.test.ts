@@ -40,6 +40,22 @@ describe('ExperimentBsbm', () => {
   let endpointHandlerStopCollectingStats: any;
   let endpointHandler: ProcessHandler;
   let experiment: ExperimentBsbm;
+
+  function createUpdateExperiment(endpointUpdateUrl?: string, updateTransactions?: number): ExperimentBsbm {
+    return new ExperimentBsbm(
+      100,
+      false,
+      hookSparqlEndpoint,
+      'http://localhost:3000/sparql',
+      'http://localhost:3001/sparql',
+      10,
+      10,
+      undefined,
+      'exploreAndUpdate',
+      endpointUpdateUrl,
+      updateTransactions,
+    );
+  }
   beforeEach(() => {
     context = {
       cwd: 'CWD',
@@ -165,6 +181,75 @@ describe('ExperimentBsbm', () => {
         inspect: () => Promise.reject(new Error('fail')),
       };
       await expect(experiment.getEndpointUrl(context)).resolves.toBe('http://172.17.0.1:3000/sparql');
+    });
+
+    it('with the explore use case by default', () => {
+      expect(experiment.useCase).toBe('explore');
+      expect(experiment.updates).toBe(false);
+      expect(experiment.endpointUpdateUrlRaw).toBe('http://localhost:3000/sparql');
+      expect(experiment.updateTransactions).toBe(100);
+    });
+
+    it('with the exploreAndUpdate use case', () => {
+      experiment = createUpdateExperiment();
+      expect(experiment.useCase).toBe('exploreAndUpdate');
+      expect(experiment.updates).toBe(true);
+      expect(experiment.endpointUpdateUrlRaw).toBe('http://localhost:3000/sparql');
+      expect(experiment.updateTransactions).toBe(20);
+    });
+
+    it('with the exploreAndUpdate use case and a separate update endpoint', async() => {
+      Object.defineProperty(process, 'platform', {
+        value: 'linux',
+      });
+      experiment = createUpdateExperiment('http://host.docker.internal:3002/update', 30);
+      expect(experiment.updateTransactions).toBe(30);
+      await expect(experiment.getEndpointUpdateUrl(context)).resolves.toBe('http://172.17.0.10:3002/update');
+    });
+
+    it('throws on an invalid use case', () => {
+      expect(() => new ExperimentBsbm(
+        100,
+        true,
+        hookSparqlEndpoint,
+        'http://localhost:3000/sparql',
+        'http://localhost:3001/sparql',
+        10,
+        10,
+        undefined,
+        'businessIntelligence',
+      )).toThrow(`Invalid BSBM use case 'businessIntelligence', must be one of explore, exploreAndUpdate`);
+    });
+
+    it('throws on updateTransactions that are not below the product count', () => {
+      expect(() => createUpdateExperiment(undefined, 100))
+        .toThrow(`Invalid BSBM updateTransactions 100, must be an integer below the productCount 100`);
+    });
+
+    it('throws on updateTransactions that are not an integer', () => {
+      expect(() => createUpdateExperiment(undefined, 20.5))
+        .toThrow(`Invalid BSBM updateTransactions 20.5, must be an integer below the productCount 100`);
+    });
+
+    it('throws on updateTransactions that are too few for all runs', () => {
+      expect(() => createUpdateExperiment(undefined, 19))
+        .toThrow(`Invalid BSBM updateTransactions 19, must be at least 20 for 10 runs`);
+    });
+
+    it('does not validate updateTransactions without updates', () => {
+      expect(() => new ExperimentBsbm(
+        100,
+        true,
+        hookSparqlEndpoint,
+        'http://localhost:3000/sparql',
+        'http://localhost:3001/sparql',
+        10,
+        50,
+        undefined,
+        'explore',
+        undefined,
+        1_000,
+      )).not.toThrow();
     });
   });
 
@@ -406,6 +491,55 @@ describe('ExperimentBsbm', () => {
     });
   });
 
+  describe('prepare with updates', () => {
+    beforeEach(() => {
+      experiment = createUpdateExperiment();
+    });
+
+    it('should generate the dataset and the update dataset', async() => {
+      await experiment.prepare(context, false);
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(1);
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith({
+        imageName: ExperimentBsbm.DOCKER_IMAGE_BSBM,
+        cmdArgs: [
+          'generate',
+          '-dir',
+          '/data/td_data',
+          '-pc',
+          '100',
+          '-fc',
+          '-ud',
+          '-tc',
+          '20',
+        ],
+        hostConfig: {
+          Binds: [
+            `${context.experimentPaths.generated}:/data`,
+          ],
+        },
+        logFilePath: Path.join(context.experimentPaths.output, 'logs', 'bsbm-generation.txt'),
+      });
+    });
+
+    it('should generate the datasets if only the dataset exists', async() => {
+      files[Path.join(context.experimentPaths.generated, 'dataset.nt')] = true;
+
+      await experiment.prepare(context, false);
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(1);
+    });
+
+    it('should skip generation if both datasets exist', async() => {
+      files[Path.join(context.experimentPaths.generated, 'dataset.nt')] = true;
+      files[Path.join(context.experimentPaths.generated, 'dataset_update.nt')] = true;
+
+      await experiment.prepare(context, false);
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledTimes(0);
+    });
+  });
+
   describe('run', () => {
     beforeEach(() => {
       experiment.httpAvailabilityLatch.sleepUntilAvailable = () => Promise.resolve();
@@ -552,6 +686,53 @@ describe('ExperimentBsbm', () => {
 
       expect(hookSparqlEndpoint.start).toHaveBeenCalledWith(context);
       expect(endpointHandler.close).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('run with updates', () => {
+    beforeEach(() => {
+      experiment = createUpdateExperiment('http://localhost:3002/update');
+      experiment.httpAvailabilityLatch.sleepUntilAvailable = () => Promise.resolve();
+    });
+
+    it('should run the experiment', async() => {
+      filesOut[Path.join(context.experimentPaths.generated, 'dataset_update.nt')] =
+        '<a> <b> <c> .\n#__SEP__\n'.repeat(20);
+
+      await experiment.run(context);
+
+      expect(context.docker.containerCreator.start).toHaveBeenCalledWith(expect.objectContaining({
+        cmdArgs: [
+          'testdriver',
+          '-idir',
+          '/data/td_data',
+          '-seed',
+          '9834533',
+          '-o',
+          'single.xml',
+          '-w',
+          '10',
+          '-runs',
+          '10',
+          '-ucf',
+          'usecases/exploreAndUpdate/sparql.txt',
+          '-u',
+          'http://localhost:3002/update',
+          '-udataset',
+          '/data/dataset_update.nt',
+          'http://localhost:3000/sparql',
+        ],
+      }));
+    });
+
+    it('should throw if the update dataset has too few transactions', async() => {
+      filesOut[Path.join(context.experimentPaths.generated, 'dataset_update.nt')] =
+        '<a> <b> <c> .\n#__SEP__\n'.repeat(19);
+
+      await expect(experiment.run(context)).rejects.toThrow(`The BSBM update dataset contains 19 transactions, while 20 are required for 10 runs. Prepare the experiment again with 'jbr prepare -f'.`);
+
+      expect(hookSparqlEndpoint.start).not.toHaveBeenCalled();
+      expect(context.docker.containerCreator.start).not.toHaveBeenCalled();
     });
   });
 
